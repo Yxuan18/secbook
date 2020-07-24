@@ -1,8 +1,7 @@
 # Table of contents
 
 * [计算机技术](README.md)
-* [OWASP TOP 10](untitled/README.md)
-  * [injection](untitled/injection.md)
+* [OWASP TOP 10](untitled.md)
 
 ## 1
 
@@ -27,5 +26,6 @@
 
 ## how-to-use
 
-* [Untitled](how-to-use/untitled.md)
+* [sqlmap](how-to-use/untitled/README.md)
+  * [tamper](how-to-use/untitled/tamper.md)
 
