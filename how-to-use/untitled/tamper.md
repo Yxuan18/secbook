@@ -21,7 +21,7 @@ sqlmap中所有的tamper：
 
 各种tamper的适用范围如下图所示：
 
-![](../../.gitbook/assets/image%20%282%29.png)
+![](../../.gitbook/assets/image%20%283%29.png)
 
 各tamper的大意如下表格所示：
 
