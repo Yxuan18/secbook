@@ -6,7 +6,7 @@
 
 ### 1、JYTHON安装
 
-![](../../.gitbook/assets/image%20%288%29.png)
+![](../../.gitbook/assets/image%20%289%29.png)
 
 点击了Download Jython 按钮之后，跳转到网站，并且下载
 
@@ -27,9 +27,19 @@ py -3
 
 使用命令查看版本，效果图如下：
 
+![](../../.gitbook/assets/image%20%288%29.png)
+
+### 3、添加sqlmap.jar文件
+
+ 1、文件下载地址：[http://pan.baidu.com/s/1skDVwq5](http://pan.baidu.com/s/1skDVwq5) 密码：ce5f
+
+2、下载完成后，选择添加到burp
+
 ![](../../.gitbook/assets/image%20%287%29.png)
 
-3、添加sqlmap.jar文件
+3、选择好文件后，点击NEXT即可
+
+
 
 
 
