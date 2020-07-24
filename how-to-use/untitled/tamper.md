@@ -21,5 +21,5 @@ sqlmap中所有的tamper：
 
 ![&#x56FE;&#x7247;&#x662F;V1.4.6.9&#x7684;sqlmap&#x91CC;&#x7684;tamper](../../.gitbook/assets/image%20%282%29.png)
 
-
+123
 
