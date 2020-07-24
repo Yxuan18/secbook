@@ -288,7 +288,8 @@ sqlmap中所有的tamper：
       <td style="text-align:left">varnish.py</td>
       <td style="text-align:left">&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;HTTP&#x5934;&#x201C; X-originating-IP
         &#x201D;&#x6765;&#x7ED5;&#x8FC7;WAF</td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">headers = kwargs.get(&quot;headers&quot;, {})headers[&quot;X-originating-IP&quot;]
+        = &quot;127.0.0.1&quot;return payload</td>
     </tr>
     <tr>
       <td style="text-align:left">versionedkeywords.py</td>
