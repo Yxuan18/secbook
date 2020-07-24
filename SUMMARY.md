@@ -32,4 +32,5 @@
   * [--os-shell](how-to-use/untitled/os-shell.md)
   * [sqlmapapi](how-to-use/untitled/sqlmapapi.md)
   * [with burp](how-to-use/untitled/with-burp.md)
+* [burpsuite](how-to-use/burpsuite.md)
 
