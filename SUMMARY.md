@@ -30,4 +30,6 @@
   * [tamper](how-to-use/untitled/tamper.md)
   * [UDF](how-to-use/untitled/udf.md)
   * [--os-shell](how-to-use/untitled/os-shell.md)
+  * [sqlmapapi](how-to-use/untitled/sqlmapapi.md)
+  * [with burp](how-to-use/untitled/with-burp.md)
 
