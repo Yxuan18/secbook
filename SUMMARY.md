@@ -26,12 +26,12 @@
 
 ## how-to-use
 
-* [sqlmap](how-to-use/untitled/README.md)
-  * [tamper](how-to-use/untitled/tamper.md)
-  * [UDF](how-to-use/untitled/udf.md)
-  * [--os-shell](how-to-use/untitled/os-shell.md)
-  * [sqlmapapi](how-to-use/untitled/sqlmapapi.md)
-  * [with burp](how-to-use/untitled/with-burp.md)
-  * [内核分析](how-to-use/untitled/nei-he-fen-xi.md)
+* [sqlmap](how-to-use/sqlmap/README.md)
+  * [tamper](how-to-use/sqlmap/tamper.md)
+  * [UDF](how-to-use/sqlmap/udf.md)
+  * [--os-shell](how-to-use/sqlmap/os-shell.md)
+  * [sqlmapapi](how-to-use/sqlmap/sqlmapapi.md)
+  * [with burp](how-to-use/sqlmap/with-burp.md)
+  * [内核分析](how-to-use/sqlmap/nei-he-fen-xi.md)
 * [burpsuite](how-to-use/burpsuite.md)
 
