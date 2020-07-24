@@ -117,5 +117,98 @@ http://IP:PORT/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp?fileName=/
 
 
 
+### 5、漏洞分析
 
+**F5 Tmsh命令执行**
+
+创建bash脚本:对应的F5的命令为command后面内容 请求路径为下图:
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRod1hyNv6fob11YINmma0ekHratt5381emHI58JykdYyiaQhhuJDamHIw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+URL中存在../;绕过登录验证，这个是属于Tomcat对URI解析差异导致绕过了原有的权限校验，导致可以直 接访问到tmshCmd.jsp, 对应代码:tmshCmd\_jsp.java 文件 cmd参数直接从请求中获取。
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRowMVS18lKX14y3FoVwgq63AqDhuOahAFmGvib1ScC71kTJFiasyib40jCA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+跟进WorkspaceUtils类中runTmshCommand方法，从导入包中寻找com.f5.tmui.locallb.handler.workspace.WorkspaceUtils对应的文件。
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoCqiapzUiccImGsCGjfZ2CWUVWbGd97GXKibicGEgDuicB95hB8RKw6Jic4bw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+在lib中找到对应jar包，反编译：
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRo9CNmfJp95Ll6Z3egFN24UIMCl9dsRPmWEAZFP5KblLsPMhBhiaMytzw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+紧接着上文runTmshCommand方法，可以看到在38行处，做了命令判断，命令被分割后，仅允许 create，delete，list，modify等开头的命令。
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoDY47fKNQx1yAAgjDOyESMNibbQK0ticeyTIQ64HwlaMlmpzgX6ib2PXGg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+跟进Syscall.callElevated方法，调用了call方法：
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoNHASgthbxkmvIsiasPPqsrGyMAm92RICVTMG2BicTahJBGUSOicUNCT0w/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+可以看到，args放到了ObjectManager里面，通过DataObject\[\] rs = om.queryStats\(query\);这行代码 把执行的命令的结果返回。
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRofSAxyBicia1ArkA2SJ6IT9Lq4SBgiadweFm6TjiaGboJzg0HBCZicxtn0AA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+**F5 任意文件写入**
+
+请求路径：
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoJONiaY9BqUoWwWgBvNcKvJaBu6gNPcErib21yDYEBeNrwHljNibv3N8gg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+对应的jsp代码文件：
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoFicpPEmbyP8JuJKOficG6DnzMgpw76ynr0q6iaclSWXCEdXpauYhv8W4g/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+跟进对应的save方法，可以看到参数一路传递，fileName为路径，content为内容，最终通过 writer.println写入。
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRovSiazicarH7pzlhxj2vEOPSDBYuiaavq9ZibEG2wMYuT55U7QKoeVmgbKQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+**F5任意文件读取**
+
+请求路径：
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRokuFOibXYoQcAIepSSNoVCaicYjUyOJtTvC9JXjicribibgT8zNVIEFjGfzA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+对应的jsp代码文件：
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRotgfXhm0HibsU48goPMwT2mNK43Ufh6u2scicwydA3jaPsyZm1Z6vpicrA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+对应具体实现方法:
+
+![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRobicHTpK6pKtssbqC5jyPOvicoQZNpNsBjonCvw9n176IHicxn9vJeTZQg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+### 6、修复方案
+
+7 月 7 日更新：
+
+官方建议可以通过以下步骤暂时缓解影响（临时修复方案）
+
+1\) 使用以下命令登录对应系统：tmsh  
+2\) 编辑 httpd 组件的配置文件；  
+edit /sys httpd all-properties  
+3\) 文件内容如下 include ' &lt;LocationMatch "...;."&gt; Redirect 404 / &lt;/LocationMatch&gt; '  
+4\) 按照如下操作保存文件；  
+按下 ESC 并依次输入：wq  
+5\) 执行命令刷新配置文件；  
+save /sys config  
+6\) 重启 httpd 服务。  
+restart sys service httpd 并禁止外部IP对 TMUI 页面的访问。
+
+7 月 7 日更新： 官方初版安全通告里给出的临时缓解方案是在 httpd 配置文件中加入如下部分，以禁止请求的 url 路径里出现 ..; 进行路径跳转：
+
+```text
+include '<LocationMatch ".*\.\.;.*">Redirect 404 /</LocationMatch>'
+```
+
+然而却可以通过 /hsqldb; 无需跳转，去直接请求 org.hsqldb.Servlet，进一步执行 Java 代码。这种漏洞利用的方式，可以绕过上述配置规则。
+
+7 月 9 日更新：
+
+官方安全通告里给出的第二版临时缓解方案中在 httpd 配置文件中加入规则配置如下，以禁止请求的 url 路径里出现 ; 进行授权认证绕过：
+
+```text
+include '<LocationMatch ";">Redirect 404 /</LocationMatch>'
+```
+
+然而却可以通过 /hsqldb%0a 的请求方式，再次绕过以往的漏洞缓解规则，去直接请求org.hsqldb.Servlet，进一步执行 Java 代码。
 
