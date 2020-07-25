@@ -36,4 +36,8 @@
   * [Atlas修改SQLMap tampers 绕过WAF/IDS/IPS](how-to-use/sqlmap/atlas.md)
   * [网络特征](how-to-use/sqlmap/tezheng.md)
 * [burpsuite](how-to-use/burpsuite.md)
+* [NESSUS](how-to-use/nessus/README.md)
+  * [流量分析特征](how-to-use/nessus/tezheng.md)
+* [Acunetix\(AWVS\)](how-to-use/acunetix-awvs/README.md)
+  * [流量分析特征](how-to-use/acunetix-awvs/liu-liang-fen-xi-te-zheng.md)
 
