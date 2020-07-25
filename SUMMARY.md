@@ -34,5 +34,6 @@
   * [with burp](how-to-use/sqlmap/with-burp.md)
   * [内核分析](how-to-use/sqlmap/nei-he-fen-xi.md)
   * [Atlas修改SQLMap tampers 绕过WAF/IDS/IPS](how-to-use/sqlmap/atlas.md)
+  * [网络特征](how-to-use/sqlmap/tezheng.md)
 * [burpsuite](how-to-use/burpsuite.md)
 
