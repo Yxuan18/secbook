@@ -10,6 +10,8 @@
 
 ## 操作系统
 
+* [Linux](cao-zuo-xi-tong/linux/README.md)
+  * [基线检查](cao-zuo-xi-tong/linux/jixian.md)
 * [windows](cao-zuo-xi-tong/windows/README.md)
   * [基线检查](cao-zuo-xi-tong/windows/jixian.md)
 
