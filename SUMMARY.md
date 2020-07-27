@@ -29,6 +29,7 @@
 
 ## how-to-use
 
+* [sheji](how-to-use/sheji.md)
 * [sqlmap](how-to-use/sqlmap/README.md)
   * [tamper](how-to-use/sqlmap/tamper.md)
   * [UDF](how-to-use/sqlmap/udf.md)
