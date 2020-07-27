@@ -65,7 +65,7 @@
   </tbody>
 </table>
 
-![](../../.gitbook/assets/image%20%2850%29.png)
+![](../../.gitbook/assets/image%20%2866%29.png)
 
 ### 2、口令生存期
 
@@ -75,7 +75,7 @@
 | 检测步骤 | 执行：more /etc/login.defs，检查 PASS\_MAX\_DAYS、 PASS\_MIN\_DAYS、 PASS\_WARN\_AGE 参数 |
 | 符合性依据 | 参考配置操作  用 vi 编辑/etc/login.defs 文件中配置：  PASS\_MAX\_DAYS 90\#新建用户的口令最长使用天数  PASS\_MIN\_DAYS 6\#新建用户的口令最短使用天数  PASS\_WARN\_AGE 7\#新建用户的口令到期提前提醒天数 |
 
-![](../../.gitbook/assets/image%20%2847%29.png)
+![](../../.gitbook/assets/image%20%2857%29.png)
 
 ### 3、默认账户
 
@@ -86,7 +86,7 @@
 | 符合性依据 | 系统默认帐户应被禁止登录或者锁定如下账号：  lp, sync, shutdown, halt, news, uucp, operator, games, gopher 。  参考配置操作：  锁定用户：  修改/etc/passwd 文件，将需要锁定的用户的 shell 域设为 nologin；  通过\#passwd –l username 锁定账户；  只有具备超级用户权限的使用者方可使用\#passwd –l username 锁定用户,用 \#passwd –d username 解锁后原有密码失效，登录需输入新密码 |
 | 回退操作 | 账户解锁：  \# usermod -U username 或\# passwd -u username |
 
-![](../../.gitbook/assets/image%20%2857%29.png)
+![](../../.gitbook/assets/image%20%2888%29.png)
 
 ### 4、共享账户
 
@@ -96,7 +96,7 @@
 | 检测步骤 | 使用命令 cat /etc/passwd 查看当前所有用户的信息，与管理员确认是否有共 享账户情况存在 |
 | 符合性依据 | 若存在账户共享的情况，则低于安全要求；  参考配置操作：  cat /etc/passwd 查看当前所有用户的情况；  如需建立用户，参考如下：  \#useradd username \#创建账户  \#passwd username \#设置密码  使用该命令为不同的用户分配不同的账户，设置不同的口令及权限信息等。 |
 
-![](../../.gitbook/assets/image%20%2843%29.png)
+![](../../.gitbook/assets/image%20%2851%29.png)
 
 ### 5、FTP账户
 
@@ -106,7 +106,7 @@
 | 检测步骤 | \(一\) 查看 FTP 进程:  1、ps -ef \|grep ftp，检查是否有 ftp 进程;  2、chkconfig --list \|grep ftp，检查 ftp 服务是否开机启动；  若以上两项未开启 FTP，则忽略以下 FTP 帐户配置。  \(二\) 检查 FTP 帐户  1、默认 FTP 就是禁止 root 用户登录的（如果没有禁用在/etc/vsftpd/ftpusers 和/etc/vsftpd/user\_list，把 root 去掉）  2、更改/etc/vsftpd/vsftpd.conf 文件，查看是否有： userlist\_enable=YES 这条 配置，如果没有则加上； 再增加 userlist\_deny=NO（只允许 userlist 文件的用 户登录 FTP，其它默认用户不允许）  3、更改/etc/vsftpd/user\_list 文件 添加 ftp 允许登陆的帐户，并注释掉原所有帐户；  4、重新启动 vsftpd 服务 service vsftpd restart |
 | 符合性依据 | 如不使用 FTP，关闭 FTP；  如需使用，专门为 FTP 设置账号，与系统帐户不共享。 |
 
-![](../../.gitbook/assets/image%20%2845%29.png)
+![](../../.gitbook/assets/image%20%2853%29.png)
 
 ### 6、超级用户控制
 
@@ -117,7 +117,7 @@
 | 符合性依据 | 返回值包括“root”以外的条目，则低于安全要求； |
 | 备注 | 补充操作说明：  UID 为 0 的任何用户都拥有系统的最高特权，保证只有 root 用户的 UID 为 0 修改方法：编辑 /etc/passwd 文件（文件内容结构为 Root : x : 0 : 0 : root : /root : /bin/bash）把此用户的的第三项改为非 0 的数值，第三项表示用户 UID 值 |
 
-![](../../.gitbook/assets/image%20%2840%29.png)
+![](../../.gitbook/assets/image%20%2843%29.png)
 
 ### 7、用户锁定策略
 
@@ -185,7 +185,7 @@
   </tbody>
 </table>
 
-![](../../.gitbook/assets/image%20%2849%29.png)
+![](../../.gitbook/assets/image%20%2864%29.png)
 
 ### 2、SSH-ROOT远程登录限制
 
@@ -197,7 +197,7 @@
 | 回退操作 | 修改/etc/ssh/sshd\_config 文件，将 PermitRootLogin no 改为 PermitRootLogin yes，重启 sshd 服务 |
 | 备注 | 远程执行管理员权限操作，应先以普通权限用户远程登录后，再切换到超级 管理员权限账户后执行相应操作 |
 
-![](../../.gitbook/assets/image%20%2854%29.png)
+![](../../.gitbook/assets/image%20%2883%29.png)
 
 ### 3、登录超时设置
 
@@ -208,7 +208,7 @@
 | 符合性依据 | 返回值为空或是时间较长，则低于安全要求。  参考配置操作  通过修改账户中“TMOUT”参数，可以实现此功能。 TMOUT 按秒计算。  编辑 profile 文件（vi /etc/profile），在“HISTFILESIZE=”后面加入这行： TMOUT=600 |
 | 备注 | 改变这项设置后，必须先注销用户，再用该用户登录才能激活这个功能 |
 
-![](../../.gitbook/assets/image%20%2841%29.png)
+![](../../.gitbook/assets/image%20%2847%29.png)
 
 ### 4、关键目录权限
 
@@ -271,7 +271,7 @@
   </tbody>
 </table>
 
-![](../../.gitbook/assets/image%20%2846%29.png)
+![](../../.gitbook/assets/image%20%2855%29.png)
 
 ### 5、用户缺省权限
 
@@ -296,7 +296,7 @@
 | 影响性分析 | 加固操作增加系统资源开消，请检查系统资源是否充足。 |
 | 回退操作 | 修改配置文件 vi /etc/syslog.conf。  配置如下类似语句，注释掉下面：  \#authpriv.\*/var/log/secure |
 
-![](../../.gitbook/assets/image%20%2855%29.png)
+![](../../.gitbook/assets/image%20%2885%29.png)
 
 ### 2、日志远程存储
 
@@ -307,7 +307,7 @@
 | 符合性依据 | 若未设置远程日志服务器，则低于安全要求。  参考配置操作  修改配置文件 vi /etc/syslog.conf，  加上这一行： \*_.\*_ @10.110.102.23  可以将"\*_.\*_"替换为你实际需要的日志信息。比如：kern.\* _/ mail.\*_ 等等；可以将此处 10.110.102.23 替换为实际的 IP 或域名。  重新启动 syslog 服务，执行下列命令：  services syslogd restart  补充操作说明  注意：\*_.\*_和@之间为一个 Tab 键 |
 | 备注 | 建议配置专门的日志服务器，加强日志信息的异地同步备份。 |
 
-![](../../.gitbook/assets/image%20%2848%29.png)
+![](../../.gitbook/assets/image%20%2860%29.png)
 
 ## 4、端口管理
 
@@ -409,9 +409,9 @@
   </tbody>
 </table>
 
-![](../../.gitbook/assets/image%20%2851%29.png)
+![](../../.gitbook/assets/image%20%2868%29.png)
 
-![](../../.gitbook/assets/image%20%2852%29.png)
+![](../../.gitbook/assets/image%20%2873%29.png)
 
 ## 5、其他安全配置
 
@@ -463,7 +463,7 @@
   </tbody>
 </table>
 
-![](../../.gitbook/assets/image%20%2853%29.png)
+![](../../.gitbook/assets/image%20%2874%29.png)
 
 ### 2、补丁更新
 
@@ -515,7 +515,7 @@
   </tbody>
 </table>
 
-![](../../.gitbook/assets/image%20%2844%29.png)
+![](../../.gitbook/assets/image%20%2852%29.png)
 
-![](../../.gitbook/assets/image%20%2856%29.png)
+![](../../.gitbook/assets/image%20%2886%29.png)
 
