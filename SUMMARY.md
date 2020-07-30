@@ -26,6 +26,7 @@
 
 * [apache](middleware/apache/README.md)
   * [基线检查](middleware/apache/jixian.md)
+  * [日志审计](middleware/apache/rizhi.md)
 * [iis](middleware/iis/README.md)
   * [基线检查](middleware/iis/jixian.md)
 * [nginx](middleware/nginx/README.md)
