@@ -609,7 +609,7 @@ MySQL提供了4个函数用于哈希加密：PASSWORD，ENCRYPT，SHA1和MD5
 show databases;    #查看所有数据库
 ```
 
-![&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28140%29.png)
+![&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28150%29.png)
 
 其中，库MySQL用途：记录用户访问权限
 
@@ -618,13 +618,13 @@ create database db_name;    #创建数据库，该名称不能与已经存在的
 create database test1;    #创建名为test1的数据库
 ```
 
-![&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28139%29.png)
+![&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28145%29.png)
 
 ```text
 show create database test;    #查看创建好的数据库
 ```
 
-![](../../.gitbook/assets/image%20%28141%29.png)
+![](../../.gitbook/assets/image%20%28155%29.png)
 
 ### 2、删除数据库
 
@@ -632,7 +632,7 @@ show create database test;    #查看创建好的数据库
 drop database test;    #删除test数据库
 ```
 
-![](../../.gitbook/assets/image%20%28138%29.png)
+![](../../.gitbook/assets/image%20%28141%29.png)
 
 ### 3、数据库存储引擎
 
@@ -646,7 +646,7 @@ MySQL 5.6支持的存储引擎有：InnoDB，MyISAM，Memory，Merge，Archive�
 show engines \g;    #查看系统所支持的引擎类型
 ```
 
-![](../../.gitbook/assets/image%20%28142%29.png)
+![](../../.gitbook/assets/image%20%28156%29.png)
 
 其中，Support列的值表示某种引擎是否能使用：YES表示可以使用，NO表示不能使用，DEFAULT表示该引擎为当前默认存储引擎
 
@@ -713,5 +713,5 @@ MEMORY主要特性如下：
 show variables like 'storage_engine';    #查看系所有的存储引擎
 ```
 
-![](../../.gitbook/assets/image%20%28143%29.png)
+![](../../.gitbook/assets/image%20%28158%29.png)
 

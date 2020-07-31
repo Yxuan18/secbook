@@ -20,11 +20,11 @@
 
 ## 数据库 <a id="database"></a>
 
+* [db2](database/db2.md)
 * [mysql](database/mysql/README.md)
   * [基础知识](database/mysql/jichuzhishi.md)
   * [核心技术](database/mysql/hexin.md)
   * [高级应用](database/mysql/gaojiyingyong.md)
-* [db2](database/db2.md)
 * [oracle](database/oracle.md)
 
 ## 中间件 <a id="middleware"></a>
@@ -41,10 +41,11 @@
 
 ## 编程
 
-* [python](bian-cheng/python.md)
-* [汇编](bian-cheng/huibian.md)
 * [C](bian-cheng/c.md)
 * [Java](bian-cheng/java.md)
+* [PHP](bian-cheng/php.md)
+* [python](bian-cheng/python.md)
+* [汇编](bian-cheng/huibian.md)
 
 ## 网络
 
