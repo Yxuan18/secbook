@@ -11,7 +11,7 @@
 
 ## 操作系统
 
-* [Android](cao-zuo-xi-tong/anzhuo.md)
+* [Android]()
 * [IOS](cao-zuo-xi-tong/ios.md)
 * [Linux](cao-zuo-xi-tong/linux/README.md)
   * [基线检查](cao-zuo-xi-tong/linux/jixian.md)
@@ -20,7 +20,8 @@
 
 ## 数据库 <a id="database"></a>
 
-* [mysql](database/mysql.md)
+* [mysql](database/mysql/README.md)
+  * [知识](database/mysql/zhishi.md)
 * [db2](database/db2.md)
 * [oracle](database/oracle.md)
 
