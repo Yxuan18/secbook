@@ -11,6 +11,8 @@
 
 ## 操作系统
 
+* [Android](cao-zuo-xi-tong/anzhuo.md)
+* [IOS](cao-zuo-xi-tong/ios.md)
 * [Linux](cao-zuo-xi-tong/linux/README.md)
   * [基线检查](cao-zuo-xi-tong/linux/jixian.md)
 * [windows](cao-zuo-xi-tong/windows/README.md)
@@ -36,7 +38,10 @@
 
 ## 编程
 
-* [Untitled](bian-cheng/untitled.md)
+* [python](bian-cheng/python.md)
+* [汇编](bian-cheng/huibian.md)
+* [C](bian-cheng/c.md)
+* [Java](bian-cheng/java.md)
 
 ## 网络
 
