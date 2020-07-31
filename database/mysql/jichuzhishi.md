@@ -291,7 +291,7 @@ SQL语言是关系数据库的代表性语言，已经得到了广泛的应用�
 
 ### 5、MySQL数据库系统的结构体系
 
-![MySQL&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x56FE;](../../.gitbook/assets/image%20%2898%29.png)
+![MySQL&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x56FE;](../../.gitbook/assets/image%20%28117%29.png)
 
 1. 支持接口：是指不同语言中与SQL的交互。
 2. 管理服务和工具：系统管理和控制工具。
@@ -318,25 +318,288 @@ MySQL 5.6支持的存储引擎有InnoDB、MyISAM、Memory、Merge、Archive、Fe
 2. 它提供了较好的全局设置，这对于MySQL服务器的可执行性、可信度和安全性是相当重要的。
 3. 它提供了图形化的性能显示，使中止服务器和更改服务器的设置更加简单。
 
+3、登录界面项含义
+
+1. Stored Connection：将本次连接保存到列表中时使用的名称。
+2. Server Host：要连接到的MySQL服务器的主机名或IP地址。
+3. Port：要连接到MySQL服务器所使用的端口，一般默认为3306端口。
+4. Username：连接使用的账户名。
+5. Password：连接使用的密码。
+
+4、主页面功能
+
+1. Server Information：服务器信息，包含了当前连接的信息，当前连接到的MySQL服务器的信息，以及客户端的信息。
+2. Service Control：服务管理，用于管理MySQL服务，包括以下内容。            ①Start/Stop Service：启动/关闭服务，用于启动或停止MySQL服务，启动或停止服务时的所有消息会显示在下部的文本框内。         ②Configure Service：配置MySQL服务，其中，“Launch MySQL Server Automatically”为是否在Windows启动时，自动启动MySQL服务；“Display Name”用于指定服务名称；“Service Description”用于指定服务的描述；“Config Filename”用于指定服务的配置文件位置；“SectionName”用于指定服务所对应的程序名；“Path to Binary”用于选择服务使用的二进制文件。
+3. Startup Variables：启动变量，配置MySQL的启动变量，包括General Parameters（全局变量 \)、MyISAM Parameters、InnoDB Parameters、Performance、Log Files、Replication、Advanced Networking、Security、Advanced。
+4. User Administration：用户管理，管理MySQL用户及权限，包括以下内容。         ①User Information：用户信息，可以添加、删除和管理MySQL用户。         ②Schema Privaleges：管理用户的权限。
+5. Server Connections：连接管理，管理连接到MySQL的线程或用户，包括以下内容。         ①Threads：查看或者停止当前连接到MySQL的线程         ②User Connections：查看或停止当前连接到MySQL服务器的用户。
+6. Health：状态信息，显示服务器的运行情况，包括以下内容。         ①Connection Health：客户端连接情况。         ②Memory Health：内存使用情况。         ③Status Variables：查看状态变量。         ④System Varibales：查看系统变量。
+7. Server Logs：日志信息，查看登录的日志信息，包括以下内容。         ①Error Log：MySQL服务器的错误记录，记录服务器的启动和关闭信息，以及运行过程中出现的严重错误的信息。         ②Slow Query Log：慢速查询记录。可以通过设置系统参数将MySQL运行在慢速查询模式，此时，服务器执行的所有SQL语句都会被记录下来。         ③General Query Log：普通查询记录。
+8. Replication Status：复制状态，复制当前的主服务和子服务状态。
+9. Backup：备份数据库，用于进行计划备份和管理备份，包括以下内容。         ①Backup Project：建立备份项目，包括指定备份项目的名称以及需要备份哪些对象。         ②Advanced Options：备份的高级选项，更进一步地设置备份的选项，如备份的方案、锁定方法以及备份文件的格式等内容。         ③Schedule：对备份进行计划，可用于实现定时备份，便于日志维护。
+10. Restore ：恢复数据库，从一个数据库备份中将数据恢复出来，包括以下内容。         ①General：恢复的基本选项，如选择恢复的文件、备份时使用的方法以及字符集等信息。         ②Restore Content：可以列出备份数据的目录，从而选择需要恢复的具体对象。这样做可以一次只针对一小部分数据进行恢复。
+11. Catalogs：数据库查看，管理数据库、表、列、约束、索引等对象，包括以下内容。         ①Schema Tables：管理数据库中的表，查看表中的数据库等。         ②Schema Indices：管理数据库中的索引和约束。         ③Views：管理视图。         ④Stored procedures：管理存储过程。
+
+5、登录过程：
+
+打开MySQL Administrator，弹出登录界面如下图所示，输入登录到MySQL所需的各项参数
+
+![](../../.gitbook/assets/image%20%28133%29.png)
+
+进入该软件的主页面
+
+![](../../.gitbook/assets/image%20%28122%29.png)
+
+6、创建数据库
+
+运行MySQL Administrator并登录服务器后选择“Catalogs”，然后在管理器的右侧会出现目前服务器上已经有的数据库目录，右键单击“Schemata”窗口的“mysql”，选择“CreateNew Schema”
+
+![](../../.gitbook/assets/image%20%28129%29.png)
+
+单击“OK”
+
+![](../../.gitbook/assets/image%20%28107%29.png)
+
+一旦创建后，新数据库就将与服务器中的其他数据库一起出现在“Schema”窗口，选择它后，在右侧窗口将出现它的详细资料
+
+![](../../.gitbook/assets/image%20%28134%29.png)
+
+7、创建表
+
+单击“Create Table”按钮，将出现下图所示的对话框
+
+![](../../.gitbook/assets/image%20%28130%29.png)
+
+单击“Apply Changes”按钮，将出现下图所示的窗口，窗口中的内容是创建表的SQL语句，同时询问是否执行，当然单击“Execute”
+
+![](../../.gitbook/assets/image%20%28123%29.png)
+
+8、添加数据
+
+通过菜单“tools”来访问命令行（“Tools”→“MySQL CommandLine Client”），或者可以通过开始菜单的MySQL组来访问
+
+```text
+use testdb;    
+insert into mytable(name,data) values(‘张三','2015-04-01 12:00:00');
+```
+
+9、查看已创建表及其中信息
+
+在相应的表上单击鼠标右键，从菜单中选择“Edit TableData”
+
+![](../../.gitbook/assets/image%20%2899%29.png)
+
+10、备份数据库
+
+备份数据库到本地计算机硬盘，选择“Backup”备份数据库功能，然后单击“New Project”建立新的备份项目
+
+![](../../.gitbook/assets/image%20%28103%29.png)
+
+选择要备份的数据库，然后单击“&gt;”号，右边将显示出数据库表结构
+
+![](../../.gitbook/assets/image%20%28136%29.png)
+
+备份时在“Advanced Options”高级选项中可以进行不同的设置：
+
+“Backup Execution Method”中设置选项为：
+
+“Normal backup”表示备份的时候选择正常备份；  
+“Complete backup”表示选择完整备份；  
+“InnoDB Online Backup”表示是一种简单的在线备份方式
+
+11、还原数据库
+
+单击“Open Backup File”，打开下图所示的界面
+
+![](../../.gitbook/assets/image%20%28119%29.png)
+
+找到之前备份的数据库脚本文件，选择并打开文件，单击“Start Restore”后开始还原，还原成功后在“Catalogs”中可以看到该数据库，可以对它进行相应的操作
+
 ### 2、phpmyadmin
 
+1、登录phpmyadmin
 
+由于自己是本地，所以地址为http://IP:PORT/phpmyadmin
+
+账号与密码为自己phpstudy默认的：root/root
+
+![](../../.gitbook/assets/image%20%28106%29.png)
+
+主界面如图所示：
+
+![](../../.gitbook/assets/image%20%28126%29.png)
+
+2、新建数据库：数据库→新建数据库→输入数据库名→选择编码→创建
+
+![](../../.gitbook/assets/image%20%2896%29.png)
+
+其中，中文数据库可选择“gb2312\_chinese\_ci”编码，多语言支持数据库一般选择“utf8\_unicode\_ci”编码
+
+![](../../.gitbook/assets/image%20%28125%29.png)
+
+3、删除数据库：选中数据库→删除
+
+![](../../.gitbook/assets/image%20%28120%29.png)
+
+选择：是
+
+![](../../.gitbook/assets/image%20%2897%29.png)
+
+出现如下画面，则删除成功
+
+![](../../.gitbook/assets/image%20%28111%29.png)
+
+也可在操作页面，点击删除数据库来删除
+
+![](../../.gitbook/assets/image%20%28101%29.png)
+
+4、新建数据表：
+
+填入表名，字段数，点击执行进入下一步
+
+![](../../.gitbook/assets/image%20%2898%29.png)
+
+执行后，选择需要的配置，确认即可。执行后效果图如下：
+
+![](../../.gitbook/assets/image%20%28112%29.png)
+
+在该页面，也可修改表结构
+
+5、插入数据
+
+![](../../.gitbook/assets/image%20%28115%29.png)
+
+6、导出，导入数据
+
+![](../../.gitbook/assets/image%20%28113%29.png)
 
 ### 3、Navicat for MySQL
 
-
+具体参见第一章，可视化管理工具即可。部分内容省略
 
 ### 4、MySQL访问权限系统
 
+1、作用：  
+根据用户的身份判断该用户是否有执行该操作的权限，如SELECT、INSERT、UPDATE和DELETE权限。附加的功能包括匿名的用户对于MySQL特定的功能（例如LOAD DATA INFILE）进行授权及管理操作的能力
 
+2、存取控制包含2个阶段。
+
+阶段1：服务器检查是否允许连接。  
+阶段2：假定允许连接，服务器需要检查用户发出的每个请求，判断是否有足够的权限。例如，如果用户从数据库表中选择行或从数据库删除表，服务器需确定用户对表有SELECT权限或对数据库有DROP权限。
+
+3、服务器在存取控制的两个阶段使用MySQL数据库中的user、db和host表:
+
+user表中范围列决定是否允许或拒绝到来的连接。  
+对于允许的连接，user表授予的权限指出用户的全局（超级用户）权限。这些权限适用于服务器上的all数据库。
+
+db表中范围列决定用户能从哪个主机存取哪个数据库。  
+权限列决定允许哪个操作。授予的数据库级别的权限适用于数据库和它的表。
+
+为了对涉及保存程序的请求进行验证，服务器将查阅procs\_priv表。  
+procs\_priv表适用于保存的程序，授予程序级别的权限只适用于单个程序。
+
+4、MySQL权限系统提供的权限
+
+| 权限  | 列 | 对象 |
+| :--- | :--- | :--- |
+| CERATE | create\_priv | 数据库，表或索引 |
+| DROP | drop\_priv | 数据库或表 |
+| GRANT OPTION | garnt\_priv | 数据库，表或保存的程序 |
+| REFERENCES | references\_priv | 数据库或表 |
+| ALTER | alter\_priv | 表 |
+| DELETE | delete\_priv | 表 |
+| INDEX | index\_priv | 表 |
+| INSERT | insert\_priv | 表 |
+| SELECT | select\_priv | 表 |
+| UPDATE | update\_priv | 表 |
+| CREATE VIEW | create\_view\_priv | 视图 |
+| SHOW VIEW | show\_view\_priv | 视图 |
+| ALTER ROUTINE | alter\_routine\_priv | 保存的程序 |
+| CREATE ROUTINE | create\_routine\_priv | 保存的程序 |
+| EXECUTE | execute\_priv | 保存的程序 |
+| FILE | file\_priv | 服务器主机上的文件访问 |
+| CREATE TEMPORARY TABLES | create\_tmp\_priv | 服务器管理 |
+| LOCK ABLES | lock\_tables\_priv | 服务器管理 |
+| CREATE USER | create\_user\_priv | 服务器管理 |
+| PROCESS | process\_priv | 服务器管理 |
+| RELOAD | reload\_priv | 服务器管理 |
+| REPLICATION CLIENT | repl\_client\_priv | 服务器管理 |
+| REPLICATION SLAVE | repl\_slave\_priv | 服务器管理 |
+| SHOW DATABASES | show\_db\_priv | 服务器管理 |
+| SHUTOWN | shutdown\_priv | 服务器管理 |
+| SUPER | super\_priv | 服务器管理 |
+
+打开用户界面，并双击任意用户
+
+![](../../.gitbook/assets/image%20%28124%29.png)
+
+下图，点击权限，即可看到用户对于数据库的各种权限
+
+![](../../.gitbook/assets/image%20%28118%29.png)
+
+若需要批量管理，可单击‘‘权限管理员’’，进入下面的界面
+
+![](../../.gitbook/assets/image%20%28104%29.png)
 
 ### 5、MySQL用户账户管理
 
+1、创建账户
 
+方法一：先使用ROOT账户登录，然后使用GRANT语句创建
+
+```text
+GRANT priv_type[(column_list)] ON[object_type]{tbl_name|*|*.*|db_name.*}    
+TO user [IDENTIFIED BY [PASSWORD] ‘password’]    
+[WITH with_option [with_option] ...]    
+with_option =    
+GRANT OPTION    
+| MAX_QUERIES_PER_HOUR count    
+| MAX_UPDATES_PER_HOUR count    
+| MAX_CONNECTIONS_PER_HOUR count    
+| MAX_USER_CONNECTIONS count
+```
+
+方法二：向mysql.user表中插入数据
+
+![](../../.gitbook/assets/image%20%28121%29.png)
+
+方法三：使用Navicat新建用户
+
+![](../../.gitbook/assets/image%20%28105%29.png)
+
+2、删除用户
+
+方法一：
+
+```text
+drop user XXX@XXX;
+```
+
+![](../../.gitbook/assets/image%20%28102%29.png)
+
+方法二：Navicat中删除账户
+
+![](../../.gitbook/assets/image%20%28100%29.png)
 
 ### 6、MySQL的安全性问题
 
+1、账户安全
 
+MySQL中的安全检查：
+
+1. 登录验证：也就是最常用的用户名和密码验证。一旦输入了正确的用户名和密码，这个验证就可通过。
+2. 授权：在登录成功后，就要求对这个用户设置它的具体权限，如是否可以删除数据库中的表等。
+3. 访问控制：这个安全类型更具体。它涉及用户可以对数据表进行什么样的操作，如是否可以编辑数据库，是否可以查询数据等。访问控制由一些特权组成，这些特权涉及到如何操作MySQL中的数据。它们都是布尔型，即要么允许，要么不允许。
+
+2、MySQL中的SSL
+
+MySQL在4.1版以后提供了对SSL（Secure Scokets Layer）的支持。MySQL使用的是免费的OpenSSL库。
+
+由于MySQL的Linux版本一般都是随Linux本身一起发布，因此，它们默认时都不使用SSL进行传输数据。如果要打开SSL功能，需要对hava\_openssl变量进行设置：MySQL的Windows版本已经加入了OpenSSL。
+
+3、MySQL中敏感数据使用哈希加密
+
+MySQL提供了4个函数用于哈希加密：PASSWORD，ENCRYPT，SHA1和MD5
 
 ## 四、数据库基本操作
 
