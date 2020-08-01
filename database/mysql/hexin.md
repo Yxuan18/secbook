@@ -177,6 +177,54 @@ SHOW CREATE TABLE tb_name(\G);    #\g:是否格式化显示
 
 修改表指的是修改数据库中已经存在的数据表的结构。MySQL使用ALTER TABLE语句修改表。常用的修改表的操作有：修改表名，修改字段数据类型或字段名，增加和删除字段，修改字段的排列位置，更改表的存储引擎，删除表的外键约束等
 
+```text
+## 修改表名
+alter table old_name rename nwe_name;
+```
+
+![](../../.gitbook/assets/image%20%28162%29.png)
+
+```text
+## 修改字段数据类型
+ALTER TABLE tb_name MODIFY name VARCHAR(30);
+```
+
+![](../../.gitbook/assets/image%20%28166%29.png)
+
+```text
+## 修改字段名
+alter table tb_name change old_id new_id varchar(255);
+```
+
+![](../../.gitbook/assets/image%20%28161%29.png)
+
+由于不同类型的数据在机器中存储的方式及长度并不相同，修改数据类型可能会影响到数据表中已有的数据记录。因此，当数据库中已经有数据时，不要轻易修改数据类型
+
+```text
+## 添加字段
+alter tabe tb_name add new_ziduan varchar(255) first;
+alter tabe tb_name add new_ziduan varchar(255) after XXX;
+```
+
+![](../../.gitbook/assets/image%20%28163%29.png)
+
+“FIRST”“AFTER”“已存在字段名”用于指定新增字段在表中的位置，如果SQL语句中没有这两个参数，则默认将新添加的字段设置为数据表的最后列
+
+```text
+## 删除字段
+alter table tb_name drop ziduan;
+```
+
+![](../../.gitbook/assets/image%20%28164%29.png)
+
+```text
+## 修改字段排序
+alter table tb_name modify ziduan1 varchar(255) first;
+alter table tb_name modify ziduan1 varchar(255) after XXX;
+```
+
+![](../../.gitbook/assets/image%20%28165%29.png)
+
 
 
 ### 4、删除数据表
