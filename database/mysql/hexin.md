@@ -189,7 +189,7 @@ alter table old_name rename nwe_name;
 ALTER TABLE tb_name MODIFY name VARCHAR(30);
 ```
 
-![](../../.gitbook/assets/image%20%28166%29.png)
+![](../../.gitbook/assets/image%20%28169%29.png)
 
 ```text
 ## 修改字段名
@@ -223,17 +223,110 @@ alter table tb_name modify ziduan1 varchar(255) first;
 alter table tb_name modify ziduan1 varchar(255) after XXX;
 ```
 
-![](../../.gitbook/assets/image%20%28165%29.png)
+![](../../.gitbook/assets/image%20%28168%29.png)
 
+```text
+## 更改表的存储引擎
+alter table tb_name ENGINE=InnoDB;    #修改存储引擎为InnoDB
+```
 
+```text
+## 删除表的外键约束
+alter table tb_name frop foreign key key_name;
+```
+
+![](../../.gitbook/assets/image%20%28166%29.png)
 
 ### 4、删除数据表
 
+```text
+## 删除数据表
+drop table tb_name;
+## 若报错，则说明有外键约束，删除外键约束再删除表即可
+```
 
+![](../../.gitbook/assets/image%20%28170%29.png)
+
+在MySQL中AUTO\_INCREMENT的初始值是1，每新增一条记录，字段值自动加1。设置自增属性（AUTO\_INCREMENT）的时候，还可以指定第一条插入记录的自增字段的值，这样新插入的记录的自增字段值从初始值开始递增。
 
 ## 二、MySQL的数据类型和运算符
 
 ### 1、MySQL数据类型
+
+MySQL支持多种数据类型，主要有数值类型、日期/时间类型、字符串类型和二进制类型。
+
+1. 数值数据类型：包括整数类型TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT，浮点小数类型FLOAT和DOUBLE，定点小数类型DECIMAL。
+2. 日期/时间类型：包括YEAR、TIME、DATE、DATETIME和TIMESTAMP。
+3. 字符串类型：包括CHAR、VARCHAR、BINARY、VARBINARY、BLOB、TEXT、ENUM和SET等。
+4. 二进制类型：包括BIT、BINARY、VARBINARY、TINYBLOB、BLOB、MEDIUMBLOB和LONGBLOB。
+
+1、整数类型
+
+| 类型名称 | 说明 | 存储需求 |
+| :--- | :--- | :--- |
+| TINYINT | 很小的整数 | 1个字节 |
+| SMALLINT | 小的整数 | 2个字节 |
+| MEDIUMINT | 中等大小的整数 | 3个字节 |
+| INT（INTEGER） | 普通大小的整数 | 4个字节 |
+| BIGINT | 大整数 | 8个字节 |
+
+![&#x6574;&#x6570;&#x578B;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x7684;&#x53D6;&#x503C;&#x8303;&#x56F4;](../../.gitbook/assets/image%20%28171%29.png)
+
+![](../../.gitbook/assets/image%20%28172%29.png)
+
+整数类型的显示宽度只用于显示，不能限制取值范围和存储空间，如INT\(4\)会占用4个字节的存储空间，其允许的最大值是231-1或232-1，而不是9999
+
+2、小数类型
+
+MySQL中使用浮点数和定点数表示小数。浮点类型有两种：单精度浮点类型（FLOAT）和双精度浮点类型（DOUBLE）。定点类型只有一种：DECIMAL。浮点类型和定点类型都可以用（M，D）来表示，其中M称为精度，表示总共的位数；D称为标度，表示小数的位数。浮点类型取值范围为：M\(1～255\)和D\(1～30，且不能大于M-2\)。分别表示显示宽度和小数位数。M和D在FLOAT和DOUBLE中是可选的，MySQL 3.23.6以上版本中，FLOAT和DOUBLE类型将被保存为硬件所支持的最大精度。DECIMAL的M和D值在MySQL 3.23.6后可选，默认D值为0，M值为10。
+
+| 类型名称 | 说明 | 存储需求 |
+| :--- | :--- | :--- |
+| FLOAT | 单精度浮点数 | 4个字节 |
+| DOUBLE | 双精度浮点数 | 8个字节 |
+| DECIMAL（M，D），DEC | 压缩的“严格”定点数 | M+2个字节 |
+
+FLOAT类型的取值范围如下
+
+1. 有符号的取值范围：-3.402823466E+38～-1.175494351E-38。
+2. 无符号的取值范围：0和1.175494351E-38～3.402823466E+38。
+
+DOUBLE类型的取值范围如下
+
+1. 有符号的取值范围：-1.7976931348623157E+308～-2.2250738585072014E-308。
+2. 无符号的取值范围：0和2.2250738585072014E-308～1.7976931348623157E+308。
+
+![](../../.gitbook/assets/image%20%28165%29.png)
+
+在MySQL中，在对精度要求比较高的时候（如货币、科学数据等），尽量选择使用DECIMAL类型。另外，两个浮点数在进行减法和比较运算的时候容易出问题，因此在使用浮点数类型时需要注意，并尽量避免做浮点数比较
+
+3、日期与时间类型
+
+MySQL中有多种表示日期的数据类型，主要有：YEAR、TIME、DATE、DATETIME、TIMESTAMP。
+
+| 类型名称 | 日期格式 | 日期范围 | 存储需求 |
+| :--- | :--- | :--- | :--- |
+| YEAR | YYYY | 1901~2155 | 1个字节 |
+| TIME | HH:MM:SS | -838:59:59 ~ 838:59:59 | 3个字节 |
+| DATE | YYYY-MM-DD | 1000-01-01 ~ 9999-12-31 | 3个字节 |
+| DATETIME | YYYY-MM-DD HH:MM:SS | 1000-01-01 00:00:00 ~ 9999-12-31 23:59:59 | 8个字节 |
+| TIMESTAMP | YYYY-MM-DD HH:MM:SS | 1970-01-01 00:00:001 ~ 2038-01-19 03:14:07 | 4个字节 |
+
+YEARYEAR类型使用单字节表示年份，在存储时只需要一个字节。可以使用不同格式指定YEAR的值。
+
+1. 以4位字符串或者4位数字格式表示YEAR，其范围为‘1901’～‘2155’，输入格式为‘YYYY’或YYYY。例如，输入‘2015’或2015，插入到数据库的值都是2015。
+2. 以2位字符串格式表示YEAR，范围为‘00’到‘99’。‘00’～‘69’和‘70’～‘99’范围的值分别被转换为2000～2069和1970～1999范围的YEAR值。输入‘0’与‘00’取值相同，皆为2000。插入超过取值范围的值将被转换为2000。
+3. 以2位数字表示的YEAR，范围为1～99。1～69和70～99范围的值分别被转换为2001～2069和1970～1999范围的YEAR值。注意：0值被转换为0000，而不是2000。
+
+两位整数与两位字符串的取值范围稍有不同。例如：插入2000年，读者可能会使用数字格式的0表示YEAR，实际上，插入数据库的值为0000，而不是期望的20000。只有使用字符串格式的‘0’和‘00’，才可以得到2000。非法YEAR值被转换为0000。
+
+![](../../.gitbook/assets/image%20%28167%29.png)
+
+
+
+
+
+
 
 
 
