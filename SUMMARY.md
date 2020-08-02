@@ -67,5 +67,6 @@
 * [NESSUS](how-to-use/nessus/README.md)
   * [流量分析特征](how-to-use/nessus/tezheng.md)
 * [Acunetix\(AWVS\)](how-to-use/acunetix-awvs/README.md)
+  * [简单分析-web方面](how-to-use/acunetix-awvs/fen-xi.md)
   * [流量分析特征](how-to-use/acunetix-awvs/liu-liang-fen-xi-te-zheng.md)
 
