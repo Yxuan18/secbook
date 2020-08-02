@@ -123,59 +123,59 @@ http://IP:PORT/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp?fileName=/
 
 创建bash脚本:对应的F5的命令为command后面内容 请求路径为下图:
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRod1hyNv6fob11YINmma0ekHratt5381emHI58JykdYyiaQhhuJDamHIw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28183%29.png)
 
 URL中存在../;绕过登录验证，这个是属于Tomcat对URI解析差异导致绕过了原有的权限校验，导致可以直 接访问到tmshCmd.jsp, 对应代码:tmshCmd\_jsp.java 文件 cmd参数直接从请求中获取。
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRowMVS18lKX14y3FoVwgq63AqDhuOahAFmGvib1ScC71kTJFiasyib40jCA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28178%29.png)
 
 跟进WorkspaceUtils类中runTmshCommand方法，从导入包中寻找com.f5.tmui.locallb.handler.workspace.WorkspaceUtils对应的文件。
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoCqiapzUiccImGsCGjfZ2CWUVWbGd97GXKibicGEgDuicB95hB8RKw6Jic4bw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28181%29.png)
 
 在lib中找到对应jar包，反编译：
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRo9CNmfJp95Ll6Z3egFN24UIMCl9dsRPmWEAZFP5KblLsPMhBhiaMytzw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28179%29.png)
 
 紧接着上文runTmshCommand方法，可以看到在38行处，做了命令判断，命令被分割后，仅允许 create，delete，list，modify等开头的命令。
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoDY47fKNQx1yAAgjDOyESMNibbQK0ticeyTIQ64HwlaMlmpzgX6ib2PXGg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28173%29.png)
 
 跟进Syscall.callElevated方法，调用了call方法：
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoNHASgthbxkmvIsiasPPqsrGyMAm92RICVTMG2BicTahJBGUSOicUNCT0w/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28180%29.png)
 
 可以看到，args放到了ObjectManager里面，通过DataObject\[\] rs = om.queryStats\(query\);这行代码 把执行的命令的结果返回。
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRofSAxyBicia1ArkA2SJ6IT9Lq4SBgiadweFm6TjiaGboJzg0HBCZicxtn0AA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28177%29.png)
 
 **F5 任意文件写入**
 
 请求路径：
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoJONiaY9BqUoWwWgBvNcKvJaBu6gNPcErib21yDYEBeNrwHljNibv3N8gg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28175%29.png)
 
 对应的jsp代码文件：
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRoFicpPEmbyP8JuJKOficG6DnzMgpw76ynr0q6iaclSWXCEdXpauYhv8W4g/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28182%29.png)
 
 跟进对应的save方法，可以看到参数一路传递，fileName为路径，content为内容，最终通过 writer.println写入。
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRovSiazicarH7pzlhxj2vEOPSDBYuiaavq9ZibEG2wMYuT55U7QKoeVmgbKQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28187%29.png)
 
 **F5任意文件读取**
 
 请求路径：
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRokuFOibXYoQcAIepSSNoVCaicYjUyOJtTvC9JXjicribibgT8zNVIEFjGfzA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28184%29.png)
 
 对应的jsp代码文件：
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRotgfXhm0HibsU48goPMwT2mNK43Ufh6u2scicwydA3jaPsyZm1Z6vpicrA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28176%29.png)
 
 对应具体实现方法:
 
-![](https://mmbiz.qpic.cn/mmbiz_jpg/WTOrX1w0s55zicFFsInAfrOzctL0nQzRobicHTpK6pKtssbqC5jyPOvicoQZNpNsBjonCvw9n176IHicxn9vJeTZQg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![](../.gitbook/assets/image%20%28185%29.png)
 
 ### 6、修复方案
 
