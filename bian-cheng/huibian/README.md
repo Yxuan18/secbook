@@ -516,7 +516,7 @@ mov edx,eax    #将eax的值传到edx中
 1. 内存太大没办法起名字，所以只能用编号当我们想想内存中存储数据时，或者从内存中读取数据时，必须用到这个编号，就像写信必须要写收信人一样
 2. 这个编号又叫内存地址（32位，前面的0可以省略）
 
-![](../../.gitbook/assets/image%20%28279%29.png)
+![](../../.gitbook/assets/image%20%28280%29.png)
 
 对于编程人员来讲，内存与寄存器都是用来存储数据的容器，故内存太大了，就用编号代替
 
@@ -550,15 +550,23 @@ mov edx,eax    #将eax的值传到edx中
 2. 寄存器到内存
 3. 内存到寄存器
 
-![](../../.gitbook/assets/image%20%28282%29.png)
+![](../../.gitbook/assets/image%20%28284%29.png)
+
+```text
+mov byte ptr ds:[],1
+```
 
 语句含义：将1写到内存中，写到1个字节中  
 ptr ds:\[\] 为地址编号，方括号中的内容不可以随便写，必须是已经申请了的地址  
 
 
-![&#x7EA2;&#x8272;&#x65B9;&#x6846;&#x4E2D;&#x5373;&#x4E3A;&#x5DF2;&#x7533;&#x8BF7;&#x7684;&#x5730;&#x5740;](../../.gitbook/assets/image%20%28281%29.png)
+![&#x7EA2;&#x8272;&#x65B9;&#x6846;&#x4E2D;&#x5373;&#x4E3A;&#x5DF2;&#x7533;&#x8BF7;&#x7684;&#x5730;&#x5740;](../../.gitbook/assets/image%20%28282%29.png)
 
 填入地址后，点击确定即可
+
+```text
+mov byte ptr ds:[18FFC4],1
+```
 
 ![&#x6548;&#x679C;&#x56FE;](../../.gitbook/assets/image%20%28278%29.png)
 
@@ -568,7 +576,15 @@ ptr ds:\[\] 为地址编号，方括号中的内容不可以随便写，必须�
 
 注意：向内存中写数据的时候，一定要告诉他宽度是多少
 
-![&#x5199;&#x5165;&#x4E86;&#x56DB;&#x4E2A;&#x5B57;&#x8282;&#x7684;&#x6570;&#x636E;](../../.gitbook/assets/image%20%28280%29.png)
+```text
+mov dword ptr ds:[12FFC4],12345678
+```
+
+![&#x5199;&#x5165;&#x4E86;&#x56DB;&#x4E2A;&#x5B57;&#x8282;&#x7684;&#x6570;&#x636E;](../../.gitbook/assets/image%20%28281%29.png)
+
+```text
+mov dword ptr ds:[12FFC4],ecx
+```
 
 ![&#x5BC4;&#x5B58;&#x5668;&#x5230;&#x5185;&#x5B58;](../../.gitbook/assets/image%20%28275%29.png)
 
@@ -582,11 +598,79 @@ ptr ds:\[\]是固定写法
 
 可以将立即数写到内存中，也可以将寄存器写到内存中，但前提是：宽度必须是一样的
 
+注意：  
+在使用MOV指令的时候，要保证两边的宽度是一样的
+
+将内存中的值写入寄存器中：
+
+```text
+mov ecx,dword ptr ds:[12FFC4]
+```
+
+![](../../.gitbook/assets/image%20%28283%29.png)
+
+在汇编中，就大多数指令是不允许从内存到内存的，其中包括MOV指令；必须经过寄存器；也不能从内存到立即数。立即数不是容器，只能往别的东西里放
+
+涉及代码：
+
+```text
+#include "stdafx.h"
+#include <stdlib.h>
+
+int x = 1;//全局变量
+int main(int argc,char* argv[])
+{
+    x = 2;
+    
+    int y = 3;//局部变量
+    
+    int z[] = {0};
+    for(int i=0;i<10;i++)
+    {
+        z[i] = 1;
+    }
+
+}
+```
+
+内存的五种表示形式：
+
+1. 立即数：
+   1. 读取内存的值：MOV EAX,DWORD PTR DS:\[13FFC4\]
+   2. 向内存中写入数据：MOV DWORD PTR DS:\[13FFC4\],EAX
+2. \[reg\] reg代表寄存器，可以是8个寄存器中的任意一个
+   1. 读取内存的值：MOV EAX,13FFD0  ;   MOV EAX,DWORD PTR DS:\[ECX\]
+   2. 向内存中写入数据：MOV EDX,13FFD8  ;  MOV DWORD PTR DS:\[DEX\],87654321
+3. \[reg+立即数\]
+   1. 读取内存的值：mov ecx,13ffd0  ;   mov eax,dword ptr ds:\[ecx+4\]
+   2. 向内存中写入数据：mov edx,13FFD8  ;  MOV DWORD PTR DS:\[EDX+0xC\],87654321
+4. \[reg+reg\*{1,2,4,8}\] \#在高级语言中对数组赋值，最终生成的汇编语言就是这样的 八个32位的通用寄存器加上八个32位的通用寄存器乘以1或2或4或8
+   1. 读取内存的值：MOV EAX,13FFC4  ；  MOV ECX,2  ;    MOV EDX,DWORD PTR DS:\[EAX+ECX\*4\]
+   2. 向内存中写入数据：MOV EAX,13FFC4  ;  MOV ECX,2  ;  MOV DWORD PTR DS:\[EAX+ECX\*4\],87654321
+5. \[reg+reg\*{1,2,4,8}+立即数\] \# 
+   1. 读取内存的值：MOV EAX,12FFC4  ;  MOV ECX,2  ;  MOV EDX,DWORD PTR DS:\[EAX+ECX\*4+4\]
+   2. 向内存中写入数据：MOV EAX,13FFC4  ;  MOV ECX,2  ;  MOV DWORD PTR DS:\[EAX+ECX\*4+4\],87654321
+
+学习五种形式的作用：看得懂各式编译器反编译出来的汇编代码
+
+### 13、数据的存储模式
+
+1、存储模式
+
+```text
+mov byte ptr ds:[0x00000000],0x1A
+mov byte ptr ds:[0x00000000],0x1A2C
+mov byte ptr ds:[0x00000000],0x1A2C3E4F
+```
+
+大端模式：数据高位在低位，数据低位在高位  
+小端模式：数据低位在低位，数据高位在高位
+
+![](../../.gitbook/assets/image%20%28279%29.png)
 
 
-### 13、
 
-
+2、3、4、
 
 ### 14、
 
