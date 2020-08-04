@@ -10,9 +10,9 @@ cd atlas
 python atlas.py # python3+
 ```
 
-![](https://www.ddosi.com/wp-content/uploads/2020/06/01-3-1024x478.png)
+![](../../.gitbook/assets/atlas01.png)
 
-![](https://www.ddosi.com/wp-content/uploads/2020/06/00-6-1024x360.png)
+![](../../.gitbook/assets/atlas02.png)
 
 ### 使用
 
@@ -60,7 +60,7 @@ python atlas.py -g
 python sqlmap.py -u 'http://site.com/index.php?id=Price_ASC' --dbs --random-agent -v 3
 ```
 
-![](https://www.ddosi.com/wp-content/uploads/2020/06/02-3-1024x107.png)
+![](../../.gitbook/assets/atlas03.png)
 
 `Price_ASC') AND 8716=4837 AND ('yajr'='yajr` 被WAF / IDS / IPS阻止，现在尝试使用Atlas：
 
@@ -68,7 +68,7 @@ python sqlmap.py -u 'http://site.com/index.php?id=Price_ASC' --dbs --random-agen
 python atlas.py --url 'http://site.com/index.php?id=Price_ASC' --payload="') AND 8716=4837 AND ('yajr'='yajr" --random-agent -v
 ```
 
-![](https://www.ddosi.com/wp-content/uploads/2020/06/03-1024x129.png)
+![](../../.gitbook/assets/atlas04.png)
 
 在此刻：
 
