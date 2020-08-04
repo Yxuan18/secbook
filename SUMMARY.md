@@ -20,6 +20,7 @@
 * [Linux](cao-zuo-xi-tong/linux/README.md)
   * [基线检查](cao-zuo-xi-tong/linux/jixian.md)
 * [windows](cao-zuo-xi-tong/windows/README.md)
+  * [磁盘取证实验](cao-zuo-xi-tong/windows/quzheng-cipan.md)
   * [基线检查](cao-zuo-xi-tong/windows/jixian.md)
 
 ## 数据库 <a id="database"></a>
