@@ -23,6 +23,7 @@
   * [BACKDOOR](cao-zuo-xi-tong/windows/backdoor.md)
   * [磁盘取证实验](cao-zuo-xi-tong/windows/quzheng-cipan.md)
   * [基线检查](cao-zuo-xi-tong/windows/jixian.md)
+  * [日志分析](cao-zuo-xi-tong/windows/rizhi.md)
 
 ## 数据库 <a id="database"></a>
 
