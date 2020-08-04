@@ -20,6 +20,7 @@
 * [Linux](cao-zuo-xi-tong/linux/README.md)
   * [基线检查](cao-zuo-xi-tong/linux/jixian.md)
 * [windows](cao-zuo-xi-tong/windows/README.md)
+  * [BACKDOOR](cao-zuo-xi-tong/windows/backdoor.md)
   * [磁盘取证实验](cao-zuo-xi-tong/windows/quzheng-cipan.md)
   * [基线检查](cao-zuo-xi-tong/windows/jixian.md)
 

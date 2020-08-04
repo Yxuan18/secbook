@@ -10,7 +10,7 @@ https://github.com/TheKingOfDuck/burpFakeIP
 
 2、打开burpsuite，选择Extender，Add
 
-![](../../.gitbook/assets/image%20%28298%29.png)
+![](../../.gitbook/assets/image%20%28341%29.png)
 
 3、选择下载好python插件，选择下一步
 
@@ -18,7 +18,7 @@ https://github.com/TheKingOfDuck/burpFakeIP
 
 4、安装成功
 
-![](../../.gitbook/assets/image%20%28337%29.png)
+![](../../.gitbook/assets/image%20%28369%29.png)
 
 ### 3、使用方法
 
@@ -102,7 +102,7 @@ True-Client-Ip:37.120.247.234
 
 4、随机ip爆破，伪造随机ip爆破是本插件最核心的功能。
 
-![](../../.gitbook/assets/image%20%28302%29.png)
+![](../../.gitbook/assets/image%20%28345%29.png)
 
 将数据包发送到Intruder模块,在Positions中切换Attack type为Pitchfork模式,选择好有效的伪造字段,以及需要爆破的字段
 
@@ -110,7 +110,7 @@ True-Client-Ip:37.120.247.234
 
 将Payload来源设置为Extensin-generated,并设置负载伪fakeIpPayloads,然后设置第二个变量。
 
-![](../../.gitbook/assets/image%20%28292%29.png)
+![](../../.gitbook/assets/image%20%28322%29.png)
 
 点击Start attack开始爆破.
 
