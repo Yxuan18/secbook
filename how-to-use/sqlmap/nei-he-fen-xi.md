@@ -33,15 +33,15 @@ cd sqlmap
 
 所以我们还是从头看起吧！
 
-![img](https://p4.ssl.qhimg.com/t018001bdb5e9d83cb2.jpg)
+![](../../.gitbook/assets/neihe01.jpg)
 
 我们在上图中，可以找到很明显的程序命令行入口，我们暂且只分析命令行入口所以，我把无关的东西全部打了马赛克，所以接下来我们看到 `main` 函数直接来了解
 
-![img](https://p3.ssl.qhimg.com/t014a5639084b0fa84e.jpg)
+![](../../.gitbook/assets/002.jpg)
 
 我相信大家看到了上图应该就知道我们主要应该看 `try` 中的内容。实际上 `except` 中指的是 sqlmap 中各种各样异常处理，包含让程序退出而释放的异常/用户异常以及各种预期或非预期异常，在 `finally` 中，大致进行了数据库（HashDB）的检查/恢复/释放以及 `dumper` 的收尾操作和多线程的资源回收操作。具体的不重要的代码我们就不继续介绍了，接下来直接来了解比较重要的部分吧。
 
-![img](https://p3.ssl.qhimg.com/t019c4f045cdcf3d5ed.jpg)
+![](../../.gitbook/assets/003.jpg)
 
 在实际在工作部分中，我们发现了 1-4 函数对环境和基础配置进行了一同操作，然后在 5 步骤的时候进行步骤初始化，然后开始启动 sqlmap。实际上这些操作并不是一无是处，接下来有详有略介绍这些步骤究竟发生了什么。
 
@@ -49,17 +49,19 @@ cd sqlmap
 2. 在环境检查中，做了如下操作：检查模块路径，检查 Python 版本，导入全局变量。我们可能并不需要关心太多这一步，只需要记得在这一步我们导入了几个关键的全局变量：`("cmdLineOptions", "conf", "kb")`，需要提醒大家的是，直接去 `lib.core.data` 中寻找这几个变量并不是明智的选择，因为他们并不是在这里初始化的（说白了就是找到了定义也没有用，只需要知道有他们几个就够啦）。
 3. 初始化各种资源文件路径。
 4. 打印 Banner。
-5. 这一部分可以说是非常关键了，虽然表面上仍然是属于初始化的阶段，但是实际上，如果不知晓这一步，面对后面的直接对全局变量 `kb` 和 `conf` 的操作将会变的非常奇怪和陌生。在这步中，我们进行了配置文件初始化，知识库（KnowledgeBase初始化）以及用户操作的 `Merge` 和初始化。我们在之后的分析中如果遇到了针对 `kb` 和 `conf` 的操作，可以直接在这个函数对应的 `lib.core.option` 模块中寻找对应的初始化变量的定义。当然，这一步涉及到的一些 `kb/conf` 的 fields 也可能来源于 `lib.parse.cmdline` 中，可以直接通过 `ctrl+F` 搜索到
+5. 这一部分可以说是非常关键了，虽然表面上仍然是属于初始化的阶段，但是实际上，如果不知晓这一步，面对后面的直接对全局变量 `kb` 和 `conf` 的操作将会变的非常奇怪和陌生。在这步中，我们进行了配置文件初始化，知识库（KnowledgeBase初始化）以及用户操作的 `Merge` 和初始化。我们在之后的分析中如果遇到了针对 `kb` 和 `conf` 的操作，可以直接在这个函数对应的 `lib.core.option` 模块中寻找对应的初始化变量的定义。当然，这一步涉及到的一些 `kb/conf` 的 fields 也可能来源于 `lib.parse.cmdline` 中，可以直接通过 `ctrl+F` 搜索到   
 
-![img](https://p0.ssl.qhimg.com/t01e93760276299cfdb.jpg)
+![](../../.gitbook/assets/004.jpg)
 
-1. 中主要包含所有初始变量的初始值，这些初始值在 `init()` 的设定主要是引用各种各样的函数来完成基础设置，我们没有必要依次对其进行分支，只需要用到的时候知道回来寻找就可以了。
-2. 冒烟测试，测试程序本身是否可以跑得通。
-3. 功能测试，测试 sqlmap 功能是否完整。
+6. 中主要包含所有初始变量的初始值，这些初始值在 `init()` 的设定主要是引用各种各样的函数来完成基础设置，我们没有必要依次对其进行分支，只需要用到的时候知道回来寻找就可以了。
+
+7. 冒烟测试，测试程序本身是否可以跑得通。
+
+8. 功能测试，测试 sqlmap 功能是否完整。
 
 进入上一段代码的条件是 `if not conf.updateAll`，这个是来源于 `lib.parse.cmdline` 中定义的更新选项，如果这个选项打开，sqlmap 会自动更新并且不会执行后续测试步骤和实际工作的步骤。
 
-![img](https://p5.ssl.qhimg.com/t0157fdefaf1100b316.jpg)
+![](../../.gitbook/assets/005.jpg)
 
 在实际的启动代码中，笔者在上图中标注了两处，我们在使用命令行的时候，更多的是直接调用 start\(\) 函数，所以我们直接跟入其中寻找之后需要研究的部分。
 
@@ -67,11 +69,11 @@ cd sqlmap
 
 当我们找到 start\(\) 函数的时候，映入眼帘的实际上是一个很平坦的流程，我们简化一下，以下图代码为例：
 
-![img](https://p0.ssl.qhimg.com/t013a0fd36bbf76ba5c.jpg)
+![](../../.gitbook/assets/006.jpg)
 
 我们仍然看到了 `conf` 中一些很奇怪的选项，针对这些选项我们在 0x01 节中强调过，可以在某一些地方找到这些选项的线索，我们以 `conf.direct` 为例，可以在 `lib.parse.cmdline` 中明确找到这个选项的说明：
 
-![img](https://p1.ssl.qhimg.com/t013e21ed52df49ac35.jpg)
+![](../../.gitbook/assets/007.jpg)
 
 根据说明，这是直连数据库的选项，所以我们可能暂时并不需要关心他，我们暂时只关注 sqlmap 是如何检测漏洞的，而不关心他是怎么样调用数据库相关操作的。
 
@@ -79,7 +81,7 @@ cd sqlmap
 
 好的，接下来我们就打开最核心的检测方法：
 
-![img](https://p0.ssl.qhimg.com/t01598be66a050886f2.jpg)
+![](../../.gitbook/assets/008.jpg)
 
 进入循环体之后，首先进行检查网络是否通断的选项，这个选项很容易理解我们就不多叙述了；确保网络正常之后，开始设置 `conf.url,conf.method,conf.data,conf.cookie` 和 headers 等字段，并且在 `parseTargetUrl()` 中进行各种合理性检查；之后会根据 HTTP 的 Method 提取需要检查的参数；随后如果当前启动时参数接受了多个目标的话，会在第4步中做一些初始化的工作。
 
@@ -97,9 +99,9 @@ def setupTargetEnv():
 
 其中除了 `setRequestParams()` 都是关于本身存储（缓存）扫描上下文和结果文件的。当然我们最关注的点肯定是 `setRequestParams()` 这个点。在深入了解这一个步骤之后，我们发现其中主要涉及到如下操作：
 
-![img](https://p2.ssl.qhimg.com/t0106a5f71c992237ef.jpg)
+![](../../.gitbook/assets/009.jpg)
 
-![img](https://p5.ssl.qhimg.com/t01141e534618cf6480.jpg)
+![](../../.gitbook/assets/010.jpg)
 
 所以我们回归之前的 `start()` 方法中的 foreach targets 的循环体中，在 `setupTargetEnv()` 之后，我们现在已经知道了关于这个目标的所有的可以尝试注入测试的点都已经设置好了，并且都存在了 `conf.paramDict` 这个字典中了。
 
@@ -109,7 +111,7 @@ def setupTargetEnv():
 
 可以说在读者了解上面两节讲述的内容的时候，我们就可以正式探查真正的 SQL 注入检测时候 sqlmap 都坐上了什么。其实简单来说，需要经过下面步骤：
 
-![img](https://p3.ssl.qhimg.com/t01b5e58e7099401eff.jpg)
+![](../../.gitbook/assets/011.jpg)
 
 笔者通过对 `controller.py` 中的 `start()` 函数进行分析，得出了上面的流程图。在整个检测过程中，我们暂且不涉及细节；整个流程都是针对检查一个目标所要经历的步骤。
 
@@ -117,7 +119,7 @@ def setupTargetEnv():
 
 在 `checkWaf()` 中，文档写明：`Reference: http://seclists.org/nmap-dev/2011/q2/att-1005/http-waf-detect.nse`，我们可以在这里发现他的原理出处，有兴趣的读者可以自行研究。在实际实现的过程中代码如下：
 
-![img](https://p5.ssl.qhimg.com/t01e5e329ff7a650b90.jpg)
+![](../../.gitbook/assets/012.jpg)
 
 笔者在关键部分已经把标注和箭头写明，方便大家理解。我们发现 `payload` 这个变量是通过随机一个数字 + space + 一个特制 Payload（涉及到很多的关于敏感关键词，可以很容易触发 WAF 拦截）。
 
@@ -160,17 +162,17 @@ http://this.is.a.victim.com/article.php?id=1&mbjwe=2472%20AND%201%3D1%20UNION%20
 
 简单来说这个类使用了 Ratcliff 和 Obershelp 提供的算法，匹配最长相同的字符串，设定无关字符（junk）。在实际使用中，他们应用最多的方法应该就是 `ratio()`。
 
-![img](https://p5.ssl.qhimg.com/dm/1024_90_/t01e2a0acd93ceb40b9.jpg)
+![](../../.gitbook/assets/013.jpg)
 
 根据文档中的描述，这个方法返回两段文本的相似度，相似度的算法如下：我们假设两段文本分别为 `text1` 与 `text2`，他们相同的部分长度总共为 `M`，这两段文本长度之和为 `T`，那么这两段文本的相似度定义为 `2.0 * M / T`，这个相似度的值在 0 到 1.0 之间。
 
 **PageRatio 的小例子**
 
-![img](https://p2.ssl.qhimg.com/t01d1126ad273ec29e3.jpg)
+![](../../.gitbook/assets/014.jpg)
 
 我们通过上面的介绍，知道了对于 `abcdefg` 和 `abce123` 我们计算的结果应该是 `2.0 * 4 / 14`所以计算结果应该是：
 
-![img](https://p3.ssl.qhimg.com/t0181ed8cf9e630822a.jpg)
+![](../../.gitbook/assets/015.jpg)
 
 到现在我们理解了 PageRatio 是什么样的一种算法，我们就可以开始观察 sqlmap 是如何使用这一个值的了～
 
@@ -178,7 +180,7 @@ http://this.is.a.victim.com/article.php?id=1&mbjwe=2472%20AND%201%3D1%20UNION%20
 
 在上节的内容中，我们对于 sqlmap 的源码了解到 `checkWaf` 的部分，结合刚才讲的 PageRatio 的例子，我们直接可以看懂这部分代码：
 
-![img](https://p3.ssl.qhimg.com/dm/1024_160_/t01ad19d3201908ae17.jpg)
+![](../../.gitbook/assets/016.jpg)
 
 现在设定 `IDS_WAF_CHECK_RATIO = 0.5` 表明，只要打了检测 IDS/WAF 的 Payload 的页面结果与模版页面结果文本页面经过一定处理，最后比较出相似度相差 0.5 就可以认为触发了 IDS/WAF。
 
@@ -188,7 +190,7 @@ http://this.is.a.victim.com/article.php?id=1&mbjwe=2472%20AND%201%3D1%20UNION%20
 
 这个函数其实是在检查原始页面是存在动态内容，并做一些处理。何为动态内容？在 sqlmap 中表示以同样的方式访问量次同一个页面，访问前后页面内容并不是完全相同，他们相差的内容属于动态内容。当然，sqlmap 的处理方式也并不是随意的比较两个页面就没有然后了，在比较完之后，如果存在动态页面，还会做一部分的处理，或者提出扩展设置（`--string/--regex`），以方便后续使用。
 
-![img](https://p3.ssl.qhimg.com/dm/1024_675_/t01ab4e4d5b1ac875b9.jpg)
+![](../../.gitbook/assets/017.jpg)
 
 我们发现，实际的 sqlmap 源码确实是按照我们介绍的内容处理的，如果页面内容是动态的话，则会提示用户处理字符串或者增加正则表达式来验证页面。
 
@@ -198,7 +200,7 @@ http://this.is.a.victim.com/article.php?id=1&mbjwe=2472%20AND%201%3D1%20UNION%20
 
 我们发现，如果说我们并没指定 `string / regex` 那么很多情况，我们仍然也可以正确得出结果；根据 sqlmap 源码，它实际上背后还是有一些处理方法的，而这些方法就在 `checkDynamicContent(firstPage, secondPage)` 中：
 
-![img](https://p1.ssl.qhimg.com/dm/1024_603_/t01c3417e69abd25ece.jpg)
+![](../../.gitbook/assets/018.jpg)
 
 我们在这个函数中发现如果 `firstPage 和 secondPage` 的相似度小于 0.98 （这个相似度的概念就是前一节介绍的 PageRatio 的概念），则会重试，并且尝试 `findDynamicContent(firstPage, secondPage)` 然后细化页面究竟是 `too dynamic` 还是 `heavily dynamic`。
 
@@ -247,7 +249,7 @@ kb.dynamicMarkings.append((prefix if prefix else None, suffix if suffix else Non
 
 为了更好的继续，我们需要回顾一下之前的流程图
 
-![img](https://p2.ssl.qhimg.com/t017f96952321bca736.jpg)
+![](../../.gitbook/assets/019.jpg)
 
 好的，接下来我们的目标就是图中描述的部分“过滤重复以及不需要检查的参数，然后检查参数是为动态参数”，在下一篇文章中，我们将会详细介绍 sqlmap 其他的核心函数，诸如启发式检测，和 sql 注入检测核心函数。
 
@@ -306,13 +308,13 @@ paramType = conf.method if conf.method not in (None, HTTPMETHOD.GET, HTTPMETHOD.
 
 参数过滤
 
-![img](https://p4.ssl.qhimg.com/dm/1024_500_/t017da87db63d7c8ed0.jpg)
+![](../../.gitbook/assets/020.jpg)
 
 **checkDynParam\(place, parameter, value\)**
 
 我们进入 `checkDynParam` 函数发现，整个函数其实看起来非常简单，但是实际上我们发现 `agent.queryPage` 这个函数现在又返回了一个好像是 Bool 值的返回值作为 `dynResult` 这令我们非常困惑，我们上一次见这个函数返回的是 `(page, headers, code)` 。
 
-![img](https://p0.ssl.qhimg.com/dm/1024_609_/t01a1342a5f461cba86.jpg)
+![](../../.gitbook/assets/021.jpg)
 
 我们发现实际上的页面比较逻辑也并不是在 `checkDynParam` ，所以表面上，我们这一节的内容是在 `checkDynParam` 这个函数，但是实际上我们仍然需要跟进到 `agent.queryPage`。
 
@@ -322,21 +324,21 @@ paramType = conf.method if conf.method not in (None, HTTPMETHOD.GET, HTTPMETHOD.
 
 跟进 `agent.queryPage` 我相信一定是痛苦的，这其实算是 sqlmap 的核心基础函数之一，里面包含了接近三四百行的请求前预处理，包含 `tamper` 的处理逻辑以及随机化参数和 CSRF 参数的处理检测逻辑。同时如果涉及到了 `timeBasedCompare` 还包含着时间盲注的处理逻辑；除此之外，一般情况下 `agent.queryPage` 中还存在着针对页面比较的核心调用，页面对比对应函数为 `comparison`。为了简化大家的负担，笔者只截取最后返回值的部分 `agent.queryPage` 。
 
-![img](https://p1.ssl.qhimg.com/dm/1024_268_/t01b8a3421162fca370.jpg)
+![](../../.gitbook/assets/022.jpg)
 
 在标注中，我们发现了我们之前的疑问，为什么 `agent.queryPage` 时而返回页面内容，时而返回页面与模版页面的比较结果。其实在于如果 `content/response` 被设置为 `True` 的时候，则会返回页面具体内容，headers，以及响应码；如果 `timeBasedCompare` 被设定的时候，返回是否发生了延迟；默认情况返回与模版页面的比较结果。
 
 我们发现这一个 `comparison` 函数很奇怪，他没有输入两个页面的内容，而是仅仅输入当前页面的相关信息，但是为什么笔者要明确说是与“模版页面”的比较结果呢？我们马上就跟入 `comparison` 一探究竟。
 
-![img](https://p1.ssl.qhimg.com/dm/1024_427_/t0155017907c959a1e7.jpg)
+![](../../.gitbook/assets/023.jpg)
 
 进去之后根据图中的调用关系，我们主要需要观察一下 `_comparison` 这个函数的行为。当打开这个函数的时候，我们发现也是一段接近一百行的函数，仍然是一个需要硬着头皮看下去的一段代码。
 
-![img](https://p0.ssl.qhimg.com/dm/1024_541_/t01b3582899fe1b4ffb.jpg)
+![](../../.gitbook/assets/024.jpg)
 
 根据图中的使用红色方框框住的代码，我们很容易就能发现，这其实是在禁用 `PageRatio` 的页面相似度算法，而是因为用户设定了 `--string/--not-string/--regex/--code` 从而可以明确从其他方面区分出页面为什么不同。当然，我们的重点并不是他，而是计算 `ratio` 并且使用 `ratio`得出页面相似的具体逻辑。
 
-![img](https://p1.ssl.qhimg.com/t0105b9475b9c4f27d0.jpg)
+![](../../.gitbook/assets/025.jpg)
 
 我相信令大家困惑的可能是这两段关于 `nullConnection` 的代码，在前面的部分中，我们没有详细说明 `nullConnection` 究竟意味着什么：
 
@@ -370,11 +372,11 @@ if ratio > 1.:
 
 接下来我们再顺着他的逻辑往下走：
 
-![img](https://p5.ssl.qhimg.com/dm/1024_500_/t0136e012785679de70.jpg)
+![](../../.gitbook/assets/026.jpg)
 
 根据上面对源码的标注，我们很容易理解这个 `ratio` 是怎么算出来的，同样我们也很清楚，其实并不只是简单无脑的使用 `ratio` 就可以起到很好的效果，配合各种各样的选项或者预处理：比如移除页面的动态内容，只比较 `title`，只比较文本，不比较 `html` 标签。
 
-![img](https://p2.ssl.qhimg.com/dm/1024_425_/t01ff27d62d7e291fb5.jpg)
+![](../../.gitbook/assets/027.jpg)
 
 上面源码为最终使用 `ratio` 对页面的相似度作出判断的逻辑，其中
 
@@ -403,11 +405,11 @@ DIFF_TOLERANCE = 0.05
 
 这个函数位于 controller.py 的 start\(\) 函数中，同时我们在整体逻辑中也明确指明了这一个步骤：
 
-![img](https://p2.ssl.qhimg.com/t01d9f55ae956c95573.jpg)
+![](../../.gitbook/assets/028.jpg)
 
 这标红的两个步骤其实就是本篇文章主要需要分析的两个部分，涉及到 sqlmap 检测 sql 注入漏洞的核心逻辑。其中 heuristicCheckSqlInjection 是我们本节需要分析的问题。这个函数的执行位置如下：
 
-![img](https://p0.ssl.qhimg.com/dm/1024_554_/t01c58d055a1e8cb9bd.jpg)
+![](../../.gitbook/assets/029.jpg)
 
 再上图代码中，2标号为其位置。
 
@@ -415,23 +417,24 @@ DIFF_TOLERANCE = 0.05
 
 通过分析其源代码，笔者先行整理出他的逻辑：
 
-![img](https://p3.ssl.qhimg.com/dm/1024_907_/t01653a50212801ccee.jpg)
+![](../../.gitbook/assets/030.jpg)
 
 根据我们整理出的启发式检测流程图，我们做如下补充说明。
 
 1. 进行启发式 sql 注入检测的前提条件是没有开启 nullConnection 并且页面并不是 heavilyDynamic。关于这两个属性，我们在第二篇文章中都有相关介绍，对于 nullConnection 指的是一种不需要知道他的具体内容就可以知道整个内容大小的请求方法；heavilyDynamic 指的是，在不改变任何参数的情况下，请求两次页面，两次页面的相似度低于 0.98。
 2. 在实际的代码中，决定注入的结果报告的，主要在于两个标识位，分别为：casting 与 result。笔者在下方做代码批注和说明：
 
-![img](https://p2.ssl.qhimg.com/dm/1024_322_/t011a853a8ea1f21b2f.jpg)
+![](../../.gitbook/assets/031.jpg)
 
-1. casting 这个标识位主要取决于两种情况：第一种在第一个请求就发现存在了特定的类型检查的迹象；第二种是在请求小数情况的时候，发现小数被强行转换为整数。通常对于这种问题，在不考虑 tamper 的情况下，一般很难检测出或者绕过。
-2. result 这个标识位取决于：如果检测出 DBMS 错误，则会设置这个标识位为 True；如果出现了数据库执行数值运算，也置为 True。
+**3.** casting 这个标识位主要取决于两种情况：第一种在第一个请求就发现存在了特定的类型检查的迹象；第二种是在请求小数情况的时候，发现小数被强行转换为整数。通常对于这种问题，在不考虑 tamper 的情况下，一般很难检测出或者绕过。
+
+4. result 这个标识位取决于：如果检测出 DBMS 错误，则会设置这个标识位为 True；如果出现了数据库执行数值运算，也置为 True。
 
 **XSS 与 FI**
 
 实际上在启发式 sql 注入检测完毕之后，会执行其他的检测：
 
-![img](https://p2.ssl.qhimg.com/dm/1024_542_/t019bb8b8bcbee8be9c.jpg)
+![](../../.gitbook/assets/032.jpg)
 
 1. 检测 XSS 的方法其实就是检查 “&lt;‘\”&gt;”，是否出现在了结果中。作为扩展，我们可以在此检查是否随机字符串还在页面中，从而判断是否存在 XSS 的迹象。
 2. 检测 FI（文件包含），就是检测结果中是否包含了 include/require 等报错信息，这些信息是通过特定正则表达式来匹配检测的。
@@ -453,13 +456,13 @@ DIFF_TOLERANCE = 0.05
 
 下图是笔者折叠无关代码之后剩余的最核心的循环和条件分支，我们发现他关于 injectable 的设置完全是通过 if method == PAYLOAD.METHOD.\[COMPARISON/GREP/TIME/UNION\] 这几个条件分支去处理的，同时这些条件显然是 sqlmap 针对不同的注入类型的 Payload 进行自己的结果处理逻辑饿和判断逻辑。
 
-![img](https://p0.ssl.qhimg.com/dm/1024_757_/t01d00f7b6bb3c35a95.jpg)
+![](../../.gitbook/assets/033.jpg)
 
 **数据库类型检测 heuristicCheckDbms**
 
 我们在本大节刚开始的时候，就已经说明了第二步是确定数据库的类型，那么数据库类型来源于用户设定或者自动检测，当截止第二步之前还没有办法确定数据库类型的时候，就会自动启动 heuristicCheckDbms 这个函数，利用一些简单的测试来确定数据库类型。
 
-![img](https://p1.ssl.qhimg.com/dm/1024_543_/t01a2ee6b72107acc8b.jpg)
+![](../../.gitbook/assets/034.jpg)
 
 其实这个步骤非常简单，核心原理是利用简单的布尔盲注构造一个 \(SELECT “\[RANDSTR\]” \[FROM\_DUMMY\_TABLE.get\(dbms\)\] \)=”\[RANDSTR1\]” 和 \(SELECT ‘\[RANDSTR\]’ \[FROM\_DUMMY\_TABLE.get\(dbms\)\] \)='\[RANDSTR1\]’ 这两个 Payload 的请求判断。其中
 
@@ -536,9 +539,9 @@ Sub-tag: <title>
     Title of the test. 测试的名称，这些名称就是我们实际在测试的时候输出的日志中的内容
 ```
 
-[![img](https://p2.ssl.qhimg.com/t0153a7ac5d62b28ece.jpg)](https://p2.ssl.qhimg.com/t0153a7ac5d62b28ece.jpg)
+![](../../.gitbook/assets/035.jpg)
 
-上图表示一个 &lt;test&gt; 中的 title 会被输出作为调试信息。
+图表示一个 &lt;test&gt; 中的 title 会被输出作为调试信息。
 
 除非必要的子标签，笔者将会直接把标注写在下面的代码块中，
 
@@ -762,11 +765,11 @@ Sub-tag: <details>
 
 我们首先定义 request.payload 中的的请求为正请求 Positive，对应 response.comparison中的请求为负请求 Negative，在 sqlmap 中原处理如下：
 
-![img](https://p4.ssl.qhimg.com/dm/1024_528_/t0127e4740c970d7ae6.jpg)
+![](../../.gitbook/assets/036.jpg)
 
 在代码批注中我们进行详细的解释，为了让大家看得更清楚，我们把代码转变为流程图：
 
-![img](https://p2.ssl.qhimg.com/t01ecdd2a80b47b6fcf.jpg)
+![](../../.gitbook/assets/037.jpg)
 
 其中最容易被遗忘的可能并不是正负请求的对比，而是正请求与模版页面的对比，负请求与错误请求的对比和错误请求与模版页面的对比，因为广泛存在一种情况是类似文件包含模式的情况，不同的合理输入的结果有大概率不相同，且每一次输入的结果如果报错都会跳转到某一个默认页面（存在默认参数），这种情况仅仅用正负请求来区分页面不同是完全不够用的，还需要各种情形与模版页面的比较来确定。
 
@@ -800,7 +803,7 @@ Sub-tag: <details>
 
 在具体代码中，其实非常直观可以看到：
 
-![img](https://p4.ssl.qhimg.com/dm/1024_408_/t014b674a169e0eca56.jpg)
+![](../../.gitbook/assets/038.jpg)
 
 再 sqlmap 的实现中其实并不是仅仅检查页面内容就足够的，除了页面内容之外，检查如下项：
 
@@ -814,7 +817,7 @@ Sub-tag: <details>
 
 但是仅仅是这样就可以了嘛？当然我们需要了解的是 sqlmap 如何设置这个 X 作为时间点（请看下面这个函数，位于 agent.queryPage 中）：
 
-![img](https://p5.ssl.qhimg.com/dm/1024_483_/t01885c1b538a24c402.jpg)
+![](../../.gitbook/assets/039.jpg)
 
 我们发现，它里面有一个数学概念：[标准差](http://link.zhihu.com/?target=https%3A//zh.wikipedia.org/wiki/%E6%A8%99%E6%BA%96%E5%B7%AE)
 
@@ -841,7 +844,7 @@ UNION 注入可以说是 sqlmap 中最复杂的了，同时也是最经典的注
 
 其实关于 UNION 注入的检测，和我们一开始学习 SQL 注入的方法是一样的，猜解列数，猜解输出点在列中位置。实际在 sqlmap 中也是按照这个来进行漏洞检测的，具体的测试方法位于：
 
-![img](https://p0.ssl.qhimg.com/t0155eeae376aca7796.jpg)
+![](../../.gitbook/assets/040.jpg)
 
 跟入 unionTest\(\) 中我们发现如下操作
 
@@ -866,7 +869,7 @@ def unionTest(comment, place, parameter, value, prefix, suffix):
 
 最核心的逻辑位于 \_unionTestByCharBruteforce 中，继续跟入，我们发现其检测的大致逻辑如下：
 
-![img](https://p1.ssl.qhimg.com/dm/1024_460_/t019b7506447831c5b1.jpg)
+![](../../.gitbook/assets/041.jpg)
 
 别急，我们一步一步来分析！
 
@@ -881,11 +884,11 @@ def unionTest(comment, place, parameter, value, prefix, suffix):
 
 实际在使用的过程中，ORDER BY 的核心逻辑如下，关于其中页面比较技术我们就不赘述了，不过值得一提的是 sqlmap 在猜列数的时候，使用的是二分法（笔者看了一下，二分法这部分这似乎是七年前的代码）。
 
-![img](https://p1.ssl.qhimg.com/dm/1024_479_/t010c103329c006f4ed.jpg)
+![](../../.gitbook/assets/042.jpg)
 
 除此之外呢，如果 ORDER BY 失效，将会计算至少五个（从 lowerCount 到 upperCount）Payload 为 UNION SELECT \(NULL,\) \* \[COUNT\]，的请求，这些请求的对应 RATIO（与模版页面相似度）会汇总存储在 ratios 中，同时 items 中存储 列数 和 ratio 形成的 tuple，经过一系列的算法，尽可能寻找出“与众不同（正确猜到列数）”的页面。具体的算法与批注如下：
 
-![img](https://p2.ssl.qhimg.com/dm/1024_504_/t01fc628d1e193a4af6.jpg)
+![](../../.gitbook/assets/043.jpg)
 
 我们发现，上面代码表达的核心思想就是 利用与模版页面比较的内容相似度寻找最最不同的那一个请求。
 
@@ -893,7 +896,7 @@ def unionTest(comment, place, parameter, value, prefix, suffix):
 
 假如一切顺利，我们通过上面的步骤成功找到了列数，接下来就应该寻找输出点，当然输出点的寻找也是需要额外讨论的。其实基本逻辑很容易对不对？我们只需要将 UNION SELECT NULL, NULL, NULL, NULL, … 中的各种 NULL 依次替换，然后在结果中寻找被我们插入的随机的字符串，就可以很容易定位到输入出点的位置。实际上这一部分的确认逻辑是位于下图中的函数的 \_unionConfirm
 
-![img](https://p5.ssl.qhimg.com/t010dd1c781b3fcac3b.jpg)
+![](../../.gitbook/assets/044.jpg)
 
 其中主要的逻辑是一个叫 \_unionPosition 的函数，在这个函数中，负责定位输出点的位置，使用的基本方法就是我们在开头提到方法，受限于篇幅，我们就不再展开叙述了。
 
