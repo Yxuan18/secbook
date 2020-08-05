@@ -18,6 +18,7 @@
 * [Android](os/android.md)
 * [IOS](os/ios.md)
 * [Linux](os/linux/README.md)
+  * [反弹shell](os/linux/reverse-shell.md)
   * [基线检查](os/linux/jixian.md)
 * [windows](os/win/README.md)
   * [BACKDOOR with 权限维持](os/win/back-root.md)

