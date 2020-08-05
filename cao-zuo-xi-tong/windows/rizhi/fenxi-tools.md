@@ -20,7 +20,7 @@ LogParser
 
 使用方法简单介绍：
 
-![](../../../.gitbook/assets/image%20%28408%29.png)
+![](../../../.gitbook/assets/image%20%28411%29.png)
 
 ### 2、理解字段
 
@@ -147,7 +147,7 @@ select * from D:\Security-2008.evtx where eventid=4624
 select eventid,strings from D:\Security-2008.evtx where eventid=4624
 ```
 
-![](../../../.gitbook/assets/image%20%28417%29.png)
+![](../../../.gitbook/assets/image%20%28422%29.png)
 
 #### 3、限制查询数量
 
@@ -197,7 +197,7 @@ select Extract_token(Strings,5,'|') from D:\Security-2008.evtx where eventid=462
 
 索引5为 用户名，8为登录类型，11为来源主机名，18为来源主机IP，19为来源主机端口
 
-![](../../../.gitbook/assets/image%20%28411%29.png)
+![](../../../.gitbook/assets/image%20%28414%29.png)
 
  \# 这是事件ID为4625的情况下
 
@@ -282,7 +282,7 @@ select * from D:\Security-2008.evtx where Extract_token(Strings,8,'|')='3'
 select * from D:\Security-2008.evtx where eventid=4624 and Extract_token(Strings,11,'|')='NEW-666'
 ```
 
-![](../../../.gitbook/assets/image%20%28400%29.png)
+![](../../../.gitbook/assets/image%20%28401%29.png)
 
 #### 9、将日志整理成新的表
 
@@ -302,7 +302,7 @@ Extract_token(Strings,11,'|') not in (NULL;'';'-') and
 Extract_token(Strings,5,'|') <> 'ANONYMOUS LOGON'
 ```
 
-![](../../../.gitbook/assets/image%20%28420%29.png)
+![](../../../.gitbook/assets/image%20%28428%29.png)
 
 ```text
 # EventID 4625
@@ -381,9 +381,9 @@ FailReason into D:\all.csv
 from D:\Security.evtx where eventid=4625"
 ```
 
-![](../../../.gitbook/assets/image%20%28421%29.png)
+![](../../../.gitbook/assets/image%20%28429%29.png)
 
-![](../../../.gitbook/assets/image%20%28406%29.png)
+![](../../../.gitbook/assets/image%20%28409%29.png)
 
 ![](../../../.gitbook/assets/image%20%28389%29.png)
 
@@ -527,7 +527,7 @@ SystemTime,WorkstationName,IpAddress,TargetDomainName,TargetUserName,EventID,Log
 powershell -exec bypass ./getLog.ps1 -f 'd:\Security-2008.evtx'
 ```
 
-![](../../../.gitbook/assets/image%20%28403%29.png)
+![](../../../.gitbook/assets/image%20%28404%29.png)
 
 然后就可以使用excel分析了
 
