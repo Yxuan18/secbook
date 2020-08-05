@@ -20,7 +20,7 @@ LogParser
 
 使用方法简单介绍：
 
-![](../../../.gitbook/assets/image%20%28390%29.png)
+![](../../../.gitbook/assets/image%20%28408%29.png)
 
 ### 2、理解字段
 
@@ -104,7 +104,7 @@ MESSAGE：
 | Message | 包含“常规”中的字符，其中会有中文字符 |
 | Data | NULL |
 
-![](../../../.gitbook/assets/image%20%28381%29.png)
+![](../../../.gitbook/assets/image%20%28398%29.png)
 
 ![](../../../.gitbook/assets/image%20%28375%29.png)
 
@@ -139,7 +139,7 @@ select * from D:\Security-2008.evtx where eventid=4624
  select strings from D:\Security-2008.evtx where eventid=4624
 ```
 
-![](../../../.gitbook/assets/image%20%28379%29.png)
+![](../../../.gitbook/assets/image%20%28396%29.png)
 
 多字段查询也是用逗号隔开
 
@@ -147,7 +147,7 @@ select * from D:\Security-2008.evtx where eventid=4624
 select eventid,strings from D:\Security-2008.evtx where eventid=4624
 ```
 
-![](../../../.gitbook/assets/image%20%28393%29.png)
+![](../../../.gitbook/assets/image%20%28417%29.png)
 
 #### 3、限制查询数量
 
@@ -197,7 +197,7 @@ select Extract_token(Strings,5,'|') from D:\Security-2008.evtx where eventid=462
 
 索引5为 用户名，8为登录类型，11为来源主机名，18为来源主机IP，19为来源主机端口
 
-![](../../../.gitbook/assets/image%20%28392%29.png)
+![](../../../.gitbook/assets/image%20%28411%29.png)
 
  \# 这是事件ID为4625的情况下
 
@@ -264,7 +264,7 @@ INTO语法导出必须使用LogParser，LPS需要用菜单选择导出。
 select Extract_token(Strings,11,'|'),* from D:\Security-2008.evtx where eventid=4624 and Extract_token(Strings,11,'|') not in (NULL;'';'-')
 ```
 
-![](../../../.gitbook/assets/image%20%28377%29.png)
+![](../../../.gitbook/assets/image%20%28395%29.png)
 
 #### 7、只显示登录类型3的数据
 
@@ -282,7 +282,7 @@ select * from D:\Security-2008.evtx where Extract_token(Strings,8,'|')='3'
 select * from D:\Security-2008.evtx where eventid=4624 and Extract_token(Strings,11,'|')='NEW-666'
 ```
 
-![](../../../.gitbook/assets/image%20%28384%29.png)
+![](../../../.gitbook/assets/image%20%28400%29.png)
 
 #### 9、将日志整理成新的表
 
@@ -302,7 +302,7 @@ Extract_token(Strings,11,'|') not in (NULL;'';'-') and
 Extract_token(Strings,5,'|') <> 'ANONYMOUS LOGON'
 ```
 
-![](../../../.gitbook/assets/image%20%28394%29.png)
+![](../../../.gitbook/assets/image%20%28420%29.png)
 
 ```text
 # EventID 4625
@@ -337,7 +337,7 @@ Order by
 SourceIP DESC
 ```
 
-![](../../../.gitbook/assets/image%20%28371%29.png)
+![](../../../.gitbook/assets/image%20%28377%29.png)
 
 #### 11、筛选登录失败最多的IP，主机名
 
@@ -381,9 +381,9 @@ FailReason into D:\all.csv
 from D:\Security.evtx where eventid=4625"
 ```
 
-![](../../../.gitbook/assets/image%20%28395%29.png)
+![](../../../.gitbook/assets/image%20%28421%29.png)
 
-![](../../../.gitbook/assets/image%20%28388%29.png)
+![](../../../.gitbook/assets/image%20%28406%29.png)
 
 ![](../../../.gitbook/assets/image%20%28389%29.png)
 
@@ -395,7 +395,7 @@ from D:\Security.evtx where eventid=4625"
 logparser -i:FS "select path,hashmd5_file(path) from d:\22.csv"
 ```
 
-![](../../../.gitbook/assets/image%20%28380%29.png)
+![](../../../.gitbook/assets/image%20%28397%29.png)
 
 ## 2、wevtutil
 
@@ -527,7 +527,7 @@ SystemTime,WorkstationName,IpAddress,TargetDomainName,TargetUserName,EventID,Log
 powershell -exec bypass ./getLog.ps1 -f 'd:\Security-2008.evtx'
 ```
 
-![](../../../.gitbook/assets/image%20%28385%29.png)
+![](../../../.gitbook/assets/image%20%28403%29.png)
 
 然后就可以使用excel分析了
 

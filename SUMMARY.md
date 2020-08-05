@@ -23,6 +23,7 @@
   * [BACKDOOR](cao-zuo-xi-tong/windows/backdoor.md)
   * [磁盘取证实验](cao-zuo-xi-tong/windows/quzheng-cipan.md)
   * [基线检查](cao-zuo-xi-tong/windows/jixian.md)
+  * [payload下载方式](cao-zuo-xi-tong/windows/download-payload.md)
   * [日志分析](cao-zuo-xi-tong/windows/rizhi/README.md)
     * [分析工具](cao-zuo-xi-tong/windows/rizhi/fenxi-tools.md)
   * [Untitled](cao-zuo-xi-tong/windows/untitled.md)
