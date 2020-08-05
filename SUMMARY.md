@@ -23,6 +23,7 @@
   * [BACKDOOR with 权限维持](os/win/back-root.md)
   * [磁盘取证实验](os/win/quzheng-cipan.md)
   * [基线检查](os/win/jixian.md)
+  * [免杀抓取明文](os/win/bypass-to-hash.md)
   * [payload下载方式](os/win/download-payload.md)
   * [日志分析](os/win/rizhi/README.md)
     * [分析工具](os/win/rizhi/fenxi-tools.md)
