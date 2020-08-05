@@ -125,9 +125,9 @@ HKLM\SYSTEM\ControlSet002\Control\Session Manager\BootExecute
 
 案例：
 
-[https://attack.mitre.org/software/S0397/](https://attack.mitre.org/software/S0397/) 
-
 将值修改为：autocheck autoche \*
+
+[https://attack.mitre.org/software/S0397/](https://attack.mitre.org/software/S0397/) 
 
 #### 3、Startup folder
 
