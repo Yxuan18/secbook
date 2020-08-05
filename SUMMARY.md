@@ -13,20 +13,20 @@
 
 * [markdown](about/md.md)
 
-## 操作系统
+## 操作系统 <a id="os"></a>
 
-* [Android](cao-zuo-xi-tong/anzhuo.md)
-* [IOS](cao-zuo-xi-tong/ios.md)
-* [Linux](cao-zuo-xi-tong/linux/README.md)
-  * [基线检查](cao-zuo-xi-tong/linux/jixian.md)
-* [windows](cao-zuo-xi-tong/windows/README.md)
-  * [BACKDOOR with 权限维持](cao-zuo-xi-tong/windows/back-root.md)
-  * [磁盘取证实验](cao-zuo-xi-tong/windows/quzheng-cipan.md)
-  * [基线检查](cao-zuo-xi-tong/windows/jixian.md)
-  * [payload下载方式](cao-zuo-xi-tong/windows/download-payload.md)
-  * [日志分析](cao-zuo-xi-tong/windows/rizhi/README.md)
-    * [分析工具](cao-zuo-xi-tong/windows/rizhi/fenxi-tools.md)
-  * [Untitled](cao-zuo-xi-tong/windows/untitled.md)
+* [Android](os/android.md)
+* [IOS](os/ios.md)
+* [Linux](os/linux/README.md)
+  * [基线检查](os/linux/jixian.md)
+* [windows](os/win/README.md)
+  * [BACKDOOR with 权限维持](os/win/back-root.md)
+  * [磁盘取证实验](os/win/quzheng-cipan.md)
+  * [基线检查](os/win/jixian.md)
+  * [payload下载方式](os/win/download-payload.md)
+  * [日志分析](os/win/rizhi/README.md)
+    * [分析工具](os/win/rizhi/fenxi-tools.md)
+  * [Untitled](os/win/untitled.md)
 
 ## 数据库 <a id="database"></a>
 
