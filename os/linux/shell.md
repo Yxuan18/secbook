@@ -109,7 +109,7 @@ EOF
 echo "hello bash"
 ```
 
-![&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28473%29.png)
+![&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28478%29.png)
 
 其中：
 
@@ -153,7 +153,7 @@ yang
 ## 事后记得改回来
 ```
 
-![&#x6267;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28482%29.png)
+![&#x6267;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28486%29.png)
 
 ## 4、shell特性
 
@@ -163,7 +163,7 @@ yang
 
 ### 2、Linux支持的shell
 
-![](../../.gitbook/assets/image%20%28476%29.png)
+![](../../.gitbook/assets/image%20%28479%29.png)
 
 查看对shell有影响的文件：
 
@@ -202,18 +202,189 @@ su XXX    #nologin shell,对应文件如下：
 
 ### 3、GNU/bash shell 特点
 
-1、命令和文件自动补齐：作用，可提高效率  
-2、命令历史记忆功能：上下键及
+#### 1、命令和文件自动补齐：作用，可提高效率
 
-![!number](../../.gitbook/assets/image%20%28481%29.png)
+#### 2、命令历史记忆功能
 
-![!string&#xFF1A;&#x663E;&#x793A;&#x4F7F;&#x7528;&#x8FC7;&#x5E26;l&#x7684;&#x547D;&#x4EE4;](../../.gitbook/assets/image%20%28479%29.png)
+1、上下键
 
-![!$&#xFF1A;&#x663E;&#x793A;&#x4E0A;&#x6761;&#x547D;&#x4EE4;&#x7684;&#x6700;&#x540E;&#x53C2;&#x6570;](../../.gitbook/assets/image%20%28477%29.png)
+![!number](../../.gitbook/assets/image%20%28485%29.png)
 
-![!!&#xFF1A;&#x4E0A;&#x4E00;&#x6761;&#x547D;&#x4EE4;](../../.gitbook/assets/image%20%28478%29.png)
+![!string&#xFF1A;&#x663E;&#x793A;&#x4F7F;&#x7528;&#x8FC7;&#x5E26;l&#x7684;&#x547D;&#x4EE4;](../../.gitbook/assets/image%20%28483%29.png)
+
+![!$&#xFF1A;&#x663E;&#x793A;&#x4E0A;&#x6761;&#x547D;&#x4EE4;&#x7684;&#x6700;&#x540E;&#x53C2;&#x6570;](../../.gitbook/assets/image%20%28480%29.png)
+
+![!!&#xFF1A;&#x4E0A;&#x4E00;&#x6761;&#x547D;&#x4EE4;](../../.gitbook/assets/image%20%28482%29.png)
+
+#### 3、别名功能
+
+```text
+alias
+unalias cp
+~username/.bashrc
+\cp -rf /etc/hosts
+```
+
+#### 4、快捷键
+
+```text
+ctrl+R    #调出之前的命令
+ctrl+D    #退出logon
+ctrl+A    #将光标移动到命令最左面
+ctrl+E    #将光标移动到命令最右面
+ctrl+K    #删除光标后面的命令
+ctrl+U    #删除光标前面的命令
+ctrl+S    #将屏幕锁住
+ctrl+Q    #取消锁屏
+ctrl+Y    #粘贴消除掉的字符
+```
+
+![ctrl+R](../../.gitbook/assets/image%20%28481%29.png)
+
+#### 5、前后台控制作业
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">&#x7B26;&#x53F7;</th>
+      <th style="text-align:left">&#x7528;&#x6CD5;</th>
+      <th style="text-align:left">&#x8BE6;&#x60C5;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">&amp;</td>
+      <td style="text-align:left">sleep 10 &amp;</td>
+      <td style="text-align:left">&#x4F7F;&#x5F97;&#x8FDB;&#x7A0B;&#x5728;&#x540E;&#x53F0;&#x8FD0;&#x884C;&#xFF0C;&#x5373;&#x4F7F;&#x9000;&#x51FA;&#x7EC8;&#x7AEF;&#xFF0C;&#x4F9D;&#x7136;&#x8FD0;&#x884C;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">nohup</td>
+      <td style="text-align:left">nohup sleep 10 &amp;</td>
+      <td style="text-align:left">&#x4F7F;&#x5F97;&#x8FDB;&#x7A0B;&#x5728;&#x540E;&#x53F0;&#x8FD0;&#x884C;&#xFF0C;&#x5373;&#x4F7F;&#x9000;&#x51FA;&#x7EC8;&#x7AEF;&#xFF0C;&#x4F9D;&#x7136;&#x8FD0;&#x884C;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">screen</td>
+      <td style="text-align:left">screen -s</td>
+      <td style="text-align:left">&#x547D;&#x540D;&#x4F1A;&#x8BDD;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Ctrl+C</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x6740;&#x6389;&#x524D;&#x53F0;&#x8FDB;&#x7A0B;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Ctrl+Z</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x6740;&#x6389;&#x540E;&#x53F0;&#x8FDB;&#x7A0B;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">jobs</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x67E5;&#x770B;&#x540E;&#x53F0;&#x8FDB;&#x7A0B;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">bg</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x8BA9;&#x8FDB;&#x7A0B;&#x5728;&#x540E;&#x53F0;&#x5DE5;&#x4F5C;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">fg</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">&#x8BA9;&#x8FDB;&#x7A0B;&#x5728;&#x524D;&#x53F0;&#x5DE5;&#x4F5C;&#xFF0C;&#x53EF;&#x4E0E;
+        Ctrl+Z &#x4E00;&#x8D77;&#x7528;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">kill %3
+        <br />kill 3</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">
+        <p>&#xFF08;&#x5F53;&#x524D;&#x4F1A;&#x8BDD;&#x4E2D;&#x4F5C;&#x4E1A;&#x53F7;&#x4E3A;3&#xFF09;</p>
+        <p>&#xFF08;&#x7ED9;PID&#x4E3A;3&#x7684;&#x8FDB;&#x7A0B;&#x53D1;&#x4FE1;&#x53F7;&#xFF09;</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 
+
+#### 6、输入输出重定向
+
+```text
+0,1,2 > >> 2> 2>> 2>&1 &>
+
+/*
+0：标准输入，描述符的名称，对应的是键盘
+1：键盘
+2：屏幕
+>：输出重定向
+>>：输出重定向，与上区别在于两者覆盖度的问题
+2>：错误输出
+2>>：追加
+2>&1：描述符2的内容重定向到描述符1
+&>：混合输出
+*/
+
+cat < /etc/hosts
+
+/*
+将文件/etc/hosts作为参数定向到了cat中
+
+简单的copy命令：
+cat </etc/hosts >/etc/hosts1
+# 将hosts内容复制到hosts1中
+
+*/
+
+cat <<EOF
+
+/*
+将手动输入的内容传给命令去执行
+*/
+
+cat >file1 <<EOF
+
+/*
+将输入传递到文件中,适合传递多行到文件
+*/
+```
+
+![cat &amp;lt; /etc/hosts](../../.gitbook/assets/image%20%28487%29.png)
+
+![EOF](../../.gitbook/assets/image%20%28473%29.png)
+
+#### 7、管道
+
+管道的作用：将一个命令的输出当做下一段的输入
+
+```text
+ip addr | grep 'inet' | grep eth0
+
+## tee管道：可将输出覆盖到文件中，-a可以增加
+ip addr | grep 'inet' |tee test | grep eth0  覆盖
+ip addr | grep 'inet' |tee -a test | grep eth0 追加
+```
+
+![tee&#x7BA1;&#x9053;&#x793A;&#x4F8B;](../../.gitbook/assets/image%20%28476%29.png)
+
+```text
+## '/$':分区
+df | grep '/$'
+df | tee df.txt | grep '/$'
+
+grub-md5-crypt
+grub-md5-crypt >> /etc/grub.conf
+grub-md5-crypt |tee -a /etc/grub.conf
+```
+
+#### 8、命令排序
+
+;  不具备逻辑
+
+![&#x56DE;&#x5230;&#x5BB6;&#x76EE;&#x5F55;&#x5E76;&#x5F39;&#x51FA;&#x5149;&#x9A71;](../../.gitbook/assets/image%20%28477%29.png)
+
+
+
+#### 9、10、11、12、13、14、15、16、17、18、
 
 ### 4、5、6、7、8、9、10、
 
