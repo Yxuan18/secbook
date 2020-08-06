@@ -11,6 +11,7 @@
 
 ## About
 
+* [浏览器](about/browser.md)
 * [markdown](about/md.md)
 
 ## 操作系统 <a id="os"></a>
@@ -20,6 +21,7 @@
 * [Linux](os/linux/README.md)
   * [反弹shell](os/linux/reverse-shell.md)
   * [基线检查](os/linux/jixian.md)
+  * [SHELL编程](os/linux/shell.md)
 * [windows](os/win/README.md)
   * [BACKDOOR with 权限维持](os/win/back-root.md)
   * [磁盘取证实验](os/win/quzheng-cipan.md)
