@@ -280,7 +280,7 @@ stty rows 42 columns 162
 
 最后推荐一个收集反弹 shell 的网站： https://krober.biz/misc/reverse\_shell.php?ip=127.0.0.1&port=8888 ，里面常见的反弹 shell 都可以看到
 
-
+## 6、附录
 
 
 
