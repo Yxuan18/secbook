@@ -153,11 +153,173 @@ yang
 ## 事后记得改回来
 ```
 
-![&#x6267;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28477%29.png)
+![&#x6267;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28482%29.png)
 
 ## 4、shell特性
 
-1、2、3、4、5、6、7、8、9、10、
+### 1、shell是什么
 
-## 5、6、7、8、9、10、11、12、13、14、15、16、17、18、19、20、21、22、23、24、25、26、27、28、29、30、
+命令解释器，能在shell下运行的命令就是shell命令
+
+### 2、Linux支持的shell
+
+![](../../.gitbook/assets/image%20%28476%29.png)
+
+查看对shell有影响的文件：
+
+```text
+login shell    #需要登录的shell
+nologin shell    #不登录的shell
+```
+
+su命令的区别：
+
+```text
+su - XXX    #login shell,对应文件如下：
+
+/etc/profile 
+/etc/bashrc    
+~/.bash_profile
+~/.bashrc
+
+su XXX    #nologin shell,对应文件如下：
+
+~/.bash_logout
+~/.bash_history
+
+## 与shell有关的文件
+
+#系统级
+/etc/profile    #登录时执行
+/etc/bashrc    
+
+# 用户级
+~/.bash_profile
+~/.bashrc
+~/.bash_logout    #在离开shell的时候执行
+~/.bash_history    
+```
+
+### 3、GNU/bash shell 特点
+
+1、命令和文件自动补齐：作用，可提高效率  
+2、命令历史记忆功能：上下键及
+
+![!number](../../.gitbook/assets/image%20%28481%29.png)
+
+![!string&#xFF1A;&#x663E;&#x793A;&#x4F7F;&#x7528;&#x8FC7;&#x5E26;l&#x7684;&#x547D;&#x4EE4;](../../.gitbook/assets/image%20%28479%29.png)
+
+![!$&#xFF1A;&#x663E;&#x793A;&#x4E0A;&#x6761;&#x547D;&#x4EE4;&#x7684;&#x6700;&#x540E;&#x53C2;&#x6570;](../../.gitbook/assets/image%20%28477%29.png)
+
+![!!&#xFF1A;&#x4E0A;&#x4E00;&#x6761;&#x547D;&#x4EE4;](../../.gitbook/assets/image%20%28478%29.png)
+
+
+
+### 4、5、6、7、8、9、10、
+
+## 5、
+
+
+
+## 6、
+
+
+
+## 7、
+
+
+
+## 8、
+
+
+
+## 9、
+
+
+
+## 10、
+
+
+
+## 11、
+
+
+
+## 12、
+
+
+
+## 13、
+
+
+
+## 14、
+
+
+
+## 15、
+
+
+
+## 16、
+
+
+
+## 17、
+
+
+
+## 18、
+
+
+
+## 19、
+
+
+
+## 20、
+
+
+
+## 21、
+
+
+
+## 22、
+
+
+
+## 23、
+
+
+
+## 24、
+
+
+
+## 25、
+
+
+
+## 26、
+
+
+
+## 27、
+
+
+
+## 28、
+
+
+
+## 29、
+
+
+
+## 30、
+
+
+
+
 
