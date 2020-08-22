@@ -16,7 +16,7 @@ powershell优势：
 
 查看powershell版本：
 
-![](../../.gitbook/assets/image%20%28491%29.png)
+![](../../.gitbook/assets/image%20%28492%29.png)
 
 win7下载powershell页面：  
 https://www.microsoft.com/en-us/download/confirmation.aspx?id=54616
@@ -30,11 +30,11 @@ PowerShell包含两个应用程序组件：基于文本的标准控制台（Powe
 1. 附件→powershell
 2. 开始菜单：搜索powershell
 
-![&#x5BFB;&#x627E;powershell](../../.gitbook/assets/image%20%28495%29.png)
+![&#x5BFB;&#x627E;powershell](../../.gitbook/assets/image%20%28496%29.png)
 
 powershell的两种界面：
 
-![&#x5DE6;&#xFF1A;powershell&#xFF0C;&#x53F3;&#xFF1A;ISE](../../.gitbook/assets/image%20%28502%29.png)
+![&#x5DE6;&#xFF1A;powershell&#xFF0C;&#x53F3;&#xFF1A;ISE](../../.gitbook/assets/image%20%28503%29.png)
 
 ISE优缺点如下：
 
@@ -44,25 +44,25 @@ ISE优缺点如下：
 | 在后续章节可以看到ISE能在你创建PowerShell命令和脚本时提供更多的帮助  | 启动和运行需要较长时间，但是这通常只是几秒的差异 |
 | ISE使用标准的复制、粘贴按键 | 在PowerShell 5.0之前版本的ISE不支持转录 |
 
-![&#x7684;3&#x4E2A;&#x4E3B;&#x8981;&#x533A;&#x57DF;&#x53CA;&#x63A7;&#x5236;&#x5B83;&#x4EEC;&#x7684;&#x5DE5;&#x5177;&#x680F;](../../.gitbook/assets/image%20%28489%29.png)
+![&#x7684;3&#x4E2A;&#x4E3B;&#x8981;&#x533A;&#x57DF;&#x53CA;&#x63A7;&#x5236;&#x5B83;&#x4EEC;&#x7684;&#x5DE5;&#x5177;&#x680F;](../../.gitbook/assets/image%20%28490%29.png)
 
 关于命令行补全：
 
 输入“Get-S ”，然后按几下Tab键，再按Shift+Tab组合键。PowerShell会循环地显示以Get-S开头的所有命令。然后不停按Shift+Tab组合键，直到出现你期望的命令为止。 
 
-![](../../.gitbook/assets/image%20%28492%29.png)
+![](../../.gitbook/assets/image%20%28493%29.png)
 
 输入“Dir ”，按空格键，然后输入“C: ”，再按Tab键，PowerShell会从当前文件夹开始循环遍历所有可用的文件和文件夹名。 
 
-![](../../.gitbook/assets/image%20%28499%29.png)
+![](../../.gitbook/assets/image%20%28500%29.png)
 
 输入“Set-Execu ”，按Tab键，然后输入一个空格和横杠（- ），再开始按Tab键，可以看到PowerShell循环显示当前命令的所有可用参数。另外，也可以输入参数名的一部分，例如-E ，然后按Tab键，开始循环匹配的参数名。按Esc键可以清空命令行。 
 
-![](../../.gitbook/assets/image%20%28493%29.png)
+![](../../.gitbook/assets/image%20%28494%29.png)
 
 再次输入“Set-Execu ”，按Tab键，再按空格键，然后输入“-E ”，再次按Tab键，然后按一次空格键，再按Tab键。PowerShell会循环显示关于这些参数的合法值。这个功能仅对那些已经预设了可用值（称为枚举）的参数有效。按Esc键同样可以清空命令行。
 
-![](../../.gitbook/assets/image%20%28496%29.png)
+![](../../.gitbook/assets/image%20%28497%29.png)
 
 常见误区：
 
@@ -76,7 +76,7 @@ ISE优缺点如下：
 $PSVersionTable
 ```
 
-![](../../.gitbook/assets/image%20%28491%29.png)
+![](../../.gitbook/assets/image%20%28492%29.png)
 
 ## 3、使用帮助系统
 
@@ -90,7 +90,7 @@ $PSVersionTable
 help GET-SERVICE
 ```
 
-![&#x67E5;&#x770B;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x7684;&#x5E2E;&#x52A9;](../../.gitbook/assets/image%20%28497%29.png)
+![&#x67E5;&#x770B;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x7684;&#x5E2E;&#x52A9;](../../.gitbook/assets/image%20%28498%29.png)
 
 更新帮助文档：
 
@@ -102,7 +102,7 @@ update-help    #更新PowerShell的帮助文档,建议每个月更新一次
 
 先找到一台可以上网的机器，并使用Save-Help 命令把帮助文档下载一份到本地。然后把它放到一个文件服务器或者其他你可以访问的网络中。接着通过在Update-Help 加上-SourcePath 参数指向刚刚下载的那份帮助文档的地址
 
-![](../../.gitbook/assets/image%20%28501%29.png)
+![](../../.gitbook/assets/image%20%28502%29.png)
 
 使用帮助系统查找命令：
 
@@ -110,11 +110,13 @@ update-help    #更新PowerShell的帮助文档,建议每个月更新一次
 help *命令*
 ```
 
+![](../../.gitbook/assets/image%20%28489%29.png)
+
+也可以通过命令补全的方式查找命令，这种方式比较快捷，如图：
+
 ![](../../.gitbook/assets/image%20%28488%29.png)
 
-
-
-
+345
 
 ## 4、运行命令
 
