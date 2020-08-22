@@ -28,6 +28,7 @@
   * [基线检查](os/win/jixian.md)
   * [免杀抓取明文](os/win/bypass-to-hash.md)
   * [payload下载方式](os/win/download-payload.md)
+  * [powershell](os/win/powershell.md)
   * [日志分析](os/win/rizhi/README.md)
     * [分析工具](os/win/rizhi/fenxi-tools.md)
   * [Untitled](os/win/untitled.md)
