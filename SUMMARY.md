@@ -49,6 +49,7 @@
   * [日志审计](middleware/apache/rizhi.md)
 * [iis](middleware/iis/README.md)
   * [基线检查](middleware/iis/jixian.md)
+  * [7.5解析绕过漏洞](middleware/iis/75jiexi.md)
 * [nginx](middleware/nginx/README.md)
   * [基线检查](middleware/nginx/jixian.md)
 * [tomcat](middleware/tomcat/README.md)
