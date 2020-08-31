@@ -58,7 +58,8 @@
 
 * [C](bian-cheng/c.md)
 * [Java](bian-cheng/java.md)
-* [PHP](bian-cheng/php.md)
+* [PHP](bian-cheng/php/README.md)
+  * [代码审计](bian-cheng/php/shenji.md)
 * [python](bian-cheng/python.md)
 * [汇编](bian-cheng/huibian.md)
 
