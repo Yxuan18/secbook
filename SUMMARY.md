@@ -93,7 +93,7 @@
   * [网络特征](how/sqlmap/tezheng.md)
 * [NESSUS](how/nessus/README.md)
   * [流量分析特征](how/nessus/tezheng.md)
-* [waf](1/waf/README.md)
-  * [ngx-lua-waf]()
-  * [modsecurity](1/waf/ruite.md)
+* [waf](how/waf/README.md)
+  * [ngx-lua-waf](how/waf/ngx.md)
+  * [modsecurity](how/waf/mod.md)
 
