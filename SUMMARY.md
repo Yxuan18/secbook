@@ -8,9 +8,6 @@
 
 * [常见端口利用](1/chang-jian-duan-kou-li-yong.md)
 * [F5 big-ip从环境搭建到漏洞复现](1/f5-big-ip.md)
-* [waf](1/waf/README.md)
-  * [ngx-lua-waf](1/waf/ngx.md)
-  * [modsecurity](1/waf/mod.md)
 
 ## About <a id="ab"></a>
 
@@ -77,6 +74,12 @@
 
 ## how-to-use <a id="how"></a>
 
+* [Acunetix\(AWVS\)](how/acunetix-awvs/README.md)
+  * [安装到使用](how/acunetix-awvs/anzhuangshiyong.md)
+  * [简单分析-web方面](how/acunetix-awvs/fen-xi.md)
+  * [流量分析特征](how/acunetix-awvs/liu-liang-fen-xi-te-zheng.md)
+* [burpsuite](how/burpsuite/README.md)
+  * [FAKE-IP](how/burpsuite/fakeip.md)
 * [sheji](how/sheji.md)
 * [sqlmap](how/sqlmap/README.md)
   * [Atlas修改SQLMap tampers 绕过WAF/IDS/IPS](how/sqlmap/atlas.md)
@@ -88,12 +91,9 @@
   * [sqlmapapi](how/sqlmap/sqlmapapi.md)
   * [with burp](how/sqlmap/with-burp.md)
   * [网络特征](how/sqlmap/tezheng.md)
-* [burpsuite](how/burpsuite/README.md)
-  * [FAKE-IP](how/burpsuite/fakeip.md)
 * [NESSUS](how/nessus/README.md)
   * [流量分析特征](how/nessus/tezheng.md)
-* [Acunetix\(AWVS\)](how/acunetix-awvs/README.md)
-  * [安装到使用](how/acunetix-awvs/anzhuangshiyong.md)
-  * [简单分析-web方面](how/acunetix-awvs/fen-xi.md)
-  * [流量分析特征](how/acunetix-awvs/liu-liang-fen-xi-te-zheng.md)
+* [waf](1/waf/README.md)
+  * [ngx-lua-waf](how/waf/ngx.md)
+  * [modsecurity](how/waf/mod.md)
 
