@@ -1,6 +1,6 @@
 # 相关框架简介
 
-已知PHP框架有：ThinkPHP与Larvel，其中，有漏洞的有：
+已知PHP框架有：ThinkPHP与Larvel，简介如下：
 
 ## THINKPHP 
 
