@@ -6,8 +6,12 @@
 
 **更新记录**：
 
+【2020年9月21日】  
+1、新增python中的某教程涉及脚本（待完善）  
+2、新建python with Excel的分类（待完善）
+
 【2020年9月18日】  
-1、新增了waf中modsecurity的内容  
+1、新增了waf中modsecurity的内容（待完善）  
 2、优化了排版
 
 
