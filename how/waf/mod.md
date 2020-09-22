@@ -102,7 +102,7 @@ d=index&e=p
 
 ## 四、其他
 
-如何快速写出一条规则：
+### 如何快速写出一条规则：
 
 写比较简单的规则，就像做填空题一样，在合适的地方将空用合适的语句填起来就可以了。下面的例子中，我会将关键部位指示出来，方便更多的人参考
 
@@ -114,4 +114,79 @@ SecRule 要看的参数 "@rx (?i:(参数对应值))" "capture,setvar:'tx.msg=%{r
 ```
 
  文档结束，后期继续优化
+
+### 相关漏洞拦截
+
+#### XSS
+
+```text
+
+"@rx (?i)(?:[\s\S](?:(?:allowscriptaccess|data:text\/html|formaction)[\s\S]|x(?:(?:link:href|mlns)[\s\S]|html[\s\S] )|(?:@import|base64|href)[\s\S] )|<(?:(?:s(?:cript|tyle)|isindex|object|form)[^>]*?>[\s\S]*?|(?:applet|meta)[^>]*?>[\s\S]*? )|(?:=|U\s*?R\s*?L\s*?\()\s*?[^>]*?\s*?S\s*?C\s*?R\s*?I\s*?P\s*?T\s*?:|[\s\v\"'`;\/0-9\=]+on\w+\s*?=)"
+
+DOM：
+"@rx ([\^\[\]\!\;\:\@\'\$\"~\`\>\<]{4,}(document\.(title|write|cookie)|window\.|location\.|innerHTML|confirm|javascript|prompt))"
+```
+
+#### SQLi
+
+```text
+"@rx (?i:(\'|\"|,|;).*\b(select|union|and|or|update|insert)\b.*(\(|\-\-|#|\/\*\*))"
+
+宽字节：
+"@rx (ß|運|錦|誠|縗)(\'|\"|\\\\)"
+"@rx (ß|锦|運|錦|誠|縗)(\'|\"|\\\\)"
+"@pm %e5%5c%27 %df%27 %df%5c %e9%8c%a6 %e5%27 %E9%94%A6%27 %b5%27"
+
+注入绕过：
+"@rx (?i:(\bcase\b.*?\bwhen\b.*?\bthen\b|[\"'`´’‘#)][\x01-\x20\x25\xa0]*--|\bselect\b.*?\bfrom\b\s*\S|('\x20\|\||\x2F\*\*\x2Fand\x2F\*\*\x2F))|(\bx?or\b|\|\|)[\x01-\x20\x25\xa0\+\@`\(\'\"]+[^<>=\s]+.{0,50}(([<>=]|!=))|(\band\b|\&\&)[\x01-\x20\x25\xa0\+\@`\(\'\"]+[^<>=\s]+.{0,50}(([<>=]|!=))|(\b(insert|replace)\b[\x01-\x20\x25\xa0]+\binto\b\s*\S)|(\bupdate\b.*?\bset\b.*?=)|(union\b.*?\bselect\b)|(\/\*\!\d+(select\b|union\b|insert\b|update\b)\*\/)|(\bwaitfor\b.*?\bdelay\b)|(\band\b.*?\bsleep\b)|(\+char\()|(\b(and|union|or|xor|select|update|insert|delete)\b.*?\()|\b(if|rlike)\b.+?\belse\b|\bif\s*?\(.+?,.+?,.+?\)|(union\b.*?\bselect\b)|(\/\*\!\d+(select\b|union\b|insert\b|update\b)\*\/))"
+"@rx (?i:(\bcase\b.*?\bwhen\b.*?\bthen\b|[\"'`´’‘#)][\x01-\x20\x25\xa0]*--|\bselect\b.*?\bfrom\b\s*\S|('\x20\|\||\x2F\*\*\x2Fand\x2F\*\*\x2F))|(\bx?or\b|\|\|)[\x01-\x20\x25\xa0\+\@`\(\'\"]+[^<>=\s]+.{0,50}(([<>=]|!=))|(\band\b|\&\&)[\x01-\x20\x25\xa0\+\@`\(\'\"]+[^<>=\s]+.{0,50}(([<>=]|!=))|(\b(insert|replace)\b[\x01-\x20\x25\xa0]+\binto\b\s*\S)|(\bupdate\b.*?\bset\b.*?=)|(union\b.*?\bselect\b)|(\/\*\!\d+(select\b|union\b|insert\b|update\b)\*\/)|(\bwaitfor\b.*?\bdelay\b)|(\band\b.*?\bsleep\b)|(\+char\()|\b0x[0-9a-fA-Z]{10,10}|(\b(and|union|or|xor|select|update|insert|delete)\b.*?\()|\b(if|rlike)\b.+?\belse\b|\bif\s*?\(.+?,.+?,.+?\)|(union\b.*?\bselect\b)|(\/\*\!\d+(select\b|union\b|insert\b|update\b)\*\/))"
+
+万能密码：
+"@rx (?i:(\'|\").*?\b(or|xor|=|and|\|\-\-)\b)"
+"(?i:(\'|\").*?\b(or|xor)\b|(\bx?or\b|\|\|)[\x01-\x20\x25\xa0\+\@`\(\'\"]+[^<>=\s]+.*(([<>=]|!=)))|(\band\b|\&\&)[\x01-\x20\x25\xa0\+\@`\(\'\"]+[^<>=\s]+.*(([<>=]|!=))"
+```
+
+#### XXE
+
+```text
+"@rx (?i:<\!(?:entity|doctype)\b.*?(system|public)\b)"
+
+JSON绕过：
+"@rx (?i:([\s\"'`;\/\=]+on\w+\s*=(.*?))(fromcharcode|alert|eval|confirm|expression|prompt)(.*?)(\(|\`)|(<script[^>]*>[\s\S]*?<\/script[^>]*>|<script[^>]*>[\s\S]*?<\/script[[\s\S]]*[\s\S]|<script[^>]*>[\s\S]*?<\/script[\s]*[\s]|<script[^>]*>[\s\S]*?<\/script|<script[^>]*>[\s\S]*?)|(\b(fromcharcode|alert|confirm|expression|prompt)\b|[\'|\"|^|\s|\.|;|,|<|>|=|:](eval))(.*?)(\(|`))"
+```
+
+#### SSRF
+
+```text
+"@rx ((file|dict|gopher|phar)\:\/\/.*)|(http:\/\/[0-9]{10})|([0-9]{2,4}\.[0-9]{1,4}\.[0-9]{1,4}\.[0-9]{1,4}\:[0-9]{2,4})"
+```
+
+#### 命令执行
+
+```text
+json绕过
+"@rx (?i:\b(?:(?:n(?:et(?:\b\W+?\blocalgroup|\b\W+?\buser|\b\W+?\badd|\.exe)|(?:map|c)\.exe)|t(?:racer(?:oute|t)\W+\w|elnet\.exe)|(?:w(?:guest|sh)|rcmd)\.exe)\b|c(?:md(?:(?:\.exe|32)?\b\W*?\/c)\b|hmod.{0,40}?\+.{0,3}x))|[`;|&\)]\W*?\b(?:(?:c(?:h(?:grp|mod|own|sh))|p(?:asswd|ython|erl|ing|s)|n(?:asm|map|c)|f(?:inger|tp)|kill|(?:xte)?rm|lsof|telnet|uname|echo)\b(?!(=|:))|id\b(?!(=|:))|g(?:\+\+|cc\b)))|(?i:(\b(echo|cat|\/bin\/bash|wget|curl)\b.*?(\||>)))|(?i:[&+|;]\(?\b(ipconfig|systeminfo|shutdown|taskkill|whoami|ifconfig|netstat|reboot|net user|bash|poweroff|shutdown|etc)\b\)?(?!=))|eval\W{1,5}base64_decode|execute\W{1,5}execute|(\@eval\W{1,5}base64_decode|\@eval\W{1,5}str_rot13|\@eval\(chr\()"
+
+普通：
+"(?i:\b(?:(?:n(?:et(?:\b\W+?\blocalgroup|\b\W+?\buser|\b\W+?\badd|\.exe)|(?:map|c)\.exe)|t(?:racer(?:oute|t)\W+\w|elnet\.exe)|(?:w(?:guest|sh)|rcmd)\.exe)\b|c(?:md(?:(?:\.exe|32)?\b\W*?\/c)\b|hmod.{0,40}?\+.{0,3}x))|[`;|&\)]\W*?\b(?:(?:c(?:h(?:grp|mod|own|sh))|\bp(?:asswd|ython|erl|ing|s)\b|n(?:asm|map)|f(?:inger|tp)|kill|(?:xte)?rm|lsof|telnet|uname|echo)\b|\bg(?:\+\+|cc\b)))|(?i:(\b(echo|cat|\/bin\/bash|wget|curl)\b.*?(\||>)))|(?i:[&+|;]\(?\b(ipconfig|systeminfo|shutdown|taskkill|whoami|ifconfig|netstat|reboot|net user|bash|poweroff|shutdown|etc)\b\)?)|eval\W{1,5}base64_decode|execute\W{1,5}execute|(\@eval\W{1,5}base64_decode|\@eval\W{1,5}str_rot13|\@eval\(chr\()"
+
+```
+
+#### 路径遍历
+
+```text
+JSON绕过：
+"@rx \.{1,};{0,}[/\\\\]+\.{1,};{0,}[/\\\\]+"
+
+特殊字符绕过：
+"(?i:(%c0%2e|%c0%5c|%c0%2f)|(0x2e0x2e0x5c)|(0x2e0x2e)|(\.\.0x5c|\.\.2f|%uff0e%u2216|%uF025|%uEFC8|%u2216|%u2215|%uff0e|%c0%af|%25c0%25af|%25c0%25ae|%c1%9c|%25c1%259c|%%32%65|%c0%af))"
+```
+
+#### 搜索引擎爬虫防护
+
+```text
+"(?i:(\baltavista\b|\bask jeeves\b|\battentio\b|\bchtml generic\b|\bcrawler\b|\bfastmobilecrawl\b|\bfirefly\b|\bfroogle\b|\bgigabot\b|\bheritrix\b|\bhttrack\b|\bia_archiver\b|\birlbot\b|\biescholar\b|\binfoseek\b|\bjumpbot\b|\blinkcheck\b|\blycos\b|\bmediapartners\b|\bmediobot\b|\bmotionbot\b|\bmshots\b|\bopenbot\b|\bpss-webkit-request\b|\bpythumbnail\b|\bscooter\b|\bsnapbot\b|\btaptubot\b|\btechnoratisnoop\b|\bteoma\b|\btwiceler\b|\byahooseeker\b|\byahooysmcm\b|\byammybot\b|\bahrefsbot\b|\bpingdom.com_bot\b|\bkraken\b|\byandexbot\b|\btwitterbot\b|\btweetmemebot\b|\bopenhosebot\b|\bqueryseekerspider\b|\blinkdexbot\b|\bgrokkit-crawler\b|\blivelapbot\b|\bgermcrawler\b|\bdomaintunocrawler\b|\bgrapeshotcrawler\b|\bcloudflare-alwaysonline\b|\bNikto\b|\bParos proxy\b|\bWebScarab\b|\bWebInspect\b|\bWhisker/libwhisker\b|\bBurpsuite\b|\bWatchfire AppScan\b|\bWAScan\b|\bOWASP Zed ZAP\b|\bNessus\b|\bnmap\b|\bdirbuster\b|\bwwwscan\b|\bcansina\b|\bmetis\b|\bbilbo\b|\bn-stealth\b|\bblack widow\b|\bbrutus\b|\bcgichk\b|\bwebtrends security analyzer\b|\bjaascois\b|\bpmafind\b|\b.nasl\b|\bnsauditor\b|\bparos\b|\bwebinspect\b|\bblackwidow\b|\bnikto\b|\bsqlmap\b|\bRsas\b|\bAppScan\b|\bacunetix_wvs_security_test\b|\bnetsparker\b|\bYodaoBot\b|\bTwiceler\b|\bCollapsarWEB qihoobot\b|\bNaverBot\b|\bYanga WorldSearch Bot v\b|\bdiscobot\b|\bia_archiver\b))"
+```
+
+
 
