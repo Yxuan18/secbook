@@ -11,8 +11,10 @@
 
 ## About <a id="ab"></a>
 
+* [CISP题库](ab/cisptk.md)
 * [浏览器](ab/browser.md)
 * [markdown](ab/md.md)
+* [正则表达式](ab/zzbds.md)
 
 ## 操作系统 <a id="os"></a>
 
