@@ -19,7 +19,8 @@
 
 ## 操作系统 <a id="os"></a>
 
-* [Android](os/android.md)
+* [Android](os/android/README.md)
+  * [APK终端安全分析法](os/android/apkfx.md)
 * [IOS](os/ios.md)
 * [Linux](os/linux/README.md)
   * [反弹shell](os/linux/reverse-shell.md)
