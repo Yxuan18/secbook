@@ -14,6 +14,7 @@
 * [CISP题库](ab/cisptk.md)
 * [浏览器](ab/browser.md)
 * [markdown](ab/md.md)
+* [内网渗透TIPS](ab/nwtips.md)
 * [网络扫描](ab/wcan.md)
 * [正则表达式](ab/zzbds.md)
 
