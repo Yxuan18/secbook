@@ -1,6 +1,6 @@
 # markdown
 
-## 1、why we need it
+## 一、why we need it
 
 ### 1、起源
 
@@ -60,7 +60,7 @@ Markdown与Word对比：
 移动端：指其提供了移动（iOS/Android）App，且App支持Markdown写作。  
 免 费：指其能够免费下载和使用，内购是指某些高级功能需要购买后才能使用。
 
-## 2、how to use
+## 二、how to use
 
 ### 1、字体
 
@@ -477,4 +477,8 @@ Markdown会被渲染成HTML页面，在HTML页面中可以通过锚点实现跳�
 正确的写法：iPhone 7、macOS
 
 专有名词要使用正确的大小写，请参考它们的官方文档
+
+## 三、相关
+
+公众号排版可用：[md.aclickall.com/](http://md.aclickall.com/)
 
