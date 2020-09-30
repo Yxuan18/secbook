@@ -2,11 +2,24 @@
 
 ## 一、常见问题
 
-### 1、多版本切换
+### 1、JDK14没有JRE
+
+1、使用管理员权限打开CMD  
+2、进入JDK目录，并输入如下命令：
+
+```text
+bin\jlink.exe --module-path jmods --add-modules java.desktop --output jre
+```
+
+3、执行成功后，JDK目录下就会出现JRE文件夹
+
+![](../../.gitbook/assets/image%20%28526%29.png)
+
+### 2、JAVA多版本切换
 
 在使用环境的过程中，难免会遇到好多的问题，其中最显著的就是：有的工具不支持高版本JAVA，而有时候为了用一些好用的工具，只能委屈自己去使用旧版本的JAVA，那么在这，就讲一讲如何做到让多个版本的JAVA能够共存在一台电脑上
 
-#### **此处以JDK1.8与JAVA14为例**
+#### **此处以**[**JDK1.8**](https://www.java.com/zh-CN/download/)**与**[**JDK14**](https://www.oracle.com/java/technologies/javase-jdk14-downloads.html)**为例**
 
 已有JAVA环境：
 
