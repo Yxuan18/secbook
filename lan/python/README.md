@@ -66,7 +66,7 @@ trusted-host = https://pypi.tuna.tsinghua.edu.cn
 
 最后文件路径为：~/.pip/pip.conf 
 
-3、如何做到让python2与3共存在一个系统上 
+### 3、python2与3共存在一个系统上 
 
 Linux中默认版本是python2，python3也有，此处以Windows为例：
 
