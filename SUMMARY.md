@@ -70,9 +70,9 @@
   * [破解DVWA-admin密码](lan/php/dvwa.md)
   * [相关框架简介](lan/php/jianjie.md)
   * [相关框架漏洞](lan/php/loud.md)
-* [python](lan/python/README.md)
-  * [with-EXCEL](lan/python/excel.md)
-  * [某教程涉及脚本](lan/python/jiaob.md)
+* [python](lan/py/README.md)
+  * [with-EXCEL](lan/py/excel.md)
+  * [某教程涉及脚本](lan/py/jiaob.md)
 * [汇编](lan/huibian.md)
 
 ## 网络 <a id="net"></a>
