@@ -28,7 +28,7 @@ python2 get-pip.py
 
 以KALI为例，运行成功后，会出现两个pip，分别为pip2与pip3，对应的就是python2的pip与python3的pip
 
-![](../../.gitbook/assets/image%20%28520%29.png)
+![](../../.gitbook/assets/image%20%28522%29.png)
 
 ### 2、pip install 的时候报错，想要更换源怎么操作 
 
@@ -45,7 +45,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple
 
  之后，点击保存即可 
 
-![](../../.gitbook/assets/image%20%28522%29.png)
+![](../../.gitbook/assets/image%20%28524%29.png)
 
 最后效果为： C:\Users\XXX\pip\pip.ini 
 
@@ -72,15 +72,15 @@ Linux中默认版本是python2，python3也有，此处以Windows为例：
 
 1、在配置环境变量的时候，若是想使用python2，就可以直接将python2的变量排在python3之前，具体如下（反之同理）：
 
-![](../../.gitbook/assets/image%20%28523%29.png)
+![](../../.gitbook/assets/image%20%28525%29.png)
 
 此时尝试输入python，即可看到所对应的版本：
 
-![](../../.gitbook/assets/image%20%28521%29.png)
+![](../../.gitbook/assets/image%20%28523%29.png)
 
 2、如果也想使用python3，此时就可以通过`py -3`的方式来切换所使用的python版本
 
-![](../../.gitbook/assets/image%20%28519%29.png)
+![](../../.gitbook/assets/image%20%28521%29.png)
 
 
 
