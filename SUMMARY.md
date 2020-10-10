@@ -103,6 +103,8 @@
 * [NESSUS](how/nessus/README.md)
   * [流量分析特征](how/nessus/tezheng.md)
   * [Untitled](how/nessus/untitled.md)
+* [Network MapTools](how/nmap/README.md)
+  * [流量特征修改](how/nmap/xg.md)
 * [waf](how/waf/README.md)
   * [ngx-lua-waf](how/waf/ngx.md)
   * [modsecurity](how/waf/mod.md)
