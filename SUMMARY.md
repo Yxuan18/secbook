@@ -71,6 +71,8 @@
   * [相关框架简介](lan/php/jianjie.md)
   * [相关框架漏洞](lan/php/loud.md)
 * [python](lan/py/README.md)
+  * [安全编码规范](lan/py/secgf.md)
+  * [编码规范](lan/py/gf.md)
   * [fishc](lan/py/fishc.md)
   * [某教程涉及脚本](lan/py/jiaob.md)
   * [python秘籍](lan/py/miji.md)
