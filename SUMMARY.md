@@ -74,6 +74,7 @@
 * [python](lan/py/README.md)
   * [安全编码规范](lan/py/secgf.md)
   * [编码规范](lan/py/gf.md)
+  * [代码审计](lan/py/sj.md)
   * [fishc](lan/py/fishc.md)
   * [某教程涉及脚本](lan/py/jiaob.md)
   * [python秘籍](lan/py/miji.md)
