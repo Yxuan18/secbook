@@ -76,11 +76,42 @@ PermitRootLogin yes
 
 ② 限制可远程访问IP
 
+涉及配置文件为：`/etc/hosts.deny`与`/etc/hosts.allow`。
 
 
-下面解释各项：
+
+下面解释sshd\_config各项：
 
 ```text
+## 重要 ##
+
+#Port 22
+设置sshd监听端口号，默认情况下为22，可以设置多个监听端口号，即重复使用Prot这个设置项。修改后记得重启sshd，以及在防火墙中添加端口。出于安全考虑，端口指定为小于等于65535，并且非22或22变种的值
+
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+设置sshd监听（绑定）的IP地址，0.0.0.0表示监听所有IPv4的地址。出于安全考虑，设置为指定IP地址，而非所有地址。::是IPv6的地址不需要改
+
+#LoginGraceTime 2m 
+设置指定时间内没有成功登录，将会断开连接，若无单位则默认时间为秒
+
+#PermitRootLogin yes
+是否允许root登录，默认是允许的，但建议设置为no
+
+#PasswordAuthentication yes
+是否使用密码验证。当然也可以设置为no，不使用密码验证，转而使用密钥登录
+
+#PermitEmptyPasswords no
+是否允许空密码的用户登录，默认为no，不允许
+
+#PrintMotd yes
+是否打印登录提示信息，提示信息存储在/etc/moed文件中
+
+#PrintLastLog yes
+显示上次登录信息。默认为yes
+
+#UseDNS yes
+一般来说为了要判断客户端来源是否正常合法，因此会使用DNS去反查客户端的主机名。但通常在内网互连时，设置为no，使连接快写
 
 ```
 
