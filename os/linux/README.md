@@ -31,11 +31,74 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted
 1. 打开命令行，并`sudo su`切换至管理员权限
 2. 输入命令：`passwd root`，之后设置密码即可
 
-### 3、
+### 3、安装并开启SSH服务
+
+ 1、尝试开启服务，发现本地没有SSH服务端
+
+![](../../.gitbook/assets/image%20%28533%29.png)
+
+ 2、使用命令下载SSH服务端
+
+```text
+apt install openssh-server
+```
+
+3、安装成功后，查看SSH服务状态
+
+![](../../.gitbook/assets/image%20%28537%29.png)
+
+```text
+## 相关命令如下：
+
+service ssh status    #查看SSH状态
+service ssh start     #启动服务
+service ssh stop      #停止服务
+service ssh restart   #重启服务
+```
+
+### 4、SSH相关
+
+ 配置文件位于：`/etc/ssh/sshd_config`   ：
+
+① 设置允许SSH远程登录：
+
+![](../../.gitbook/assets/image%20%28538%29.png)
+
+新增内容为：
+
+```text
+PermitRootLogin yes
+```
+
+ 新增后，保存并退出，并重启SSH服务即可
+
+![&#x8FDE;&#x63A5;&#x6210;&#x529F;](../../.gitbook/assets/image%20%28534%29.png)
+
+② 限制可远程访问IP
 
 
 
-### 4、5、6、7、8、9、
+下面解释各项：
+
+```text
+
+```
+
+### 5、修改docker镜像源
+
+ 新建或打开`/etc/docker/daemon.json` ，在其中输入如下内容，保存并退出，且重启docker服务即可
+
+```text
+{
+  "registry-mirrors": ["https://y0qd3iq.mirror.aliyuncs.com"]
+}
+```
+
+![&#x6D41;&#x7A0B;](../../.gitbook/assets/image%20%28535%29.png)
+
+
+
+### 6、7、8、9、
 
 
 
