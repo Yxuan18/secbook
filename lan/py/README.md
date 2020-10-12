@@ -17,6 +17,11 @@
 
 终极解决方案：[get-pip.py](https://bootstrap.pypa.io/get-pip.py) 
 
+```text
+## 下载安装脚本
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+```
+
 在没有PIP库的时候，直接在本地环境上以对应python版本运行该脚本文件，即可获得PIP 
 
 详细用法为： 
