@@ -61,43 +61,127 @@ name = request.GET['name']
 return HttpResponse('hello %s' %(name))
 ```
 
-在代码中一搜，发现有大量地方使用，比较正确的使用方式如下：  
+在代码中一搜，发现有大量地方使用，比较正确的使用方式如下：
 
+```text
+def xss_test(request):
+    name = request.GET['name']
+    #return HttpResponse('hello %s' %(name))
+    return render_to_response('hello.html', {'name':name})
+```
 
 更好的就是对输入做限制，比如说一个正则范围，输出使用正确的api或者做好过滤。
 
 ## 3 CSRF <a id="3-CSRF"></a>
 
-对系统中一些重要的操作要做CSRF防护，比如登录，关机，扫描等。django 提供CSRF中间件`django.middleware.csrf.CsrfViewMiddleware`,写入到settings.py的中间件即可。  
+对系统中一些重要的操作要做CSRF防护，比如登录，关机，扫描等。django 提供CSRF中间件`django.middleware.csrf.CsrfViewMiddleware`,写入到settings.py的中间件即可。
 
+```text
+def my_view(request):
+    c = {}
+    c.update(csrf(request))
+    # ... view code here
+    return render_to_response("a_template.html", c)
+```
 
 ## 4 命令注入 <a id="4-&#x547D;&#x4EE4;&#x6CE8;&#x5165;"></a>
 
-审计代码过程中发现了一些编写代码的不好的习惯，体现最严重的就是在命令注入方面，本来python自身的一些函数库就能完成的功能，偏偏要调用os.system来通过shell 命令执行来完成，老实说最烦这种写代码的啦。下面举个简单的例子：  
+审计代码过程中发现了一些编写代码的不好的习惯，体现最严重的就是在命令注入方面，本来python自身的一些函数库就能完成的功能，偏偏要调用os.system来通过shell 命令执行来完成，老实说最烦这种写代码的啦。下面举个简单的例子：
 
+```text
+def myserve(request, filename, dirname):
+    re = serve(request=request,path=filename,document_root=dirname,show_indexes=True)
+    filestr='authExport.dat' 
+    re['Content-Disposition'] = 'attachment; filename="' + urlquote(filestr) +'"'fullname=os.path.join(dirname,filename)
+    os.system('sudo rm -f %s'%fullname)
+    return re
+```
 
 很显然这段代码是存在问题的，因为fullname是用户可控的。正确的做法是不使用os.system接口，改成python自有的库函数，这样就能避免命令注入。python的三种删除文件方式：  
 （1）shutil.rmtree 删除一个文件夹及所有文件  
 （2）os.rmdir 删除一个空目录  
 （3）os.remove，unlink 删除一个文件
 
-使用了上述接口之后还得注意不能穿越目录，不然整个系统都有可能被删除了。常见的存在命令执行风险的函数如下：  
+使用了上述接口之后还得注意不能穿越目录，不然整个系统都有可能被删除了。常见的存在命令执行风险的函数如下：
 
+```text
+os.system,os.popen,os.spaw*,os.exec*,os.open,os.popen*,commands.call,commands.getoutput,Popen*
+```
 
 推荐使用subprocess模块，同时确保shell=True未设置，否则也是存在注入风险的。
 
 ## 5 sql注入 <a id="5-sql&#x6CE8;&#x5165;"></a>
 
-如果是使用django的api去操作数据库就应该不会有sql注入了，但是因为一些其他原因使用了拼接sql，就会有sql注入风险。下面贴一个有注入风险的例子：  
+如果是使用django的api去操作数据库就应该不会有sql注入了，但是因为一些其他原因使用了拼接sql，就会有sql注入风险。下面贴一个有注入风险的例子：
 
+```text
+def getUsers(user_id=None):
+    conn = psycopg2.connect("dbname='××' user='××' host='' password=''")
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if user_id==None:
+        str = 'select distinct * from auth_user'
+    else:
+        str='select distinct * from auth_user where id=%s'%user_id
+    res = cur.execute(str)
+    res = cur.fetchall()
+    conn.close()
+    return res
+```  
+像这种sql拼接就有sql注入问题，正常情况下应该使用django的数据库api，如果实在有这方面的需求，可以按照如下方式写：  
+```python
+def user_contacts(request):
+  user = request.GET['username']
+  sql = "SELECT * FROM user_contacts WHERE username = %s"
+  cursor = connection.cursor()
+  cursor.execute(sql, [user])
+# do something with the results
+  results = cursor.fetchone()   #or  results = cursor.fetchall()
+  cursor.close()
+```  
+直接拼接的是万万不可的，如果采用ModelInstance.objects.raw(sql,[]),或者connection.objects.execute(sql,[]) ,通过列表传进去的参数是没有注入风险的，因为django会有处理。
+# 6 代码执行  
+一般是由于eval和pickle.loads的滥用造成的，特别是eval，大家都没有意识到这方面的问题。下面举个代码中的例子：
+```python
+@login_required
+@permission_required("accounts.newTask_assess")
+def targetLogin(request):
+    req = simplejson.loads(request.POST['loginarray'])
+    req=unicode(req).encode("utf-8")
+    loginarray=eval(req)
+    ip=_e(request,'ipList')
+    #targets=base64.b64decode(targets)
+    (iplist1,iplist2)=getIPTwoList(ip)
+    iplist1=list(set(iplist1))
+    iplist2=list(set(iplist2))
+    loginlist=[]
+    delobjs=[]
+    holdobjs=[]
+```
 
 这一段代码就是就是因为eval的参数不可控，导致任意代码执行，正确的做法就是literal.eval接口。再取个pickle.loads的例子：  
 
+```text
+>>> import cPickle
+>>> cPickle.loads("cos\nsystem\n(S'uname -a'\ntR.")
+Linux RCM-RSAS-V6-Dev 3.9.0-aurora #4 SMP PREEMPT Fri Jun 7 14:50:52 CST 2013 i686 Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz GenuineIntel GNU/Linux
+0
+```
 
 ## 7 文件操作 <a id="7-&#x6587;&#x4EF6;&#x64CD;&#x4F5C;"></a>
 
-文件操作主要包含任意文件下载，删除，写入，覆盖等，如果能达到写入的目的时基本上就能写一个webshell了。下面举个任意文件下载的例子：  
+文件操作主要包含任意文件下载，删除，写入，覆盖等，如果能达到写入的目的时基本上就能写一个webshell了。下面举个任意文件下载的例子：
 
+```text
+@login_required
+@permission_required("accounts.newTask_assess")
+def exportLoginCheck(request,filename):
+    if re.match(r“*.lic”，filename):
+        fullname = filename
+    else:
+        fullname = "/tmp/test.lic"
+    print fullname
+    return HttpResponse(fullname)
+```
 
 这段代码就存在着任意.lic文件下载的问题，没有做好限制目录穿越，同理
 
@@ -109,11 +193,34 @@ return HttpResponse('hello %s' %(name))
 
 ### 8.2 xml，excel等上传 <a id="8-2-xml&#xFF0C;excel&#x7B49;&#x4E0A;&#x4F20;"></a>
 
-在我们的产品中经常用到xml来保存一些配置文件，同时也支持xml文件的导出导入，这样在libxml2.9以下就可能导致xxe漏洞。就拿lxml来说吧：  
+在我们的产品中经常用到xml来保存一些配置文件，同时也支持xml文件的导出导入，这样在libxml2.9以下就可能导致xxe漏洞。就拿lxml来说吧：
 
+```text
+root@kali:~/python# cat test.xml
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xdsec [ <!ENTITY xxe SYSTEM "file:///etc/passwd" >
+]>
+<root>
+    <node id="11" name="bb" net="192.168.0.2-192.168.0.37" ltd="" gid="" />test&xxe;</root>
+>>> from lxml import etree
+>>> tree1 = etree.parse('test.xml')
+>>> print etree.tostring(tree1.getroot())
+<root>
+    <node id="11" name="bb" net="192.168.0.2-192.168.0.37" ltd="" gid=""/>testroot:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+bin:x:2:2:bin:/bin:/bin/sh
+sys:x:3:3:sys:/dev:/bin/sh
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/bin/sh
+man:x:6:12:man:/var/cache/man:/bin/sh
+```
 
-这是因为在lxml中默认采用的XMLParser导致的：  
+这是因为在lxml中默认采用的XMLParser导致的：
 
+```text
+class XMLParser(_FeedParser)
+|  XMLParser(self, encoding=None, attribute_defaults=False, dtd_validation=False, load_dtd=False, no_network=True, ns_clean=False, recover=False, XMLSchema schema=None, remove_blank_text=False, resolve_entities=True, remove_comments=False, remove_pis=False, strip_cdata=True, target=None, compact=True)
+```
 
 关注其中两个关键参数，其中resolve\_entities=True,no\_network=True,其中resolve\_entities=True会导致解析实体，no\_network会为True就导致了该利用条件比较有效，会导致一些ssrf问题，不能将数据带出。在python中xml.dom.minidom,xml.etree.ElementTree不受影响
 
