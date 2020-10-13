@@ -27,10 +27,6 @@
 * [浏览器](ab/browser.md)
 * [markdown](ab/md.md)
 * [内网渗透TIPS](ab/nwtips.md)
-* [Red&Blue](ab/hl/README.md)
-  * [边界资产信息收集](ab/hl/xxsj.md)
-  * [漏洞挖掘](ab/hl/wj.md)
-  * [构建通道漫游内网](ab/hl/nw.md)
 * [网络扫描](ab/wcan.md)
 * [正则表达式](ab/zzbds.md)
 
