@@ -1,5 +1,10 @@
 # 相关框架简介及漏洞
 
+### Apache Dubbo 
+
+1. （CVE-2019-17564）Apache Dubbo 反序列化漏洞 
+2. （CVE-2020-1948）Apache Dubbo Hessian 反序列化漏洞
+
 ### Spring Boot 
 
 1. Spring Boot Actuator hikari配置不当导致的远程命令执行漏洞 
