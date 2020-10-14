@@ -104,6 +104,10 @@
     * [字节码和虚拟机](lan/py/ympx/bvtm.md)
 * [汇编](lan/huibian.md)
 
+## poc&exp <a id="pxcp"></a>
+
+* [1](pxcp/1.md)
+
 ## 网络 <a id="net"></a>
 
 * [CCNA](net/ccna.md)
