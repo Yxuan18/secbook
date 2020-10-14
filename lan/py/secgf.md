@@ -55,7 +55,7 @@
 
 未对输入和输出做过滤，场景：
 
-```text
+```python
 def xss_test(request):    
 name = request.GET['name']    
 return HttpResponse('hello %s' %(name))
@@ -63,7 +63,7 @@ return HttpResponse('hello %s' %(name))
 
 在代码中一搜，发现有大量地方使用，比较正确的使用方式如下：
 
-```text
+```python
 def xss_test(request):
     name = request.GET['name']
     #return HttpResponse('hello %s' %(name))
@@ -76,7 +76,7 @@ def xss_test(request):
 
 对系统中一些重要的操作要做CSRF防护，比如登录，关机，扫描等。django 提供CSRF中间件`django.middleware.csrf.CsrfViewMiddleware`,写入到settings.py的中间件即可。
 
-```text
+```python
 def my_view(request):
     c = {}
     c.update(csrf(request))
@@ -88,7 +88,7 @@ def my_view(request):
 
 审计代码过程中发现了一些编写代码的不好的习惯，体现最严重的就是在命令注入方面，本来python自身的一些函数库就能完成的功能，偏偏要调用os.system来通过shell 命令执行来完成，老实说最烦这种写代码的啦。下面举个简单的例子：
 
-```text
+```python
 def myserve(request, filename, dirname):
     re = serve(request=request,path=filename,document_root=dirname,show_indexes=True)
     filestr='authExport.dat' 
@@ -114,7 +114,7 @@ os.system,os.popen,os.spaw*,os.exec*,os.open,os.popen*,commands.call,commands.ge
 
 如果是使用django的api去操作数据库就应该不会有sql注入了，但是因为一些其他原因使用了拼接sql，就会有sql注入风险。下面贴一个有注入风险的例子：
 
-```text
+```python
 def getUsers(user_id=None):
     conn = psycopg2.connect("dbname='××' user='××' host='' password=''")
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -160,7 +160,7 @@ def targetLogin(request):
 
 这一段代码就是就是因为eval的参数不可控，导致任意代码执行，正确的做法就是literal.eval接口。再取个pickle.loads的例子：  
 
-```text
+```python
 >>> import cPickle
 >>> cPickle.loads("cos\nsystem\n(S'uname -a'\ntR.")
 Linux RCM-RSAS-V6-Dev 3.9.0-aurora #4 SMP PREEMPT Fri Jun 7 14:50:52 CST 2013 i686 Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz GenuineIntel GNU/Linux
@@ -171,7 +171,7 @@ Linux RCM-RSAS-V6-Dev 3.9.0-aurora #4 SMP PREEMPT Fri Jun 7 14:50:52 CST 2013 i6
 
 文件操作主要包含任意文件下载，删除，写入，覆盖等，如果能达到写入的目的时基本上就能写一个webshell了。下面举个任意文件下载的例子：
 
-```text
+```python
 @login_required
 @permission_required("accounts.newTask_assess")
 def exportLoginCheck(request,filename):
@@ -195,7 +195,7 @@ def exportLoginCheck(request,filename):
 
 在我们的产品中经常用到xml来保存一些配置文件，同时也支持xml文件的导出导入，这样在libxml2.9以下就可能导致xxe漏洞。就拿lxml来说吧：
 
-```text
+```markup
 root@kali:~/python# cat test.xml
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE xdsec [ <!ENTITY xxe SYSTEM "file:///etc/passwd" >
@@ -217,7 +217,7 @@ man:x:6:12:man:/var/cache/man:/bin/sh
 
 这是因为在lxml中默认采用的XMLParser导致的：
 
-```text
+```markup
 class XMLParser(_FeedParser)
 |  XMLParser(self, encoding=None, attribute_defaults=False, dtd_validation=False, load_dtd=False, no_network=True, ns_clean=False, recover=False, XMLSchema schema=None, remove_blank_text=False, resolve_entities=True, remove_comments=False, remove_pis=False, strip_cdata=True, target=None, compact=True)
 ```
@@ -230,7 +230,7 @@ class XMLParser(_FeedParser)
 
 仅仅是将`__builtings__`置为空，如下方式即可绕过,可参见[bug84179](http://xxlegend.com/2015/07/30/Python%E5%AE%89%E5%85%A8%E7%BC%96%E7%A0%81%E5%92%8C%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/)
 
-```text
+```python
 >>> s2="""
     [x for x in ().__class__.__bases__[0].__subclasses__()
        if x.__name__ == "zipimporter"][0](
@@ -254,7 +254,7 @@ Linux
 
 **pickle**
 
-```text
+```python
 import pickle
 
 dict = {"name": 'zjun', "age": 19}
@@ -266,14 +266,14 @@ print(b, type(b))
 
 输出：
 
-```text
+```yaml
 ("(dp0\nS'age'\np1\nI19\nsS'name'\np2\nS'zjun'\np3\ns.", <type 'str'>)
 ({'age': 19, 'name': 'zjun'}, <type 'dict'>)
 ```
 
 **json**
 
-```text
+```python
 import json
 dict = {"name": 'zjun', "age": 19}
 a = json.dumps(dict, indent=4)
@@ -284,7 +284,7 @@ print(b, type(b))
 
 其中`indent=4`起到一个数据格式化输出的效果，当数据多了就显得更为直观，输出：
 
-```text
+```javascript
 {
     "name": "zjun",
     "age": 19
@@ -294,7 +294,7 @@ print(b, type(b))
 
 再看看一个`pickle`模块导致的安全问题
 
-```text
+```python
 import pickle
 import os
 
@@ -336,7 +336,7 @@ zjun
 
 第`19`行处直接接收`become`经`url`解码与其反序列化的内容，存在反序列化漏洞，构造`payload`读取`flag.txt`文件：
 
-```text
+```python
 import pickle
 import urllib
 

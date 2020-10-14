@@ -2,7 +2,7 @@
 
 ## 1、Linux口令破解
 
-```text
+```python
 # encoding: utf-8
 import crypt
 
@@ -46,9 +46,11 @@ if if __name__ == "__main__":
 
 ## 2、zip文件口令破解
 
-### 1、zipfile库最初体验
+{% tabs %}
+{% tab title="01" %}
+zipfile库最初体验
 
-```text
+```python
 # encoding: utf-8
 
 import zipfile
@@ -62,10 +64,12 @@ try:
 except Exception,e:
     print e
 ```
+{% endtab %}
 
-### 2、使用extractall函数进行口令破解
+{% tab title="02" %}
+使用extractall函数进行口令破解
 
-```text
+```python
 # encoding: utf-8
 
 import zipfile
@@ -87,10 +91,12 @@ for line in passfile.readlines():
     except Exception,e:
         pass
 ```
+{% endtab %}
 
-### 3、添加了函数模块化
+{% tab title="03" %}
+添加了函数模块化
 
-```text
+```python
 # encoding: utf-8
 
 import zipfile
@@ -121,6 +127,8 @@ def mian():
 if __name__ == "__main__":
     mian()
 ```
+{% endtab %}
+{% endtabs %}
 
 ## 3、端口扫描器
 

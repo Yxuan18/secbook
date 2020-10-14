@@ -6,9 +6,12 @@ description: 此选项为小甲鱼《零基础入门学习python（第二版）�
 
 ##  第一个小游戏代码
 
-```text
-# 2-1.py
+{% tabs %}
+{% tab title="Python" %}
 
+
+{% code title="\# 2-1.py" %}
+```python
 temp = input("不妨猜一下小甲鱼现在心里想的是哪个数字：")
 guess = int(temp)
 if guess == 8:
@@ -18,10 +21,10 @@ else:
     print("猜错了，我心里想的数字是8！")
 print("游戏结束")
 ```
+{% endcode %}
 
-```text
-# 3-1.py
-
+{% code title="\# 3-1.py" %}
+```python
 temp = input("不妨猜一下小甲鱼现在心里想的是哪个数字：")
 guess = int(temp)
 while guess != 8:
@@ -33,10 +36,12 @@ while guess != 8:
     guess = int(temp)
 print("你是小甲鱼心里的蛔虫吗")
 ```
+{% endcode %}
 
-```text
-# 3-2.py
 
+
+{% code title="\# 3-2.py" %}
+```python
 import random
 
 secret = random.randint(1,10)
@@ -59,10 +64,15 @@ if (times <= 3) and (guess == secret):
 else:
     print("三次都错了，不和你玩了")
 ```
+{% endcode %}
+{% endtab %}
+{% endtabs %}
+
+
 
 ##  分支与循环
 
-```text
+```python
 # 4-1.py
 
 score = int(input("请输入一个分数："))
@@ -79,7 +89,7 @@ if score < 0 or score > 100:
     print("输入错误！")
 ```
 
-```text
+```python
 # 4-2.py
 
 score = int(input("请输入一个分数："))
@@ -101,7 +111,7 @@ else:
 
 ```
 
-```text
+```python
 # 4-3.py
 
 score = int(input("请输入一个分数："))
@@ -118,7 +128,7 @@ elif score < 0 or score > 100:
     print("输入错误！")
 ```
 
-```text
+```c
 # 4-4.c
 
 ##include <stdio.h>
@@ -136,7 +146,7 @@ int main(void)
 }
 ```
 
-```text
+```python
 # 4-5.py
 
 age = 20
@@ -149,7 +159,7 @@ else:
     printf("你年龄不对");
 ```
 
-```text
+```python
 # 4-6.py
 
 score = int(input("请输入一个分数："))
@@ -178,7 +188,7 @@ level = 'A' if 100 >= score >= 90 else 'B' if 90 > score >= 80 else 'C' if 80 >=
 print(level)
 ```
 
-```text
+```python
 # 4-8.py
 
 i = 1

