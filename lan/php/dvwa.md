@@ -1,8 +1,12 @@
 # 破解DVWA-admin密码
 
-### 一、单线程
 
-```text
+
+{% tabs %}
+{% tab title="单线程" %}
+单线程脚本如下：
+
+```php
 <?php
 // 检测程序有无开启curl，若无，提示开启
 if(!extension_loaded('curl')){exit("please open curl,THANKS!");}
@@ -47,10 +51,12 @@ foreach($password as $pass){
 }
 ?>
 ```
+{% endtab %}
 
-### 二、多线程
+{% tab title="多线程" %}
+多线程脚本如下：
 
-```text
+```php
 <?php
 
 error_reporting(7);
@@ -130,4 +136,10 @@ echo '脚本执行时间： ' . round((func_time() - $start_time),4) . '秒。';
 ```
 
 ending
+{% endtab %}
+{% endtabs %}
+
+
+
+
 

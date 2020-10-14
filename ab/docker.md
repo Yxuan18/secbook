@@ -8,7 +8,7 @@ Linux 上我们可以从 Github 上下载它的二进制包来使用，最新发
 
 运行以下命令以下载 Docker Compose 的当前稳定版本：
 
-```text
+```bash
 $ sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 
@@ -16,19 +16,19 @@ $ sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docke
 
 将可执行权限应用于二进制文件：
 
-```text
+```bash
 $ sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 创建软链：
 
-```text
+```bash
 $ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 ```
 
 测试是否安装成功：
 
-```text
+```bash
 $ docker-compose --version
 cker-compose version 1.24.1, build 4667896b
 ```
@@ -43,13 +43,13 @@ cker-compose version 1.24.1, build 4667896b
 
 安装命令如下：
 
-```text
+```bash
 curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 ```
 
 也可以使用国内 daocloud 一键安装命令：
 
-```text
+```bash
 curl -sSL https://get.daocloud.io/docker | sh
 ```
 
@@ -59,7 +59,7 @@ curl -sSL https://get.daocloud.io/docker | sh
 
 Docker 的旧版本被称为 docker，docker.io 或 docker-engine 。如果已安装，请卸载它们：
 
-```text
+```bash
 $ sudo apt-get remove docker docker-engine docker.io containerd runc
 ```
 
@@ -75,13 +75,13 @@ $ sudo apt-get remove docker docker-engine docker.io containerd runc
 
 更新 apt 包索引。
 
-```text
+```bash
 $ sudo apt-get update
 ```
 
 安装 apt 依赖包，用于通过HTTPS来获取仓库: 
 
-```text
+```bash
 $ sudo apt-get install \
      apt-transport-https \
      ca-certificates \
@@ -92,13 +92,13 @@ $ sudo apt-get install \
 
 添加 Docker 的官方 GPG 密钥：
 
-```text
+```bash
 $ curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
 ```
 
 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88 通过搜索指纹的后8个字符，验证您现在是否拥有带有指纹的密钥。 
 
-```text
+```bash
 $ sudo apt-key fingerprint 0EBFCD88
     
  pub   rsa4096 2017-02-22 [SCEA]
@@ -109,7 +109,7 @@ $ sudo apt-key fingerprint 0EBFCD88
 
 使用以下指令设置稳定版仓库 
 
-```text
+```bash
 $ sudo add-apt-repository \
     "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ \
    $(lsb_release -cs) \
@@ -120,19 +120,19 @@ $ sudo add-apt-repository \
 
 更新 apt 包索引。
 
-```text
+```bash
 $ sudo apt-get update
 ```
 
 安装最新版本的 Docker Engine-Community 和 containerd ，或者转到下一步安装特定版本：
 
-```text
+```bash
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
 要安装特定版本的 Docker Engine-Community，请在仓库中列出可用版本，然后选择一种安装。列出您的仓库中可用的版本： 
 
-```text
+```bash
 $ apt-cache madison docker-ce
 
    docker-ce | 5:18.09.1~3-0~ubuntu-xenial | https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu  xenial/stable amd64 Packages
@@ -145,13 +145,13 @@ $ apt-cache madison docker-ce
 
 使用第二列中的版本字符串安装特定版本，例如 5:18.09.1~3-0~ubuntu-xenial。
 
-```text
+```bash
 $ sudo apt-get install docker-ce=<VERSION_STRING> docker-ce-cli=<VERSION_STRING> containerd.io
 ```
 
 测试 Docker 是否安装成功，输入以下指令，打印出以下信息则安装成功: 
 
-```text
+```bash
 $ sudo docker run hello-world
 
  Unable to find image 'hello-world:latest' locally
@@ -198,14 +198,14 @@ Docker 在 [get.docker.com](https://get.docker.com/) 和 [test.docker.com](https
 
 本示例使用 [get.docker.com](https://get.docker.com/) 上的脚本在 Linux 上安装最新版本的Docker Engine-Community。要安装最新的测试版本，请改用 test.docker.com。在下面的每个命令，取代每次出现 get 用 test。
 
-```text
+```bash
 $ curl -fsSL https://get.docker.com -o get-docker.sh
 $ sudo sh get-docker.sh
 ```
 
 如果要使用 Docker 作为非 root 用户，则应考虑使用类似以下方式将用户添加到 docker 组：
 
-```text
+```bash
 $ sudo usermod -aG docker your-user
 ```
 
