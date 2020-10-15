@@ -81,6 +81,7 @@
 * [PHP](lan/php/README.md)
   * [代码审计](lan/php/shenji.md)
   * [破解DVWA-admin密码](lan/php/dvwa.md)
+  * [Webshell那些事-攻击篇](lan/php/wbsel.md)
   * [相关框架简介及漏洞](lan/php/kj.md)
 * [python](lan/py/README.md)
   * [安全编码规范-代码审计](lan/py/secgf.md)
