@@ -669,7 +669,9 @@ https://github.com/ianxtianxt/docker\_api\_vul
 ## 参考阅读文章
 
 何兰大学docker论文  
-https://www.cs.ru.nl/bachelors-theses/2020/Joren\_Vrancken\_\_\_4593847\_\_\_A\_Methodology\_for\_Penetration\_Testing\_Docker\_Systems.pdf
+[https://www.cs.ru.nl/bachelors-theses/2020/Joren\_Vrancken\_\_\_4593847\_\_\_A\_Methodology\_for\_Penetration\_Testing\_Docker\_Systems.pdf](https://www.cs.ru.nl/bachelors-theses/2020/Joren_Vrancken___4593847___A_Methodology_for_Penetration_Testing_Docker_Systems.pdf)
+
+{% file src="../../.gitbook/assets/a\_methodology\_for\_penetration\_testing\_docker\_systems.pdf" %}
 
 CVE-2019-5736 Docker逃逸  
 https://bestwing.me/CVE-2019-5736-Docker-escape.html
@@ -688,4 +690,6 @@ https://wohin.me/zhen-dui-rong-qi-de-shen-tou-ce-shi-fang-fa/
 
 云原生环境渗透工具考察  
 https://wohin.me/yun-yuan-sheng-huan-jing-shen-tou-xiang-guan-gong-ju-kao-cha/
+
+
 
