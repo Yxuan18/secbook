@@ -138,6 +138,3 @@ meterpreter > execute -H -f cmd.exe -a ‘/c C:\runps.bat’ Process 28536 creat
  [中文博客](http://www.pstips.net/)：研究powershell中文博客,包含powershell的命令解释、脚本编程的各种小技巧  
  [英文博客](http://www.exploit-monday.com/)：国外某大牛博客，对powershell有很多安全方面的研究，国外黑客大会推荐
 
- 原文链接  
- http://seckungfu.com/blog/2012/10/10/new-post/
-
