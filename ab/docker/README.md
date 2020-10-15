@@ -35,7 +35,7 @@ cker-compose version 1.24.1, build 4667896b
 
 **注意**： 对于 alpine，需要以下依赖包： py-pip，python-dev，libffi-dev，openssl-dev，gcc，libc-dev，和 make。
 
-![](../.gitbook/assets/image%20%28559%29.png)
+![](../../.gitbook/assets/image%20%28559%29.png)
 
 ## 二、docker安装
 
