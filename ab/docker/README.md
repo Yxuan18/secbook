@@ -209,3 +209,114 @@ $ sudo sh get-docker.sh
 $ sudo usermod -aG docker your-user
 ```
 
+## 三、docker简单使用
+
+### 安装
+
+```bash
+sudo apt-get install docker.io
+yum -y install docker-io
+```
+
+### 启动docker服务
+
+```bash
+service docker start
+```
+
+### 常用命令：
+
+| 释义 | 命令 |
+| :---: | :--- |
+| 搜索镜像 | docker search keyword |
+| 下载镜像 | docker pull image\_name:version |
+| 查看本地所有镜像 | docker images |
+| 查看所有运行中容器 | docker ps |
+| 查看所有容器 | docker ps -a |
+| 启动一个容器 | docker run --name=rand\_name  -it -d image\_name sh |
+| 进入一个容器 | docker exec 容器id bash |
+| 以root的方式进入容器 | docker  exec -u root  -it   容器id  bash |
+| 暂停一个容器 | docker stop 容器id |
+| 移除一个容器 | docker rm 容器id |
+| 移除一个镜像 | docker rmi 镜像id |
+| 批量停止容器 | docker stop $\(docker ps -q\) |
+| 批量移除容器 | ``docker rm `docker ps -a -q```  |
+| 批量移除镜像 | ``docker rmi `docker images -q```  |
+
+### docker 启动一个容器
+
+```bash
+docker run --name=test -p 2080:80 -p 2022:22 -it -d -v /test:/soft  镜像id
+ #   --name给容器命名
+ #   -d:让容器在后台运行。
+ #   -P:将容器内部使用的网络端口映射到我们使用的主机上。（主机的端口：容器端口）
+ #   -v：目录挂载，数据持久化 （主机目录:容器内目录）
+```
+
+### docker 容器封装成镜像
+
+```bash
+docker commit :从容器创建一个新的镜像。
+# 语法
+docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+#OPTIONS说明：
+#    -a :提交的镜像作者；
+#    -c :使用Dockerfile指令来创建镜像；
+#    -m :提交时的说明文字；
+#    -p :在commit时，将容器暂停。
+##  实例 
+将容器a404c6c174a2 保存为新的镜像,并添加提交人信息和说明信息。
+runoob@runoob:~$ docker commit -a "runoob.com" -m "my apache" a404c6c174a2  mymysql:v1 
+sha256:37af1236adef1544e8886be23010b66577647a40bc02c0885a6600b33ee28057
+```
+
+### docker打包
+
+```bash
+docker save 镜像名:版本号 -o 打包压缩存放位置
+#实例：
+docker save memcached:1.4 -o /home/wg4a/xmglpt/memcached1.4.tar
+docker解压镜像：
+docker docker load -i memcached1.4.tar
+
+将容器打包：
+docker export 容器id> name.tar
+```
+
+### docker更换下载源
+
+```text
+docker exec -it 容器id bash
+sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+```
+
+### docker封装cms的基本思路
+
+1.下载一个LAMP环境（不一定是LAMP根据实际情况pull）
+
+```text
+docker pull image_name:versionx
+```
+
+2 启动环境（根据实际情况选择参数，镜像id通过docker image 查看）
+
+```text
+dcoekr run -d  --name=lamp -p 80:80 -v /mysql_data:/var/lib/mysql  镜像id
+```
+
+3.进入容器（docker ps 查看容器id）
+
+```text
+docker exec -it 容器id bash
+```
+
+4.切换到web路径，使用wegt命令将cms添加的docker容器中，也可在第二步中直接挂在进去
+
+5.cms的正常安装
+
+6.退出容器，并暂停容器
+
+7.将容器封装为镜像，如果有本地挂载，同时保存一份本地挂载的文件，以便复现时导入
+
+8.将容器镜像打包
+
