@@ -1,4 +1,4 @@
-# Webshell免杀研究 - 先知社区
+# Webshell免杀研究
 
 ## 前言
 
