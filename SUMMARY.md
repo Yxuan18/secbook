@@ -22,6 +22,8 @@
     * [针对巴基斯坦的攻击活动](ab/apt/c35/bjst.md)
   * [拍拍熊（APT-C-37）](ab/apt/c37.md)
   * [军刀狮（APT-C-38）](ab/apt/c38.md)
+* [各类靶场讲解](ab/bc/README.md)
+  * [uploadfile-labs](ab/bc/up.md)
 * [CISP题库](ab/cisptk.md)
 * [Docker](ab/docker/README.md)
   * [渗透思路调研](ab/docker/shent.md)
