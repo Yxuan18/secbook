@@ -762,8 +762,7 @@ register_tick_function()
 {% endtab %}
 
 {% tab title="原理分析" %}
-[http://www.php.net/manual/zh/function.parse-str.php](http://www.php.net/manual/zh/function.parse-str.php)   
-和extract\(\)作用类似，将外部传入的参数注册为本地变量
+[parse\_str\(\)](http://www.php.net/manual/zh/function.parse-str.php)和extract\(\)作用类似，将外部传入的参数注册为本地变量
 
  [`reset()`](http://www.w3school.com.cn/php/func_array_reset.asp)函数把数组的内部指针指向第一个元素，并返回这个元素的值
 
