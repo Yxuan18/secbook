@@ -10,7 +10,7 @@
 4.  [**《Scikit-Learn与TensorFlow机器学习实用指南》**](https://hand2st.apachecn.org/#/README) ****机器学习书中理论结合实战最好的书
 5.  [**《problem-solving-with-algorithms-and-data-structure-using-python》**](https://facert.gitbooks.io/python-data-structure-cn/) ****Python 数据结构与算法相关的书很少，这本堪称最好
 6. [最全的在线手册](https://docs.pythontab.com) 各种教程手册汇集到一起，哪个不会点哪个
-7. 《[自学是门手艺](https://github.com/xiaolai/xiaolai.github.io/tree/master/the-craft-of-selfteaching)》——李笑来
+7. 《[自学是门手艺](http://lixiaolai.com/#/the-craft-of-selfteaching/)》——李笑来
 
 ## 二、相关问题
 
