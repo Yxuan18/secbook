@@ -61,6 +61,7 @@
 
 * [db2](db/db2.md)
 * [mysql](db/mysql/README.md)
+  * [webshell写入](db/mysql/xs.md)
   * [基础知识](db/mysql/jichuzhishi.md)
   * [核心技术](db/mysql/hexin.md)
   * [高级应用](db/mysql/gaojiyingyong.md)

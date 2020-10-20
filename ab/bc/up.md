@@ -1149,7 +1149,7 @@ reset(array &$array)
 
 2、[文件上传与XSS](https://www.freebuf.com/articles/web/101843.html)
 
-3、bypass安全狗
+3、[bypass安全狗](https://www.freebuf.com/articles/web/247720.html)
 
  方法：
 
