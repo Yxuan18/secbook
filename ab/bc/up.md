@@ -375,6 +375,11 @@ if (isset($_POST['submit'])) {
 ".pHtml",".htaccess",".ini"
 ```
 
+大小写绕过原理：
+
+* Windows系统下，对于文件名中的大小写不敏感。例如：test.php和TeSt.PHP是一样的。
+* Linux系统下，对于文件名中的大小写敏感。例如：test.php和 TesT.php就是不一样的。
+
 所以，可上传后缀为 .Php 的文件，进行绕过
 
 访问结果如下：
@@ -419,6 +424,8 @@ if (isset($_POST['submit'])) {
 
 此时，可在burp中抓包，在文件名后面添加空格，来绕过
 
+Windows系统下，对于文件名中空格会被作为空处理，程序中的检测代码却不能自动删除空格。从而绕过黑名单。 针对这样的情况需要使用Burpsuite阶段HTTP请求之后，修改对应的文件名 添加空格。
+
 ![](../../.gitbook/assets/image%20%28660%29.png)
 
 之后访问文件：
@@ -458,13 +465,17 @@ if (isset($_POST['submit'])) {
 
  文件上传时，添加点号即可完成绕过。
 
+.号绕过原理：
+
+Windows系统下，文件后缀名最后一个点会被自动去除。
+
 ![](../../.gitbook/assets/image%20%28659%29.png)
 
  完成上传后，访问文件，效果图如下：
 
 ![](../../.gitbook/assets/image%20%28617%29.png)
 
-### pass-09
+### pass-09-**::$DATA**
 
 ```php
 $is_upload = false;
@@ -496,29 +507,609 @@ if (isset($_POST['submit'])) {
 
 ```
 
+特殊符号绕过原理：
+
+Windows系统下，如果上传的文件名中 `test.php::$DATA` 会在服务器上生成一个 `test.php` 的文件，其中内容和所上传文件内容相同，并被解析。
+
 ![](../../.gitbook/assets/image%20%28658%29.png)
 
-### pass-10
 
-### pass-11
 
-### pass-12
+![](../../.gitbook/assets/image%20%28617%29.png)
 
-### pass-13
+### pass-10-. .
 
-### pass-14
+```php
+$is_upload = false;
+$msg = null;
+if (isset($_POST['submit'])) {
+    if (file_exists(UPLOAD_PATH)) {
+        $deny_ext = array(".php",".php5",".php4",".php3",".php2",".html",".htm",".phtml",".pht",".pHp",".pHp5",".pHp4",".pHp3",".pHp2",".Html",".Htm",".pHtml",".jsp",".jspa",".jspx",".jsw",".jsv",".jspf",".jtml",".jSp",".jSpx",".jSpa",".jSw",".jSv",".jSpf",".jHtml",".asp",".aspx",".asa",".asax",".ascx",".ashx",".asmx",".cer",".aSp",".aSpx",".aSa",".aSax",".aScx",".aShx",".aSmx",".cEr",".sWf",".swf",".htaccess",".ini");
+        $file_name = trim($_FILES['upload_file']['name']);
+        $file_name = deldot($file_name);//删除文件名末尾的点
+        $file_ext = strrchr($file_name, '.');
+        $file_ext = strtolower($file_ext); //转换为小写
+        $file_ext = str_ireplace('::$DATA', '', $file_ext);//去除字符串::$DATA
+        $file_ext = trim($file_ext); //首尾去空
+        
+        if (!in_array($file_ext, $deny_ext)) {
+            $temp_file = $_FILES['upload_file']['tmp_name'];
+            $img_path = UPLOAD_PATH.'/'.$file_name;
+            if (move_uploaded_file($temp_file, $img_path)) {
+                $is_upload = true;
+            } else {
+                $msg = '上传出错！';
+            }
+        } else {
+            $msg = '此文件类型不允许上传！';
+        }
+    } else {
+        $msg = UPLOAD_PATH . '文件夹不存在,请手工创建！';
+    }
+}
+```
 
-### pass-15
 
-### pass-16
 
-### pass-17
+![](../../.gitbook/assets/image%20%28663%29.png)
 
-### pass-18
+![](../../.gitbook/assets/image%20%28617%29.png)
 
-### pass-19
+### pass-11-双写后缀
 
-### pass-20
+```php
+$is_upload = false;
+$msg = null;
+if (isset($_POST['submit'])) {
+    if (file_exists(UPLOAD_PATH)) {
+        $deny_ext = array("php","php5","php4","php3","php2","html","htm","phtml","pht","jsp","jspa","jspx","jsw","jsv","jspf","jtml","asp","aspx","asa","asax","ascx","ashx","asmx","cer","swf","htaccess","ini");
+
+        $file_name = trim($_FILES['upload_file']['name']);
+        $file_name = str_ireplace($deny_ext,"", $file_name);
+        $temp_file = $_FILES['upload_file']['tmp_name'];
+        $img_path = UPLOAD_PATH.'/'.$file_name;        
+        if (move_uploaded_file($temp_file, $img_path)) {
+            $is_upload = true;
+        } else {
+            $msg = '上传出错！';
+        }
+    } else {
+        $msg = UPLOAD_PATH . '文件夹不存在,请手工创建！';
+    }
+}
+```
+
+这一关是用str\_ireplace函数将符合黑名单中的后缀名进行替换为空。所以可以双写绕过
+
+![](../../.gitbook/assets/image%20%28670%29.png)
+
+![](../../.gitbook/assets/image%20%28617%29.png)
+
+### pass-12-0x00
+
+```php
+$is_upload = false;
+$msg = null;
+if(isset($_POST['submit'])){
+    $ext_arr = array('jpg','png','gif');
+    $file_ext = substr($_FILES['upload_file']['name'],strrpos($_FILES['upload_file']['name'],".")+1);
+    if(in_array($file_ext,$ext_arr)){
+        $temp_file = $_FILES['upload_file']['tmp_name'];
+        $img_path = $_GET['save_path']."/".rand(10, 99).date("YmdHis").".".$file_ext;
+
+        if(move_uploaded_file($temp_file,$img_path)){
+            $is_upload = true;
+        } else {
+            $msg = '上传出错！';
+        }
+    } else{
+        $msg = "只允许上传.jpg|.png|.gif类型文件！";
+    }
+}
+```
+
+这一关，需要php的版本号低于5.3.29，且magic\_quotes\_gpc为关闭状态。
+
+![](../../.gitbook/assets/image%20%28666%29.png)
+
+### pass-13-0x00
+
+```php
+$is_upload = false;
+$msg = null;
+if(isset($_POST['submit'])){
+    $ext_arr = array('jpg','png','gif');
+    $file_ext = substr($_FILES['upload_file']['name'],strrpos($_FILES['upload_file']['name'],".")+1);
+    if(in_array($file_ext,$ext_arr)){
+        $temp_file = $_FILES['upload_file']['tmp_name'];
+        $img_path = $_POST['save_path']."/".rand(10, 99).date("YmdHis").".".$file_ext;
+
+        if(move_uploaded_file($temp_file,$img_path)){
+            $is_upload = true;
+        } else {
+            $msg = "上传失败";
+        }
+    } else {
+        $msg = "只允许上传.jpg|.png|.gif类型文件！";
+    }
+}
+```
+
+这一关和Pass-12的区别是，00截断是用在POST中，且是在二进制中进行修改。因为POST不会像GET那样对%00进行自动解码。
+
+![](../../.gitbook/assets/image%20%28662%29.png)
+
+### pass-14-文件头
+
+```php
+function getReailFileType($filename){
+    $file = fopen($filename, "rb");
+    $bin = fread($file, 2); //只读2字节
+    fclose($file);
+    $strInfo = @unpack("C2chars", $bin);    
+    $typeCode = intval($strInfo['chars1'].$strInfo['chars2']);    
+    $fileType = '';    
+    switch($typeCode){      
+        case 255216:            
+            $fileType = 'jpg';
+            break;
+        case 13780:            
+            $fileType = 'png';
+            break;        
+        case 7173:            
+            $fileType = 'gif';
+            break;
+        default:            
+            $fileType = 'unknown';
+        }    
+        return $fileType;
+}
+
+$is_upload = false;
+$msg = null;
+if(isset($_POST['submit'])){
+    $temp_file = $_FILES['upload_file']['tmp_name'];
+    $file_type = getReailFileType($temp_file);
+
+    if($file_type == 'unknown'){
+        $msg = "文件未知，上传失败！";
+    }else{
+        $img_path = UPLOAD_PATH."/".rand(10, 99).date("YmdHis").".".$file_type;
+        if(move_uploaded_file($temp_file,$img_path)){
+            $is_upload = true;
+        } else {
+            $msg = "上传出错！";
+        }
+    }
+}
+```
+
+![](../../.gitbook/assets/image%20%28669%29.png)
+
+### pass-15-getimagesize\(\)
+
+```php
+function isImage($filename){
+    $types = '.jpeg|.png|.gif';
+    if(file_exists($filename)){
+        $info = getimagesize($filename);
+        $ext = image_type_to_extension($info[2]);
+        if(stripos($types,$ext)>=0){
+            return $ext;
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+}
+
+$is_upload = false;
+$msg = null;
+if(isset($_POST['submit'])){
+    $temp_file = $_FILES['upload_file']['tmp_name'];
+    $res = isImage($temp_file);
+    if(!$res){
+        $msg = "文件未知，上传失败！";
+    }else{
+        $img_path = UPLOAD_PATH."/".rand(10, 99).date("YmdHis").$res;
+        if(move_uploaded_file($temp_file,$img_path)){
+            $is_upload = true;
+        } else {
+            $msg = "上传出错！";
+        }
+    }
+}
+```
+
+注：这里可能会有一些问题，就是copy制作的图片马，制作出来后，图像是损坏的，那么15关就过不去。所以可以利用winhex之类的工具，讲一句话加在图片的后面。这样就能过了。
+
+![](../../.gitbook/assets/image%20%28667%29.png)
+
+### pass-16-exif\_imagetype\(\)
+
+```php
+function isImage($filename){
+    //需要开启php_exif模块
+    $image_type = exif_imagetype($filename);
+    switch ($image_type) {
+        case IMAGETYPE_GIF:
+            return "gif";
+            break;
+        case IMAGETYPE_JPEG:
+            return "jpg";
+            break;
+        case IMAGETYPE_PNG:
+            return "png";
+            break;    
+        default:
+            return false;
+            break;
+    }
+}
+
+$is_upload = false;
+$msg = null;
+if(isset($_POST['submit'])){
+    $temp_file = $_FILES['upload_file']['tmp_name'];
+    $res = isImage($temp_file);
+    if(!$res){
+        $msg = "文件未知，上传失败！";
+    }else{
+        $img_path = UPLOAD_PATH."/".rand(10, 99).date("YmdHis").".".$res;
+        if(move_uploaded_file($temp_file,$img_path)){
+            $is_upload = true;
+        } else {
+            $msg = "上传出错！";
+        }
+    }
+}
+```
+
+这一关需要开启php\_exif模块。
+
+![](../../.gitbook/assets/image%20%28667%29.png)
+
+### pass-17-二次渲染
+
+```php
+$is_upload = false;
+$msg = null;
+if (isset($_POST['submit'])){
+    // 获得上传文件的基本信息，文件名，类型，大小，临时文件路径
+    $filename = $_FILES['upload_file']['name'];
+    $filetype = $_FILES['upload_file']['type'];
+    $tmpname = $_FILES['upload_file']['tmp_name'];
+
+    $target_path=UPLOAD_PATH.'/'.basename($filename);
+
+    // 获得上传文件的扩展名
+    $fileext= substr(strrchr($filename,"."),1);
+
+    //判断文件后缀与类型，合法才进行上传操作
+    if(($fileext == "jpg") && ($filetype=="image/jpeg")){
+        if(move_uploaded_file($tmpname,$target_path)){
+            //使用上传的图片生成新的图片
+            $im = imagecreatefromjpeg($target_path);
+
+            if($im == false){
+                $msg = "该文件不是jpg格式的图片！";
+                @unlink($target_path);
+            }else{
+                //给新图片指定文件名
+                srand(time());
+                $newfilename = strval(rand()).".jpg";
+                //显示二次渲染后的图片（使用用户上传图片生成的新图片）
+                $img_path = UPLOAD_PATH.'/'.$newfilename;
+                imagejpeg($im,$img_path);
+                @unlink($target_path);
+                $is_upload = true;
+            }
+        } else {
+            $msg = "上传出错！";
+        }
+
+    }else if(($fileext == "png") && ($filetype=="image/png")){
+        if(move_uploaded_file($tmpname,$target_path)){
+            //使用上传的图片生成新的图片
+            $im = imagecreatefrompng($target_path);
+
+            if($im == false){
+                $msg = "该文件不是png格式的图片！";
+                @unlink($target_path);
+            }else{
+                 //给新图片指定文件名
+                srand(time());
+                $newfilename = strval(rand()).".png";
+                //显示二次渲染后的图片（使用用户上传图片生成的新图片）
+                $img_path = UPLOAD_PATH.'/'.$newfilename;
+                imagepng($im,$img_path);
+
+                @unlink($target_path);
+                $is_upload = true;               
+            }
+        } else {
+            $msg = "上传出错！";
+        }
+
+    }else if(($fileext == "gif") && ($filetype=="image/gif")){
+        if(move_uploaded_file($tmpname,$target_path)){
+            //使用上传的图片生成新的图片
+            $im = imagecreatefromgif($target_path);
+            if($im == false){
+                $msg = "该文件不是gif格式的图片！";
+                @unlink($target_path);
+            }else{
+                //给新图片指定文件名
+                srand(time());
+                $newfilename = strval(rand()).".gif";
+                //显示二次渲染后的图片（使用用户上传图片生成的新图片）
+                $img_path = UPLOAD_PATH.'/'.$newfilename;
+                imagegif($im,$img_path);
+
+                @unlink($target_path);
+                $is_upload = true;
+            }
+        } else {
+            $msg = "上传出错！";
+        }
+    }else{
+        $msg = "只允许上传后缀为.jpg|.png|.gif的图片文件！";
+    }
+}
+```
+
+思路：
+
+将上传的图片重新下载下来，放入winhex，进行对比。可以找到二次渲染后不变的地方，而=这个地方就是可以插入一句话的地方。
+
+### pass-18-条件竞争
+
+```php
+$is_upload = false;
+$msg = null;
+
+if(isset($_POST['submit'])){
+    $ext_arr = array('jpg','png','gif');
+    $file_name = $_FILES['upload_file']['name'];
+    $temp_file = $_FILES['upload_file']['tmp_name'];
+    $file_ext = substr($file_name,strrpos($file_name,".")+1);
+    $upload_file = UPLOAD_PATH . '/' . $file_name;
+
+    if(move_uploaded_file($temp_file, $upload_file)){
+        if(in_array($file_ext,$ext_arr)){
+             $img_path = UPLOAD_PATH . '/'. rand(10, 99).date("YmdHis").".".$file_ext;
+             rename($upload_file, $img_path);
+             $is_upload = true;
+        }else{
+            $msg = "只允许上传.jpg|.png|.gif类型文件！";
+            unlink($upload_file);
+        }
+    }else{
+        $msg = '上传出错！';
+    }
+}
+```
+
+先上传再判断，所以实在判断前就对上传的文件进行请求
+
+![1.php](../../.gitbook/assets/image%20%28665%29.png)
+
+![2.php](../../.gitbook/assets/image%20%28664%29.png)
+
+
+
+### pass-19-图片
+
+```php
+//index.php
+$is_upload = false;
+$msg = null;
+if (isset($_POST['submit']))
+{
+    require_once("./myupload.php");
+    $imgFileName =time();
+    $u = new MyUpload($_FILES['upload_file']['name'], $_FILES['upload_file']['tmp_name'], $_FILES['upload_file']['size'],$imgFileName);
+    $status_code = $u->upload(UPLOAD_PATH);
+    switch ($status_code) {
+        case 1:
+            $is_upload = true;
+            $img_path = $u->cls_upload_dir . $u->cls_file_rename_to;
+            break;
+        case 2:
+            $msg = '文件已经被上传，但没有重命名。';
+            break; 
+        case -1:
+            $msg = '这个文件不能上传到服务器的临时文件存储目录。';
+            break; 
+        case -2:
+            $msg = '上传失败，上传目录不可写。';
+            break; 
+        case -3:
+            $msg = '上传失败，无法上传该类型文件。';
+            break; 
+        case -4:
+            $msg = '上传失败，上传的文件过大。';
+            break; 
+        case -5:
+            $msg = '上传失败，服务器已经存在相同名称文件。';
+            break; 
+        case -6:
+            $msg = '文件无法上传，文件不能复制到目标目录。';
+            break;      
+        default:
+            $msg = '未知错误！';
+            break;
+    }
+}
+
+//myupload.php
+class MyUpload{
+......
+......
+...... 
+  var $cls_arr_ext_accepted = array(
+      ".doc", ".xls", ".txt", ".pdf", ".gif", ".jpg", ".zip", ".rar", ".7z",".ppt",
+      ".html", ".xml", ".tiff", ".jpeg", ".png" );
+
+......
+......
+......  
+  /** upload()
+   **
+   ** Method to upload the file.
+   ** This is the only method to call outside the class.
+   ** @para String name of directory we upload to
+   ** @returns void
+  **/
+  function upload( $dir ){
+    
+    $ret = $this->isUploadedFile();
+    
+    if( $ret != 1 ){
+      return $this->resultUpload( $ret );
+    }
+
+    $ret = $this->setDir( $dir );
+    if( $ret != 1 ){
+      return $this->resultUpload( $ret );
+    }
+
+    $ret = $this->checkExtension();
+    if( $ret != 1 ){
+      return $this->resultUpload( $ret );
+    }
+
+    $ret = $this->checkSize();
+    if( $ret != 1 ){
+      return $this->resultUpload( $ret );    
+    }
+    
+    // if flag to check if the file exists is set to 1
+    
+    if( $this->cls_file_exists == 1 ){
+      
+      $ret = $this->checkFileExists();
+      if( $ret != 1 ){
+        return $this->resultUpload( $ret );    
+      }
+    }
+
+    // if we are here, we are ready to move the file to destination
+
+    $ret = $this->move();
+    if( $ret != 1 ){
+      return $this->resultUpload( $ret );    
+    }
+
+    // check if we need to rename the file
+
+    if( $this->cls_rename_file == 1 ){
+      $ret = $this->renameFile();
+      if( $ret != 1 ){
+        return $this->resultUpload( $ret );    
+      }
+    }
+    
+    // if we are here, everything worked as planned :)
+
+    return $this->resultUpload( "SUCCESS" );
+  
+  }
+......
+......
+...... 
+};
+
+```
+
+验证过程：依次检查文件是否存在、文件名是否可写、检查后缀（白名单）、检查文件大小、检查临时文件存在、保存到临时目录里、然后再重命名。与Pass-18存在同样的条件竞争。不同的是这里先检查了后缀，所以要上传符合白名单里的才能进行。
+
+### pass-20-点号
+
+```php
+$is_upload = false;
+$msg = null;
+if (isset($_POST['submit'])) {
+    if (file_exists(UPLOAD_PATH)) {
+        $deny_ext = array("php","php5","php4","php3","php2","html","htm","phtml","pht","jsp","jspa","jspx","jsw","jsv","jspf","jtml","asp","aspx","asa","asax","ascx","ashx","asmx","cer","swf","htaccess");
+
+        $file_name = $_POST['save_name'];
+        $file_ext = pathinfo($file_name,PATHINFO_EXTENSION);
+
+        if(!in_array($file_ext,$deny_ext)) {
+            $temp_file = $_FILES['upload_file']['tmp_name'];
+            $img_path = UPLOAD_PATH . '/' .$file_name;
+            if (move_uploaded_file($temp_file, $img_path)) { 
+                $is_upload = true;
+            }else{
+                $msg = '上传出错！';
+            }
+        }else{
+            $msg = '禁止保存为该类型文件！';
+        }
+
+    } else {
+        $msg = UPLOAD_PATH . '文件夹不存在,请手工创建！';
+    }
+}
+```
+
+ 同样是上传路径可控，可以使用和Pass-13同样的方式绕过。不同的是这里的黑名单，可以文件名称保存的时候，加上`.`，最末的`.`号使得`pathinfo()`获取到的`PATHINFO_EXTENSION`为空，从而绕过黑名单。
+
+![](../../.gitbook/assets/image%20%28668%29.png)
+
+### pass-21-数组
+
+```php
+$is_upload = false;
+$msg = null;
+if(!empty($_FILES['upload_file'])){
+    //检查MIME
+    $allow_type = array('image/jpeg','image/png','image/gif');
+    if(!in_array($_FILES['upload_file']['type'],$allow_type)){
+        $msg = "禁止上传该类型文件!";
+    }else{
+        //检查文件名
+        $file = empty($_POST['save_name']) ? $_FILES['upload_file']['name'] : $_POST['save_name'];
+        if (!is_array($file)) {
+            $file = explode('.', strtolower($file));
+        }
+
+        $ext = end($file);
+        $allow_suffix = array('jpg','png','gif');
+        if (!in_array($ext, $allow_suffix)) {
+            $msg = "禁止上传该后缀文件!";
+        }else{
+            $file_name = reset($file) . '.' . $file[count($file) - 1];
+            $temp_file = $_FILES['upload_file']['tmp_name'];
+            $img_path = UPLOAD_PATH . '/' .$file_name;
+            if (move_uploaded_file($temp_file, $img_path)) {
+                $msg = "文件上传成功！";
+                $is_upload = true;
+            } else {
+                $msg = "文件上传失败！";
+            }
+        }
+    }
+}else{
+    $msg = "请选择要上传的文件！";
+}
+
+```
+
+验证过程：先检查MIME，通过后检查文件名，保存名称为空的就用上传的文件名。再判断文件名是否是array数组，不是的话就用explode\(\)函数通过.号分割成数组。然后获取最后一个，也就是后缀名，进行白名单验证。不符合就报错，符合就拼接数组的第一个和最后一个作为文件名，保存。
+
+```php
+explode(string $delimiter , string $string [, int $limit])
+//返回由字符串组成的数组，每个元素都是string的一个子串，它们被字符串delimiter作为边界点分割出来 
+reset(array &$array)
+//将数组的内部指针指向第一个单元
+```
+
+绕过过程：绕过MIMIE，改一下包的Content-Type，为了绕过explode\(\)函数，需要传入数组，绕过白名单，由于取的是end\(\)也就是数组最后一个，需要传入数组的最后一个为jpg\|png\|gif，最后是拼接文件名，取的是reset\(\)第一个，即索引为0，和索引count\(\)-1（数组内元素个数-1）。所以令索引0为1.php，索引2为jpg（只要是索引1之后都可），这样数组元素个数为2，拼接的就是索引0和索引1，也就是1.php和空，结果还是1.php，这样就可以使得拼接后的文件名为1.php。
+
+![](../../.gitbook/assets/image%20%28661%29.png)
 
 ## 三、文件上传对应防御手段
 
