@@ -1149,6 +1149,15 @@ reset(array &$array)
 
 2、[文件上传与XSS](https://www.freebuf.com/articles/web/101843.html)
 
+3、bypass安全狗
+
+ 方法：
+
+1. 文件名中添加`;` 例如：1;23.php
+2. 文件名中添加`'` 例如：1'23.php
+3. 文件后缀中添加空格：`12.php` 
+4. 文件后缀中添加空格：`12.p hp`
+
 
 
 
