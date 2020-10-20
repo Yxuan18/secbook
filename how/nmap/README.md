@@ -124,5 +124,133 @@ nmap --script=ftp-brute.nse 192.168.88.131
 5、利用第三方的数据库或资源，例如进行whoise解析  
 nmap --script=external 192.168.88.131
 
+##  二、详解
+
+###  1、功能点及原理
+
+####  1、主机发现
+
+概念：即用于发现目标主机是否在线（Alive，处于开启状态）
+
+原理：
+
+主机发现发现的原理与Ping命令类似，发送探测包到目标主机，如果收到回复，那么说明目标主机是开启的。Nmap支持十多种不同的主机探测方式，比如发送ICMP ECHO/TIMESTAMP/NETMASK报文、发送TCPSYN/ACK包、发送SCTP INIT/COOKIE-ECHO包，用户可以在不同的条件下灵活选用不同的方式来探测目标机。
+
+主机发现基本原理：（以ICMP echo方式为例）
+
+![](../../.gitbook/assets/image%20%28655%29.png)
+
+Nmap的用户位于源端，IP地址192.168.0.5，向目标主机192.168.0.3发送ICMP Echo Request。如果该请求报文没有被防火墙拦截掉，那么目标机会回复ICMP Echo Reply包回来。以此来确定目标主机是否在线。
+
+默认情况下，Nmap会发送四种不同类型的数据包来探测目标主机是否在线。
+
+1. ICMP echo request
+2. a TCP SYN packet to port 443
+3. a TCP ACK packet to port 80
+4. an ICMP timestamp request
+
+依次发送四个报文探测目标机是否开启。只要收到其中一个包的回复，那就证明目标机开启。使用四种不同类型的数据包可以避免因防火墙或丢包造成的判断错误。
+
+####  2、端口扫描
+
+{% tabs %}
+{% tab title="TCP SYN scanning" %}
+这是Nmap默认的扫描方式，通常被称作半开放扫描（Half-open scanning）。该方式发送SYN到目标端口，如果收到SYN/ACK回复，那么判断端口是开放的；如果收到RST包，说明该端口是关闭的。如果没有收到回复，那么判断该端口被屏蔽（Filtered）。因为该方式仅发送SYN包对目标主机的特定端口，但不建立的完整的TCP连接，所以相对比较隐蔽，而且效率比较高，适用范围广。
+
+TCP SYN探测到端口关闭：
+
+![](../../.gitbook/assets/image%20%28650%29.png)
+
+TCP SYN探测到端口开放：
+
+![](../../.gitbook/assets/image%20%28647%29.png)
+{% endtab %}
+
+{% tab title="TCP connect scanning" %}
+TCP connect方式使用系统网络API connect向目标主机的端口发起连接，如果无法连接，说明该端口关闭。该方式扫描速度比较慢，而且由于建立完整的TCP连接会在目标机上留下记录信息，不够隐蔽。所以，TCP connect是TCP SYN无法使用才考虑选择的方式。
+
+TCP connect探测到端口关闭：
+
+![](../../.gitbook/assets/image%20%28652%29.png)
+
+TCP connect探测到端口开放：
+
+![](../../.gitbook/assets/image%20%28649%29.png)
+{% endtab %}
+
+{% tab title="TCP ACK scanning" %}
+向目标主机的端口发送ACK包，如果收到RST包，说明该端口没有被防火墙屏蔽；没有收到RST包，说明被屏蔽。该方式只能用于确定防火墙是否屏蔽某个端口，可以辅助TCP SYN的方式来判断目标主机防火墙的状况。
+
+TCP ACK探测到端口被屏蔽：
+
+![](../../.gitbook/assets/image%20%28653%29.png)
+
+TCP ACK探测到端口未被屏蔽：
+
+![](../../.gitbook/assets/image%20%28648%29.png)
+{% endtab %}
+
+{% tab title="TCP FIN/Xmas/NULL scanning" %}
+这三种扫描方式被称为秘密扫描（Stealthy Scan），因为相对比较隐蔽。FIN扫描向目标主机的端口发送的TCP FIN包或Xmas tree包/Null包，如果收到对方RST回复包，那么说明该端口是关闭的；没有收到RST包说明端口可能是开放的或被屏蔽的（open\|filtered）。
+
+其中Xmas tree包是指flags中FIN URG PUSH被置为1的TCP包；NULL包是指所有flags都为0的TCP包。
+
+TCP FIN探测到主机端口是关闭的：
+
+![](../../.gitbook/assets/image%20%28656%29.png)
+
+TCP FIN探测到主机端口是开放或屏蔽的：
+
+![](../../.gitbook/assets/image%20%28654%29.png)
+
+\*\*\*\*
+{% endtab %}
+
+{% tab title="UDP scanning" %}
+UDP扫描方式用于判断UDP端口的情况。向目标主机的UDP端口发送探测包，如果收到回复“ICMP port unreachable”就说明该端口是关闭的；如果没有收到回复，那说明UDP端口可能是开放的或屏蔽的。因此，通过反向排除法的方式来断定哪些UDP端口是可能出于开放状态。
+
+UDP端口关闭：
+
+![](../../.gitbook/assets/image%20%28651%29.png)
+
+UDP端口开放或被屏蔽：
+
+![](../../.gitbook/assets/image%20%28657%29.png)
+{% endtab %}
+
+{% tab title="其他方式" %}
+ 例如使用SCTP INIT/COOKIE-ECHO方式来探测SCTP的端口开放情况；使用IP protocol方式来探测目标主机支持的协议类型（TCP/UDP/ICMP/SCTP等等）；使用idle scan方式借助僵尸主机（zombie host，也被称为idle host，该主机处于空闲状态并且它的IPID方式为递增。详细实现原理参见：[http://nmap.org/book/idlescan.html](http://nmap.org/book/idlescan.html)）来扫描目标在主机，达到隐蔽自己的目的；或者使用FTP bounce scan，借助FTP允许的代理服务扫描其他的主机，同样达到隐藏自己的身份的目的。
+{% endtab %}
+{% endtabs %}
+
+#### 3、版本侦测原理
+
+简要的介绍版本的侦测原理。
+
+版本侦测主要分为以下几个步骤：
+
+1. 首先检查open与open\|filtered状态的端口是否在排除端口列表内。如果在排除列表，将该端口剔除。
+2. 如果是TCP端口，尝试建立TCP连接。尝试等待片刻（通常6秒或更多，具体时间可以查询文件nmap-services-probes中Probe TCP NULL q\|\|对应的totalwaitms）。通常在等待时间内，会接收到目标机发送的“WelcomeBanner”信息。nmap将接收到的Banner与nmap-services-probes中NULL probe中的签名进行对比。查找对应应用程序的名字与版本信息。
+3. 如果通过“Welcome Banner”无法确定应用程序版本，那么nmap再尝试发送其他的探测包（即从nmap-services-probes中挑选合适的probe），将probe得到回复包与数据库中的签名进行对比。如果反复探测都无法得出具体应用，那么打印出应用返回报文，让用户自行进一步判定。
+4. 如果是UDP端口，那么直接使用nmap-services-probes中探测包进行探测匹配。根据结果对比分析出UDP应用服务类型。
+5. 如果探测到应用程序是SSL，那么调用openSSL进一步的侦查运行在SSL之上的具体的应用类型。
+6. 如果探测到应用程序是SunRPC，那么调用brute-force RPC grinder进一步探测具体服务。
+
+#### 4、OS侦测
+
+Nmap使用TCP/IP协议栈指纹来识别不同的操作系统和设备。在RFC规范中，有些地方对TCP/IP的实现并没有强制规定，由此不同的TCP/IP方案中可能都有自己的特定方式。Nmap主要是根据这些细节上的差异来判断操作系统的类型的。
+
+具体实现方式如下：
+
+1. Nmap内部包含了2600多已知系统的指纹特征（在文件nmap-os-db文件中）。将此指纹数据库作为进行指纹对比的样本库。
+2. 分别挑选一个open和closed的端口，向其发送经过精心设计的TCP/UDP/ICMP数据包，根据返回的数据包生成一份系统指纹。
+3. 将探测生成的指纹与nmap-os-db中指纹进行对比，查找匹配的系统。如果无法匹配，以概率形式列举出可能的系统。
+
+
+
+
+
+
+
 
 
