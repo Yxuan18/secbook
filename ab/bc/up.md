@@ -1143,9 +1143,11 @@ reset(array &$array)
 
 3、对于整个网站都是使用的开源代码或者使用网上的框架搭建的网站来说，尤其要注意漏洞的自查和软件版本及补丁的更新，上传功能非必选可以直接删除。除对系统自身的维护外，服务器应进行合理配置，非必选一般的目录都应去掉执行权限，上传目录可配置为只读。
 
-##  四、拓展
+##  四、相关内容
 
-### 1、[文件名SQL注](https://www.cnblogs.com/conquer-vv/p/11328249.html)——攻防世界：upload
+1、[文件名SQL注入](https://www.cnblogs.com/conquer-vv/p/11328249.html)
+
+2、[文件上传与XSS](https://www.freebuf.com/articles/web/101843.html)
 
 
 
