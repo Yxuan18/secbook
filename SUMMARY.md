@@ -65,7 +65,10 @@
   * [基础知识](db/mysql/jichuzhishi.md)
   * [核心技术](db/mysql/hexin.md)
   * [高级应用](db/mysql/gaojiyingyong.md)
-* [oracle](db/oracle.md)
+* [oracle](db/oracle/README.md)
+  * [webshell写入](db/oracle/xs.md)
+* [SQLserver](db/ssr/README.md)
+  * [webshell写入](db/ssr/xs.md)
 
 ## 中间件 <a id="mido"></a>
 
