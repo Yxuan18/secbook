@@ -2,7 +2,7 @@
 
 ## 一、docker-compose安装
 
- 步骤：
+###  1、步骤
 
 Linux 上我们可以从 Github 上下载它的二进制包来使用，最新发行的版本地址：[https://github.com/docker/compose/releases](https://github.com/docker/compose/releases)。
 
@@ -36,6 +36,23 @@ cker-compose version 1.24.1, build 4667896b
 **注意**： 对于 alpine，需要以下依赖包： py-pip，python-dev，libffi-dev，openssl-dev，gcc，libc-dev，和 make。
 
 ![](../../.gitbook/assets/image%20%28559%29.png)
+
+### 2、基本使用
+
+```bash
+docker-compose build    #编译环境
+docker-compose up -d    #编译环境并在后台执行服务
+```
+
+```text
+docker-compose down
+```
+
+上述命令会执行如下几个动作：
+
+* 关闭正在运行的容器
+* 删除所有相关容器
+* 移除NAT（docker-compose在运行的时候会创建一个NAT网段）
 
 ## 二、docker安装
 
