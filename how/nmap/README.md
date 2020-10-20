@@ -246,6 +246,19 @@ Nmap使用TCP/IP协议栈指纹来识别不同的操作系统和设备。在RFC�
 2. 分别挑选一个open和closed的端口，向其发送经过精心设计的TCP/UDP/ICMP数据包，根据返回的数据包生成一份系统指纹。
 3. 将探测生成的指纹与nmap-os-db中指纹进行对比，查找匹配的系统。如果无法匹配，以概率形式列举出可能的系统。
 
+###  2、优化具体内容
+
+| 功能 | 参数 |
+| :--- | :--- |
+| 一次扫描多个主机（多主机探测没有，-sP） | - -min-hostgroup&lt;主机个数&gt;, - -max-hostgroup&lt;主机个数&gt; |
+| 一次开多个并行扫描 | - -min-parallelism&lt;并行个数&gt;， - -max–parellelism&lt;并行个数&gt; |
+| 主机在线和重传等待 | - -min-rtt-timeout&lt;毫秒速&gt;, - -max-rtt-timeout&lt;毫秒速&gt;， - -initial-rtt-timeout&lt;毫秒速&gt;（可以使用单位s,m.h；多个端口累计无响应） |
+| 直接控制发包速度 | - -min-rate&lt;每秒的发包次数&gt;， - -max-rate&lt;每秒的发包次数&gt; |
+| 不关心服务端的rst包，不关心close类型 | - -defeat-rst-ratelimit |
+| 最大重传次数 | - -max-retries&lt;最大重传次数&gt; |
+| 每个主机最大的耗时 | - -host-timeout&lt;毫秒数&gt;（可以使用单位s.m,h） |
+| 主机每个请求的间隔时间 | - -scan-delay&lt;毫秒数&gt;， –max-scan-delay&lt;毫秒数&gt;（可以使用单位s.m,h） |
+
 
 
 
