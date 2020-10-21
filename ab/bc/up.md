@@ -1720,6 +1720,10 @@ GIF 文件标识 GIF89a 做为一个 javascript 的变量分配给 alert 函数�
 3. 文件后缀中添加空格：`12.php` 
 4. 文件后缀中添加空格：`12.p hp`
 
+### 4、已提交相关漏洞
+
+![&#x6F0F;&#x6D1E;&#xFF08;&#x6570;&#x636E;&#x6765;&#x81EA;CNVD&#xFF09;         ](../../.gitbook/assets/image%20%28675%29.png)
+
 
 
 
