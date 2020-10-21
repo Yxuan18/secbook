@@ -104,6 +104,7 @@
   * [编码规范](lan/py/gf.md)
   * [fishc](lan/py/fishc.md)
   * [某教程涉及脚本](lan/py/jiaob.md)
+  * [POC编写相关](lan/py/poc.md)
   * [python秘籍](lan/py/miji.md)
   * [安全方面的内容](lan/py/secu/README.md)
     * [Python Opcode逃逸笔记](lan/py/secu/opcode.md)
