@@ -16,10 +16,14 @@
 
  **说明**：该关卡在前端在JS中对上传文件的后缀进行限制
 
+#### 同类型题：XCTF-upload1
+
 ####  步骤
 
 1、点击F12或查看源码，可看到JavaScript字段，其中对可上传文件后缀做了限制
 
+{% tabs %}
+{% tab title="labs" %}
 ```javascript
 <script type="text/javascript">
     function checkFile() {
@@ -41,6 +45,39 @@
     }
 </script>
 ```
+{% endtab %}
+
+{% tab title="upload1" %}
+```javascript
+<script type="text/javascript">
+Array.prototype.contains = function (obj) {  
+    var i = this.length;  
+    while (i--) {  
+        if (this[i] === obj) {  
+            return true;  
+        }  
+    }  
+    return false;  
+}  
+
+function check(){
+upfile = document.getElementById("upfile");
+submit = document.getElementById("submit");
+name = upfile.value;
+ext = name.replace(/^.+\./,'');
+
+if(['jpg','png'].contains(ext)){
+	submit.disabled = false;
+}else{
+	submit.disabled = true;
+
+	alert('请选择一张图片文件上传!');
+}
+}
+</script>
+```
+{% endtab %}
+{% endtabs %}
 
 2、上传步骤如下：
 
@@ -69,6 +106,20 @@
 3、在新标签中打开文件，可看到上传好的文件
 
 ![](../../.gitbook/assets/image%20%28606%29.png)
+{% endtab %}
+
+{% tab title="upload1" %}
+1、选中JPG文件，点击上传并修改后缀（经测试，也可以使用方法一）
+
+![&#x5728;burp&#x4E2D;&#x4FEE;&#x6539;&#x540E;&#x7F00;](../../.gitbook/assets/image%20%28673%29.png)
+
+2、复制返回包中的路径及文件名
+
+![](../../.gitbook/assets/image%20%28672%29.png)
+
+3、新建标签页打开
+
+![](../../.gitbook/assets/image%20%28674%29.png)
 {% endtab %}
 {% endtabs %}
 
