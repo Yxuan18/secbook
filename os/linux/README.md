@@ -26,12 +26,29 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted
 
 ![](../../.gitbook/assets/image%20%28531%29.png)
 
-### 2、为ROOT设置密码
+### 2、apt install报错
+
+```bash
+## 错误如下：
+E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)
+E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?
+```
+
+解决方式如下：
+
+{% code title="apt-rm.sh" %}
+```bash
+sudo rm /var/lib/dpkg/lock-frontend       
+sudo rm /var/lib/dpkg/lock
+```
+{% endcode %}
+
+### 3、为ROOT设置密码
 
 1. 打开命令行，并`sudo su`切换至管理员权限
 2. 输入命令：`passwd root`，之后设置密码即可
 
-### 3、安装并开启SSH服务
+### 4、安装并开启SSH服务
 
  1、尝试开启服务，发现本地没有SSH服务端
 
@@ -56,7 +73,7 @@ service ssh stop      #停止服务
 service ssh restart   #重启服务
 ```
 
-### 4、SSH相关
+### 5、SSH相关
 
  配置文件位于：`/etc/ssh/sshd_config`   ：
 
@@ -115,7 +132,7 @@ PermitRootLogin yes
 
 ```
 
-### 5、修改docker镜像源
+### 6、修改docker镜像源
 
  新建或打开`/etc/docker/daemon.json` ，在其中输入如下内容，保存并退出，且重启docker服务即可
 
@@ -129,7 +146,9 @@ PermitRootLogin yes
 
 
 
-### 6、7、8、9、
+### 
+
+### 7、8、9、
 
 
 
