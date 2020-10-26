@@ -160,6 +160,7 @@
   * [导出报告方式](how/burpsuite/dc.md)
   * [FAKE-IP](how/burpsuite/fakeip.md)
   * [captcha-killer](how/burpsuite/ck.md)
+  * [编写插件绕过WAF](how/burpsuite/rawaf.md)
 * [Cobalt Strike](how/cs/README.md)
   * [Cobalt Strike Powershell过360+Defender上线](how/cs/cpd.md)
 * [PowerSh](how/ps/README.md)
