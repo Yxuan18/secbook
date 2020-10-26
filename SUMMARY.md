@@ -153,6 +153,7 @@
 
 * [Acunetix\(AWVS\)](how/acunetix-awvs/README.md)
   * [安装到使用](how/acunetix-awvs/anzhuangshiyong.md)
+  * [编写AWVS脚本探测web services](how/acunetix-awvs/wbs.md)
   * [简单分析-web方面](how/acunetix-awvs/fen-xi.md)
   * [流量分析特征](how/acunetix-awvs/liu-liang-fen-xi-te-zheng.md)
 * [burpsuite](how/burpsuite/README.md)
