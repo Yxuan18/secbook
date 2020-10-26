@@ -6,11 +6,11 @@
 
 常用的是  java.lang.Runtime\#exec\(\) 和  java.lang.ProcessBuilder\#start\(\) ，除此之外，还有更为底层的 java.lang.ProcessImpl\#start\(\) ，他们的调用关系如下图所示：
 
-![](../../.gitbook/assets/image%20%28734%29.png)
+![](../../.gitbook/assets/image%20%28745%29.png)
 
 其中，ProcessImpl 类是 Process 抽象类的具体实现，且该类的构造函数使用 private 修饰，所以无法在 java.lang 包外直接调用，只能通过反射调用 ProcessImpl\#start\(\) 方法执行命令。
 
-![](../../.gitbook/assets/image%20%28723%29.png)
+![](../../.gitbook/assets/image%20%28731%29.png)
 
 **这3种执行方法如下：**
 
@@ -20,7 +20,7 @@
 public static String RuntimeTest() throws Exception {    InputStream ins = Runtime.getRuntime().exec("whoami").getInputStream();    ByteArrayOutputStream bos = new ByteArrayOutputStream();byte[] bytes = new byte[1024];int size;while((size = ins.read(bytes)) > 0)        bos.write(bytes,0,size);return bos.toString();}
 ```
 
-![](../../.gitbook/assets/image%20%28740%29.png)
+![](../../.gitbook/assets/image%20%28751%29.png)
 
 ## java.lang.ProcessBuilder
 
@@ -61,11 +61,11 @@ return bos.toString();
 
 当直接将命令字符 echo echo\_test &gt; echo.txt 传给 java.lang.Runtime\#exec\(\)执行时报错：
 
-![](../../.gitbook/assets/image%20%28774%29.png)
+![](../../.gitbook/assets/image%20%28789%29.png)
 
 加上cmd /c 可以成功执行：
 
-![](../../.gitbook/assets/image%20%28715%29.png)
+![](../../.gitbook/assets/image%20%28720%29.png)
 
 我们跟进下代码看看是什么原因导致的？
 
@@ -73,13 +73,13 @@ return bos.toString();
 
 传入命令字符串echo echo\_test &gt; echo.txt进行调试，跟进java.lang.Runtime\#exec\(String\)，该方法又会调用java.lang.Runtime\#exec\(String,String\[\],File\)。
 
-![](../../.gitbook/assets/image%20%28736%29.png)
+![](../../.gitbook/assets/image%20%28746%29.png)
 
 ![](../../.gitbook/assets/image%20%28695%29.png)
 
 在该方法中调用了StringTokenizer类，通过特定字符对命令字符串进行分割，本地测试如下：
 
-![](../../.gitbook/assets/image%20%28737%29.png)
+![](../../.gitbook/assets/image%20%28747%29.png)
 
 所以命令字符串echo echo\_test &gt; echo.txt经过StringTokenizer类处理后得到命令数组:{"echo","echo\_test","&gt;","echo.txt"} 。另外java.lang.Runtime\#exec\(\)共有6个重载方法，代码如下：
 
@@ -95,11 +95,11 @@ public Process exec(String command) throws IOException {return exec(command, nul
 
 接着跟进java.lang.ProcessBuilder\#start\(\)，取出cmdarray\[0\]赋值给prog,如果安全管理器SecurityManager开启,会调用SecurityManager\#checkExec\(\)对执行程序prog进行检查，之后调用ProcessImpl\#start\(\)。
 
-![](../../.gitbook/assets/image%20%28743%29.png)
+![](../../.gitbook/assets/image%20%28755%29.png)
 
 跟进 java.lang.ProcessImpl\#start\(\) ，Windows 下会调用 ProcessImpl 类的构造方法，如果是 Linux 环境，则会调用 java.lang.UNIXProcess\#init&lt;&gt; 。
 
-![](../../.gitbook/assets/image%20%28747%29.png)
+![](../../.gitbook/assets/image%20%28761%29.png)
 
 ### **跟进java.lang.ProcessImpl的构造方法**
 
@@ -109,43 +109,43 @@ public Process exec(String command) throws IOException {return exec(command, nul
 
 传统模式下，当可执行程序prog存在\t 或空格时，该函数返回true，即需要双引号包裹处理。
 
-![](../../.gitbook/assets/image%20%28712%29.png)
+![](../../.gitbook/assets/image%20%28718%29.png)
 
 ![](../../.gitbook/assets/image%20%28713%29.png)
 
 最后调用ProcessImpl\#create\(\)，这是一个native方法，根据JNI命名规则，会调用到ProcessImpl\_md.c 中的Java\_Java\_lang\_ProcessImpl\_create\(\)，该函数会调用Windows系统API函数：CreateProcessW\(\)，用来创建一个新的Windows进程。创建成功后，将新进程的句柄返回给ProcessImpl\#create\(\)。
 
-![](../../.gitbook/assets/image%20%28772%29.png)
+![](../../.gitbook/assets/image%20%28787%29.png)
 
 看下CreateProcessW\(\)怎么处理我们传入的命令的：当第一个参数\(lpApplicationName\)为0时，第二个参数pcmd\(lpCommandLine\)需要提供启动程序及所需参数，彼此间以空格隔开。
 
-![](../../.gitbook/assets/image%20%28785%29.png)
+![](../../.gitbook/assets/image%20%28801%29.png)
 
-![](../../.gitbook/assets/image%20%28728%29.png)
+![](../../.gitbook/assets/image%20%28737%29.png)
 
-![](../../.gitbook/assets/image%20%28697%29.png)
+![](../../.gitbook/assets/image%20%28702%29.png)
 
 测试 ProcessImpl\#create\(\) 方法：
 
-![](../../.gitbook/assets/image%20%28755%29.png)
+![](../../.gitbook/assets/image%20%28770%29.png)
 
 加上cmd /c之后，成功执行命令：
 
-![](../../.gitbook/assets/image%20%28708%29.png)
+![](../../.gitbook/assets/image%20%28712%29.png)
 
 ### **需要添加cmd /c的原因:**
 
 在传入 echo echo\_test &gt; echo.txt 命令字符串时，出现错误\("java.io.IOException: Cannot run program "echo": CreateProcess error=2, 系统找不到指定的文件。"\)。原因是echo为命令行解释器cmd.exe的内置命令，并不是一个单独可执行的程序\(如下图\)，所以如果想执行echo命令写文件需要先启动cmd.exe，然后将echo命令做为cmd.exe的参数进行执行。
 
-![](../../.gitbook/assets/image%20%28685%29.png)
+![](../../.gitbook/assets/image%20%28687%29.png)
 
 另外关于cmd下的 /c 参数，当未指定时,运行如下示例程序,系统会启动一个pid为8984的cmd后台进程，由于cmd进程未终止导致java程序卡死。当指定/c时，cmd进程会在命令执行完毕后成功终止。
 
-![](../../.gitbook/assets/image%20%28757%29.png)
+![](../../.gitbook/assets/image%20%28772%29.png)
 
-![](../../.gitbook/assets/image%20%28783%29.png)
+![](../../.gitbook/assets/image%20%28799%29.png)
 
-![](../../.gitbook/assets/image%20%28693%29.png)
+![](../../.gitbook/assets/image%20%28697%29.png)
 
  所以在Windows环境下，使用Runtime.getRuntime\(\)执行的命令前缀需要加上cmd /c，使得底层Windows的processthreadsapi.h\#CreateProcessW\(\)方法在创建新进程时，可以正确识别cmd且成功返回命令执行结果。
 
