@@ -156,6 +156,7 @@
   * [简单分析-web方面](how/acunetix-awvs/fen-xi.md)
   * [流量分析特征](how/acunetix-awvs/liu-liang-fen-xi-te-zheng.md)
 * [burpsuite](how/burpsuite/README.md)
+  * [导出报告方式](how/burpsuite/dc.md)
   * [FAKE-IP](how/burpsuite/fakeip.md)
   * [captcha-killer](how/burpsuite/ck.md)
 * [Cobalt Strike](how/cs/README.md)
