@@ -90,6 +90,7 @@
 * [C](lan/c.md)
 * [Java](lan/java/README.md)
   * [代码审计](lan/java/shenji.md)
+  * [浅析Java命令执行](lan/java/rce.md)
   * [相关框架简介及漏洞](lan/java/kj.md)
 * [PHP](lan/php/README.md)
   * [代码审计](lan/php/shenji.md)
