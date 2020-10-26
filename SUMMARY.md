@@ -8,6 +8,7 @@
 
 * [常见端口利用](1/alwart.md)
 * [F5 big-ip从环境搭建到漏洞复现](1/f5-big-ip.md)
+* [红队资源](1/zy.md)
 
 ## About <a id="ab"></a>
 
