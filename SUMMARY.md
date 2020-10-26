@@ -157,6 +157,7 @@
   * [流量分析特征](how/acunetix-awvs/liu-liang-fen-xi-te-zheng.md)
 * [burpsuite](how/burpsuite/README.md)
   * [FAKE-IP](how/burpsuite/fakeip.md)
+  * [captcha-killer](how/burpsuite/ck.md)
 * [Cobalt Strike](how/cs/README.md)
   * [Cobalt Strike Powershell过360+Defender上线](how/cs/cpd.md)
 * [PowerSh](how/ps/README.md)
