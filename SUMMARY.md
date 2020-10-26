@@ -21,6 +21,8 @@
     * [移动平台攻击活动揭露](ab/apt/c08/yidong.md)
   * [双尾蝎组织（APT-C-23）](ab/apt/c23/README.md)
     * [针对中东地区的最新攻击活动](ab/apt/c23/2020-1.md)
+  * [Fancy Bear（APT-C-28）](ab/apt/28/README.md)
+    * [携小众压缩包诱饵对北约、中亚目标的定向攻击分析](ab/apt/28/01.md)
   * [肚脑虫组织（APT-C-35）](ab/apt/c35/README.md)
     * [使用升级版数字武器针对周边地区的攻击活动](ab/apt/c35/2.md)
     * [针对巴基斯坦的攻击活动](ab/apt/c35/1.md)
