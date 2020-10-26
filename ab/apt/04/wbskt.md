@@ -152,7 +152,7 @@ ShellRAT属于远程Shell组件，会在本地监听TCP 12323端口，同时利�
 
 核心加载程序JsLoader 的dll导出函数与duser.dll一致，是常用于DLL劫持类攻击的荷载。
 
-![](../../../.gitbook/assets/image%20%28774%29.png)
+![](../../../.gitbook/assets/image%20%28793%29.png)
 
 响尾蛇组织历史上的多次攻击活动惯用credwiz.exe+duser.dll组合的白利用攻击手法，通过360安全大脑根据相关攻击模式对JsLoader的分析显示，相关样本与响尾蛇（SideWinder）组织的多次攻击活动存在关联。
 
