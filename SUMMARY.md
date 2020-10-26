@@ -19,6 +19,8 @@
     * [利用WebSocket隧道的新型攻击活动披露](ab/apt/04/wbskt.md)
   * [蔓灵花（APT-C-08）](ab/apt/c08/README.md)
     * [移动平台攻击活动揭露](ab/apt/c08/yidong.md)
+  * [蓝宝菇（APT-C-12）](ab/apt/12/README.md)
+    * [组织使用云存储技术发起的最新攻击活动披露](ab/apt/12/01.md)
   * [双尾蝎组织（APT-C-23）](ab/apt/c23/README.md)
     * [针对中东地区的最新攻击活动](ab/apt/c23/2020-1.md)
   * [Fancy Bear（APT-C-28）](ab/apt/28/README.md)
