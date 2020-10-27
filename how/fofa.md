@@ -66,7 +66,7 @@ title="XX市" && title="XX医院"
     当我们分别查找title、header、body的关键字的时候总觉得太麻烦，能不能直接搜索一次就包含所有的搜索结果呢？答案是肯定的。  
 **再次举栗**
 
-```text
+```markup
 <html>
 <head>
 <title>首页 - XX管理系统</title>
@@ -107,7 +107,7 @@ title="测试" && "XX市" && "XX医院" && country="CN" && region!="HK"
 
 **- 某些特殊关注点**
 
-```text
+```markup
 <html>
 <head>
 <title>首页 - XX管理系统</title>
@@ -135,7 +135,7 @@ title="测试" && "XX市" && "XX医院" && country="CN" && region!="HK"
     有些API接口，直接访问会报错：  
 **举栗举栗**
 
-```text
+```markup
 <!DOCTYPE html>
 <html>
 <head>
@@ -211,7 +211,7 @@ cert="baidu.com"
 
 查看证书实例！
 
-```text
+```markup
 HTTP/1.1 403 Forbidden
 Server: JSP3/2.0.14
 Date: Mon, 19 Oct 2020 06:07:15 GMT
