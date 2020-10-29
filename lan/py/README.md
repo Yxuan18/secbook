@@ -88,5 +88,48 @@ Linux中默认版本是python2，python3也有，此处以Windows为例：
 
 ![](../../.gitbook/assets/image%20%28521%29.png)
 
+### 4、pip更新第三方库时报错
+
+1、错误内容如下：
+
+![&#x9519;&#x8BEF;&#x56FE;&#x7247;](../../.gitbook/assets/image%20%28804%29.png)
+
+```text
+ERROR: After October 2020 you may experience errors when installing or updating packages. This is because pip will change the way that it resolves dependency conflicts.
+We recommend you use --use-feature=2020-resolver to test your packages with the new resolver before it becomes the default.
+jedi 0.17.2 requires parso<0.8.0,>=0.7.0, but you'll have parso 0.8.0 which is incompatible.
+```
+
+2、解决如下：在更新第三方库或者安装的时候，在命令中添加：  `--use-feature=2020-resolver`
+
+```text
+py -3 -m pip install --upgrade colorama idna lxml parso requests setuptools urllib3 --use-feature=2020-resolver
+```
+
+### 5、批量更新pip第三方库
+
+ 建议来自网络，涉及脚本代码如下：（建议根据电脑有的python版本进行适当更改call函数中的内容）
+
+```python
+import pip
+from pip._internal.utils.misc import get_installed_distributions
+from subprocess import call
+import time
+ 
+for dist in get_installed_distributions():
+    print(dist.project_name)
+ 
+for dist in get_installed_distributions():
+    call("pip install --upgrade " + dist.project_name, shell=True)
+```
+
+![&#x8FD0;&#x884C;&#x622A;&#x56FE;](../../.gitbook/assets/image%20%28805%29.png)
+
+
+
+
+
+
+
 
 
