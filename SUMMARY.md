@@ -35,6 +35,8 @@
     * [针对巴基斯坦的攻击活动](ab/apt/c35/1.md)
   * [拍拍熊（APT-C-37）](ab/apt/c37.md)
   * [军刀狮（APT-C-38）](ab/apt/c38.md)
+  * [美人鱼\(Infy\)](ab/apt/infy/README.md)
+    * [使用最新的Foudre后门进行攻击活动的分析](ab/apt/infy/1.md)
 * [各类靶场讲解](ab/bc/README.md)
   * [sqli-labs](ab/bc/sqli.md)
   * [upload-labs](ab/bc/up.md)
@@ -45,6 +47,7 @@
   * [Docker容器环境检测方法【代码】](ab/docker/jiac.md)
 * [浏览器](ab/browser.md)
 * [markdown](ab/md.md)
+* [密码学](ab/mima.md)
 * [内网渗透TIPS](ab/nwtips.md)
 * [网络扫描](ab/wcan.md)
 * [正则表达式](ab/zzbds.md)
@@ -148,6 +151,10 @@
 ## 网络 <a id="net"></a>
 
 * [CCNA](net/ccna.md)
+
+## 漏洞类型及讲解 <a id="loud"></a>
+
+* [SQL-Injectoin](loud/sqli.md)
 
 ## how-to-use <a id="how"></a>
 
