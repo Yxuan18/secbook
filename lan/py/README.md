@@ -123,7 +123,7 @@ for dist in get_installed_distributions():
     call("pip install --upgrade " + dist.project_name, shell=True)
 ```
 
-![&#x8FD0;&#x884C;&#x622A;&#x56FE;](../../.gitbook/assets/image%20%28834%29.png)
+![&#x8FD0;&#x884C;&#x622A;&#x56FE;](../../.gitbook/assets/image%20%28862%29.png)
 
 
 

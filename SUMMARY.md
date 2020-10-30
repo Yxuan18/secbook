@@ -35,6 +35,8 @@
     * [针对巴基斯坦的攻击活动](ab/apt/c35/1.md)
   * [拍拍熊（APT-C-37）](ab/apt/c37.md)
   * [军刀狮（APT-C-38）](ab/apt/c38.md)
+  * [蓝色魔眼（APT-C-41）](ab/apt/41/README.md)
+    * [组织首次针对我国重要机构定向攻击活动披露](ab/apt/41/1.md)
   * [美人鱼\(Infy\)](ab/apt/infy/README.md)
     * [使用最新的Foudre后门进行攻击活动的分析](ab/apt/infy/1.md)
 * [各类靶场讲解](ab/bc/README.md)
