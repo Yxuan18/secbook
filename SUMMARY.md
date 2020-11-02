@@ -157,6 +157,7 @@
 
 ## 漏洞类型及讲解 <a id="loud"></a>
 
+* [综合](loud/zonghe.md)
 * [SQL-Injectoin](loud/sqli.md)
 * [Cross-Site Scripting](loud/xss.md)
 
