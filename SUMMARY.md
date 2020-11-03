@@ -160,6 +160,8 @@
 * [综合](loud/zonghe.md)
 * [SQL-Injectoin](loud/sqli.md)
 * [Cross-Site Scripting](loud/xss.md)
+* [文件操作](loud/file/README.md)
+  * [文件包含](loud/file/baohan.md)
 
 ## how-to-use <a id="how"></a>
 
