@@ -1251,8 +1251,6 @@ test5</html>
 
 ![](../../.gitbook/assets/image%20%28931%29.png)
 
-
-
 * 使用伪协议php://filter base64编码进行包含index.php
 
 ```text
@@ -1260,8 +1258,6 @@ http://127.0.0.1/1/index.php?file=php://filter/read=convert.base64-encode/resour
 ```
 
 ![](../../.gitbook/assets/image%20%28939%29.png)
-
-
 
 * 得到base64编码
 
@@ -1466,7 +1462,7 @@ pyload:[`http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Deskto
 
 尝试利用其它协议进行测试
 
-```text
+```php
 <meta charset="utf8">
 <?php
 //error_reporting(0);
@@ -1486,8 +1482,6 @@ if (!$file) echo '<a href="?file=upload">upload?</a>';
 phar://中相对路径和绝对路径都可以使用
 
 ![](../../.gitbook/assets/image%20%28930%29.png)
-
-
 
 ### 12.8 php-date
 
