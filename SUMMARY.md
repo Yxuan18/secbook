@@ -160,7 +160,8 @@
 
 * [综合](loud/zonghe.md)
 * [SQL-Injectoin](loud/sqli.md)
-* [Cross-Site Scripting](loud/xss.md)
+* [Cross-Site Scripting](loud/xss/README.md)
+  * [跨站的艺术-XSS入门与介绍](loud/xss/01.md)
 * [文件操作](loud/file/README.md)
   * [文件包含](loud/file/baohan.md)
 
