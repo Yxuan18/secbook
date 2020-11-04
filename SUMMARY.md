@@ -112,6 +112,7 @@
     * [基于tomcat的内存 Webshell 无文件攻击技术](lan/java/shell/tomcat.md)
     * [Tomcat 内存马检测](lan/java/shell/tomcat-1.md)
   * [代码审计](lan/java/shenji.md)
+  * [代码审计指南](lan/java/zhinan.md)
   * [浅析Java命令执行](lan/java/rce.md)
   * [相关框架简介及漏洞](lan/java/kj.md)
 * [PHP](lan/php/README.md)
