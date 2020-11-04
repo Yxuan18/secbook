@@ -162,6 +162,7 @@
 * [SQL-Injectoin](loud/sqli.md)
 * [Cross-Site Scripting](loud/xss/README.md)
   * [跨站的艺术-XSS入门与介绍](loud/xss/01.md)
+  * [跨站的艺术-XSS Fuzzing 的技巧](loud/xss/fuzz.md)
 * [文件操作](loud/file/README.md)
   * [文件包含](loud/file/baohan.md)
 
