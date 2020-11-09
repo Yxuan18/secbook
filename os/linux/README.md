@@ -144,11 +144,94 @@ PermitRootLogin yes
 
 ![&#x6D41;&#x7A0B;](../../.gitbook/assets/image%20%28535%29.png)
 
+### 7、yum源
 
+ubuntu安装yum:
 
-### 
+```bash
+apt install yum
+```
 
-### 7、8、9、
+ 更换yum源为国内的：需要在`/etc/yum/repos.d/`目录下创建两个文件，`fedora-163.repo`和`fedora-updates-163.repo`
+
+{% tabs %}
+{% tab title="fedora-163.repo" %}
+```markup
+[fedora]
+name=Fedora 17 - $basearch - 163.com
+failovermethod=priority
+baseurl=http://mirrors.163.com/fedora/releases/17/Everything/$basearch/os/
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-17&arch=$basearch
+enabled=1
+metadata_expire=7d
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+ 
+ 
+[fedora-debuginfo]
+name=Fedora 17 - $basearch - Debug - 163.com
+failovermethod=priority
+baseurl=http://mirrors.163.com/fedora/releases/17/Everything/$basearch/debug/
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-debug-17&arch=$basearch
+enabled=0
+metadata_expire=7d
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+ 
+ 
+[fedora-source]
+name=Fedora 17 - Source - 163.com
+failovermethod=priority
+baseurl=http://mirrors.163.com/fedora/releases/17/Everything/source/SRPMS/
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-source-17&arch=$basearch
+enabled=0
+metadata_expire=7d
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+```
+{% endtab %}
+
+{% tab title="fedora-updates-163.repo" %}
+```
+[updates]
+name=Fedora 17 - $basearch - Updates - 163.com
+failovermethod=priority
+baseurl=http://mirrors.163.com/fedora/updates/17/$basearch/
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f17&arch=$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+
+ 
+[updates-debuginfo]
+name=Fedora 17 - $basearch - Updates - Debug - 163.com
+failovermethod=priority
+baseurl=http://mirrors.163.com/fedora/updates/17/$basearch/debug/
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=updates-released-debug-f17&arch=$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+ 
+ 
+[updates-source]
+name=Fedora 17 - Updates Source - 163.com
+failovermethod=priority
+baseurl=http://mirrors.163.com/fedora/updates/17/SRPMS/
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=updates-released-source-f17&arch=$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+```
+{% endtab %}
+{% endtabs %}
+
+ 保存文件后，执行命令将软件包缓存到本地即可。命令如下：
+
+```bash
+yum makecache
+```
+
+### 8、9、
 
 
 
