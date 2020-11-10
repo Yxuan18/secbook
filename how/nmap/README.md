@@ -259,11 +259,13 @@ Nmap使用TCP/IP协议栈指纹来识别不同的操作系统和设备。在RFC�
 | 每个主机最大的耗时 | - -host-timeout&lt;毫秒数&gt;（可以使用单位s.m,h） |
 | 主机每个请求的间隔时间 | - -scan-delay&lt;毫秒数&gt;， –max-scan-delay&lt;毫秒数&gt;（可以使用单位s.m,h） |
 
+## 三、常见问题
 
+### 1、nmap报错: Failed to open device eth~
 
+步骤：
 
-
-
-
-
+1. 卸载 nmap，并卸载winpcap
+2. 重新安装nmap.
+3. end
 
