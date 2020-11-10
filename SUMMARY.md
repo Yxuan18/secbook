@@ -182,6 +182,7 @@
 * [Cobalt Strike](how/cs/README.md)
   * [Cobalt Strike Powershell过360+Defender上线](how/cs/cpd.md)
 * [FOFA](how/fofa.md)
+* [GDB](how/gdb.md)
 * [PowerSh](how/ps/README.md)
   * [获得Powershell命令的历史记录](how/ps/history.md)
   * [深入分析PowerShell的两面性](how/ps/lmx.md)
