@@ -248,7 +248,7 @@ networks:
 
 默认 admin 用户的密码为 Harbor12345 ，可以在 harbor.cfg 进行修改。登录后如下：
 
-![](../../.gitbook/assets/image%20%28987%29.png)
+![](../../.gitbook/assets/image%20%28989%29.png)
 
 图中的项目是之前上传的 ，新部署的 Harbor 登录后项目下是空的。
 
@@ -276,7 +276,7 @@ docker push 127.0.0.1:9090/library/nginx:latest
 
 访问 http://127.0.0.1:9090/harbor/projects ，在 library 项目下可以看见刚上传的 nginx镜像了：
 
-![](../../.gitbook/assets/image%20%28989%29.png)
+![](../../.gitbook/assets/image%20%28992%29.png)
 
   
  ![](https://img2018.cnblogs.com/blog/528977/201903/528977-20190311112108481-2022563516.jpg)
