@@ -26,6 +26,18 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted
 
 ![](../../.gitbook/assets/image%20%28531%29.png)
 
+2、系统太干净的情况下，可以尝试先备份source.list 文件，然后再将一行源写入 source.list 文件中，如下：
+
+![](../../.gitbook/assets/image%20%28985%29.png)
+
+图中涉及到的命令有：
+
+```bash
+cp source.list source.list.bak
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" > source.list
+apt update
+```
+
 ### 2、apt install报错
 
 ```bash
