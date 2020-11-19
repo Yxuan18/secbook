@@ -34,7 +34,7 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted
 
 ```bash
 cp source.list source.list.bak
-echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" > source.list
+echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" > sources.list
 apt update
 ```
 
