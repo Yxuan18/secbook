@@ -343,7 +343,7 @@ cmp_op = ('<', '<=', '==', '!=', '>', '>=', 'in', 'not in', 'is','is not', 'exce
 
 不同的操作码对应了不同的操作，在[Python/ceval.c](https://github.com/python/cpython/blob/b5cc2089cc354469f12eabc7ba54280e85fdd6dc/Python/ceval.c)中的switch里定义了对应的一系列虚拟机操作，构成了Python虚拟机的执行核心。
 
-```text
+```python
 switch (opcode) {
 
         /* BEWARE!
@@ -378,7 +378,7 @@ switch (opcode) {
 
 #### 编译debug版本python <a id="toc-4"></a>
 
-```text
+```python
 $ git clone https://github.com/python/cpython
 $ cd cpython
 $ sudo apt install build-essential

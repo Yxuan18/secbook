@@ -1,12 +1,12 @@
 # 统一内存管理
 
-[![image](https://fanchao01.github.io/blog/images/obmalloc_global.jpg)](https://fanchao01.github.io/blog/images/obmalloc_global.jpg)
+![image](https://fanchao01.github.io/blog/images/obmalloc_global.jpg)
 
 ### arena、pool和block <a id="arena&#x3001;pool&#x548C;block"></a>
 
 Python的对象分配器将内存分为三个维度，从大到小叫做arena、pool以及blcok。
 
-[![image](https://fanchao01.github.io/blog/images/arena.jpg)](https://fanchao01.github.io/blog/images/arena.jpg)
+![image](https://fanchao01.github.io/blog/images/arena.jpg)
 
 #### arena <a id="arena"></a>
 
@@ -28,7 +28,7 @@ block是内存管理的最小单位，每次分配需要按照block对齐。每�
 
 被回收的block会将头部作为指针链接下一个被回收的block
 
-```text
+```c
 *(block **)ob = freeblocks
 *freeblocks = &ob
 ```
@@ -41,7 +41,7 @@ block是内存管理的最小单位，每次分配需要按照block对齐。每�
 
 Objects/obmalloc.c
 
-```text
+```c
 #include "Python.h"
 #if defined(__has_feature)  /* Clang */
  #if __has_feature(address_sanitizer)  /* is ASAN enabled? */

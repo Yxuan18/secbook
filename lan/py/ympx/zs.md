@@ -4,7 +4,7 @@
 
 整数对象是固定大小的Python对象，内部只有一个`ob_ival`保存实际的整数值。
 
-```text
+```c
 typedef struct {
     PyObject_HEAD
     long ob_ival;
@@ -20,7 +20,7 @@ typedef struct {
 
 在Python启动时会创建一批默认值为\[5, 257\)的小整数对象，存储在`small_ints`中。这些整数对象的生命周期为Python的生命周期，不会被回收。Python只所以这样处理是因此解释器内部会频繁用到这些小整数，如果每次都分配-回收-再分配显然效率不高，不如创建后一直保留用空间换时间。
 
-```text
+```c
 #ifndef NSMALLPOSINTS
 #define NSMALLPOSINTS           257
 #endif
@@ -56,7 +56,7 @@ Out[54]: 60259024L # id会改变
 
 当Python初始化时会调用`_PyInt_Init`函数进行整数的初始化。
 
-```text
+```c
 int
 _PyInt_Init(void)
 {
@@ -80,11 +80,11 @@ _PyInt_Init(void)
 
 缓存会用到数据结构`PyIntBlock`以及`block_list`和`free_list`链表。`PyInBlock`用来一次申请多个整数对象的内存，然后再一个个用作`PyIntObject`，并且通过域`next`链接到`block_list`链表上。`free_list`中是空闲的`PyIntObject`的链表。`fill_free_list`初始化后的内存结构如下。
 
-[![image](https://fanchao01.github.io/blog/images/pyint_freelist.jpg)](https://fanchao01.github.io/blog/images/pyint_freelist.jpg)
+![image](https://fanchao01.github.io/blog/images/pyint_freelist.jpg)
 
 然后通过`_PyInt_init`初始化为小整数，并将其指针存储到`samll_ints`数组中加快查找。`_PyInt_init`初始化后的内存结构如下。
 
-[![image](https://fanchao01.github.io/blog/images/pyint_smallints.jpg)](https://fanchao01.github.io/blog/images/pyint_smallints.jpg)
+![image](https://fanchao01.github.io/blog/images/pyint_smallints.jpg)
 
 我们可以看到整数对象通过`PyIntBlock`和`free_list`进行内存申请和缓存的。
 
@@ -92,7 +92,7 @@ _PyInt_Init(void)
 
 当新创建一个整数对象时，先从`free_list`中查找空闲的整数对象，如果有则直接使用；否则会重新分配`PyIntBlock`结构并进行初始化。
 
-```text
+```c
 PyObject *
 PyInt_FromLong(long ival)
 {
@@ -125,13 +125,13 @@ PyInt_FromLong(long ival)
 
 创建一个新的整数`257`之后的数据结构：
 
-[![image](https://fanchao01.github.io/blog/images/pyint_257.jpg)](https://fanchao01.github.io/blog/images/pyint_257.jpg)
+![image](https://fanchao01.github.io/blog/images/pyint_257.jpg)
 
 ### 整数对象的回收 <a id="&#x6574;&#x6570;&#x5BF9;&#x8C61;&#x7684;&#x56DE;&#x6536;"></a>
 
 当整数对象的引用计数归零时则对其进行回收，由函数`int_free`操作
 
-```text
+```c
 static void
 int_free(PyIntObject *v)
 {
@@ -146,7 +146,7 @@ int_free(PyIntObject *v)
 
 原来整数对象的真正释放是在最高代的`GC`中进行，当`GC`运行时会调用`PyInt_ClearFreeList`进行整数对象内存的释放`PyInt_ClearFreeList`对整个`block_list`进行遍历，如果其中所有的整数对象的引用计数都为零，则释放整个`block`。可见整数对象的内存是以`PyIntBlock`为单位申请和释放的。
 
-```text
+```c
 int
 PyInt_ClearFreeList(void)
 {
@@ -208,7 +208,7 @@ PyInt_ClearFreeList(void)
 
 整数对象定义了许多操作符，可以通过以下代码自行查看。
 
-```text
+```c
 static PyNumberMethods int_as_number = {
     (binaryfunc)int_add,        /*nb_add*/
     (binaryfunc)int_sub,        /*nb_subtract*/

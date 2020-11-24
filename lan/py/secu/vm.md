@@ -44,7 +44,7 @@ PyObject：[https://github.com/python/cpython/blob/2.7/Include/object.h](https:/
 
 实现：
 
-```text
+```python
 /* 堆对象的双向链表作为pyobject的结构体开始部分 */
 #define _PyObject_HEAD_EXTRA     
 struct _object *_ob_next;     
@@ -256,7 +256,7 @@ return _Py_CheckFunctionResult(callable, result, NULL);
 
 ceval.c：[https://github.com/python/cpython/blob/2.7/Python/ceval.c](https://github.com/python/cpython/blob/2.7/Python/ceval.c)
 
-```text
+```python
 TARGET(CALL_FUNCTION)
 {
 PyObject **sp;
@@ -346,7 +346,7 @@ vi.执行这个function，即执行我们构造好的func\_code。
 
 3\)poc.py
 
-```text
+```python
 import types
 from opcode import opmap
 import struct
@@ -416,7 +416,7 @@ ii.传入参数。
 
 我们采取的方法是使用ByteArrayObject，ByteArrayObject代码如下：
 
-```text
+```python
 typedef struct {
 PyObject_VAR_HEAD
  /* XXX(nnorwitz): should ob_exports be Py_ssize_t? */
@@ -448,7 +448,7 @@ func是一个指针，指向我们构造的“第一个对象”，所以，我�
 
 这个exploit是我自己的环境下的，并且是自己编译的debug版本，执行不正常是可能出现的，因为偏移量不一样，甚至具体代码都有可能有一些不一样，所以仅供参考。最后还是需要自己手动调试才行（特别是各种偏移量）。
 
-```text
+```python
 import types
 import sys
 from opcode import opmap

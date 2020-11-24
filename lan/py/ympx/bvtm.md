@@ -8,7 +8,7 @@ Python会将代码先编译成字节码，然后在虚拟机中动态得依次�
 
 `PyCodeObject`保存代编译后的静态信息，在运行时再结合上下文形成一个完整的运行态环境。让我们看看静态编译后的信息都有哪些。
 
-```text
+```c
 typedef struct {
     PyObject_HEAD
     int co_argcount;    // co_argcount 参数，不包括不定参数
@@ -48,7 +48,7 @@ typedef struct {
 
 那么实际上`co_lnotab`记录的是\(0, 0\), \(6, 1\), \(44, 5\)，当然实际记录中没有括号。具体`偏移值`和真实行号的对应关系可以通过下面的算法计算出来。
 
-```text
+```c
 // codeobject.c
 int
 PyCode_Addr2Line(PyCodeObject *co, int addrq)
@@ -73,7 +73,7 @@ PyCode_Addr2Line(PyCodeObject *co, int addrq)
 
 先给定一个Python代码示例，然后打印出其中的各个域。
 
-```text
+```c
 from __future__ import print_function
 import dis
 def out(a, b=1, *args, **kwargs):
@@ -123,7 +123,7 @@ print(dis.dis(out))
 
 这个实例的输出可以看到对应的各个域的详细内容。
 
-```text
+```c
 out-->co_argcount        : 2     # a, b
 out-->co_nlocals         : 5     # a, b, c, d, e
 out-->co_stacksize       : 3     
@@ -157,7 +157,7 @@ inner-->co_lnotab          :                                            # 省略
 
 从这个例子中可以清楚了解常量、变量、自由变量以及cell变量的含义。接下来我们看下`co_code`的含义，使用linux的`xdd`工具将其转换成十六进制，并且使用`dis`模块反编译其字节码。
 
-```text
+```python
 import dis
 def out(a, b=1, *args, **kwargs):
     c = 2
@@ -204,7 +204,7 @@ dis.dis(out)
 
 Python模拟了C语言中的运行栈作为运行时的环境，每个栈用`PyFrameObject`结构表示。
 
-```text
+```c
 typedef struct _frame {
     PyObject_VAR_HEAD
     struct _frame *f_back;     // 前一个运行栈，调用方
@@ -241,7 +241,7 @@ typedef struct _frame {
 
 字节码的执行就像上图所示，由一个大的循环和选择语句构成，逻辑骨干比较简单。
 
-```text
+```python
 for(;;;) {
     switch(opcode) {
     
@@ -279,7 +279,7 @@ for(;;;) {
 
 通过追踪每个指令码的执行过程以及对应的`PyFrameObject`的栈帧变化，可以一步步看到虚拟机的执行过程。
 
-```text
+```c
 PyObject *
 PyEval_EvalFrame(PyFrameObject *f) {
     co = f->f_code;
@@ -330,7 +330,7 @@ PyEval_EvalFrame(PyFrameObject *f) {
 
 ![image](https://fanchao01.github.io/blog/images/python_frame_run_1.jpg)
 
-```text
+```c
 TARGET(LOAD_CLOSURE)       // 9
 {
     x = freevars[oparg];     
@@ -394,7 +394,7 @@ TARGET(MAKE_CLOSURE)     // 18
 
 ![image](https://fanchao01.github.io/blog/images/python_frame_run_2.jpg)
 
-```text
+```c
         
         TARGET(STORE_FAST)     // 21
         {

@@ -21,7 +21,7 @@ CPython中有一个全局的解释器锁叫做`GIL`（global interpreter lock）
 
 代码中的`interpreter_lock`就是全局解释器锁，类型为`PyThread_type_lock`，简单的void指针，然后再根据不同的平台转换成对应类型的指针，在Linux中的类型是`pthread_lock`指针。
 
-```text
+```c
 //python2.7.5/Python/ceval.c
 static PyThread_type_lock interpreter_lock = 0; /* This is the GIL */
 static PyThread_type_lock pending_lock = 0; /* for pending calls */
@@ -175,7 +175,7 @@ t_bootstrap
 
 先说第一个问题，在子线程调用路径中最后会调用`tp_call`，假设用户的子线程函数是函数，类似下面这样：
 
-```text
+```c
 def myfunc(x):
 	do_something_with(x)
 tpid = thread.start_new_thread(myfunc, (1,))
@@ -183,7 +183,7 @@ tpid = thread.start_new_thread(myfunc, (1,))
 
  那么`tp_call`对应的是Python实现的`function_call`函数，如下所示：
 
-```text
+```c
 //python2.7.6/python/funcobject.c
 PyTypeObject PyFunction_Type = {
     PyVarObject_HEAD_INIT(&PyType_Type, 0)
@@ -196,7 +196,7 @@ PyTypeObject PyFunction_Type = {
 
  `function_call`也在同一个文件中定义，它的调用路径见下。从中可以看到，每个线程对应一个Frame对象，也就是一个Python虚拟机，而不是一个Python虚拟机对应多个Python线程。（不像CPU那样，每个CPU对应多个线程，每个线程通过保存上下文设置寄存器进行切换）。
 
-```text
+```c
 function_call
 	PyEval_EvalCodeEx
 	（获取func字节码中存储的全局、局部变量、参数、闭包等等）
@@ -210,7 +210,7 @@ function_call
 
 第二个问题，主线程何时释放GIL锁。Python代码在虚拟机Frame中运行，其中有个变量`_Py_Ticker`。当`_Py_Ticker`小于0时，Python会释放GIL锁进行一次Python线程的调度。
 
-```text
+```c
          if (--_Py_Ticker < 0) {
             if (*next_instr == SETUP_FINALLY) {
                 /* Make the last opcode before

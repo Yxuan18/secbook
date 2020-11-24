@@ -180,7 +180,7 @@ prep\_replace函数的作用是对字符串进行正则处理，函数的定义�
 
 调用函数过滤不严格：call\_user\_func和array\_map函数等数十个函数具有调用其他函数的功能，其中第一个参数是调用的函数名，如果这个函数名可控，就可以调用意外的函数来执行我们想知道的代码，举个例子：
 
-```text
+```php
 <?PHP
 $B="phpinfo()";
 call_user_func($_GET['a'],$b);
@@ -232,7 +232,7 @@ popen和proc\_open函数不会直接返回执行结果，会返回一个文件�
 | `__destruct` | 析构函数是`php5`新添加的内容，析构函数会在到对象的所有引用都被删除或者当对象被显式销毁时执行 |
 | `__toString` | 当对象被当做字符串的时候会自动调用该函数 |
 
-```text
+```php
 <?php
 class Student{
     public $name = 'zjun';
@@ -273,7 +273,7 @@ $unseri -> PrintVar();
 
 输出结果：
 
-```text
+```php
 __construct
 name reder, age 18
 __toString__sleep
@@ -290,7 +290,7 @@ name reder, age 18
 
 一个很简单的序列化代码，如下：
 
-```text
+```php
 <?php
     class Student{
         public $name = 'zjun';
@@ -309,7 +309,7 @@ name reder, age 18
 
 输出结果：
 
-```text
+```php
 zjun
 O:7:"Student":1:{s:4:"name";s:4:"zjun";}
 ```
@@ -320,7 +320,7 @@ O:7:"Student":1:{s:4:"name";s:4:"zjun";}
 
 这里代码只有一个`public`属性，如果有`protected`或者`private`属性，在序列化的数据中也都会体现出来
 
-```text
+```php
 <?php
     class Student{
         public $name = 'zjun';
@@ -339,7 +339,7 @@ O:7:"Student":1:{s:4:"name";s:4:"zjun";}
 
 输出：
 
-```text
+```php
 zjun
 O:7:"Student":3:{s:4:"name";s:4:"zjun";s:6:"*age";s:2:"19";s:15:"Studentweight";s:2:"53";}
 ```
@@ -348,7 +348,7 @@ O:7:"Student":3:{s:4:"name";s:4:"zjun";s:6:"*age";s:2:"19";s:15:"Studentweight";
 
 以上的这个过程就称为`php序列化`，再看看反序列化：
 
-```text
+```php
 <?php
     class Student{
         public $name = 'zjun';
@@ -366,7 +366,7 @@ O:7:"Student":3:{s:4:"name";s:4:"zjun";s:6:"*age";s:2:"19";s:15:"Studentweight";
 
 `unserialize()`函数就是用来反序列化的函数，输出：
 
-```text
+```php
 Student Object ( [name] => zjun )
 ```
 
@@ -374,7 +374,7 @@ Student Object ( [name] => zjun )
 
 在这个过程中本来是挺正常的，在一些特殊情景下却能造成如`rce`等漏洞，如
 
-```text
+```php
 <?php
 class Student{
     var $a;
@@ -400,7 +400,7 @@ unserialize($_GET['a']);
 
 代码有一个构造函数`__construct`输出`__construct`，在`new`这个对象时自动调用，一个析构函数`__destruct`将当我们传入的`a`再传进`one`对象中执行，构造代码：
 
-```text
+```php
 <?php
 class Student {
     var $a;
@@ -427,7 +427,7 @@ O:7:"Student":1:{s:1:"a";O:3:"one":1:{s:1:"b";s:10:"phpinfo();";}}
 
 **实例：网鼎杯 2020 青龙组 AreUSerialz**
 
-```text
+```php
 <?php
 include("flag.php");
 highlight_file(__FILE__);
@@ -509,7 +509,7 @@ if(isset($_GET{'str'})) {
 
 构造
 
-```text
+```php
 <?php
 class FileHandler {
 
@@ -566,7 +566,7 @@ $$变量覆盖:举个例子，$a=1，$\_key的值为a,$$key的值为2，则原�
 等于于存在判断绕过，逻辑漏洞里面，判断函数是一个非常典型的例子，  
 in\_array函数：判断一个值是否在一个函数里面，但是，这个函数在比较之前会进行自动类型转换，如果参数里面同时存在字符以及整数，在判断参数中是否有整数的时候，会自动过滤掉字符，留下整数。
 
-```text
+```php
 <?php
 if(in_array($_GET['typeid'],array(1,2,3,4)))
 {$sql='select...where typeid=''.$_GET['typeid']."'";
@@ -670,7 +670,7 @@ asp标签&lt;%...%&gt;在PHP3.0.4之后可用，需要在php.ini中设置asp\_ta
 
 指的是一个变量的变量名可以动态的设置和使用，举个例子： 
 
-```text
+```php
 <?php 
 $a='seay' 
 $$a='123' 
@@ -682,7 +682,7 @@ echo $seay
 
 再举一个例子：
 
-```text
+```php
  <?php 
  $a=""${@phpinfo()}"; 
  ?> 

@@ -4,7 +4,7 @@
 
 Python的字符串对象是一个不可变对象，任何改变字符串字面值的操作都是重新创建一个新的字符串。
 
-```text
+```c
 astr = 'astr'
 id(astr)
 Out[22]: 59244376L
@@ -15,7 +15,7 @@ Out[24]: 59947360L
 
  字符串对象在Python中用`PyStringObject`表示，扩展定义后如下。
 
-```text
+```c
 typedef struct {
   Py_ssize_t ob_refcnt;            // 引用计数
   struct _typeobject *ob_type;     // 类型指针
@@ -43,7 +43,7 @@ typedef struct {
 
 `ob_shash`是字符串的hash值，当字符串用来比较或者作为key时可以加速查找速度，默认值为-1。
 
-```text
+```c
 static long
 string_hash(PyStringObject *a)
 {
@@ -79,7 +79,7 @@ string_hash(PyStringObject *a)
 
  `ob_sstate`记录字符串对象的状态。字符串可能有三种状态：
 
-```text
+```c
 //Python/objects/stringobject.h
 #define SSTATE_NOT_INTERNED 0           // 字符串没有被interned
 #define SSTATE_INTERNED_MORTAL 1        // 字符串被interned，可以被回收
@@ -90,7 +90,7 @@ string_hash(PyStringObject *a)
 
 字符串对象是不可变对象，因此相同的字面值的变量可以绑定到相同的字符串对象上，这样减少了字符串对象的创建次数。这样的行为称为`interned`。默认情况下空字符串和单字符字符串会被`interned`。
 
-```text
+```c
 // Python/objects/stringobject.c
 PyObject *
 PyString_FromString(const char *str)
@@ -150,7 +150,7 @@ PyString_FromString(const char *str)
 
  另外一些情况下，例如`__dict__`、模块名字等预计会被大量重复使用或者永久使用的字符串，在创建时也会调用`PyString_InternInPlace`进行`interned`操作。
 
-```text
+```c
 // python/objects/stringobject.c
 PyAPI_FUNC(PyObject *) PyString_FromString(const char *);
  
@@ -237,7 +237,7 @@ empty_array = PyString_InternFromString("[]")
 
 当字符串的引用计数为零时会被回收。
 
-```text
+```c
 static void
 string_dealloc(PyObject *op)
 {
@@ -267,7 +267,7 @@ string_dealloc(PyObject *op)
 
 可以通过字符串对象的类的结构中找到对象的操作函数。
 
-```text
+```c
 // python/objects/stringobject.c
 PyTypeObject PyString_Type = {
     PyVarObject_HEAD_INIT(&PyType_Type, 0)

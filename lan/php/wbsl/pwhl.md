@@ -89,7 +89,7 @@ webshell有三大类的问题:
 
 在php.ini 中添加:
 
-```typescript
+```php
 ; Automatically add files before PHP document.
 ; http://php.net/auto-prepend-file
 auto_prepend_file = choop.php

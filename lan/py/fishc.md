@@ -199,7 +199,7 @@ while i <= 100:
 print(sum)
 ```
 
-```text
+```python
 # 4-9.py(10)
 
 sum = 0
@@ -226,7 +226,7 @@ print(sum)
 
 ```
 
-```text
+```python
 # 6-2.py
 
 def discount(price,rate):

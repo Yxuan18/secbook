@@ -23,7 +23,7 @@ class Pocscan(object):
 		headers = {
 			"User-Agent":"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
 		}
-		ssl._create_default_https_context = ssl._create_unverified_context
+		# ssl._create_default_https_context = ssl._create_unverified_context
 		try:
 			req = urllib2.Request(url,headers=headers)
 			rsp = urllib2.urlopen(req,timeout=8)

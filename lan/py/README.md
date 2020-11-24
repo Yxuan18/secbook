@@ -18,7 +18,7 @@
 
 终极解决方案：[get-pip.py](https://bootstrap.pypa.io/get-pip.py) 
 
-```text
+```bash
 ## 下载安装脚本
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 ```
@@ -27,7 +27,7 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 
 详细用法为： 
 
-```text
+```bash
 python3 get-pip.py 
 python2 get-pip.py 
 ```
@@ -44,7 +44,7 @@ Windows方法如下：
 
 此处使用清华的源，内容为：
 
-```text
+```aspnet
 [global] 
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple
 ```
@@ -59,7 +59,7 @@ Linux方法如下：
 
 在自己用户目录下创建隐藏文件夹.pip，并在文件夹中创建pip.conf文件，内容为：
 
-```text
+```yaml
 [global] 
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple
 [install] 
@@ -94,7 +94,7 @@ Linux中默认版本是python2，python3也有，此处以Windows为例：
 
 ![&#x9519;&#x8BEF;&#x56FE;&#x7247;](../../.gitbook/assets/image%20%28804%29.png)
 
-```text
+```bash
 ERROR: After October 2020 you may experience errors when installing or updating packages. This is because pip will change the way that it resolves dependency conflicts.
 We recommend you use --use-feature=2020-resolver to test your packages with the new resolver before it becomes the default.
 jedi 0.17.2 requires parso<0.8.0,>=0.7.0, but you'll have parso 0.8.0 which is incompatible.

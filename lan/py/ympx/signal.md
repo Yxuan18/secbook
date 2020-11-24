@@ -15,7 +15,7 @@
 
 信号机制的初始化是在Python初始化整个解释器时开始的，Python在初始化函数中调用`initsigs`来进行整个系统以及`singal`模块的初始化。
 
-```text
+```c
 // python/pythonrun.c  
 void
 Py_InitializedEx(int install_sigs)
@@ -53,7 +53,7 @@ PyOS_InitInterrupts(void)
 
  直接进入到`singalmodule.c`中看`signal`模块以及信号的初始化  。       
 
-```text
+```c
 PyMODINIT_FUNC
 initsignal(void)
 {
@@ -136,7 +136,7 @@ initsignal(void)
 
  可以看到Python将用户自定义信号处理函数保存在`Handler`数组中，而实际上向系统注册`signal_handler`函数。这个`signal_handler`函数成为信号发生时沟通Python解释器和用户自定义信号处理函数的桥梁。可以从`signal.signal`的实现中清楚的看到这一点。
 
-```text
+```c
 // python/signalmodule.c
 static PyObject *
 signal_signal(PyObject *self, PyObject *args)
@@ -213,7 +213,7 @@ signal_signal(PyObject *self, PyObject *args)
 
 当信号产生时，操作系统会调用Python解释器注册的信号处理函数，即上文中的`signal_handler`函数。这个函数将对应的`Handler`结构中的信号产生标志`tripped`设置为1，然后将一个统一信号处理函数`trip_signal`作为`pending_call`注册到Python虚拟机的执行栈中。于是，Python在虚拟机执行过程中调用`pending_call`并执行各个用户自定义的信号处理函数。
 
-```text
+```c
 static void
 signal_handler(int sig_num)
 {
@@ -351,7 +351,7 @@ PyErr_CheckSignals(void)
 
 ### 主线程才能捕获信号
 
-```text
+```python
 import threading                                                                 
 import signal                                                                    
 import time                                                                      
@@ -380,7 +380,7 @@ t.join()
 print 'In Main:', SIG
 ```
 
-```text
+```bash
 root@ubuntu:/home/python# python test_signal_main_thread.py
 start thread: <MyThread(Thread-1, started 140229890316032)>
 In Main: []
@@ -391,7 +391,7 @@ In Thread: []          # [1]
 
 ### 信号可能只被处理一次
 
-```text
+```python
 import threading
 import signal
 import time
@@ -415,7 +415,7 @@ t.join()
 print 'In Main:', SIG
 ```
 
-```text
+```bash
 # python test_signal_signo.py       # kill -10  2856; kill -10 2856; kill -12 2856
 start thread: <MyThread(Thread-1, started 140351081834240)>
 In Thread: []       # [1]

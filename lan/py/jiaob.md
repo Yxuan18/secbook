@@ -134,7 +134,7 @@ if __name__ == "__main__":
 
 ### 1、获取命令参数主机名和端口
 
-```text
+```python
 # encoding: utf-8
 
 import optparse
@@ -156,7 +156,7 @@ if (Host == None)|(Ports == None):
 
 ### 2、加入connscan函数
 
-```text
+```python
 # encoding: utf-8
 
 import optparse
@@ -206,7 +206,7 @@ def portscan(host,ports):
 
 ### 3、抓取目标应用banner，获取更详细信息
 
-```text
+```python
 # encoding: utf-8
 
 import parser
@@ -262,7 +262,7 @@ if __name__ == "__main__":
 
 ### 4、添加信号量以及加锁
 
-```text
+```python
 # encoding: utf-8
 
 import parser
@@ -325,7 +325,7 @@ if __name__ == "__main__":
 
 ### 1、pexpect库
 
-```text
+```python
 # encoding: utf-8
 
 # 引用第三方库
@@ -380,7 +380,7 @@ if __name__ == "__main__":
 
 ### 2、pxssh\(\)函数
 
-```text
+```python
 # encoding: utf-8
 
 # 引用pxssh库
@@ -466,7 +466,7 @@ if __name__ == "__main__":
 
 ### 3、控制多台主机的版本
 
-```text
+```python
 # encoding: utf-8
 
 from pexpect import pxssh
@@ -519,7 +519,7 @@ botnetcommand('ls /root')
 
 ### 1、确定服务器是否允许匿名登录
 
-```text
+```python
 # encoding: utf-8
 
 # 引用ftplib库
@@ -544,7 +544,7 @@ anonlogin(host)
 
 ### 2、FTP暴力破解
 
-```text
+```python
 # encoding: utf-8
 
 import ftplib
@@ -575,7 +575,7 @@ brutelogin(host,passwdfile)
 
 ### 3、FTP网页搜索脚本
 
-```text
+```python
 # encoding: utf-8
 
 import ftplib
@@ -611,7 +611,7 @@ returndefault(ftp)
 
 ### 4、前三个脚本的整合
 
-```text
+```python
 # encoding: utf-8
 
 import ftplib
@@ -698,7 +698,7 @@ if __name__ == "__main__":
 
 ### 1、扫描开放了445端口的主机
 
-```text
+```python
 # encoding: utf-8
 
 # 使用nmap库
@@ -721,7 +721,7 @@ def findtarget():
 
 ### 2、新建监听器
 
-```text
+```python
 # encoding: utf-8
 ## 
 
@@ -740,7 +740,7 @@ def setuphandler(configfile,lhost,lport):
 
 ### 3、执行漏洞利用代码
 
-```text
+```python
 # encoding: utf-8
 
 # 漏洞利用
@@ -758,7 +758,7 @@ def setuphandler(configfile,target,lhost,lport):
 
 ### 4、暴力破解SMB用户
 
-```text
+```python
 # encoding: utf-8
 
 # SMB暴力破解
@@ -780,7 +780,7 @@ def smbbrute(configfile,target,passwdfile,lhost,lport):
 
 ### 5、前四个代码的整合
 
-```text
+```python
 # encoding: utf-8
 ## 
 import os
@@ -873,7 +873,7 @@ if __name__ == "__main__":
 
 ### 1、检测回收站目录
 
-```text
+```python
 # encoding: utf-8
 
 import os
@@ -890,7 +890,7 @@ print returndir()
 
 ### 2、提取注册表中的用户名
 
-```text
+```python
 # encoding: utf-8
 
 # 导入注册表库
@@ -909,7 +909,7 @@ def sid2user(sid):
 
 ### 3、打印所有被放入回收站的文件
 
-```text
+```python
 # encoding: utf-8
 
 import os
@@ -953,7 +953,7 @@ if __name__ == "__main__":
 
 ### 1、查找image标签
 
-```text
+```python
 # encoding: utf-8
 
 import urllib2
@@ -974,7 +974,7 @@ def findimages(url):
 
 ### 2、下载图片
 
-```text
+```python
 # encoding: utf-8
 
 # 导入相应库
@@ -1002,7 +1002,7 @@ def downloadimage(imgtag,url):
 
 ### 3、获取文件元数据
 
-```text
+```python
 # encoding: utf-8
 
 def testforexif(imgfilename):
@@ -1025,7 +1025,7 @@ def testforexif(imgfilename):
 
 ### 4、代码整合
 
-```text
+```python
 # encoding: utf-8
 
 # 导入相应库

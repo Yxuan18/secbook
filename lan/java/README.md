@@ -7,7 +7,7 @@
 1、使用管理员权限打开CMD  
 2、进入JDK目录，并输入如下命令：
 
-```text
+```bash
 bin\jlink.exe --module-path jmods --add-modules java.desktop --output jre
 ```
 
@@ -25,7 +25,7 @@ bin\jlink.exe --module-path jmods --add-modules java.desktop --output jre
 
 1、在安装完jdk1.8以后，先不用去管环境变量，查看系统目录中是否存在javapath的文件夹，如果有，直接选择删除即可。
 
-```text
+```bash
 C:\Program Files (x86)\Common Files\Oracle\Java\javapath
 C:\ProgramData\Oracle\Java\javapath
 ```
@@ -37,7 +37,7 @@ C:\ProgramData\Oracle\Java\javapath
 
 2、从注册表（运行regedit）中删除jdk的默认启动的版本。
 
-```text
+```bash
 HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft中：
 
 Java Development Kit的CurrentVersion项的值

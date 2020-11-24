@@ -4,7 +4,7 @@
 
 Python中的垃圾回收机制基于引用计数\(ob\_refcnt\)，因此需要解决循环引用导致引用计数不能归零的问题。例如
 
-```text
+```c
 # create[1]
 list1=[]              # del
 list2=[list1]         # del
@@ -68,7 +68,7 @@ gc.collect()
 
 ### gcmodule.c源码分析 <a id="gcmodule-c&#x6E90;&#x7801;&#x5206;&#x6790;"></a>
 
-```text
+```c
 /*
   Reference Cycle Garbage Collection
   ==================================

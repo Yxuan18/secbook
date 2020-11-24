@@ -4,7 +4,7 @@
 
 `set`与`List`对象相似，均为可变异构容器。但是其实现却和`Dict`类似，均为哈希表。具体的数据结构代码如下。
 
-```text
+```c
 typedef struct {
     long hash;      /* cached hash code for the entry key */
     PyObject *key;
@@ -58,7 +58,7 @@ dummy是为了表明当前位置存放过元素，需要继续查找。假设a�
 
 `set`中会存在缓存系统，缓存数量为80个`_setobject`结构。
 
-```text
+```c
 /* Reuse scheme to save calls to malloc, free, and memset */
 #ifndef PySet_MAXFREELIST
 #define PySet_MAXFREELIST 80
@@ -100,7 +100,7 @@ set_dealloc(PySetObject *so)
 
 `set`中元素查找有两个函数，在默认情况下的查找函数为`set_lookkey_string`。当发现查找的元素不是`string`类型时，会将对应的`lookup`函数设置为`set_lookkey`，然后调用该函数。
 
-```text
+```c
 static setentry *
 set_lookkey_string(PySetObject *so, PyObject *key, register long hash)
 {
@@ -172,7 +172,7 @@ set_lookkey_string(PySetObject *so, PyObject *key, register long hash)
 
 为了减少哈希冲撞，当哈希表中的元素数量太多时需要扩大桶的长度以减少冲撞。Python中当填充的元素大于总的2/3时开始重新散列，会重新分配一个有效元素个数的两倍或者四倍的新的散列表。
 
-```text
+```c
 static int
 set_add_key(register PySetObject *so, PyObject *key)
 {

@@ -43,42 +43,42 @@
 1. 1.遍历java jvm，查找所有的tomcat jvm
 2. 2.通过java instrumentation，将agent attach到每个tomcat jvm。由于可能存在多个tomcat进程的场景，因此每个tomcat jvm均检测一遍
 
-   ```text
-   // 应对存在多个 tomcat 进程的情况
-   public static void attach(String agent_jar_path) throws Exception {
-       VirtualMachine virtualMachine = null;
-       for (VirtualMachineDescriptor descriptor : VirtualMachine.list()) {
-           if (descriptor.displayName().contains("catalina") || descriptor.displayName().equals("")) {
-               try {
-                   virtualMachine = VirtualMachine.attach(descriptor);
-                   Properties targetSystemProperties = virtualMachine.getSystemProperties();
-                   if (descriptor.displayName().equals("") && !targetSystemProperties.containsKey("catalina.home"))
-                       continue;
-                   // 将当前tomcat pid，传到agent，作为检测结果的文件名，用来区分多个tomcat进程。
-                   String currentJvmName = "tomcat_" + descriptor.id();
-                   Thread.sleep(1000);
-                   javaInfoWarning(targetSystemProperties);
-                   virtualMachine.loadAgent(agent_jar_path, currentJvmName);
-               } catch (Throwable t) {
-                   t.printStackTrace();
-               } finally {
-                       // detach
-                   if (null != virtualMachine)
-                       virtualMachine.detach();
-               }
-           }
-       }
-   }
-   ```
+```java
+// 应对存在多个 tomcat 进程的情况
+public static void attach(String agent_jar_path) throws Exception {
+    VirtualMachine virtualMachine = null;
+    for (VirtualMachineDescriptor descriptor : VirtualMachine.list()) {
+        if (descriptor.displayName().contains("catalina") || descriptor.displayName().equals("")) {
+            try {
+                virtualMachine = VirtualMachine.attach(descriptor);
+                Properties targetSystemProperties = virtualMachine.getSystemProperties();
+                if (descriptor.displayName().equals("") && !targetSystemProperties.containsKey("catalina.home"))
+                    continue;
+                // 将当前tomcat pid，传到agent，作为检测结果的文件名，用来区分多个tomcat进程。
+                String currentJvmName = "tomcat_" + descriptor.id();
+                Thread.sleep(1000);
+                javaInfoWarning(targetSystemProperties);
+                virtualMachine.loadAgent(agent_jar_path, currentJvmName);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            } finally {
+                    // detach
+                if (null != virtualMachine)
+                    virtualMachine.detach();
+            }
+        }
+    }
+}
+```
 
-3. 3.遍历tomcat jvm 加载过的类
+1. 3.遍历tomcat jvm 加载过的类
 
-   ```text
-   private static synchronized void detectMemShell(String currentJvmName, Instrumentation ins) {
-       // 获取所有加载的类
-       Class[] loadedClasses = ins.getAllLoadedClasses();
-   }
-   ```
+```java
+private static synchronized void detectMemShell(String currentJvmName, Instrumentation ins) {
+    // 获取所有加载的类
+    Class[] loadedClasses = ins.getAllLoadedClasses();
+}
+```
 
 ## 0x04 风险类识别 <a id="h2-3"></a>
 
@@ -88,7 +88,7 @@
 
 **对于内存中的每一个类，检查其自身，并递归检查其父类，如果命中特征，就标记为风险类。**
 
-```text
+```java
 public static List> findAllSuspiciousClass (Instrumentation ins, Class[] loadedClasses){
     // 结果
     List> suspiciousClassList = new ArrayList>();
@@ -127,7 +127,7 @@ public static List> findAllSuspiciousClass (Instrumentation ins, Class[] loadedC
 
 检测类是否实现javax.servlet.Filter / javax.servlet.Servlet / javax.servlet.ServletRequestListener接口类。
 
-```text
+```java
 // 检测类是否实现高风险接口，如servlet/filter/Listener
 public static Boolean lsReleaseRiskInterfaces(Class clazz){
     // 高风险的接口
@@ -155,7 +155,7 @@ public static Boolean lsReleaseRiskInterfaces(Class clazz){
 
 ###  2. 继承类黑名单 <a id="h3-5"></a>
 
-```text
+```java
 // 检测父类是否属于高风险
 public static Boolean lsHasRiskSuperClass(Class clazz) {
     // 高风险的父类
@@ -176,7 +176,7 @@ public static Boolean lsHasRiskSuperClass(Class clazz) {
 
 通过clazz.getDeclaredAnnotations\(\) 获取所有注解，如果类使用了spring注册路由的注解，则标记为高风险。
 
-```text
+```java
 public static Boolean isUseAnnotations(Class clazz) {
     // 针对spring注册路由的一些注解
     List riskAnnotations = new ArrayList();
@@ -206,7 +206,7 @@ public static Boolean isUseAnnotations(Class clazz) {
 
 ###  4. 类名黑名单 <a id="h3-7"></a>
 
-```text
+```java
 // 高风险的类名
 public static Boolean lsRiskClassName(Class clazz){
     List riskClassName = new ArrayList();
@@ -222,7 +222,7 @@ public static Boolean lsRiskClassName(Class clazz){
 
 ###  5. 包名黑名单 <a id="h3-8"></a>
 
-```text
+```java
 // 检测是否属于高风险的包
 public static Boolean lsContainRiskPackage(Class clazz){
     // 高风险的包
@@ -244,7 +244,7 @@ public static Boolean lsContainRiskPackage(Class clazz){
 
 这里分享另一种filter/servlet的检测，检测思路是通过mbean获取sevlet/filter列表，内存马的filter是动态注册的，所以web.xml中肯定没有相应配置，因此通过对比可以发现异常的filter。
 
-```text
+```java
 MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 Object mbsInte = getFieldValue(mbs, "mbsInterceptor");
 Object repository = getFieldValue(mbsInte, "repository");
@@ -276,53 +276,53 @@ for (Map.Entry entry : catlina.entrySet()) {
 
 1. 内存马，对应的ClassLoader目录下没有对应的class文件
 
-   ```text
-   public static Boolean checkClassIsNotExists(Class clazz){
-       String className = clazz.getName();
-       String classNamePath = className.replace(".","/") + ".class";
-       URL isExists = clazz.getClassLoader().getResource(classNamePath);
-       if (isExists == null){
-           return Boolean.TRUE;
-       }
-       return Boolean.FALSE;
-   }
-   ```
+```java
+public static Boolean checkClassIsNotExists(Class clazz){
+    String className = clazz.getName();
+    String classNamePath = className.replace(".","/") + ".class";
+    URL isExists = clazz.getClassLoader().getResource(classNamePath);
+    if (isExists == null){
+        return Boolean.TRUE;
+    }
+    return Boolean.FALSE;
+}
+```
 
-2. 反编译该类的字节码，检查是否存在危险函数
+1. 反编译该类的字节码，检查是否存在危险函数
 
-   ```text
-   public static Boolean checkFileContentIsRisk(File dumpPath){
-       List riskKeyword = new ArrayList();
-       riskKeyword.add("javax.crypto.");
-       riskKeyword.add("ProcessBuilder");
-       riskKeyword.add("getRuntime");
-       riskKeyword.add("ProcessImpl");
-       riskKeyword.add("shell");
-       String content = PathUtils.getFileContent(dumpPath);
-       for (String keyword : riskKeyword) {
-           if (content.contains(keyword)) {
-               return Boolean.TRUE;
-           }
-       }
-   ```
+```java
+public static Boolean checkFileContentIsRisk(File dumpPath){
+    List riskKeyword = new ArrayList();
+    riskKeyword.add("javax.crypto.");
+    riskKeyword.add("ProcessBuilder");
+    riskKeyword.add("getRuntime");
+    riskKeyword.add("ProcessImpl");
+    riskKeyword.add("shell");
+    String content = PathUtils.getFileContent(dumpPath);
+    for (String keyword : riskKeyword) {
+        if (content.contains(keyword)) {
+            return Boolean.TRUE;
+        }
+    }
+```
 
-   结果输出参考：如果没有class文件，可将该类风险等级标为high。如果包含恶意代码，将该类风险等级调至最高级。
+结果输出参考：如果没有class文件，可将该类风险等级标为high。如果包含恶意代码，将该类风险等级调至最高级。
 
-   ```text
-   // 输出结果
-   public static String getClassRiskLevel(Class clazz, File dumpPath) {
-       String riskLevel = "Low";
-       // 检测 Classloader目录下是否存在class文件
-       if (AnalysisUtils.checkClassIsNotExists(clazz)){
-           riskLevel = "high";
-       }
-       // 反编译  检测java文件是否包含执行命令的危险函数
-       if (AnalysisUtils.checkFileContentIsRisk(dumpPath)){
-           riskLevel = "Absolutely";
-       }
-       return riskLevel;
-   }
-   ```
+```java
+// 输出结果
+public static String getClassRiskLevel(Class clazz, File dumpPath) {
+    String riskLevel = "Low";
+    // 检测 Classloader目录下是否存在class文件
+    if (AnalysisUtils.checkClassIsNotExists(clazz)){
+        riskLevel = "high";
+    }
+    // 反编译  检测java文件是否包含执行命令的危险函数
+    if (AnalysisUtils.checkFileContentIsRisk(dumpPath)){
+        riskLevel = "Absolutely";
+    }
+    return riskLevel;
+}
+```
 
 ## 0x06 小结 <a id="h2-11"></a>
 

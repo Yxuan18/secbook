@@ -27,7 +27,7 @@
 
 Python会将 [圆括号, 中括号和花括号中的行隐式的连接起来](http://docs.python.org/2/reference/lexical_analysis.html#implicit-line-joining) , 你可以利用这个特点. 如果需要, 你可以在表达式外围增加一对额外的圆括号。
 
-```text
+```python
 推荐: foo_bar(self, width, height, color='black', design=None, x='foo',
              emphasis=None, highlight=0)
 
@@ -39,19 +39,19 @@ Python会将 [圆括号, 中括号和花括号中的行隐式的连接起来](ht
 
 
 
-```text
+```python
 x = ('这是一个非常长非常长非常长非常长 '
      '非常长非常长非常长非常长非常长非常长的字符串')
 ```
 
 在注释中，如果必要，将长的URL放在一行上。
 
-```text
+```python
 Yes:  # See details at
       # http://www.example.com/us/developer/documentation/api/content/v2.0/csv_file_name_extension_full_specification.html
 ```
 
-```text
+```python
 No:  # See details at
      # http://www.example.com/us/developer/documentation/api/content/\
      # v2.0/csv_file_name_extension_full_specification.html
@@ -65,7 +65,7 @@ No:  # See details at
 
 除非是用于实现行连接, 否则不要在返回语句或条件语句中使用括号. 不过在元组两边使用括号是可以的.
 
-```text
+```python
 Yes: if foo:
          bar()
      while x:
@@ -78,7 +78,7 @@ Yes: if foo:
      for (x, y) in dict.items(): ...
 ```
 
-```text
+```python
 No:  if (x):
          bar()
      if not(x):
@@ -92,7 +92,7 @@ No:  if (x):
 
 绝对不要用tab, 也不要tab和空格混用. 对于行连接的情况, 你应该要么垂直对齐换行的元素\(见 :ref:\`行长度 &lt;line\_length&gt;\` 部分的示例\), 或者使用4空格的悬挂式缩进\(这时第一行不应该有参数\):
 
-```text
+```python
 Yes:   # 与起始变量对齐
        foo = long_function_name(var_one, var_two,
                                 var_three, var_four)
@@ -117,7 +117,7 @@ Yes:   # 与起始变量对齐
        }
 ```
 
-```text
+```python
 No:    # 第一行有空格是禁止的
       foo = long_function_name(var_one, var_two,
           var_three, var_four)
@@ -267,7 +267,7 @@ No:
 >
 > 关于函数的几个方面应该在特定的小节中进行描述记录， 这几个方面如下文所述. 每节应该以一个标题行开始. 标题行以冒号结尾. 除标题行外, 节的其他内容应被缩进2个空格.Args:列出每个参数的名字, 并在名字后使用一个冒号和一个空格, 分隔对该参数的描述.如果描述太长超过了单行80字符,使用2或者4个空格的悬挂缩进\(与文件其他部分保持一致\). 描述应该包括所需的类型和含义. 如果一个函数接受\*foo\(可变长度参数列表\)或者\*\*bar \(任意关键字参数\), 应该详细列出\*foo和\*\*bar.Returns: \(或者 Yields: 用于生成器\)描述返回值的类型和语义. 如果函数返回None, 这一部分可以省略.Raises:列出与接口有关的所有异常.
 >
-> ```text
+> ```python
 > def fetch_bigtable_rows(big_table, keys, other_silly_variable=None):
 >     """Fetches rows from a Bigtable.
 >
@@ -304,7 +304,7 @@ No:
 
 > 类应该在其定义下有一个用于描述该类的文档字符串. 如果你的类有公共属性\(Attributes\), 那么文档中应该有一个属性\(Attributes\)段. 并且应该遵守和函数参数相同的格式.
 >
-> ```text
+> ```python
 > class SampleClass(object):
 >     """Summary of class here.
 >
@@ -329,7 +329,7 @@ No:
 
 > 最需要写注释的是代码中那些技巧性的部分. 如果你在下次 [代码审查](http://en.wikipedia.org/wiki/Code_review) 的时候必须解释一下, 那么你应该现在就给它写注释. 对于复杂的操作, 应该在其操作开始前写上若干行注释. 对于不是一目了然的代码, 应在其行尾添加注释.
 >
-> ```text
+> ```python
 > # We use a weighted dictionary search to find out where i is in
 > # the array.  We extrapolate position based on the largest num
 > # in the array and the array size and then do binary search to
@@ -351,7 +351,7 @@ No:
 
 如果一个类不继承自其它类, 就显式的从object继承. 嵌套类也一样.
 
-```text
+```python
 Yes: class SampleClass(object):
          pass
 
@@ -366,7 +366,7 @@ Yes: class SampleClass(object):
          """Explicitly inherits from another class already."""
 ```
 
-```text
+```python
 No: class SampleClass:
         pass
 
@@ -381,7 +381,7 @@ No: class SampleClass:
 
 ### 字符串
 
-```text
+```python
 Yes: x = a + b
      x = '%s, %s!' % (imperative, expletive)
      x = '{}, {}!'.format(imperative, expletive)
@@ -389,7 +389,7 @@ Yes: x = a + b
      x = 'name: {}; score: {}'.format(name, n)
 ```
 
-```text
+```python
 No: x = '%s%s' % (a, b)  # use + in this case
     x = '{}{}'.format(a, b)  # use + in this case
     x = imperative + ', ' + expletive + '!'
@@ -398,7 +398,7 @@ No: x = '%s%s' % (a, b)  # use + in this case
 
 避免在循环中用+和+=操作符来累加字符串. 由于字符串是不可变的, 这样做会创建不必要的临时对象, 并且导致二次方而不是线性的运行时间. 作为替代方案, 你可以将每个子串加入列表, 然后在循环结束后用 `.join` 连接列表. \(也可以将每个子串写入一个 `cStringIO.StringIO` 缓存中.\)
 
-```text
+```python
 Yes: items = ['<table>']
      for last_name, first_name in employee_list:
          items.append('<tr><td>%s, %s</td></tr>' % (last_name, first_name))
@@ -406,7 +406,7 @@ Yes: items = ['<table>']
      employee_table = ''.join(items)
 ```
 
-```text
+```python
 No: employee_table = '<table>'
     for last_name, first_name in employee_list:
         employee_table += '<tr><td>%s, %s</td></tr>' % (last_name, first_name)
@@ -415,14 +415,14 @@ No: employee_table = '<table>'
 
 在同一个文件中, 保持使用字符串引号的一致性. 使用单引号'或者双引号"之一用以引用字符串, 并在同一文件中沿用. 在字符串内可以使用另外一种引号, 以避免在字符串中使用. PyLint已经加入了这一检查.
 
-```text
+```python
 Yes:
      Python('Why are you hiding your eyes?')
      Gollum("I'm scared of lint errors.")
      Narrator('"Good!" thought a happy Python reviewer.')
 ```
 
-```text
+```python
 No:
      Python("Why are you hiding your eyes?")
      Gollum('The lint. It burns. It burns us.')
@@ -431,13 +431,13 @@ No:
 
 为多行字符串使用三重双引号"""而非三重单引号'''. 当且仅当项目中使用单引号'来引用字符串时, 才可能会使用三重'''为非文档字符串的多行字符串来标识引用. 文档字符串必须使用三重双引号""". 不过要注意, 通常用隐式行连接更清晰, 因为多行字符串与程序其他部分的缩进方式不一致.
 
-```text
+```python
 Yes:
     print ("This is much nicer.\n"
            "Do it this way.\n")
 ```
 
-```text
+```python
 No:
       print """This is pretty ugly.
   Don't do this.
@@ -461,7 +461,7 @@ No:
 
 推荐使用 ["with"语句](http://docs.python.org/reference/compound_stmts.html#the-with-statement) 以管理文件:
 
-```text
+```python
 with open("hello.txt") as hello_file:
     for line in hello_file:
         print line
@@ -469,7 +469,7 @@ with open("hello.txt") as hello_file:
 
 对于不支持使用"with"语句的类似文件的对象,使用 contextlib.closing\(\):
 
-```text
+```python
 import contextlib
 
 with contextlib.closing(urllib.urlopen("http://www.python.org/")) as front_page:
@@ -485,7 +485,7 @@ Legacy AppEngine 中Python 2.5的代码如使用"with"语句, 需要添加 "from
 
 TODO注释应该在所有开头处包含"TODO"字符串, 紧跟着是用括号括起来的你的名字, email地址或其它标识符. 然后是一个可选的冒号. 接着必须有一行注释, 解释要做什么. 主要目的是为了有一个统一的TODO格式, 这样添加注释的人就可以搜索到\(并可以按需提供更多细节\). 写了TODO注释并不保证写的人会亲自解决问题. 当你写了一个TODO, 请注上你的名字.
 
-```text
+```python
 # TODO(kl@gmail.com): Use a "*" here for string repetition.
 # TODO(Zeke) Change this to use relations.
 ```
@@ -496,12 +496,12 @@ TODO注释应该在所有开头处包含"TODO"字符串, 紧跟着是用括号�
 
 每个导入应该独占一行
 
-```text
+```python
 Yes: import os
      import sys
 ```
 
-```text
+```python
 No:  import os, sys
 ```
 
@@ -513,7 +513,7 @@ No:  import os, sys
 
 每种分组中, 应该根据每个模块的完整包路径按字典序排序, 忽略大小写.
 
-```text
+```python
 import foo
 from foo import bar
 from foo.bar import baz
@@ -527,13 +527,13 @@ from Foob import ar
 
 不过, 如果测试结果与测试语句在一行放得下, 你也可以将它们放在同一行. 如果是if语句, 只有在没有else时才能这样做. 特别地, 绝不要对 `try/except` 这样做, 因为try和except不能放在同一行.
 
-```text
+```python
 Yes:
 
   if foo: bar(foo)
 ```
 
-```text
+```python
 No:
 
   if foo: bar(foo)
@@ -595,7 +595,7 @@ module\_name, package\_name, ClassName, method\_name, ExceptionName, function\_n
 
 在Python中, pydoc以及单元测试要求模块必须是可导入的. 你的代码应该在执行主程序前总是检查 `if __name__ == '__main__'` , 这样当模块被导入时主程序就不会被执行.
 
-```text
+```python
 def main():
       ...
 
