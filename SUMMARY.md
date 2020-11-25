@@ -206,6 +206,7 @@
   * [sqlmapapi](how/sqlmap/sqlmapapi.md)
   * [with burp](how/sqlmap/with-burp.md)
   * [网络特征](how/sqlmap/tezheng.md)
+* [Matlab](how/matlab.md)
 * [Metasploit](how/ms/README.md)
   * [与Powershell](how/ms/wips.md)
 * [NESSUS](how/nessus/README.md)
