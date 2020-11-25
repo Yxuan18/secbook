@@ -908,8 +908,8 @@ if __name__ == "__main__":
 
 ## 7、回收站内容检查
 
-### 1、检测回收站目录
-
+{% tabs %}
+{% tab title="检测回收站目录" %}
 ```python
 # encoding: utf-8
 
@@ -924,9 +924,9 @@ def returndir():
 
 print returndir()
 ```
+{% endtab %}
 
-### 2、提取注册表中的用户名
-
+{% tab title="提取注册表中的用户名" %}
 ```python
 # encoding: utf-8
 
@@ -943,9 +943,9 @@ def sid2user(sid):
     except:
         return sid
 ```
+{% endtab %}
 
-### 3、打印所有被放入回收站的文件
-
+{% tab title="打印所有被放入回收站的文件" %}
 ```python
 # encoding: utf-8
 
@@ -985,11 +985,15 @@ if __name__ == "__main__":
     main()
 
 ```
+{% endtab %}
+{% endtabs %}
+
+
 
 ## 8、读取文件EXIF元数据
 
-### 1、查找image标签
-
+{% tabs %}
+{% tab title="查找image标签" %}
 ```python
 # encoding: utf-8
 
@@ -1008,9 +1012,9 @@ def findimages(url):
     imgtags = soup.findall('img')
     return imgtags
 ```
+{% endtab %}
 
-### 2、下载图片
-
+{% tab title="下载图片" %}
 ```python
 # encoding: utf-8
 
@@ -1036,9 +1040,9 @@ def downloadimage(imgtag,url):
     except:
         return ''
 ```
+{% endtab %}
 
-### 3、获取文件元数据
-
+{% tab title="获取文件元数据" %}
 ```python
 # encoding: utf-8
 
@@ -1059,9 +1063,9 @@ def testforexif(imgfilename):
     except:
         pass
 ```
+{% endtab %}
 
-### 4、代码整合
-
+{% tab title="代码整合" %}
 ```python
 # encoding: utf-8
 
@@ -1138,6 +1142,10 @@ def main():
 if __name__ == "__main__":
     mian()
 ```
+{% endtab %}
+{% endtabs %}
+
+
 
 ## 9、解析火狐浏览器ssqlite3数据库
 
