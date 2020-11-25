@@ -169,7 +169,7 @@ win7下安装VC6：[教程链接](https://jingyan.baidu.com/article/6b1823096f76
 
 讲解中的示例代码：
 
-```text
+```c
 // firstCreckme.cpp : defines the entry point for the console application 
 //
 
@@ -320,7 +320,7 @@ int main(int argc,char* argv[])
 
 比如：  
 
-```text
+```c
 shr 1101-0101 0011-0101    #shr补0
 对应C语言（>>）
 unsigned int a = 10;
@@ -613,7 +613,7 @@ mov ecx,dword ptr ds:[12FFC4]
 
 涉及代码：
 
-```text
+```c
 #include "stdafx.h"
 #include <stdlib.h>
 

