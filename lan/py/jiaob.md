@@ -1210,7 +1210,34 @@ if __name__ == '__main__':
 
 
 ```python
+# -*- coding: utf-8 -*-
 
+import sqlite3
+
+# 读取历史记录
+def printHistory(placesDB):
+    try:
+        conn = sqlite3.connect(placesDB)
+        c = conn.cursor()
+        # 数据库查询
+        c.execute('select url, datetime(visit_date/1000000, \'unixepoch\') from moz_places,moz_historyvisits where visit_count > 0 and moz_places.id == moz_historyvisits.places_id;')
+        print '\n[*] -- Found History --'
+        for row in c:
+            url = str(row[0])
+            date = str(row[1])
+            print '[+]'+ date + '  -Visited: ' + url
+    except Exception,e:
+        if 'encrypted' in str(e):
+            print '\n[*] Error readming your places database.'
+            print '[*] Upgrade your Python-Sqlite2 Library.'
+            exit(0)
+
+def main():
+    placesDB = 'places.sqlite'
+    printHistory(placesDB)
+
+if __name__ == '__main__':
+    main()
 ```
 {% endtab %}
 
@@ -1218,7 +1245,37 @@ if __name__ == '__main__':
 
 
 ```python
+# -*- coding: utf-8 -*-
 
+import sqlite3
+import re
+
+# 读取历史记录
+def printGoogle(placesDB):
+    try:
+        conn = sqlite3.connect(placesDB)
+        c = conn.cursor()
+        # 数据库查询
+        c.execute('select url, datetime(visit_date/1000000, \'unixepoch\') from moz_places,moz_historyvisits where visit_count > 0 and moz_places.id == moz_historyvisits.places_id;')
+        print '\n[*] -- Found Google --'
+        for row in c:
+            url = str(row[0])
+            date = str(row[1])
+            if 'google' in url.lower():
+                r = re.findall(r'q=.*\&', url)
+                if r:
+                    search = r[0].split('&')[0]
+                    search = search.replace('q=','').replace('+','')
+                    print '[+]'+ date + '  -Searched For: ' + search
+    except Exception,e:
+        print e
+
+def main():
+    placesDB = 'places.sqlite'
+    printGoogle(placesDB)
+
+if __name__ == '__main__':
+    main()
 ```
 {% endtab %}
 
@@ -1226,7 +1283,105 @@ if __name__ == '__main__':
 
 
 ```python
+# -*- coding: utf-8 -*-
 
+import optparse
+import os
+import sqlite3
+import re
+
+def printDownloads(downloadDB): #查看下载记录
+    conn = sqlite3.connect(downloadDB)  #链接数据库
+    c = conn.cursor()   #实例化
+    c.execute('SELECT name,source,datetime(endTime/1000000,\'unixepoch\') FORM moz_downloads;') #数据库查询
+    print '\n[*] --- Files Downloaded ---'
+    for row in c:
+        print '[+] Fiel: ' + str(row[0]) + 'from source: ' + str(row[1]) + 'at:' + str(row[2])
+
+def printCookies(cookiesDB): #读取cookie数据库内容
+    try:
+        conn = sqlite3.connect(cookiesDB)  #链接数据库
+        c = conn.cursor()   #实例化
+        c.execute('SELECT host,name,value FORM moz_cookies;') #数据库查询
+        print '\n[*] --- Found Cookies ---'
+        for row in c:
+            host = str(row[0])
+            name = str(row[1])
+            value = str(row[2])
+            print '[+] Host: ' + host + 'name: ' + name + 'Value:' + value
+    except Exception,e:
+        if 'encrypted' in str(e):
+            print '\n[*] Error reading your cookies database. '
+            print '[*] Upgrade your Python-sqlite3 Library'
+
+
+def printHistory(placesDB):
+    try:
+        conn = sqlite3.connect(placesDB)
+        c = conn.cursor()
+        # 数据库查询
+        c.execute('select url, datetime(visit_date/1000000, \'unixepoch\') from moz_places,moz_historyvisits where visit_count > 0 and moz_places.id == moz_historyvisits.places_id;')
+        print '\n[*] -- Found History --'
+        for row in c:
+            url = str(row[0])
+            date = str(row[1])
+            print '[+]'+ date + '  -Visited: ' + url
+    except Exception,e:
+        if 'encrypted' in str(e):
+            print '\n[*] Error readming your places database.'
+            print '[*] Upgrade your Python-Sqlite2 Library.'
+            exit(0)
+# 读取历史记录
+def printGoogle(placesDB):
+    try:
+        conn = sqlite3.connect(placesDB)
+        c = conn.cursor()
+        # 数据库查询
+        c.execute('select url, datetime(visit_date/1000000, \'unixepoch\') from moz_places,moz_historyvisits where visit_count > 0 and moz_places.id == moz_historyvisits.places_id;')
+        print '\n[*] -- Found Google --'
+        for row in c:
+            url = str(row[0])
+            date = str(row[1])
+            if 'google' in url.lower():
+                r = re.findall(r'q=.*\&', url)
+                if r:
+                    search = r[0].split('&')[0]
+                    search = search.replace('q=','').replace('+','')
+                    print '[+]'+ date + '  -Searched For: ' + search
+    except Exception,e:
+        print e
+
+def main():
+    parser = optparse.OptionParser('Usage %prog -p <firefox profile path>')
+    parser.add_option('-p',dest='pathName',type='string',help='specify skype profile path')
+    (options,args) = parser.parse_args()
+    pathName = options.pathName
+    if pathName == None:
+        print parser.usage
+        exit(0)
+    elif os.path.isdir(pathName) == False:
+        print '[!] Path Does Not Exist: ' + pathName
+        exit(0)
+    else:
+        downloadDB = os.path.join(pathName, 'downloads.sqlite')
+        if os.path.isfile(downloadDB):
+            printDownloads(downloadDB)
+        else:
+            print '[!] Downloads DB Does Not Exist: ' + downloadDB
+        cookiesDB = os.path.join(pathName,'cookies.sqlite')
+        if os.path.isfile(cookiesDB):
+            printCookies(cookiesDB)
+        else:
+            print '[!] Cookies DB Does Not Exist: ' + cookiesDB
+        placesDB = os.path.join(pathName, 'places.sqlite')
+        if os.path.isfile(placesDB):
+            printHistory(placesDB)
+            printGoogle(placesDB)
+        else:
+            print '[!] Places DB Does Not Exist: ' + placesDB
+
+if __name__ == '__main__':
+    main()
 ```
 {% endtab %}
 {% endtabs %}
@@ -1238,19 +1393,100 @@ if __name__ == '__main__':
 {% tabs %}
 {% tab title="打印TTL值" %}
 ```python
+# -*- coding: utf-8 -*-
 
+from scapy.all import * # 使用scapy库
+
+def testTTL(pkt):
+    try:
+        if pkt.haslayer(IP):    
+            ipsrc = pkt.getlayer(IP).src    #判断pkt中是否有IP地址
+            ttl = str(pkt.ttl)  # 提取UO地址与TTL并打印出来
+            print '[+] Pkt Received From: ' + ipsrc + 'with TTL: ' + ttl
+    except:
+        pass
+
+def main():
+    sniff(prn=testTTL,store=0)  # 嗅探
+
+if __name__ == '__main__':
+    main()
 ```
 {% endtab %}
 
 {% tab title="判断返回值" %}
 ```python
+# -*- coding: utf-8 -*-
+
+from scapy.all import * # 使用scapy库
+from IPy import IP as IPTEST    # 导入相关库并重新命名
+
+ttlValues = {}  # TTL值
+THRESH = 5  # 中继跳
+
+def checkTTL(ipsrc,ttl):
+    if IPTEST(ipsrc).iptype() == 'PRIVATE': # 判断返回值
+        return 
+    if not ttlValues.has_key(ipsrc):
+        pkt = srl(IP(dst=ipsrc)/ICMP(),retry=0,timeout=1,verbose=0)
+        ttlValues[ipsrc] = pkt.ttl
+    if abs(int(ttl) - int(ttlValues[ipsrc])) > THRESH:
+        print '\n[!] Detected Possible Spoofed Packet From: ' + ipsrc
+        print '[!] TTL: ' + ttl + ', Actual TTL: ' + str(ttlValues[ipsrc])
 
 ```
 {% endtab %}
 
 {% tab title="代码整合" %}
 ```python
+# -*- coding: utf-8 -*-
 
+import optparse
+from scapy.all import * # 使用scapy库
+from IPy import IP as IPTEST    # 导入相关库并重新命名
+
+ttlValues = {}  # TTL值
+THRESH = 5  # 中继跳
+
+def checkTTL(ipsrc,ttl):
+    if IPTEST(ipsrc).iptype() == 'PRIVATE': # 判断返回值
+        return
+    if not ttlValues.has_key(ipsrc):
+        pkt = srl(IP(dst=ipsrc)/ICMP(),retry=0,timeout=1,verbose=0)
+        ttlValues[ipsrc] = pkt.ttl
+    if abs(int(ttl) - int(ttlValues[ipsrc])) > THRESH:
+        print '\n[!] Detected Possible Spoofed Packet From: ' + ipsrc
+        print '[!] TTL: ' + ttl + ', Actual TTL: ' + str(ttlValues[ipsrc])
+
+def testTTL(pkt):
+    try:
+        if pkt.haslayer(IP):
+            ipsrc = pkt.getlayer(IP).src    #判断pkt中是否有IP地址
+            ttl = str(pkt.ttl)  # 提取UO地址与TTL并打印出来
+            print '[+] Pkt Received From: ' + ipsrc + 'with TTL: ' + ttl
+    except:
+        pass
+
+def main():
+    parser = optparse.OptionParser("usage %prog" + "-i <interce> -t <tresh>")
+    parser.add_option('-i',dest='iface',type='string',help='specify network interface')
+    parser.add_option('-t', dest='thresh', type='int', help='specify threshold count')
+    (options, args) = parser.parse_args()
+    if options.iface == None:
+        conf.iface = 'eth0'
+    else:
+        conf.iface = options.iface
+    if options.tresh != None:
+        THRESH = options.thresh
+    else:
+        THRESH = 5
+    try:
+        sniff(prn=testTTL,store=0)  # 嗅探
+    except Exception,e:
+        print e
+
+if __name__ == '__main__':
+    main()
 ```
 {% endtab %}
 {% endtabs %}
