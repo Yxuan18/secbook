@@ -1496,19 +1496,137 @@ if __name__ == '__main__':
 {% tabs %}
 {% tab title=" anonBrowser 类库" %}
 ```python
+# -*- coding: utf-8 -*-
 
+import mechanize, cookielib, random
+
+class anonBrowser(mechanize.Browser):
+    
+    def __init__(self, proxies=[], user_agents=[]):
+        mechanize.Browser.__init__(self)
+        self.set_handle_robots(False)
+        self.proxies = proxies
+        self.user_agents = user_agents + ['Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0']
+        self.cookie_jar = cookielib.LWPCookieJar()
+        self.set_cookiejar(self.cookie_jar)
+        self.anonymize()
+    
+    def clear_cookies(self):
+        self.cookie_jar = cookielib.LWPCookieJar()
+        self.set_cookiejar(self.cookie_jar)
+        
+    def change_user_agent(self):
+        index = random.randrange(0, len(self.user_agents))
+        self.addheaders = [('User-agent',(self.user_agents[index]))]
+    
+    def change_proxy(self):
+        if self.proxies:
+            index = random.randrange(0, len(self.proxies))
+            self.set_proxies({'http': self.proxies[index]})
+            
+    def anonymize(self, sleep= False):
+        self.clear_cookies()
+        self.change_user_agent()
+        self.change_proxy()
+        if sleep:
+            time.sleep(60)
 ```
 {% endtab %}
 
 {% tab title="解析页面" %}
 ```python
+# -*- coding: utf-8 -*-
 
+from anonBrowser import *
+from BeautifulSoup import BeautifulSoup
+import os
+import optparse
+import re
+
+def printLinks(url):
+    ab = anonBrowser()
+    ab.anonymize()
+    page = ab.open(url)
+    html = page.read()
+    try:
+        print '[+] Printing Links From Regex.'
+        link_finder = re.compile('href="(.*?)"')
+        links = link_finder.findall(html)
+        for link in links:
+            print link
+    except:
+        pass
+    try:
+        print '\n[+] Printing Links From BeautifulSoup.'
+        soup = BeautifulSoup(html)
+        links = soup.findall(name='a')
+        for link in links:
+            if link.has_key('href'):
+                print link['href']
+    except:
+        pass
+
+def main():
+    parser = optparse.optionparser('usage %prog -u <target url>')
+    parser.add_option('-u',dest='tgturl',type='string',help='specify target url')
+    (options,args) = parser.parser_args()
+    url = options.url
+    if url == None:
+        print parser.usage
+        exit(0)
+    else:
+        printLinks(url)
+        
+if __name__ == '__main__':
+    main()
 ```
 {% endtab %}
 
 {% tab title="下载目标站点图片" %}
 ```python
+# -*- coding: utf-8 -*-
 
+from anonBrowser import *
+from BeautifulSoup import BeautifulSoup
+import os
+import optparse
+
+
+def mirrorImages(url,dir):
+    ab = anonBrowser()
+    ab.anonymize()
+    html = ab.open(url)
+    soup = BeautifulSoup(html)
+    image_tags = soup.findall('img')
+    for image in image_tags:
+        filename = image['src'].lstrip('http://')
+        filename = os.path.join(dir,filename.replace('/','_'))
+        print '[+] Saving ' + str(filename)
+        data = ab.open(image['src']).read()
+        ab.back()
+        save = open(filename,'wb')
+        save.write(data)
+        save.close()
+
+def main():
+    parser = optparse.optionparser('usage %prog -u <target url> -d <destination directory>')
+    parser.add_option('-u',dest='tgturl',type='string',help='specify target url')
+    parser.add_option('-d', dest='dir', type='string', help='specify destination directory')
+    (options,args) = parser.parser_args()
+    url = options.tgturl
+    dir = options.dir
+    if url == None or dir == None:
+        print parser.usage
+        exit(0)
+    else:
+        try:
+            mirrorImages(url, dir)
+        except Exception,e:
+            print '[-] Error Mirroing Images '
+            print '[-]  ' + str(e)
+
+if __name__ == '__main__':
+    main()
 ```
 {% endtab %}
 {% endtabs %}
