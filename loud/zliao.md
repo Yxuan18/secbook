@@ -195,7 +195,12 @@ if( $code == $_SESSION["Checknum"])
 
    Kanboard（看板）是一款优秀的项目管理软件，它可以让你能够更有效，更简单地管理项目。该系统存在默认口令，攻击者可利用默认口令进入系统，查看并管理系统中的项目，造成严重信息泄露。
 
-2. 3. 
+2. [https://blog.csdn.net/songchaofly/article/details/103712917](https://blog.csdn.net/songchaofly/article/details/103712917)
+3. [https://www.anquanke.com/post/id/86232](https://www.anquanke.com/post/id/86232)
+4. [https://zhuanlan.zhihu.com/p/51176109](https://zhuanlan.zhihu.com/p/51176109)
+5. [http://r3start.net/index.php/2019/07/15/546](http://r3start.net/index.php/2019/07/15/546)
+6. [https://blog.csdn.net/weixin\_43534549/article/details/91361307?utm\_medium=distribute.pc\_relevant\_t0.none-task-blog-searchFromBaidu-1.control&depth\_1-utm\_source=distribute.pc\_relevant\_t0.none-task-blog-searchFromBaidu-1.control](https://blog.csdn.net/weixin_43534549/article/details/91361307?utm_medium=distribute.pc_relevant_t0.none-task-blog-searchFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-searchFromBaidu-1.control)
+
 敏感数据泄露 分为： 目录浏览， web服务器控制台地址泄露， PHPinfo\(\) 信息泄露， POODLE 信息泄露， SVN 信息泄露， 备份文件泄露， 内网 IP 地址泄露， Cookie 信息泄露， 异常信息泄露， 敏感信息泄露， IIS 短文件名泄露， Robots 文件信息泄露  
 
 
