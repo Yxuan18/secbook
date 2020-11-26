@@ -30,6 +30,24 @@
 安全建议：      
 对系统登录失败提示语句表达内容进行统一的模糊描述，从而提高攻击者对登录系统用户名及密码的可猜测难度，如“登录账号或密码错误”、“系统登录失败”等
 
+####  DVWA的防御机制
+
+1、LOW
+
+![&#x51E0;&#x4E4E;&#x6CA1;&#x6709;&#x9632;&#x5FA1;](../.gitbook/assets/image%20%281001%29.png)
+
+2、Medium：加入了SQL字符转义逻辑，避免了SQL注入攻击，但是不能防御暴力破解
+
+![](../.gitbook/assets/image%20%281000%29.png)
+
+3、High：加入了Token机制，每次登录页面都会随机生成Token字串，那么无脑爆破就不可能了，因为Token是完全随机的。但是如果用更复杂的方法，每次先抓取当前页面Token值再随即进行字典式爆破，仍可以实现破解
+
+![](../.gitbook/assets/image%20%281002%29.png)
+
+4、Impossible：加入了账号锁定机制，数次登录失败后，账号会锁定，那么暴力破解就行不通了。可以说这是比较完善的防御机制
+
+![](../.gitbook/assets/image%20%281004%29.png)
+
 
 
 #### 验证码暴力破解
@@ -41,11 +59,69 @@
 1、设置验证码的失效时间，建议为180秒；  
 2、限制单位时间内验证码的失败尝试次数，如5分钟内连续失败5次即锁定该账号15分钟
 
-目前广泛使用的验证码类型：
+#### PHP实现验证码
+
+php.ini 中，取消extension=php\_gd2.dll前面的分号；并打开GD库
+
+{% tabs %}
+{% tab title="PHP文件" %}
+```php
+<?php
+session_start();
+//生成验证码图片
+Header("Content-type: image/PNG");
+$im = imagecreate(44,18);
+$back = ImageColorAllocate($im, 245,245,245);
+imagefill($im,0,0,$back); //背景
+srand((double)microtime()*1000000);
+//生成4位数字
+for($i=0;$i<4;$i++){
+$font = ImageColorAllocate($im, rand(100,255),rand(0,100),rand(100,255));
+$authnum=rand(1,9);
+$vcodes.=$authnum;
+imagestring($im, 5, 2+$i*10, 1, $authnum, $font);
+}
+for($i=0;$i<100;$i++) //加入干扰象素
+{
+$randcolor = ImageColorallocate($im,rand(0,255),rand(0,255),rand(0,255));
+imagesetpixel($im, rand()p , rand()0 , $randcolor);
+}
+ImagePNG($im);
+ImageDestroy($im);
+$_SESSION['Checknum'] = $vcodes;
+?>
+```
+{% endtab %}
+
+{% tab title="显示验证码" %}
+```markup
+<input type="text" name="passcode" >
+<img src="code.php">
+```
+{% endtab %}
+
+{% tab title="判断并获取值" %}
+```javascript
+...
+session_start();//启动会话
+$code=$_POST["passcode"];
+if( $code == $_SESSION["Checknum"])
+{
+...
+}
+```
+{% endtab %}
+{% endtabs %}
+
+目前广泛使用的验证码类型：（触发，嵌入，弹出）
 
 ![&#x7C7B;&#x578B;&#x4E0E;&#x4F7F;&#x7528;](../.gitbook/assets/image%20%28999%29.png)
 
+还可使用人脸识别技术进行检测：
 
+如：人脸对比，人脸检测，身份证OCR
+
+案例：京训钉等
 
 暴力攻击 漏洞描述  
 暴力破解的基本思想是根据题目的部分条件确定答案的大致范围，并在此范围内对所有可能的情况逐一验证，直到全部情况验证完毕。若某个情况验证符合题目的全部条件，则为本问题的一个解；若全部情况验证后都不符合题目的全部条件，则本题无解。常常存在于网站的登录系统中，通过对已知的管理员用户名，进行对其登录口令的大量尝试。 
