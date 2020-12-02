@@ -62,6 +62,8 @@
 
 * [Android](os/android/README.md)
   * [APK终端安全分析法](os/android/apkfx.md)
+  * [应用审计指南](os/android/sjzn/README.md)
+    * [通用审计方法](os/android/sjzn/2.md)
 * [IOS](os/ios/README.md)
   * [应用审计指南](os/ios/sjzn.md)
 * [Linux](os/linux/README.md)
