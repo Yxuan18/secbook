@@ -70,6 +70,7 @@
   * [反弹shell](os/linux/reverse-shell.md)
   * [基线检查](os/linux/jixian.md)
   * [SHELL编程](os/linux/shell.md)
+  * [实战技能](os/linux/jineng.md)
 * [windows](os/win/README.md)
   * [BACKDOOR with 权限维持](os/win/back-root.md)
   * [磁盘取证实验](os/win/quzheng-cipan.md)
