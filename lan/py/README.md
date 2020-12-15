@@ -125,6 +125,10 @@ for dist in get_installed_distributions():
 
 ![&#x8FD0;&#x884C;&#x622A;&#x56FE;](../../.gitbook/assets/image%20%28862%29.png)
 
+### 6、阿里云主机更新python3版本
+
+未完待续
+
 
 
 
