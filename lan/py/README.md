@@ -125,13 +125,43 @@ for dist in get_installed_distributions():
 
 ![&#x8FD0;&#x884C;&#x622A;&#x56FE;](../../.gitbook/assets/image%20%28862%29.png)
 
-### 6、阿里云主机更新python3版本
+### 6、ubuntu更新python3版本
 
-未完待续
+ 背景：因为阿里云主机上原来的python版本是3.6，但还是想使用最新的python版本（虽然自己知道差距并不是太大），鼓捣了好长的时间，终于可以了
 
+ 步骤如下：
 
+1、更新依赖包
 
+```bash
+$ apt update
+$ apt install software-properties-common
+```
 
+![](../../.gitbook/assets/image%20%281070%29.png)
+
+2、添加PPA源
+
+```text
+$ add-apt-repository ppa:deadsnakes/ppa
+>> Press [ENTER] to continue or Ctrl-c to cancel adding it.(当到这里时，点击回车键即可)
+```
+
+![](../../.gitbook/assets/image%20%281068%29.png)
+
+3、安装python3.9并配置为系统默认版本
+
+```bash
+apt install python3.9    #安装python3.9
+
+which python3.9
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
+which python3.6
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
+update-alternatives --config python3
+```
+
+![](../../.gitbook/assets/image%20%281069%29.png)
 
 
 
