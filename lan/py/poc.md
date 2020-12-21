@@ -105,3 +105,31 @@ class Pocscan(object):
 {% endtab %}
 {% endtabs %}
 
+对于不同种类的漏洞，最好是有不同的检测方式，例如xray中采用了随机数值的方式检测SQL注入与XSS，那么使用随机数版本的漏扫脚本大概就是这样的：
+
+{% tabs %}
+{% tab title="Python" %}
+随机数版本所需代码如下：
+
+```python
+# -*- coding: utf-8 -*-
+import random
+import string
+import hashlib
+
+# gongji = ''.join(random.sample(string.ascii_letters + string.digits, 6))
+
+shuzhi = random.randint(0,999999)
+yuju = str(shuzhi)
+# ------ xss ------
+
+xss = "<script>alert(%s)</script>" % yuju
+xss = "<script>alert(" + yuju + ")</script>"
+
+# ------ sqli ------
+
+sqli = hashlib.md5(yuju).hexdigest()
+```
+{% endtab %}
+{% endtabs %}
+
