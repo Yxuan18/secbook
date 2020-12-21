@@ -138,7 +138,7 @@ $ apt update
 $ apt install software-properties-common
 ```
 
-![](../../.gitbook/assets/image%20%281070%29.png)
+![](../../.gitbook/assets/image%20%281071%29.png)
 
 2、添加PPA源
 
@@ -161,7 +161,7 @@ sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
 update-alternatives --config python3
 ```
 
-![](../../.gitbook/assets/image%20%281069%29.png)
+![](../../.gitbook/assets/image%20%281070%29.png)
 
 
 

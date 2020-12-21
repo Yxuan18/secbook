@@ -335,5 +335,29 @@ docker exec -it 容器id bash
 
 7.将容器封装为镜像，如果有本地挂载，同时保存一份本地挂载的文件，以便复现时导入
 
-8.将容器镜像打包
+8. 将容器镜像打包
+
+## 四、常见问题
+
+###  1、docker pull的时候出错
+
+```text
+error pulling image configuration: Get https://production.cloudflare.docker.com/
+registry-v2/docker/registry/v2/blobs/sha256/1c/1cda43d811c8fb178d9b0aacbdfaaa4e4
+f36489e2112558c84a97549f868585c/data?verify=1608172124-zf3G3JFGipnlE3G24jL3h8nIKg
+w%3D: dial tcp: lookup production.cloudflare.docker.com: Temporary failure in name
+ resolution
+```
+
+步骤如下：
+
+1、编辑 /etc/resolv.conf 文件，在文件中添加如下内容：
+
+```text
+nameserver 8.8.8.8
+```
+
+![](../../.gitbook/assets/image%20%281069%29.png)
+
+2、保存并推出，之后重启docker服务
 
