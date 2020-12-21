@@ -84,7 +84,7 @@ E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-security InRelea
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 3B4FE6ACC0B21F32 3B4FE6ACC0B21F32  3B4FE6ACC0B21F32
 ```
 
-![&#x6548;&#x679C;&#x56FE;](../../.gitbook/assets/image%20%281072%29.png)
+![&#x6548;&#x679C;&#x56FE;](../../.gitbook/assets/image%20%281073%29.png)
 
 ### 4、为ROOT设置密码
 

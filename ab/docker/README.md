@@ -361,3 +361,23 @@ nameserver 8.8.8.8
 
 2、保存并推出，之后重启docker服务
 
+###  2、docker pull: "No address associated with hostname"
+
+```text
+# 报错内容---ubuntu18.04
+Error response from daemon: Get https://registry-1.docker.io/v2/: dial tcp: lookup registry-1.docker.io: No address associated with hostname
+```
+
+解决方案如下：（参考[链接](https://www.cnblogs.com/wannengachao/p/12119840.html)）
+
+重启网络与docker
+
+```bash
+systemctl daemon-reload
+systemctl restart docker
+```
+
+![&#x6548;&#x679C;&#x56FE;](../../.gitbook/assets/image%20%281072%29.png)
+
+
+
