@@ -55,12 +55,43 @@ sudo rm /var/lib/dpkg/lock
 ```
 {% endcode %}
 
-### 3、为ROOT设置密码
+### 3、apt update报错
+
+ Ubuntu18.04在更换源升级的时候报错了，报错内容如下：
+
+```text
+W: GPG 错误：https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic InRelease: 由于没有公钥，无法验证下列签名： NO_PUBKEY 3B4FE6ACC0B21F32
+E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic InRelease” 没有数字签名。
+N: 无法安全地用该源进行更新，所以默认禁用该源。
+N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。
+W: GPG 错误：https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-updates InRelease: 由于没有公钥，无法验证下列签名： NO_PUBKEY 3B4FE6ACC0B21F32
+E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-updates InRelease” 没有数字签名。
+N: 无法安全地用该源进行更新，所以默认禁用该源。
+N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。
+W: GPG 错误：https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-backports InRelease: 由于没有公钥，无法验证下列签名： NO_PUBKEY 3B4FE6ACC0B21F32
+E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-backports InRelease” 没有数字签名。
+N: 无法安全地用该源进行更新，所以默认禁用该源。
+N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。
+W: GPG 错误：https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-security InRelease: 由于没有公钥，无法验证下列签名： NO_PUBKEY 3B4FE6ACC0B21F32
+E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-security InRelease” 没有数字签名。
+```
+
+ 解决方案：
+
+输入命令，如下：
+
+```bash
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 3B4FE6ACC0B21F32 3B4FE6ACC0B21F32  3B4FE6ACC0B21F32
+```
+
+![&#x6548;&#x679C;&#x56FE;](../../.gitbook/assets/image%20%281072%29.png)
+
+### 4、为ROOT设置密码
 
 1. 打开命令行，并`sudo su`切换至管理员权限
 2. 输入命令：`passwd root`，之后设置密码即可
 
-### 4、安装并开启SSH服务
+### 5、安装并开启SSH服务
 
  1、尝试开启服务，发现本地没有SSH服务端
 
@@ -85,7 +116,7 @@ service ssh stop      #停止服务
 service ssh restart   #重启服务
 ```
 
-### 5、SSH相关
+### 6、SSH相关
 
  配置文件位于：`/etc/ssh/sshd_config`   ：
 
@@ -144,7 +175,7 @@ PermitRootLogin yes
 
 ```
 
-### 6、修改docker镜像源
+### 7、修改docker镜像源
 
  新建或打开`/etc/docker/daemon.json` ，在其中输入如下内容，保存并退出，且重启docker服务即可
 
@@ -156,7 +187,7 @@ PermitRootLogin yes
 
 ![&#x6D41;&#x7A0B;](../../.gitbook/assets/image%20%28535%29.png)
 
-### 7、yum源
+### 8、yum源
 
 ubuntu安装yum:
 
@@ -243,7 +274,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
 yum makecache
 ```
 
-### 8、9、
+### 9、
 
 
 
