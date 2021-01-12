@@ -202,6 +202,8 @@ payloads = "/assets/config/config%s.json" % now
 
 文件上传的方式
 
+{% tabs %}
+{% tab title="简洁" %}
 ```python
 # -*- coding: utf-8 -*-
 
@@ -260,6 +262,27 @@ if req.status_code == 400:
 # Hello Requests.
 # --16403e4608fad6cc1cd8321b8b7d7f22--
 ```
+{% endtab %}
+
+{% tab title="分段" %}
+当文件上传遇到分段传输：
+
+![&#x793A;&#x4F8B;&#x4EE3;&#x7801;](../../.gitbook/assets/image%20%281074%29.png)
+
+相关代码示例如下：
+
+```python
+file = {
+    'name': ('null', 'wo'),
+    'name1': (None, 'xi'),
+    'name2': (None, 'huan'),
+    None: ('haha', 'ni'),
+    None: ('xixi', 'ya'),
+
+}
+```
+{% endtab %}
+{% endtabs %}
 
 
 
