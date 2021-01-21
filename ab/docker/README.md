@@ -342,8 +342,14 @@ docker exec -it 容器id bash
  1、编写Dockerfile
 
 ```bash
-FROM ubuntu:18.04    # 
-LABEL maintainer="phithon <root@leavesongs.com>"
+FROM ubuntu:18.04    # 从哪个镜像基础上开始操作
+# 作者，不是必须的
+LABEL maintainer="phithon <root@leavesongs.com>"  
+#运行的时候默认选择Y，不安装非必须的依赖包(shell尽量放在一层上)
+RUN apt-get install -y --no-install-recommends  
+# 不安装非必须依赖包
+RUN pip --no-cache-dir install httpstat  
+ADD 
 ```
 
 2、运行命令封装为镜像
@@ -406,5 +412,20 @@ vim /etc/docker/daemon.json
 # 之后需要重启网络与docker服务
 systemctl daemon-reload
 systemctl restart docker.service
+```
+
+###  4、dockerfile优化
+
+ 1、秩序
+
+```text
+# 放在顶部
+RUN apt-get update
+
+# 放在底部
+WORKDIR
+ENV
+ADD
+CMD
 ```
 
