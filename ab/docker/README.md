@@ -337,6 +337,21 @@ docker exec -it 容器id bash
 
 8. 将容器镜像打包
 
+###  dockerfile封装CMS基本思路
+
+ 1、编写Dockerfile
+
+```bash
+FROM ubuntu:18.04    # 
+LABEL maintainer="phithon <root@leavesongs.com>"
+```
+
+2、运行命令封装为镜像
+
+```bash
+docker build -t 镜像名 .
+```
+
 ## 四、常见问题
 
 ###  1、docker pull的时候出错
@@ -379,5 +394,17 @@ systemctl restart docker
 
 ![&#x6548;&#x679C;&#x56FE;](../../.gitbook/assets/image%20%281072%29.png)
 
+###  3、docker的daemon.json
 
+```bash
+vim /etc/docker/daemon.json
+-------------------------------
+{
+    "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+-------------------------------
+# 之后需要重启网络与docker服务
+systemctl daemon-reload
+systemctl restart docker.service
+```
 
