@@ -416,8 +416,6 @@ systemctl restart docker.service
 
 ###  4、dockerfile优化
 
- 1、秩序
-
 ```text
 # 放在顶部
 RUN apt-get update
@@ -428,4 +426,35 @@ ENV
 ADD
 CMD
 ```
+
+###  5、部分vulhub环境不可用
+
+ 原因如下：  
+1、由于docker-compose的时候没有添加MySQL等数据库镜像，导致CMS不能正常运行  
+2、Dockerfile中只有引入PHP+Apache镜像，没有在其中安装MySQL
+
+临时解决方案：  
+1、在docker-compose.yml文件中添加MySQL数据库，如下
+
+```yaml
+version: '2'
+services:
+  web:
+   image: drupal:8.5.0
+   ports:
+     - "8080:80"
+   # 与哪个项关联起来
+   depends_on:
+     - mysql
+  mysql:
+   image: mysql:5.5
+   environment: 
+       - MYSQL_DATABASE=drupal
+       - MYSQL_USER=test
+       - MYSQL_PASSWORD=test
+       - MYSQL_ROOT_PASSWORD=root
+   restart: always
+```
+
+
 
