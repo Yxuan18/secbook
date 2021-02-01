@@ -456,5 +456,35 @@ services:
    restart: always
 ```
 
+### 6、docker-compose.yml中的MySQL
 
+```yaml
+mysql:
+   image: mysql:5.5
+   environment: 
+     # MYSQL_ROOT_PASSWORD
+     # 变量是必需变量，它指定将为MySQLroot超级用户帐户设置的密码
+     - MYSQL_ROOT_PASSWORD=root
+     #MYSQL_DATABASE
+     # 变量是可选的，允许您指定在映像启动时要创建的数据库的名称。
+     - MYSQL_DATABASE=shujuku
+     # MYSQL_USER， MYSQL_PASSWORD 
+     # 变量是可选的，与创建新用户和设置该用户的密码一起使用。
+     - MYSQL_USER=test
+     - MYSQL_PASSWORD=test
+     # MYSQL_ALLOW_EMPTY_PASSWORD
+     # 这是一个可选变量。设置为非空值，例如yes，以允许容器以root用户的空白密码启动。
+     - MYSQL_ALLOW_EMPTY_PASSWORD=yes/no
+     # MYSQL_RANDOM_ROOT_PASSWORD
+     # 这是一个可选变量。设置为非空值，例如yes，以为root用户生成一个随机的初始密码（使用pwgen）。
+     # 生成的root密码将被打印到stdout（GENERATED ROOT PASSWORD: .....）。
+     - MYSQL_RANDOM_ROOT_PASSWORD=yes/no
+     # MYSQL_ONETIME_PASSWORD
+     # 初始化完成后，将root用户（不是MYSQL_USER！中指定的用户）设置为过期用户，从而在首次登录时强制更改密码。任何非空值都将激活此设置。
+     # 注意：仅MySQL 5.6+支持此功能。在MySQL 5.5上使用此选项将在初始化期间引发适当的错误。
+     - MYSQL_ONETIME_PASSWORD=ddddd
+     # MYSQL_INITDB_SKIP_TZINFO
+     # 默认情况下，入口点脚本会自动加载该CONVERT_TZ()功能所需的时区数据。如果不需要，则任何非空值都将禁用时区加载。
+   restart: always
+```
 
