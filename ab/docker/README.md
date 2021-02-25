@@ -350,6 +350,9 @@ RUN apt-get install -y --no-install-recommends
 # 不安装非必须依赖包
 RUN pip --no-cache-dir install httpstat  
 ADD 
+
+# 如果使用的是集成环境，可以使用ENV设置环境中MySQL_ROOT的默认密码
+ENV MYSQL_ROOT_PASSWORD=password
 ```
 
 2、运行命令封装为镜像
