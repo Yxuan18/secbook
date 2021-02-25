@@ -361,6 +361,23 @@ ENV MYSQL_ROOT_PASSWORD=password
 docker build -t 镜像名 .
 ```
 
+示例：
+
+```text
+FROM thiagobarradas/lamp:php-7.2
+RUN rm -rf /app
+COPY ./apps /app
+ENV MYSQL_PASS=admin
+# RUN mysql -e "set password for 'root'@'localhost' = password('root');"
+EXPOSE 80 3306
+CMD ["/run.sh"] 
+
+# 参考链接：
+# https://hub.docker.com/r/tutum/lamp
+#
+#
+```
+
 ## 四、常见问题
 
 ###  1、docker pull的时候出错
