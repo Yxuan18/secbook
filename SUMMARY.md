@@ -176,8 +176,10 @@
 ## 漏洞类型及讲解 <a id="loud"></a>
 
 * [综合](loud/zonghe.md)
+* [技术分享](loud/blxl/README.md)
+  * [暴力破解与信息泄露](loud/blxl/zliao.md)
+  * [sqli-with-java](loud/blxl/swj.md)
 * [SQL-Injectoin](loud/sqli.md)
-* [技术分享预备资料](loud/zliao.md)
 * [Cross-Site Scripting](loud/xss/README.md)
   * [跨站的艺术-XSS入门与介绍](loud/xss/01.md)
   * [跨站的艺术-XSS Fuzzing 的技巧](loud/xss/fuzz.md)
