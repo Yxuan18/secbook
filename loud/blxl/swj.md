@@ -84,7 +84,14 @@ Query query = session.createQuert(sql);
 
  语句执行后，若其中的参数没有进行过滤，那么这个地方就会存在注入、防御方式最好的就是进行预处理
 
+###  编写安全的SQL语句
 
+```java
+Srting hql = "select e frin Tfqeuipmentfaultdetails e where e.equipmentnumber = ?";
+Query query = session,createQuery(hql);
+query.setString(0, repairNumber.trim());
+
+```
 
 
 
