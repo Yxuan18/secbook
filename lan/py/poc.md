@@ -273,12 +273,11 @@ if req.status_code == 400:
 
 ```python
 file = {
-    'name': ('null', 'wo'),
-    'name1': (None, 'xi'),
+    'name': ('filename', u'文件内容', u'文件自定义Content-Type'),
+    'file[]': ('shell.php', data, 'application/octet-stream'),
     'name2': (None, 'huan'),
     None: ('haha', 'ni'),
     None: ('xixi', 'ya'),
-
 }
 ```
 {% endtab %}
