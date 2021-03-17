@@ -55,6 +55,7 @@
     * [推荐六](ab/docker/jixian/tjsix.md)
   * [命令与选项](ab/docker/mlxx.md)
   * [基于Docker的固件模拟](ab/docker/gjmn.md)
+  * [固件相关](ab/docker/gujian.md)
   * [Docker 私有仓库搭建](ab/docker/dajian.md)
   * [基础命令的背后](ab/docker/beihou.md)
   * [渗透思路调研](ab/docker/shent.md)
