@@ -68,5 +68,22 @@ JAVA_HOME      %JAVA_HOME14%
 
 #### 半自动版本切换
 
+背景：因为已经设置好了JDK14为默认版本，那么如果要运行JDK8版本才能运行的软件的时候，会发生什么呢？
 
+示例：冰蝎
+
+![&#x4F60;&#x4F1A;&#x53D1;&#x73B0;&#xFF0C;&#x5E76;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x53CD;&#x5E94;](../../.gitbook/assets/image%20%281076%29.png)
+
+那么这种时候，尝试先进入JDK8的目录下，然后再使用目录下的 java.exe 去执行呢？
+
+![&#x606D;&#x559C;&#x4F60;&#xFF0C;&#x8FD0;&#x884C;&#x6210;&#x529F;](../../.gitbook/assets/image%20%281077%29.png)
+
+思路就是这样的，那么我们就可以编写一个用来运行软件的  .bat  文件，内容如下：
+
+```text
+cd C:\java\java81\bin
+java.exe -jar C:\SEC\Behinder_v3.0_Beta_7\Behinder.jar
+```
+
+ 经证实，该方法可行
 
