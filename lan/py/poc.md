@@ -71,10 +71,10 @@ POC，POC \(Proof of Concept\) 验证性测试，译为为观点提供证据，�
   
 目前互联网上有的框架，也会使用json，yaml来写，不过会有一些局限性。也有的软件会使用java去编写。  
   
-文档以python为例：  
-  
-1，WEB漏洞  
-  
+文档以python为例：
+
+### 1，WEB漏洞
+
 因为要发送HTTP请求，所以需要导入requests库，可以通过引用相关方法去发送请求，如GET，POST，PUT等  
   
   
