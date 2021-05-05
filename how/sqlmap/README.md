@@ -1,6 +1,34 @@
 # sqlmap
 
-## 1. 常用语句
+## 1.安装过程
+
+###  1、Windows
+
+ 可以在电脑上先安装git，git for Windows的链接就在[这里](https://github.com/git-for-windows/git/releases/download/v2.31.1.windows.1/Git-2.31.1-64-bit.exe)  
+确认电脑上有python环境并且已经配好了环境变量  
+直接选中目录，并在cmd中打开，输入命令：
+
+```text
+git clone https://gitee.com/yixuan1/sqlmap.git
+```
+
+ 下载好后，将 sqlmap.py 所在目录添加至环境变量即可
+
+升级sqlmap时，可直接使用`git pull`命令，将电脑中的sqlmap更新至最新版本
+
+###  2、Linux
+
+以ubuntu系统为例：
+
+```text
+apt update
+apt install -y git python3 python3-pip
+git clone https://gitee.com/yixuan1/sqlmap.git
+```
+
+ 剩下的步骤类似Windows，可自行百度
+
+## 2. 常用语句
 
 ```text
 sqlmap.py -u "http://IP:PORT/?id=1" --current-user #获取当前用户名称 
