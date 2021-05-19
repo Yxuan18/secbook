@@ -179,6 +179,7 @@
 * [综合](loud/zonghe.md)
 * [技术分享](loud/blxl/README.md)
   * [暴力破解与信息泄露](loud/blxl/zliao.md)
+  * [信息泄露漏洞\_java](loud/blxl/infol-java.md)
   * [sqli-with-java](loud/blxl/swj.md)
 * [SQL-Injectoin](loud/sqli.md)
 * [Cross-Site Scripting](loud/xss/README.md)
