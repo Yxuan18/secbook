@@ -558,6 +558,31 @@ req = requests.post(url, data=data, allow_redirects=False)
 if req.status_code == 302 and "home.php" in req.headers['location']: xxx
 ```
 
+### 数据包呢
+
+```bash
+# 一般情况下，数据包的格式是这样的：
+a=123&b=456
+# 对应的python语句是这样的
+data = "a=123&b=456"
+
+# 那么json呢？
+{"a":"123","b":"456"}
+data = '{"a":"123","b":"456"}'
+# 如上，若里面是双引号，外面可用单引号括住。若里面是单引号，外面可用双引号
+
+# 分段传输的例子上面已经有了，这里懒得写......^_^
+
+# 下面来个复杂的
+{"query":"query queryAlarms($keyword: String, $scope: Scope, $duration:Duration!, $paging: Pagination!) {\\n    getAlarm(keyword: $keyword, scope: $scope, duration: $duration, paging: $paging) {\\n      items: msgs {\\n        key: id\\n        message\\n        startTime\\n        scope\\n      }\\n      total\\n    }}","variables":{"duration":{"start":"2020-10-15 1327","end":"2020-10-15 1342","step":"MINUTE"},"paging":{"pageNum":1,"pageSize":20,"needTotal":true},"keyword":"union select database()#\'"}}
+# 你也看到了，里面单双引号都挺多，转义也挺多，好像还挺麻烦的，这是可以用data = ''' '''
+data = '''{"query":"query queryAlarms($keyword: String, $scope: Scope, $duration:Duration!, $paging: Pagination!) {\\n    getAlarm(keyword: $keyword, scope: $scope, duration: $duration, paging: $paging) {\\n      items: msgs {\\n        key: id\\n        message\\n        startTime\\n        scope\\n      }\\n      total\\n    }}","variables":{"duration":{"start":"2020-10-15 1327","end":"2020-10-15 1342","step":"MINUTE"},"paging":{"pageNum":1,"pageSize":20,"needTotal":true},"keyword":"union select database()#\'"}}'''
+```
+
+* 小知识：
+
+> Python 中三引号可以将复杂的字符串进行赋值。 Python 三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。
+
 #### 来一个示例看看
 
 ```python
