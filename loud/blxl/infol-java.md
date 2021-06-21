@@ -133,7 +133,70 @@ at com.ibm.ws.util.ThreadPool$Worker.run(ThreadPool.java:1563)
 
 乌云实际攻击利用案例\(在重要一个环节中被利用到\)：WooYun: 乐视网j2ee应用的安全问题！ 
 
-###  666
+###  安全编码规范中的信息泄露
 
+#### 不要硬编码敏感信息 <a id="54"></a>
 
+硬编码的敏感信息，如密码，服务器IP地址和加密密钥，可能会泄露给攻击者。
+
+敏感信息均必须存在在配置文件或数据库中。
+
+#### 不允许暴露异常的敏感信息 <a id="62"></a>
+
+没有过滤敏感信息的异常堆栈往往会导致信息泄漏，
+
+不正确的写法：
+
+```java
+try {
+  FileInputStream fis =
+      new FileInputStream(System.getenv("APPDATA") + args[0]);
+} catch (FileNotFoundException e) {
+  // Log the exception
+  throw new IOException("Unable to retrieve file", e);
+}
+```
+
+正确的写法：
+
+```java
+class ExceptionExample {
+  public static void main(String[] args) {
+    File file = null;
+    try {
+      file = new File(System.getenv("APPDATA") +
+             args[0]).getCanonicalFile();
+      if (!file.getPath().startsWith("c:\\homepath")) {
+        log.error("Invalid file");
+        return;
+      }
+    } catch (IOException x) {
+     log.error("Invalid file");
+      return;
+    }
+    try {
+      FileInputStream fis = new FileInputStream(file);
+    } catch (FileNotFoundException x) {
+      log.error("Invalid file");
+      return;
+    }
+  }
+}
+```
+
+3、敏感信息泄露
+
+程序造成的泄露：
+
+　　1、服务端返回冗余敏感数据：用户只申请了单个账户的信息，却返回了多个用户的信息
+
+　　2、将敏感信息直接写在前端页面的注释中
+
+　　3、写在配置文件的密码未进行编码处理
+
+　　4、请求参数敏感信息未脱敏处理（可以将数据在前端用RSA加密，后台在进行解密）
+
+　　5、前端展示的敏感信息，没有在后台进行脱敏处理（后台对数据进行处理，可以将中间部分使用\*号代替）
+
+　　6、越权
 
