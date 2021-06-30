@@ -306,6 +306,21 @@ if req.status_code == 200 and mdfive in req.text:
     print "漏洞存在"
 ```
 
+针对**SqlServer**，如何获取MD5值呢？？
+
+| 涉及函数 | 描述 | 返回值 |
+| :--- | :--- | :--- |
+| HashBytes | HashBytes \('加密方式', '待加密的值'\) 加密方式= MD2 \| MD4 \| MD5 \| SHA \| SHA1 | 返回值类型：varbinary\(maximum 8000 bytes\) |
+|  | HashBytes\('MD5','123456'\) | 0xE10ADC3949BA59ABBE56E057F20F883E |
+
+HashBytes生成的结果为：0xE10ADC3949BA59ABBE56E057F20F883E，16进制的数值，去掉“0x”转换为小写值就完全与MD5值吻合了，在此需要用另一个函数（sys.fn\_sqlvarbasetostr）把varbinary的值转换为varchar类型的，完整sql如下：
+
+```text
+select substring(sys.fn_sqlvarbasetostr(HashBytes('MD5','123456')),3,32)
+```
+
+此时，结果为：`e10adc3949ba59abbe56e057f20f883e`
+
 当我们复现一个延时注入的时候，通常情况下，如果使用着`sleep(2)`的语句，那么返回时间会大于等于2秒，那么如果是国外的网站呢？
 
 一般来讲，国外的网站在不挂代理的情况下，响应速度通常会比较慢，如果遇到的一个站点刚好没有注入漏洞，又响应时间较长，如果只判断响应时间，那么会在一定概率上造成误报，示例如下：
