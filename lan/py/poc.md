@@ -306,6 +306,10 @@ if req.status_code == 200 and mdfive in req.text:
     print "漏洞存在"
 ```
 
+**注意：若频繁使用md5\(1\),则可能发生误报，示例如下图：**
+
+![](../../.gitbook/assets/sqlmd5.jpg)
+
 针对**SqlServer**，如何获取MD5值呢？？
 
 | 涉及函数 | 描述 | 返回值 |
