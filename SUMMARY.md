@@ -181,6 +181,7 @@
   * [暴力破解与信息泄露](loud/blxl/zliao.md)
   * [信息泄露漏洞\_java](loud/blxl/infol-java.md)
   * [sqli-with-java](loud/blxl/swj.md)
+  * [python远程命令执行与SSRF](loud/blxl/pyrcessrf.md)
 * [SQL-Injectoin](loud/sqli.md)
 * [Cross-Site Scripting](loud/xss/README.md)
   * [跨站的艺术-XSS入门与介绍](loud/xss/01.md)
