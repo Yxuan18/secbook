@@ -410,6 +410,36 @@ req = requests.post(url, headers=headers, files=file, timeout=10, verify=False)
 
 **小技巧**： 如果要上传文件的服务器上已经有了类似于shell.php的文件，那么再次上传shell.php可能会上传失败，此时也可以使用随机数的方法，将文件名设置为`随机数.php`，或者`时间戳.php`并且文件内容中可以包含随机数的MD5值与`phpinfo()`，在访问时可以减少误报
 
+如果是上传**压缩文件**呢？？？（涉及到`zipfile`库）
+
+示例代码如下：
+
+```python
+import zipfile,random,randint
+yuju = str(random.randint(0, 999999))
+# 新建一个.zip文件
+def create_zip():
+    myzip = zipfile.ZipFile('{}.zip'.format(yuju),mode='a',compression=zipfile.ZIP_DEFLATED)
+    myzip.writestr("shell.php", "<?php echo md5({});?>".format(yuju))
+
+class Pocscan():
+    def __init__...
+    def verify(self):
+        create_zip()
+        # 给 upzip 赋值，值为ZIP文件的二进制数据
+        upzip = open("{}.zip".format(yuju), "rb")
+        files = {
+            'file': ('{}.zip'.format(yuju), upzip, 'application/x-zip-compressed'),
+            }
+        req = requests.post(url, files=files, headers=headers, timeout=10, verify=False)
+        # 在上传文件后，关闭ZIP文件，便于后续删除文件
+        upzip.close()
+        # 使用os库，并删除创建的压缩文件
+        os.remove("./{}.zip".format(yuju))
+```
+
+#### 
+
 ### 命令执行
 
 命令执行分为回显与不回显两种，对于回显的命令执行，可使用Windows与Unix通用的命令去检测，类似netstat，或者别的，也可分别发送请求，也就是发送多次请求去检测，例如：
@@ -518,6 +548,22 @@ data = "../../../../etc/passwd"
 
 ```python
 path = "a.php?file=..%2F..%2F..%2F..%2F..%2F..%2Fetc/passwd"
+```
+
+也可使用replace\(\)函数，替换字符串中的`/`替换为`%2F`
+
+```python
+data = "../../../../etc/passwd"
+data = data.replace("/","%2F")
+```
+
+若读取文件为**日志文件**，则需要引用`time`库。
+
+常见的日志文件名为`21_08_05.log`等，为当天的日期与后缀名，此时我们可将代码写为：
+
+```python
+import time
+logfile = time.strftime('%y_%m_%d.log', time.localtime(time.time()))
 ```
 
 ### 偶遇302
