@@ -653,9 +653,10 @@ data = '''{"query":"query queryAlarms($keyword: String, $scope: Scope, $duration
 ```python
 # -*- coding: utf-8 -*-
 ​
-import requests,random,hashlib
+import requests,random,hashlib,json,time,re,base64
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+from bs4 import BeautifulSoup
 
 # FROM:
 # FOFA：
