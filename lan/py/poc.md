@@ -590,6 +590,20 @@ import time
 logfile = time.strftime('%y_%m_%d.log', time.localtime(time.time()))
 ```
 
+**urllib2 说明**
+
+在尝试复现jetty的漏洞时，URL当中会出现类似`/%2e/WEB-INF/web.xml`的字段在URL中，而`requests`库在发送请求的时候，会自动对URL编码后的字符串进行解码，那么就会导致发送的请求与预设的请求并不相同，此时，就可以使用`urllib2`库，去实现原封不动的对设定好的URL发送请求
+
+实现代码示例如下：
+
+```python
+import urllib2
+​
+url = "http://x.x.x.x:80" + "/%2e/WEB-INF/web.xml"
+req = urllib2.Request(url, headers=headers)
+resp = (urllib2.urlopen(req)).read()
+```
+
 ### 偶遇302
 
 在burpsuite的repeater中复现漏洞时，假如是弱口令漏洞，发现响应码是302，具体示例如下：
