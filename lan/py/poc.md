@@ -807,10 +807,6 @@ verify("")
 
 > 这个示例首先是用来节约时间的，如果是GET发包，则可以直接将示例中的data,file等字段删掉，并将`requests.post`改为`requests.get`即可
 
-* 单次发包后，当把print返回包响应信息的语句去掉后，为什么还是不能打印`self.result`?
-
-> 可尝试查看`self.result['target']`与`self.result['data']`是否赋予了正确的值。若请求中URL部分没有`?`，可在下方却设置了`self.result['target'] = url.split('?')[0]`，那就不会打印集合了。 同理，data的字段也应当定义为发包时的数据
-
 * 最后，写完脚本后**记得删掉没必要的部分**，**记得删掉没必要的部分**，**记得删掉没必要的部分**！！！
 
 
