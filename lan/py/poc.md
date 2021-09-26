@@ -661,6 +661,43 @@ req = requests.post(url, data=data, allow_redirects=False)
 if req.status_code == 302 and "home.php" in req.headers['location']: xxx
 ```
 
+### 请求中特定值
+
+在一些应用中，漏洞点的请求往往会有类似于`__hash__`之类对身份进行校验的参数，如下：
+
+```bash
+delid%5B%5D=2&__hash__=2a5c100c47c88b88cd7902365fdc7af3_222cykIHPWwcAF1Kk3QJS6PjnlxHRo/Z5laYL/2aveKzdetFpmjOVw
+```
+
+此时，若在burp中抓到包并再次发包的时候，由于hash不是最新的值，而会导致请求失败。此时，寻找hash是在哪生成的就成了重要的任务
+
+**注意**：此时可尝试访问漏洞页面的上一个页面，来寻找响应体中是否包含着hash值，如图：
+
+![](../../.gitbook/assets/get_hash.jpg)
+
+用在漏洞复现步骤上，大致如下：
+
+ 1、发送请求，获取响应包   
+2、提取响应包中的hash值   
+3、将hash值放入下一请求中使用，如放入漏洞请求对应的请求
+
+在代码体现上，也有两种方式： 
+
+1、通过正则匹配   
+2、通过beautifulsoup库进行提取
+
+本文档中主要使用第二种方式，相关代码如下：
+
+```python
+from bs4 import BeautifulSoup
+
+# 设请求为  req , 需要获取的值为__hash__
+
+hash_ = (BeautifulSoup(req.text, 'html.parser')).find("meta",attrs={'name':'__hash__'}).get('content')
+```
+
+#### 
+
 ### 数据包呢
 
 ```bash
