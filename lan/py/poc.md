@@ -663,7 +663,9 @@ if req.status_code == 302 and "home.php" in req.headers['location']: xxx
 
 ### 请求中特定值
 
-在一些应用中，漏洞点的请求往往会有类似于`__hash__`之类对身份进行校验的参数，如下：
+**HTML页面：**
+
+，漏洞点的请求往往会有类似于`__hash__`之类对身份进行校验的参数，如下：
 
 ```bash
 delid%5B%5D=2&__hash__=2a5c100c47c88b88cd7902365fdc7af3_222cykIHPWwcAF1Kk3QJS6PjnlxHRo/Z5laYL/2aveKzdetFpmjOVw
@@ -693,10 +695,42 @@ from bs4 import BeautifulSoup
 
 # 设请求为  req , 需要获取的值为__hash__
 
-hash_ = (BeautifulSoup(req.text, 'html.parser')).find("meta",attrs={'name':'__hash__'}).get('content')
+hash_ = (BeautifulSoup(req.text, 'html.parser')).find("meta",attrs={'name':'6__hash__'}).get('content')
 ```
 
-####
+**JOSN页面**：
+
+当返回的数据是一串json字符串时，除了使用正则的方式，还可以使用什么方式取值呢？假设json字符串如下：
+
+```json
+{"file":"upload\/20210202\/0823.php","id":"8","phone":"18833445566","passwd":"123456"}
+```
+
+取其中的file字段，可使用代码与运行结果如下：
+
+```python
+import json
+data = '{"file":"upload\/20210202\/0823.php","id":"8","phone":"18833445566","passwd":"123456"}'
+print (json.loads(data))['file']
+>> upload/20210202/0823.php
+```
+
+### 简化请求数据
+
+在复现部分漏洞时，若请求出现如下情况，一般人可能会将POST的数据全部添加到代码中，不仅增加了代码体积，也使得脚本友好性大大下降，可能会对目标服务器做出很大的修改
+
+```
+POST /main.php HTTP/1.1​a=浙江温州江南皮革厂&b=倒闭啦&c=该工具提供测试需求管理、测试用例管理和测试数据统计等功能。&d=...&e=<script>alert(1)</script>&submit=yes
+```
+
+如上请求，若对方的厂商是别的地区的，那么就会连网站的一些基本信息也被修改，那么当遇到这种情况，最好将无关紧要的参数逐一删除并尝试发送请求，直至请求最简化再进行发送，并将最简化的请求片段贴入代码中,如下：
+
+```
+POST /main.php HTTP/1.1​
+
+e=<script>alert(1)</script>&submit=yes
+
+```
 
 ### 数据包呢
 
@@ -971,17 +1005,20 @@ if __name__ == '__main__':
 {% endtab %}
 {% endtabs %}
 
-### 相关解答
+#### 简化请求数据
 
-1、文件上传时请求头中`Content-type`为什么不设置？
+在复现部分漏洞时，若请求出现如下情况，一般人可能会将POST的数据全部添加到代码中，不仅增加了代码体积，也使得脚本友好性大大下降，可能会对目标服务器做出很大的修改
 
-> 解答：在文件上传的时候，requests库会自动生成合适的请求头去进行发送，所以不需要特意设置
+```
+POST /main.php HTTP/1.1​a=浙江温州江南皮革厂&b=倒闭啦&c=该工具提供测试需求管理、测试用例管理和测试数据统计等功能。&d=...&e=<script>alert(1)</script>&submit=yes
+```
 
-2、遇到多参数的漏洞时，应该如何编写脚本？
+如上请求，若对方的厂商是别的地区的，那么就会连网站的一些基本信息也被修改，那么当遇到这种情况，最好将无关紧要的参数逐一删除并尝试发送请求，直至请求最简化再进行发送，并将最简化的请求片段贴入代码中,如下：
 
-> 在漏洞验证时，会遇到这种情况：假设漏洞点在C，可总是会有别的参数来干扰视线
->
-> a=浙江省XX有限公司\&b=18877776666\&c=">\<img src=1 onerror=alert(1)>\&submit=yes
->
-> 此时，可将前面的参数一一删除并尝试发包，直到请求包体量最小，在不改变服务器更多值的情况下再进行脚本编写
+```
+POST /main.php HTTP/1.1​e=<script>alert(1)</script>&submit=yes
+```
+
+\
+
 
