@@ -59,7 +59,7 @@ why how what\
 
 至于怎么使用漏洞验证脚本，根据各种框架的不同，有不同的用法。
 
-例如单个的脚本，可以直接通过 python ![](file:///C:\Users\73604\AppData\Roaming\Tencent\QQTempSys\\%W@GJ$ACOF\(TYDYECOKVDYB.png)poc.py ![](file:///C:\Users\73604\AppData\Roaming\Tencent\QQTempSys\\%W@GJ$ACOF\(TYDYECOKVDYB.png)http://hao123.com,  python ![](file:///C:\Users\73604\AppData\Roaming\Tencent\QQTempSys\\%W@GJ$ACOF\(TYDYECOKVDYB.png)poc.py url.txt
+例如单个的脚本，可以直接通过 python ![](file:///C:/Users/73604/AppData/Roaming/Tencent/QQTempSys/%W@GJ$ACOF\(TYDYECOKVDYB.png)poc.py ![](file:///C:/Users/73604/AppData/Roaming/Tencent/QQTempSys/%W@GJ$ACOF\(TYDYECOKVDYB.png)http://hao123.com,  python ![](file:///C:/Users/73604/AppData/Roaming/Tencent/QQTempSys/%W@GJ$ACOF\(TYDYECOKVDYB.png)poc.py url.txt
 
 第一个：扫描好123网站是否会存在POC中定义的漏洞内容\
 第二个：逐个扫描TXT文档中的URL是否会有POC中的漏洞
@@ -562,23 +562,17 @@ if checkSsrf(ssrfUrl) and req.status_code = 200:
 
 在有回显的命令执行中，我们看到了会去查看类似于passwd这样的文件，那么如果是文件读取呢？
 
-对于POST提交的数据，可以原样粘贴到请求数据中，如：
+对于POST提交的数据或参数中传递的数据，可以原样粘贴到请求数据中，如：
 
 ```python
 data = "../../../../etc/passwd"
+url = "http://IP:PORT/a.php?a=../../../etc/passwd"
 ```
 
-但由于requests库在引用时，如果是GET方法的请求包，则会将在路径中的`./../../`吞掉，示意图当直接将`file=../../../../etc/passwd`写在URL中，很可能访问的实际上是`file=etc/passwd`,所以此时需要进行URL编码，即将`/`编码为`%2F`，此时代码应该为：
+但由于requests库在引用时，如果是GET方法的请求包，则会将在路径中的`./../../`吞掉，当直接将`../../../../etc/passwd`写在URL中，很可能访问的实际上是`http://IP:PORT/etc/passwd`,所以此时需要进行URL编码，即将`/`编码为`%2F`，此时代码应该为：
 
 ```python
-path = "a.php?file=..%2F..%2F..%2F..%2F..%2F..%2Fetc/passwd"
-```
-
-也可使用replace()函数，替换字符串中的`/`替换为`%2F`
-
-```python
-data = "../../../../etc/passwd"
-data = data.replace("/","%2F")
+url = "http://IP:PORT/..%2F..%2F..%2F..%2F..%2F..%2Fetc/passwd"
 ```
 
 若读取文件为**日志文件**，则需要引用`time`库。
@@ -604,9 +598,17 @@ req = urllib2.Request(url, headers=headers)
 resp = (urllib2.urlopen(req)).read()
 ```
 
+简化一下后，是这样的：
+
+```python
+resp = (urllib2.urlopen(urllib2.Request(url, headers=headers)))
+text = resp.read()
+codes = resp.code
+```
+
 ### 偶遇302
 
-在burpsuite的repeater中复现漏洞时，假如是弱口令漏洞，发现响应码是302，具体示例如下：
+在burpsuite的repeater中复现漏洞时，假如是弱口令漏洞，发现响应码是302，具体示一下例如下：
 
 ```bash
 POST /login.php
