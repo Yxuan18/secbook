@@ -8,9 +8,9 @@
 
 作者： jweny [@360](https://github.com/360)云安全
 
-## 0x01 Java内存马简介 <a id="h2-0"></a>
+## 0x01 Java内存马简介 <a href="#h2-0" id="h2-0"></a>
 
-关于JAVA内存马的发展历史，这里引用下 [c0ny1师傅的总结](https://gv7.me/articles/2020/kill-java-web-filter-memshell/) 。早在17年n1nty师傅的[《Tomcat源码调试笔记-看不见的shell》](https://mp.weixin.qq.com/s/x4pxmeqC1DvRi9AdxZ-0Lw)中已初见端倪，但一直不温不火。后经过rebeyond师傅使用[agent技术](https://gv7.me/articles/2020/kill-java-web-filter-memshell/%28https://www.cnblogs.com/rebeyond/p/9686213.html)\)加持后，拓展了内存马的使用场景，然终停留在奇技淫巧上。在各类hw洗礼之后，文件shell明显气数已尽。内存马以救命稻草的身份重回大众视野。特别是今年在shiro的回显研究之后，引发了无数安全研究员对内存webshell的研究，其中涌现出了LandGrey师傅构造的[Spring controller内存马](https://landgrey.me/blog/12/)。
+关于JAVA内存马的发展历史，这里引用下 [c0ny1师傅的总结](https://gv7.me/articles/2020/kill-java-web-filter-memshell/) 。早在17年n1nty师傅的[《Tomcat源码调试笔记-看不见的shell》](https://mp.weixin.qq.com/s/x4pxmeqC1DvRi9AdxZ-0Lw)中已初见端倪，但一直不温不火。后经过rebeyond师傅使用[agent技术](https://gv7.me/articles/2020/kill-java-web-filter-memshell/\(https://www.cnblogs.com/rebeyond/p/9686213.html))加持后，拓展了内存马的使用场景，然终停留在奇技淫巧上。在各类hw洗礼之后，文件shell明显气数已尽。内存马以救命稻草的身份重回大众视野。特别是今年在shiro的回显研究之后，引发了无数安全研究员对内存webshell的研究，其中涌现出了LandGrey师傅构造的[Spring controller内存马](https://landgrey.me/blog/12/)。
 
 从攻击对象来说，可以将Java内存马分为以下几类：
 
@@ -20,11 +20,11 @@
    * [listener型](https://www.anquanke.com/post/id/214483#h3-5)
 2. 2.指定框架，如[spring](https://landgrey.me/blog/12/)
 3. 3.[字节码增强型](https://www.cnblogs.com/rebeyond/p/9686213.html)
-4. 4.[任意JSP文件隐藏](https://mp.weixin.qq.com/s/1ZiLD396088TxiW_dUOFsQ)
+4. 4.[任意JSP文件隐藏](https://mp.weixin.qq.com/s/1ZiLD396088TxiW\_dUOFsQ)
 
 为方便学习，webshell demo已整理至[github](https://github.com/jweny/MemShellDemo/tree/master/MemShellForJava)。
 
-## 0x02 整体思路 <a id="h2-1"></a>
+## 0x02 整体思路 <a href="#h2-1" id="h2-1"></a>
 
 无论是以上哪种攻击方式，影响的均为加载到tomcat jvm中的类。
 
@@ -38,7 +38,7 @@
    * 检查高风险类的class文件是否存在；
    * 反编译风险类字节码，检查java文件中包含恶意代码
 
-## 0x03 获取jvm中所有加载的类 <a id="h2-2"></a>
+## 0x03 获取jvm中所有加载的类 <a href="#h2-2" id="h2-2"></a>
 
 1. 1.遍历java jvm，查找所有的tomcat jvm
 2. 2.通过java instrumentation，将agent attach到每个tomcat jvm。由于可能存在多个tomcat进程的场景，因此每个tomcat jvm均检测一遍
@@ -80,7 +80,7 @@ private static synchronized void detectMemShell(String currentJvmName, Instrumen
 }
 ```
 
-## 0x04 风险类识别 <a id="h2-3"></a>
+## 0x04 风险类识别 <a href="#h2-3" id="h2-3"></a>
 
 最理想的做法是把所有加载的类都认定为风险类。但在绝大多数情况下jvm加载的都是正常的类，每次检查时，都dump所有加载的类，对于tomcat来说开销有点大。
 
@@ -123,7 +123,7 @@ public static List> findAllSuspiciousClass (Instrumentation ins, Class[] loadedC
 
 这里借鉴了[LandGrey师傅](https://github.com/LandGrey/copagent)的黑名单，将内存马的目标类的类名、继承类、实现类、所属的包、使用的注解均设置黑名单。
 
-###  1. 实现类黑名单 <a id="h3-4"></a>
+### &#x20;1. 实现类黑名单 <a href="#h3-4" id="h3-4"></a>
 
 检测类是否实现javax.servlet.Filter / javax.servlet.Servlet / javax.servlet.ServletRequestListener接口类。
 
@@ -153,7 +153,7 @@ public static Boolean lsReleaseRiskInterfaces(Class clazz){
 }
 ```
 
-###  2. 继承类黑名单 <a id="h3-5"></a>
+### &#x20;2. 继承类黑名单 <a href="#h3-5" id="h3-5"></a>
 
 ```java
 // 检测父类是否属于高风险
@@ -172,9 +172,9 @@ public static Boolean lsHasRiskSuperClass(Class clazz) {
 }
 ```
 
-###  3. 注解黑名单 <a id="h3-6"></a>
+### &#x20;3. 注解黑名单 <a href="#h3-6" id="h3-6"></a>
 
-通过clazz.getDeclaredAnnotations\(\) 获取所有注解，如果类使用了spring注册路由的注解，则标记为高风险。
+通过clazz.getDeclaredAnnotations() 获取所有注解，如果类使用了spring注册路由的注解，则标记为高风险。
 
 ```java
 public static Boolean isUseAnnotations(Class clazz) {
@@ -204,7 +204,7 @@ public static Boolean isUseAnnotations(Class clazz) {
 }
 ```
 
-###  4. 类名黑名单 <a id="h3-7"></a>
+### &#x20;4. 类名黑名单 <a href="#h3-7" id="h3-7"></a>
 
 ```java
 // 高风险的类名
@@ -220,7 +220,7 @@ public static Boolean lsRiskClassName(Class clazz){
 }
 ```
 
-###  5. 包名黑名单 <a id="h3-8"></a>
+### &#x20;5. 包名黑名单 <a href="#h3-8" id="h3-8"></a>
 
 ```java
 // 检测是否属于高风险的包
@@ -240,7 +240,7 @@ public static Boolean lsContainRiskPackage(Class clazz){
 }
 ```
 
-###  6. 基于mbean的filter/servlet风险类识别 <a id="h3-9"></a>
+### &#x20;6. 基于mbean的filter/servlet风险类识别 <a href="#h3-9" id="h3-9"></a>
 
 这里分享另一种filter/servlet的检测，检测思路是通过mbean获取sevlet/filter列表，内存马的filter是动态注册的，所以web.xml中肯定没有相应配置，因此通过对比可以发现异常的filter。
 
@@ -270,7 +270,7 @@ for (Map.Entry entry : catlina.entrySet()) {
 
 不过这种方式有较大的缺陷。首先，mbean只是资源管理，并不影响功能，所以在植入内存马后再卸载掉注册的mbean即可绕过；其次，servlet 3.0引入了 [@WebFilter](https://github.com/WebFilter) 可以动态注册，这种也没有在web.xml中配置，会引起误报，因此仅可作为一个查找风险类的参考条件。
 
-## 0x05 检测是否为内存马 <a id="h2-10"></a>
+## 0x05 检测是否为内存马 <a href="#h2-10" id="h2-10"></a>
 
 遍历风险类列表，并检测以下规则：
 
@@ -324,7 +324,7 @@ public static String getClassRiskLevel(Class clazz, File dumpPath) {
 }
 ```
 
-## 0x06 小结 <a id="h2-11"></a>
+## 0x06 小结 <a href="#h2-11" id="h2-11"></a>
 
 本文仅对Tomcat内存马的检测提供了一些思路，但并未提及查杀，查杀将在下一篇详细分享。
 
@@ -332,7 +332,7 @@ public static String getClassRiskLevel(Class clazz, File dumpPath) {
 
 再次感谢 **fnmsd、c0ny1、LandGrey** 师傅们的大力支持。
 
-## 0x07 参考文章 <a id="h2-12"></a>
+## 0x07 参考文章 <a href="#h2-12" id="h2-12"></a>
 
 * [https://github.com/LandGrey/copagent](https://github.com/LandGrey/copagent)
 * [查杀Java web filter型内存马](https://gv7.me/articles/2020/kill-java-web-filter-memshell/)
@@ -340,4 +340,3 @@ public static String getClassRiskLevel(Class clazz, File dumpPath) {
 * [利用“进程注入”实现无文件不死webshell](https://www.cnblogs.com/rebeyond/p/9686213.html)
 * [基于内存 Webshell 的无文件攻击技术研究](https://landgrey.me/blog/12/)
 * [基于tomcat的内存 Webshell 无文件攻击技术](https://xz.aliyun.com/t/7388)
-

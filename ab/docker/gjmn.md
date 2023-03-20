@@ -57,13 +57,15 @@ requests.post('http://x.x.x.x:37215/ctrlt/DeviceUpgrade_1', headers=headers, dat
 
 **逻辑框架** Docker - Qemu - system-mode 模式的固件模拟流程图
 
-![](../../.gitbook/assets/image%20%28987%29.png)
+![](<../../.gitbook/assets/image (987).png>)
 
 ## 0x01 MIPS 框架搭建--实现外网访问--端口映射
 
-* `Docker version 19.03.2` 中 `Ubuntu 18.04.4` 系统 ，安装 `qemu-system-mips` `apt-get update && apt-get install -y qemu -system-mips && apt-get clean`
-* `Qemu` 使用的基础框架：[https://people.debian.org/~aurel32/qemu/mips/](https://link.zhihu.com/?target=https%3A//people.debian.org/~aurel32/qemu/mips/)
-* 此处映射了 `Qemu` 中的两个端口22、37215 qemu-system-mips -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda debian\_wheezy\_mips\_standard.qcow2 -append "root=/dev/sda1 rw console=tty0" -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5535-:22,hostfwd=tcp::37215-:37215 -nographic
+* `Docker version 19.03.2` 中 `Ubuntu 18.04.4` 系统 ，安装 `qemu-system-mips`\
+  `apt-get update && apt-get install -y qemu -system-mips && apt-get clean`
+* `Qemu` 使用的基础框架：[https://people.debian.org/\~aurel32/qemu/mips/](https://link.zhihu.com/?target=https%3A//people.debian.org/\~aurel32/qemu/mips/)
+* 此处映射了 `Qemu` 中的两个端口22、37215\
+  qemu-system-mips -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda debian\_wheezy\_mips\_standard.qcow2 -append "root=/dev/sda1 rw console=tty0" -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5535-:22,hostfwd=tcp::37215-:37215 -nographic
 
 **某些固件服务修改网络配置**
 
@@ -75,7 +77,7 @@ requests.post('http://x.x.x.x:37215/ctrlt/DeviceUpgrade_1', headers=headers, dat
 
 定时任务实现：修改 `/etc/crontab` 文件，必须要按照格式填写
 
-```text
+```
 按照/etc/crontab中的格式填写如下内容：
 * * * * * sh /root/changeip.sh
 
@@ -94,7 +96,7 @@ ifup eth0
 
 启动项加入过程：
 
-```text
+```
 路径：/etc/init.d/micc_open
 权限：chmod 777 /etc/init.d/micc_open
 加入自启项目：update-rc.d mic_open defaults 99
@@ -120,13 +122,13 @@ chroot /root/squashfs-root/ mic
 
 解决：只要将 `/tmp` 目录挂载到 `Qemu` 中就行，使用 `fat:/tmp`
 
-```text
+```
 Qemu-system-mips -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda debian_wheezy_mips_standard.qcow2 -append "root=/dev/sda1 rw console=tty0" -hdb fat:/tmp -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5535-:22,hostfwd=tcp::37215-:37215 -nographic
 ```
 
 `Qemu` 中执行，加入自启动项实现：
 
-```text
+```
 fdisk -l
 mount /dev/sdb1 /tmp
 ```
@@ -137,13 +139,13 @@ mount /dev/sdb1 /tmp
 
 `Qemu` 中说明文档：[https://wiki.archlinux.org/index.php?title= Qemu](https://link.zhihu.com/?target=https%3A//wiki.archlinux.org/index.php%3Ftitle%3DQemu)
 
-![](../../.gitbook/assets/image%20%28994%29.png)
+![](<../../.gitbook/assets/image (994).png>)
 
 ## 储备2: **Qemu联网方式**
 
 `Qemu` 中说明文档：[https://wiki.archlinux.org/index.php?title= Qemu](https://link.zhihu.com/?target=https%3A//wiki.archlinux.org/index.php%3Ftitle%3DQemu)
 
-![](../../.gitbook/assets/image%20%28993%29.png)
+![](<../../.gitbook/assets/image (993).png>)
 
 ## 储备3: Qemu 挂载 Docker中的目录
 
@@ -151,7 +153,7 @@ mount /dev/sdb1 /tmp
 
 **挂载主机分区**
 
-![](../../.gitbook/assets/image%20%28991%29.png)
+![](<../../.gitbook/assets/image (991).png>)
 
 ## 储备4: Qemu的必备知识点
 
@@ -159,27 +161,38 @@ mount /dev/sdb1 /tmp
 
 [https://nosec.org/home/detail/4213.html](https://link.zhihu.com/?target=https%3A//nosec.org/home/detail/4213.html)
 
-![](https://pic4.zhimg.com/80/v2-056fca45551ad76eb7a4b2eef7dbe2df_720w.jpg)
+![](https://pic4.zhimg.com/80/v2-056fca45551ad76eb7a4b2eef7dbe2df\_720w.jpg)
 
 ## 储备5: 本文涉及到的Docker知识点
 
 * 网络配置使用的命令，如：`ip router`
-* 在自动运行 `Docker` 中 `Qemu` 中固件文件系统中的服务成功之前，想过要是 `Docker` 能保存当前的运行状态多方便，研究如下： `Docker save`与`Docker export` save 镜像，不是当前运行的而是原本的，当前运行的镜像不会保存。 export 容器，会保存，但是只是文件。
-* `Docker` 镜像修改保存新镜像，`docker commit`从容器中创建一个新镜像 
-  * -a :提交的镜像作者
-  * -m :提交时的说明文字
+* 在自动运行 `Docker` 中 `Qemu` 中固件文件系统中的服务成功之前，想过要是 `Docker` 能保存当前的运行状态多方便，研究如下：\
+  `Docker save`与`Docker export`\
+  save 镜像，不是当前运行的而是原本的，当前运行的镜像不会保存。 export 容器，会保存，但是只是文件。
+* `Docker` 镜像修改保存新镜像，`docker commit`从容器中创建一个新镜像\
 
-docker commit \[OPTIONS\] CONTAINER \[REPOSITORY\[:TAG\]\] docker commit -m="qemu-system-mips\_HG532" -a="m2ayill" 553c8ce8df01 mips\_huawei\_hg532\_success\_fat\_flag:v2
+  * \-a :提交的镜像作者
+  * \-m :提交时的说明文字
 
-* `Dockerfile` 的编写 
-  * `FROM`：先从本地查找镜像，若无，再从网上获取镜像 `FROM mips_huawei_hg532_success:latest`
-  * `MAINTAINER`：描述镜像的创建者 `MAINTAINER m2ayill`
-  * `ADD`：在执行 &lt;源文件&gt; 为 tar 压缩文件的话，压缩格式为 gzip, bzip2 以及 xz 的情况下，会自动复制并解压到 &lt;目标路径&gt;，描述镜像的创建者，先从本地查找镜像 `ADD <源路径1> <目标路径>`
-  * `RUN`：执行后面的命令行命令 `RUN <命令行命令>`
-  * `ENTRYPOINT`：类似于 CMD 指令，但其不会被 docker run 的命令行参数指定的指令所覆盖 `ENTRYPOINT ["/start.sh"]` 在创建镜像时，本人使用了RUN，直接在创建过程中运行了命令 mic 导致直接卡顿，创建不了了，看完本文内容就知道。
-  * `EXPOSE`：声明端口 `EXPOSE <端口1>`
+docker commit \[OPTIONS] CONTAINER \[REPOSITORY\[:TAG]] docker commit -m="qemu-system-mips\_HG532" -a="m2ayill" 553c8ce8df01 mips\_huawei\_hg532\_success\_fat\_flag:v2
 
-```text
+* `Dockerfile` 的编写\
+
+  * `FROM`：先从本地查找镜像，若无，再从网上获取镜像\
+    `FROM mips_huawei_hg532_success:latest`
+  * `MAINTAINER`：描述镜像的创建者\
+    `MAINTAINER m2ayill`
+  * `ADD`：在执行 <源文件> 为 tar 压缩文件的话，压缩格式为 gzip, bzip2 以及 xz 的情况下，会自动复制并解压到 <目标路径>，描述镜像的创建者，先从本地查找镜像\
+    `ADD <源路径1> <目标路径>`
+  * `RUN`：执行后面的命令行命令\
+    `RUN <命令行命令>`
+  * `ENTRYPOINT`：类似于 CMD 指令，但其不会被 docker run 的命令行参数指定的指令所覆盖\
+    `ENTRYPOINT ["/start.sh"]`\
+    在创建镜像时，本人使用了RUN，直接在创建过程中运行了命令 mic 导致直接卡顿，创建不了了，看完本文内容就知道。
+  * `EXPOSE`：声明端口\
+    `EXPOSE <端口1>`
+
+```
 Dockerfile内容如下：
 
 FROM    mips_huawei_hg532_success:latest        #从本地获取镜像
@@ -207,31 +220,35 @@ start.sh文件内容
 
 根据**知识储备1**可知：`user网络模式` 可以实现端口转发到 `Docker` ，最主要的是可以访问外网，类似于 nat。
 
-这里使用的是 `user网络模式` ，（ 有兴趣的人，:\) 可以试试 tap ，`Qemu` 说明文档中有写转发过程）
+这里使用的是 `user网络模式` ，（ 有兴趣的人，:) 可以试试 tap ，`Qemu` 说明文档中有写转发过程）
 
 ## 0x01\_2 hostfwd的转发端口
 
 * 刚开始尝试时，ssh转发到 `Docker` 的 5535 端口成功，但是 37215 死活不行，而且本文使用的案例是我使用的第二个案例，第一个案例是雄迈的 telnet 后门漏洞，其中 9527 端口也是转不出来，
 
-1. 设想，是不是 `hostfwd` 只能转发一个端口 案例推翻假设：尝试了 `cc8160`（第三个案例）启动的是 80 端口和 22 端口，两个端口都能使用
+1. 设想，是不是 `hostfwd` 只能转发一个端口\
+   案例推翻假设：尝试了 `cc8160`（第三个案例）启动的是 80 端口和 22 端口，两个端口都能使用
 2. 后来一步步回想做了哪些操作：
 
-​ 5535 是在没有运行`mic` 之前，连接成功；  
-​ 在运行 `mic` 后，5535 端口也不能使用了；  
+​ 5535 是在没有运行`mic` 之前，连接成功；\
+​ 在运行 `mic` 后，5535 端口也不能使用了；\
 ​ **查看 `mic` 服务启动过程，发现 `mic` 服务在运行时将网络环境修改了**
 
 * `hostfwd`转发的端口是只要 `Qemu` 内部有相应的端口，就可以通过`hostfwd`设定的端口转发出来，也就是说，内部的服务可以在 `Qemu` 运行后启动：
 
-1. 设想，ssh 端口是开机自启的，当初还以为只能是系统内部已经启动的端口才能够转出来，而运行 `Qemu` 后自行启动的端口无法转出 案例推翻假设：将 ssh 端口关闭后， `Qemu` 转发到 `Docker` 的端口无法使用 ssh 登录了，重新启动 ssh 服务，又可以使用了
+1. 设想，ssh 端口是开机自启的，当初还以为只能是系统内部已经启动的端口才能够转出来，而运行 `Qemu` 后自行启动的端口无法转出\
+   案例推翻假设：将 ssh 端口关闭后， `Qemu` 转发到 `Docker` 的端口无法使用 ssh 登录了，重新启动 ssh 服务，又可以使用了
 
-* 与搭建无关的： 
+* 与搭建无关的：\
+
   * 通过 `Qemu` 转发到 `Docker` 的端口，5535、37215等，其实本地是在类似监听的状态，也就是说 telnet 5535 等端口，都是属于通的状态，无法通过 telnet 来判断是否 `Qemu` 内部的服务已经启动
 
 ## 0x02 “定时任务”历程
 
 **解决办法设想过如下：**
 
-* 放入后台，将终端释放出来，没有 `nohub` 命令，只能通过 `&` 或者`ctrl+z` 
+* 放入后台，将终端释放出来，没有 `nohub` 命令，只能通过 `&` 或者`ctrl+z`\
+
   * 使用`ubuntu`虚拟机+ `Qemu` 实现的 `ctrl+z` 放入后台，bg 的结果是 doing，&结果总是 stopped
   * 使用 `Docker` + `Qemu` ，两种方法总是 stopped
 * 使用 ssh 登录后的终端运行 `mic` 服务
@@ -245,7 +262,7 @@ start.sh文件内容
 * `crontab file`，`crontab` 查看内容添加上了
 * 权限问题
 * 重启服务`/etc/init.d/cron restart`
-* 无意中全局搜索 `crontab` ，`/etc/crontab` 符合平常设定定时任务的格式类型，当时脑子也呆了，下意识的直接按照文件原本的格式填写了，（第二天重新设置定时任务，死活不成功，重新走了一下流程，最终发现的原因是，`/etc/crontab` 填写的内容是复制过来的，没有按照原文格式写:\( ）
+* 无意中全局搜索 `crontab` ，`/etc/crontab` 符合平常设定定时任务的格式类型，当时脑子也呆了，下意识的直接按照文件原本的格式填写了，（第二天重新设置定时任务，死活不成功，重新走了一下流程，最终发现的原因是，`/etc/crontab` 填写的内容是复制过来的，没有按照原文格式写:( ）
 
 ## 0x03 模拟攻击
 
@@ -274,13 +291,14 @@ start.sh文件内容
 那就方便处理了，只要将`chroot /root/squashfs-root/ mic`在启动 `Qemu` 时，服务同时运行起来就行，两种方法：
 
 * 加入启动项
-* 定时任务（想到的第一个办法就是定时任务，没有尝试，原因如下，其实挺后悔的，要不然早弄完了：） 
+* 定时任务（想到的第一个办法就是定时任务，没有尝试，原因如下，其实挺后悔的，要不然早弄完了：）\
+
   * 设想，定时任务几乎都是随着mic服务运行后执行的，也就是在 `Qemu` 登录后，没有尝试登录前看看能不能执行；（为什么说**`Qemu` 登录**，在下面有写）
   * 验证：在后面通过自启项目 `mic` 运行后，会在 `Qemu` 启动的过程中卡住，但是定时任务还是执行了，说明在未登录之前定时任务是可以执行的）
 
 启动脚本第一版
 
-```text
+```
 mic_open内容如下：
 
 #!/bin/sh
@@ -293,7 +311,8 @@ chroot /root/squashfs-root/ mic
 * `/etc/profile.d/mic_open`，只能在**`Qemu` 登录用户**后启动；
 * `/etc/init.d/mic_open`、 rd0-6 目录下都添加，不行；
 * 将脚本转成服务，加入自启项目；
-* 使用命令加入自启项目，`update-rc.d mic_open defaults 99`，发现启动脚本有问题，根据报错信息，有了如下的第二版脚本，再次使用 `update-rc.d mic_open defaults 99` ，加入自启项目成功。 mic\_open内容如下： \#!/bin/sh \#\#\# BEGIN INIT INFO \# Provides: [http://aaa.com](https://link.zhihu.com/?target=http%3A//aaa.com) \# Required-Start: $local\_fs $network \# Required-Stop: $local\_fs \# Default-Start: 2 3 4 5 \# Default-Stop: 0 1 6 \# Short-Desc ription: mic service \# Desc ription: mic service daemon \#\#\# END INIT INFO chroot /root/squashfs-root/ mic
+* 使用命令加入自启项目，`update-rc.d mic_open defaults 99`，发现启动脚本有问题，根据报错信息，有了如下的第二版脚本，再次使用 `update-rc.d mic_open defaults 99` ，加入自启项目成功。\
+  mic\_open内容如下： #!/bin/sh ### BEGIN INIT INFO # Provides: [http://aaa.com](https://link.zhihu.com/?target=http%3A//aaa.com) # Required-Start: $local\_fs $network # Required-Stop: $local\_fs # Default-Start: 2 3 4 5 # Default-Stop: 0 1 6 # Short-Desc ription: mic service # Desc ription: mic service daemon ### END INIT INFO chroot /root/squashfs-root/ mic
 
 ## 0x05 实现“外网访问”历程
 
@@ -307,14 +326,14 @@ chroot /root/squashfs-root/ mic
 
 弯路1: `Docker` 禁用eth0，这网络就访问不了了， `Docker` 中好多没有安装，很不方便（`dhclient br0`，没有 `dhclient` 命令），想着br设置一下就行了，就仿照 eth0 的设置成了静态，不行，
 
-```text
+```
 apt-get install isc-dhcp-client
 apt-get install iputils-ping
 ```
 
 解决：网上搜了一会儿，用了 `ip router`，仿照正常的eth0设置，通过 `ip router add` 添加 br
 
-```text
+```
 ip route
 ip route add default via 172.17.0.1 dev br0
 ifconfig br0 172.17.0.2/16
@@ -322,7 +341,7 @@ ifconfig br0 172.17.0.2/16
 
 弯路2: 设置好了tap0，使用tap0启动 `Qemu` ，平常需要登录进 `Qemu` 修改下网络才可以使用，结果由于自启服务.`mic` ，在 `Qemu` 启动过程中直接卡顿了，ssh 也不知道 ip 不能登录
 
-```text
+```
 ifconfig eth0 down
 brctl addbr br0
 brctl addif br0 eth0
@@ -346,4 +365,3 @@ ifconfig eth0 0.0.0.0 promisc up
 ## 拓展
 
 本文使用案例的是 mips 框架，同样是适用于其他环境如：ARM、i386 等。拓展开来，Docker目前不能搭建 Windows 漏洞环境，有这种需求的可以借助本文方法实现：Docker-Qemu-Windows。
-

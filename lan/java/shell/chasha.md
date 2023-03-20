@@ -1,8 +1,8 @@
 # 查杀Java web filter型内存马
 
-### 0x01 内存马简历史 <a id="0x01-&#x5185;&#x5B58;&#x9A6C;&#x7B80;&#x5386;&#x53F2;"></a>
+### 0x01 内存马简历史 <a href="#0x01-nei-cun-ma-jian-li-shi" id="0x01-nei-cun-ma-jian-li-shi"></a>
 
-其实内存马由来已久，早在17年n1nty师傅的[《Tomcat源码调试笔记-看不见的shell》](https://mp.weixin.qq.com/s/x4pxmeqC1DvRi9AdxZ-0Lw)中已初见端倪，但一直不温不火。后经过rebeyong师傅使用[agent技术](https://gv7.me/articles/2020/kill-java-web-filter-memshell/%28https://www.cnblogs.com/rebeyond/p/9686213.html%29)加持后，拓展了内存马的使用场景，然终停留在奇技淫巧上。在各类hw洗礼之后，文件shell明显气数已尽。内存马以救命稻草的身份重回大众视野。特别是今年在shiro的回显研究之后，引发了无数安全研究员对内存webshell的研究，其中涌现出了LandGrey师傅构造的[Spring controller内存马](https://landgrey.me/blog/12/)。至此内存马开枝散叶发展出了三大类型：
+其实内存马由来已久，早在17年n1nty师傅的[《Tomcat源码调试笔记-看不见的shell》](https://mp.weixin.qq.com/s/x4pxmeqC1DvRi9AdxZ-0Lw)中已初见端倪，但一直不温不火。后经过rebeyong师傅使用[agent技术](https://gv7.me/articles/2020/kill-java-web-filter-memshell/\(https://www.cnblogs.com/rebeyond/p/9686213.html\))加持后，拓展了内存马的使用场景，然终停留在奇技淫巧上。在各类hw洗礼之后，文件shell明显气数已尽。内存马以救命稻草的身份重回大众视野。特别是今年在shiro的回显研究之后，引发了无数安全研究员对内存webshell的研究，其中涌现出了LandGrey师傅构造的[Spring controller内存马](https://landgrey.me/blog/12/)。至此内存马开枝散叶发展出了三大类型：
 
 1. servlet-api类
    * filter型
@@ -15,7 +15,7 @@
 
 内存马这坛深巷佳酒，一时间流行于市井与弄堂之间。上至安全研究员下至普通客户，人尽皆知。正值hw来临之际，不难推测届时必将是内存马横行天下之日。而各大安全厂商却迟迟未见动静。所谓表面风平浪静，实则暗流涌动。或许一场内存马的围剿计划正慢慢展开。作为攻击方向的研究人员，没有对手就制造对手,攻防互换才能提升内存马技术的发展。
 
-### 0x02 查杀思路 <a id="0x02-&#x67E5;&#x6740;&#x601D;&#x8DEF;"></a>
+### 0x02 查杀思路 <a href="#0x02-cha-sha-si-lu" id="0x02-cha-sha-si-lu"></a>
 
 我们判断逻辑很朴实，利用Java Agent技术遍历所有已经加载到内存中的class。先判断是否是内存马，是则进入内存查杀。
 
@@ -34,7 +34,7 @@ public class Transformer implements ClassFileTransformer {
 }
 ```
 
-### 0x03 内存马的识别 <a id="0x03-&#x5185;&#x5B58;&#x9A6C;&#x7684;&#x8BC6;&#x522B;"></a>
+### 0x03 内存马的识别 <a href="#0x03-nei-cun-ma-de-shi-bie" id="0x03-nei-cun-ma-de-shi-bie"></a>
 
 要识别，我们就需要细思内存马有什么特征。下面列下我思考过的检查点。
 
@@ -136,7 +136,7 @@ private static boolean isMemshell(Class targetClass,byte[] targetClassByte){
 
 PS: 本文讨论查杀的思路，给出的代码只是概念正面的伪装代码。完美的方案是将以上6点作为判断指标，并根据指标的重要性赋予不同权重。满足的条件越多越可能是内存马。
 
-### 0x04 内存马的查杀 <a id="0x04-&#x5185;&#x5B58;&#x9A6C;&#x7684;&#x67E5;&#x6740;"></a>
+### 0x04 内存马的查杀 <a href="#0x04-nei-cun-ma-de-cha-sha" id="0x04-nei-cun-ma-de-cha-sha"></a>
 
 内存马识别完成，接下来就是如何查杀了。
 
@@ -190,15 +190,14 @@ for(Map.Entry<String, ApplicationFilterConfig> map : filterConfigMap.entrySet())
 
 两种方法各有优劣，第一种方法比较通用，直接适配所有中间件。但恶意Filter依然在，只是恶意代码被清除了。第二种方法比较优雅，恶意Filter会被清除掉。但每种中间件注销Filter的逻辑不尽相同，需要一一适配。为了方便演示我们选第一种。
 
-### 0x05 demo展示 <a id="0x05-demo&#x5C55;&#x793A;"></a>
+### 0x05 demo展示 <a href="#0x05demo-zhan-shi" id="0x05demo-zhan-shi"></a>
 
 最后给大家展示下，我查杀demo的效果。
 
 查杀演示
 
-![&#x67E5;&#x6740;&#x6F14;&#x793A;](https://gv7.me/articles/2020/kill-java-web-filter-memshell/kill-java-filter-memshell-demo.gif)
+![查杀演示](https://gv7.me/articles/2020/kill-java-web-filter-memshell/kill-java-filter-memshell-demo.gif)
 
-### 0x06 总结 <a id="0x06-&#x603B;&#x7ED3;"></a>
+### 0x06 总结 <a href="#0x06-zong-jie" id="0x06-zong-jie"></a>
 
 本文我们对Filter型内存马的识别与查杀做了细致的分析，其实Servlet型，拦截器型和Controller型的查杀方法也是万变不离其中，可如法炮制。但这样的思路无法查杀Agent型内存马，Agent型内存马查杀难点在“查”不在“杀”，具体的难点在那，又是如何解决呢？我会在后续的《查杀Java web Agent型内存马》中继续分享我的思考。
-

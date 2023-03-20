@@ -36,10 +36,10 @@
 
 安装过程：
 
-1、Windows端，本人使用了phpstudy直接安装  
+1、Windows端，本人使用了phpstudy直接安装\
 2、Linux端，可通过使用源码包的方式下载，下载好之后进入命令行设置密码并重启服务即可
 
-```text
+```
 SET PASSWORD FOR'root'@'localhost'=PASSWORD('123456'); #在MySQL命令行中设置root账户的密码为123456
 ```
 
@@ -47,11 +47,20 @@ SET PASSWORD FOR'root'@'localhost'=PASSWORD('123456'); #在MySQL命令行中设�
 
 工具种类及详情如下：
 
-1. MySQL Workbench： MySQL Workbench是一个由MySQL开发的跨平台、可视化数据库工具。它作为DBDesigner4工程的替代应用程序而备受瞩目。MySQL Workbench可以作为Windows、Linux和OS X系统上的原始GUI工具，它有各种不同的版本。
-2. Aqua Data Studio： 对于数据库管理人员、软件开发人员以及业务分析师来说，Aqua Data Studio是一个完整的集成开发环境（Intergrated Development Environment，IDE）。它主要具备了以下4个方面的功能：         ⑴数据库查询和管理工具；         ⑵一套数据库、源代码管理以及文件系统的比较工具；         ⑶为Subversion（SVN）和CVS设计了一个完整的集成源代码管理客户端；         ⑷提供了一个数据库建模工具（Modeler），它和最好的独立数据库图表工具一样强大。
-3. SQLyogSQLyog： 是一个全面的MySQL数据库管理工具。它的社区版（Community Edition）是具有GPL许可的免费开源软件。这款工具包含了开发人员在使用MySQL时所需的绝大部分功能：查询结果集合、查询分析器、服务器消息、表格数据、表格信息，以及查询历史，它们都以标签的形式显示在界面上，开发人员只要单击鼠标即可。此外，它还可以方便地创建视图和存储过程。
-4. MySQL-Front： 这个MySQL数据库的图形GUI是一个“真正的”应用程序，它提供的用户界面比用PHP和HTML建立起来的系统更加精确。因为不会因为重载HTML网页而导致延时，所以它的响应是即时的。如果供应商允许的话，可以让MySQL-Front直接与数据库进行工作。如果不行，也只需要在发布网站上安装一个小的脚本即可。
-5. Sequel ProSequel Pro： 是一款管理Mac OS X数据库的应用程序，它可以让用户直接访问本地以及远程服务器上的MySQL数据库，并且支持从流行的文件格式中导入和导出数据，其中包括SQL、CSV和XML等文件。
+1. MySQL Workbench：\
+   MySQL Workbench是一个由MySQL开发的跨平台、可视化数据库工具。它作为DBDesigner4工程的替代应用程序而备受瞩目。MySQL Workbench可以作为Windows、Linux和OS X系统上的原始GUI工具，它有各种不同的版本。
+2. Aqua Data Studio：\
+   对于数据库管理人员、软件开发人员以及业务分析师来说，Aqua Data Studio是一个完整的集成开发环境（Intergrated Development Environment，IDE）。它主要具备了以下4个方面的功能：\
+   &#x20;       ⑴数据库查询和管理工具；\
+   &#x20;       ⑵一套数据库、源代码管理以及文件系统的比较工具；\
+   &#x20;       ⑶为Subversion（SVN）和CVS设计了一个完整的集成源代码管理客户端；\
+   &#x20;       ⑷提供了一个数据库建模工具（Modeler），它和最好的独立数据库图表工具一样强大。
+3. SQLyogSQLyog：\
+   是一个全面的MySQL数据库管理工具。它的社区版（Community Edition）是具有GPL许可的免费开源软件。这款工具包含了开发人员在使用MySQL时所需的绝大部分功能：查询结果集合、查询分析器、服务器消息、表格数据、表格信息，以及查询历史，它们都以标签的形式显示在界面上，开发人员只要单击鼠标即可。此外，它还可以方便地创建视图和存储过程。
+4. MySQL-Front：\
+   这个MySQL数据库的图形GUI是一个“真正的”应用程序，它提供的用户界面比用PHP和HTML建立起来的系统更加精确。因为不会因为重载HTML网页而导致延时，所以它的响应是即时的。如果供应商允许的话，可以让MySQL-Front直接与数据库进行工作。如果不行，也只需要在发布网站上安装一个小的脚本即可。
+5. Sequel ProSequel Pro：\
+   是一款管理Mac OS X数据库的应用程序，它可以让用户直接访问本地以及远程服务器上的MySQL数据库，并且支持从流行的文件格式中导入和导出数据，其中包括SQL、CSV和XML等文件。
 
 以Navicat为例，下面是该软件的安装过程：
 
@@ -61,7 +70,7 @@ SET PASSWORD FOR'root'@'localhost'=PASSWORD('123456'); #在MySQL命令行中设�
 
 1、下载文件到根目录后
 
-```text
+```
 sudo su    #切换到root账户
 tar -zxvf navicat_for_mysql_10.0.11_cn_linux.tar.gz    #解压文文件到/opt/目录下
 cd /opt/navicat    #进入软件的安装目录
@@ -108,7 +117,7 @@ cd /opt/navicat    #进入软件的安装目录
 
 1. 在Windows服务中停止MySQL的服务。
 2. 打开“控制面板”，单击“程序和功能”，找到“MySQL”，右键单击从下拉菜单中选择卸载（或者使用其他软件卸载）。
-3. 卸载完成后，删除安装目录下的MySQL文件夹及程序数据文件夹，如C:\Program Files\(x86\)\MySQL和C:\ProgramData\MySQL。
+3. 卸载完成后，删除安装目录下的MySQL文件夹及程序数据文件夹，如C:\Program Files(x86)\MySQL和C:\ProgramData\MySQL。
 4. 在运行中输入“regedit”，进入注册表，将所有的MySQL注册表内容完全清除，具体删除内容如下：①HKEY\_LOCAL\_MACHINE\SYSTEM\ControlSet001\Services\Eventlog\Application\MySQL 目录删除；②HKEY\_LOCAL\_MACHINE\SYSTEM\ControlSet002\Services\Eventlog\Application\MySQL 目录删除；③HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Services\Eventlog\Application\MySQL目录删除。
 5. 操作完成重新启动计算机。
 
@@ -134,19 +143,19 @@ cd /opt/navicat    #进入软件的安装目录
 
 3、Oracle优点
 
-1. 兼容性： Oracle产品采用标准SQL，并经过美国国家标准技术所（NIST）测试。与IBM SQL/DS、DB2、INGRES、IDMS/R等兼容。
-2. 可移植性：
+1. 兼容性：\
+   Oracle产品采用标准SQL，并经过美国国家标准技术所（NIST）测试。与IBM SQL/DS、DB2、INGRES、IDMS/R等兼容。
+2.  可移植性：
 
-   Oracle的产品可运行于很宽范围的硬件与操作系统平台上。可以安装在70种以上不同的大、中、小型机上；可在VMS、DOS、UNIX、Windows等多种操作系统下工作。
+    Oracle的产品可运行于很宽范围的硬件与操作系统平台上。可以安装在70种以上不同的大、中、小型机上；可在VMS、DOS、UNIX、Windows等多种操作系统下工作。
+3.  可连接性：
 
-3. 可连接性：
+    Oracle能与多种通信网络相连，支持各种协议（TCP/IP、DECnet、LU6.2等）。
+4. 高生产率：\
+   Oracle产品提供了多种开发工具，能极大地方便用户进行进一步的开发。
+5.  开放性：
 
-   Oracle能与多种通信网络相连，支持各种协议（TCP/IP、DECnet、LU6.2等）。
-
-4. 高生产率： Oracle产品提供了多种开发工具，能极大地方便用户进行进一步的开发。
-5. 开放性：
-
-   Oracle良好的兼容性、可移植性、可连接性和高生产率使Oracle RDBMS具有良好的开放性。
+    Oracle良好的兼容性、可移植性、可连接性和高生产率使Oracle RDBMS具有良好的开放性。
 
 ### 2、关系型数据模型
 
@@ -154,38 +163,38 @@ cd /opt/navicat    #进入软件的安装目录
 
 数据模型分类：
 
-1、概念数据模型：  
+1、概念数据模型：\
 独立于计算机系统的数据模型，完全不涉及信息在计算机中的表示，只是用来描述某个特定组织所关心的信息结构
 
-2、逻辑数据模型：  
-直接面向数据库的逻辑结构，它是对现实世界的第二层抽象。  
-逻辑数据模型应该包含数据结构、数据操作和数据完整性约束3个部分，通常有一组严格定义的无二义性语法和语义的数据库语言，人们可以用这种语言来定义、操作数据库中的数据。  
+2、逻辑数据模型：\
+直接面向数据库的逻辑结构，它是对现实世界的第二层抽象。\
+逻辑数据模型应该包含数据结构、数据操作和数据完整性约束3个部分，通常有一组严格定义的无二义性语法和语义的数据库语言，人们可以用这种语言来定义、操作数据库中的数据。\
 其中包括层次模型、网状模型、关系模型和面向对象模型。
 
-其中：  
-层次模型和网状模型已经很少应用  
+其中：\
+层次模型和网状模型已经很少应用\
 面向对象模型比较复杂，尚未达到关系模型数据库的普及程度
 
 3、关系模型：
 
 由若干个关系模式组成的集合，关系模式的实例称为关系，每个关系实际上是一张二维表格。关系模型用键导航数据，其表格简单，用户只需用简单的查询语句就可以对数据库进行操作，并不涉及存储结构、访问技术等细节。
 
-4、关系数据库相关：  
-SQL语言是关系数据库的代表性语言，已经得到了广泛的应用。  
-典型的关系数据库产品有DB2、Oracle、Sybase、SQL Server等。  
-概念：  
+4、关系数据库相关：\
+SQL语言是关系数据库的代表性语言，已经得到了广泛的应用。\
+典型的关系数据库产品有DB2、Oracle、Sybase、SQL Server等。\
+概念：\
 关系数据库是以关系模型为基础的数据库，是一种根据表、元组、字段之间的关系进行组织和访问数据的数据库，它通过若干个表来存取数据，并且通过关系将这些表联系在一起。
 
 5、数据库支持模型：
 
-层次模型（Hierarchical Model）  
-网状模型（Network Model）  
+层次模型（Hierarchical Model）\
+网状模型（Network Model）\
 关系模型（Relational Model）
 
 6、关系模型有3个组成部分：
 
-数据结构  
-数据操作  
+数据结构\
+数据操作\
 完整性规则
 
 7、关系模型中的术语：
@@ -206,7 +215,7 @@ SQL语言是关系数据库的代表性语言，已经得到了广泛的应用�
 
 9、关键码（键）：
 
-性质：  
+性质：\
 是用来标识行（元组）的一个或几个列（属性）。如果键是唯一的属性，则称为唯一键；反之由多个属性组成，则称为复合键
 
 主要类型：
@@ -218,7 +227,7 @@ SQL语言是关系数据库的代表性语言，已经得到了广泛的应用�
 
 10、关系数据操作语言
 
-概念：  
+概念：\
 分为查询语句和更新语句两大类。查询语句用于描述用户的各类检索要求；更新语句用于描述用户的插入、修改和删除等操作。
 
 特点：
@@ -229,18 +238,18 @@ SQL语言是关系数据库的代表性语言，已经得到了广泛的应用�
 
 数据操作语句及释义：
 
-| 操作 | 释义 |
-| :--- | :--- |
-| SELECT | 按指定的条件在一个数据库中查询的结果，返回的结果被看作记录的集合 |
-| SELECT...INTO | 用于创建一个查询表 |
-| INSERT INTO | 用于向一个表添加一个或多个记录 |
-| UPDATE | 用于创建一个更新查询，根据指定的条件更改指定表中的字段值。该语句不生成结果集，而且当使用更新查询更新记录之后，不能取消这次操作 |
-| DELETE | 用于创建一个删除查询，可从列在FROM子句之中的一个或多个表中删除记录，且该子句满足WHERE子句中的条件，可以使用DELETE删除多个记录 |
-| INNER JOIN | 用于组合两个表中的记录，只要在公共字段之中有相符的值。可以在任何FROM子句中使用INNER JOIN运算，这是最普通的连接类型。只要在这两个表的公共字段之中有相符的值，内部连接将组合两个表中的记录 |
-| LEFT JOIN | 用于在任何FROM子句中组合来源表的记录。使用LEFT JOIN运算来创建一个左边外部连接。左边外部连接将包含从第一个（左边）开始的两个表中的全部记录，即使在第二个（右边）表中并没有相符值的记录 |
-| RIGHT JOIN | 用于在任何FROM子句中组合来源表的记录。使用RIGHT JOIN运算创建一个右边外部连接。右边外部连接将包含从第二个（右边）表开始的两个表中的全部记录，即使在第一个（左边）表中并没有匹配值的记录 |
-| PARAMETERS | 用于声明在参数查询中的每一个参数的名称及数据类型。该声明是可选的，但是当使用时，须置于任何其他语句之前，包括SELECT语句 |
-| UNION | 用于创建一个联合查询，它组合了两个或更多的独立查询或表的结果。所有在一个联合运算中的查询，都须请求相同数目的字段，但是字段不必大小相同或数据类型相同 |
+| 操作            | 释义                                                                                                  |
+| ------------- | --------------------------------------------------------------------------------------------------- |
+| SELECT        | 按指定的条件在一个数据库中查询的结果，返回的结果被看作记录的集合                                                                    |
+| SELECT...INTO | 用于创建一个查询表                                                                                           |
+| INSERT INTO   | 用于向一个表添加一个或多个记录                                                                                     |
+| UPDATE        | 用于创建一个更新查询，根据指定的条件更改指定表中的字段值。该语句不生成结果集，而且当使用更新查询更新记录之后，不能取消这次操作                                     |
+| DELETE        | 用于创建一个删除查询，可从列在FROM子句之中的一个或多个表中删除记录，且该子句满足WHERE子句中的条件，可以使用DELETE删除多个记录                              |
+| INNER JOIN    | 用于组合两个表中的记录，只要在公共字段之中有相符的值。可以在任何FROM子句中使用INNER JOIN运算，这是最普通的连接类型。只要在这两个表的公共字段之中有相符的值，内部连接将组合两个表中的记录 |
+| LEFT JOIN     | 用于在任何FROM子句中组合来源表的记录。使用LEFT JOIN运算来创建一个左边外部连接。左边外部连接将包含从第一个（左边）开始的两个表中的全部记录，即使在第二个（右边）表中并没有相符值的记录   |
+| RIGHT JOIN    | 用于在任何FROM子句中组合来源表的记录。使用RIGHT JOIN运算创建一个右边外部连接。右边外部连接将包含从第二个（右边）表开始的两个表中的全部记录，即使在第一个（左边）表中并没有匹配值的记录  |
+| PARAMETERS    | 用于声明在参数查询中的每一个参数的名称及数据类型。该声明是可选的，但是当使用时，须置于任何其他语句之前，包括SELECT语句                                      |
+| UNION         | 用于创建一个联合查询，它组合了两个或更多的独立查询或表的结果。所有在一个联合运算中的查询，都须请求相同数目的字段，但是字段不必大小相同或数据类型相同                          |
 
 11、SQL的RDMS的12项准则：
 
@@ -253,15 +262,20 @@ SQL语言是关系数据库的代表性语言，已经得到了广泛的应用�
 7. 高阶的插入、更新和删除：把一个基本关系或导出关系作为一个操作对象进行数据的检索以及插入、更新和删除。
 8. 数据的物理独立性：无论数据库的数据在存储表示上或存取方法上做何种变化，应用程序和终端活动都要保持逻辑上的不变性。
 9. 数据的逻辑独立性：当基本表中进行理论上信息不受损害的任何变化时，应用程序和终端活动都要保持逻辑上的不变性。
-10. 数据完整的独立性：关系数据库的完整性约束必须是用数据子语言定义并存储在目录中的，而不是在应用程序中加以定义的。至少要支持以下两种约束：         ①实体完整性，即主键中的属性不允许为空值（NULL）；         ②参照完整性，即对于关系数据库中每个不同的非空的外码值，必须存在一个取自同一个域匹配的主键值。
+10. 数据完整的独立性：关系数据库的完整性约束必须是用数据子语言定义并存储在目录中的，而不是在应用程序中加以定义的。至少要支持以下两种约束：\
+    &#x20;       ①实体完整性，即主键中的属性不允许为空值（NULL）；\
+    &#x20;       ②参照完整性，即对于关系数据库中每个不同的非空的外码值，必须存在一个取自同一个域匹配的主键值。
 11. 分布独立性：一个RDBMS应该具有分布独立性。分布独立性是指用户不必了解数据库是否是分布式的。
 12. 无破坏准则：如果RDBMS有一个低级语言（一次处理一个记录），这一低级语言不能违背或绕过完整性准则以及高级关系语言（一次处理若干记录）表达的约束。
 
 12、关系模型的完整性规则是对数据的约束。关系模型提供了3类完整性规则：
 
-1. 实体完整性： 指关系的主属性（主键的组成部分）不能是NULL。NULL就是指不知道或是不能使用的值，它与数值0和空字符串的意义都不一样。
-2. 参照完整性： 如果关系的外键R1与关系R2中的主键相符，那么外键的每个值必须在关系R2中主键的值中找到或者是空值。
-3. 用户定义完整性： 是针对某一具体的实际数据库的约束条件。它由应用环境所决定，反映某一具体应用所涉及的数据必须满足的要求。关系模型提供定义和检验这类完整性的机制，以便用统一、系统的方法处理，而不必由应用程序承担这一功能。
+1. 实体完整性：\
+   指关系的主属性（主键的组成部分）不能是NULL。NULL就是指不知道或是不能使用的值，它与数值0和空字符串的意义都不一样。
+2. 参照完整性：\
+   如果关系的外键R1与关系R2中的主键相符，那么外键的每个值必须在关系R2中主键的值中找到或者是空值。
+3. 用户定义完整性：\
+   是针对某一具体的实际数据库的约束条件。它由应用环境所决定，反映某一具体应用所涉及的数据必须满足的要求。关系模型提供定义和检验这类完整性的机制，以便用统一、系统的方法处理，而不必由应用程序承担这一功能。
 
 ### 3、关系型数据模型中的数据依赖与范式
 
@@ -291,20 +305,22 @@ SQL语言是关系数据库的代表性语言，已经得到了广泛的应用�
 
 ### 5、MySQL数据库系统的结构体系
 
-![MySQL&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x56FE;](../../.gitbook/assets/image%20%28117%29.png)
+![MySQL体系结构图](<../../.gitbook/assets/image (117).png>)
 
 1. 支持接口：是指不同语言中与SQL的交互。
 2. 管理服务和工具：系统管理和控制工具。
 3. 连接池：管理缓冲用户连接、线程处理等需要缓存的需求。
 4. SQL接口：接受用户的SQL命令，并且返回用户需要查询的结果，如select from就是调用SQL Interface。
-5. 解析器：SQL命令传递到解析器的时候会被解析器验证和解析，解析器是由Lex和YACC实现的，是一个很长的脚本，其主要功能如下。     ①将SQL语句分解成数据结构，并将这个结构传递到后续步骤，以后SQL语句的传递和处理就是基于这个结构的。     ②如果在分解构成中遇到错误，那么就说明这个SQL语句是不合理的。
+5. 解析器：SQL命令传递到解析器的时候会被解析器验证和解析，解析器是由Lex和YACC实现的，是一个很长的脚本，其主要功能如下。\
+   &#x20;   ①将SQL语句分解成数据结构，并将这个结构传递到后续步骤，以后SQL语句的传递和处理就是基于这个结构的。\
+   &#x20;   ②如果在分解构成中遇到错误，那么就说明这个SQL语句是不合理的。
 6. 查询优化器：SQL语句在查询之前会使用查询优化器对查询进行优化。它使用“选取→投影→连接”策略进行查询。
 7. 缓存和缓冲池：查询缓存。如果查询缓存有命中的查询结果，查询语句就可以直接去查询缓存中取数据。这个缓存机制是由一系列小缓存组成的。比如表缓存、记录缓存、Key缓存、权限缓存等。
 8. 存储引擎：存储引擎是MySQL中具体的与文件打交道的子系统。也是MySQL最具有特色的一个地方。从MySQL 5.5之后，InnoDB就是MySQL的默认事务引擎
 
 ### [6、MySQL存储引擎](https://xu-an.gitbook.io/sec/database/mysql/jichuzhishi#3-shu-ju-ku-cun-chu-yin-qing)
 
-MySQL 5.6支持的存储引擎有InnoDB、MyISAM、Memory、Merge、Archive、Federated、CSV、BLACKHOLE等。其中InnoDB是支持事务型的存储引擎，从MySQL 5.5之后，InnoDB就是MySQL的默认事务引擎。InnoDB支持事务安全表（ACID），也支持行锁定和外键。InnoDB为MySQL提供了具有事务（transaction）、回滚（rollback）和崩溃修复能力（crash recovery capabilities）、多版本并发控制（multi-versioned concurrency control）的事务安全（transaction-safe \(ACID compliant\)）型表。
+MySQL 5.6支持的存储引擎有InnoDB、MyISAM、Memory、Merge、Archive、Federated、CSV、BLACKHOLE等。其中InnoDB是支持事务型的存储引擎，从MySQL 5.5之后，InnoDB就是MySQL的默认事务引擎。InnoDB支持事务安全表（ACID），也支持行锁定和外键。InnoDB为MySQL提供了具有事务（transaction）、回滚（rollback）和崩溃修复能力（crash recovery capabilities）、多版本并发控制（multi-versioned concurrency control）的事务安全（transaction-safe (ACID compliant)）型表。
 
 ## 三、MySQL管理工具使用
 
@@ -329,56 +345,78 @@ MySQL 5.6支持的存储引擎有InnoDB、MyISAM、Memory、Merge、Archive、Fe
 4、主页面功能
 
 1. Server Information：服务器信息，包含了当前连接的信息，当前连接到的MySQL服务器的信息，以及客户端的信息。
-2. Service Control：服务管理，用于管理MySQL服务，包括以下内容。            ①Start/Stop Service：启动/关闭服务，用于启动或停止MySQL服务，启动或停止服务时的所有消息会显示在下部的文本框内。         ②Configure Service：配置MySQL服务，其中，“Launch MySQL Server Automatically”为是否在Windows启动时，自动启动MySQL服务；“Display Name”用于指定服务名称；“Service Description”用于指定服务的描述；“Config Filename”用于指定服务的配置文件位置；“SectionName”用于指定服务所对应的程序名；“Path to Binary”用于选择服务使用的二进制文件。
-3. Startup Variables：启动变量，配置MySQL的启动变量，包括General Parameters（全局变量 \)、MyISAM Parameters、InnoDB Parameters、Performance、Log Files、Replication、Advanced Networking、Security、Advanced。
-4. User Administration：用户管理，管理MySQL用户及权限，包括以下内容。         ①User Information：用户信息，可以添加、删除和管理MySQL用户。         ②Schema Privaleges：管理用户的权限。
-5. Server Connections：连接管理，管理连接到MySQL的线程或用户，包括以下内容。         ①Threads：查看或者停止当前连接到MySQL的线程         ②User Connections：查看或停止当前连接到MySQL服务器的用户。
-6. Health：状态信息，显示服务器的运行情况，包括以下内容。         ①Connection Health：客户端连接情况。         ②Memory Health：内存使用情况。         ③Status Variables：查看状态变量。         ④System Varibales：查看系统变量。
-7. Server Logs：日志信息，查看登录的日志信息，包括以下内容。         ①Error Log：MySQL服务器的错误记录，记录服务器的启动和关闭信息，以及运行过程中出现的严重错误的信息。         ②Slow Query Log：慢速查询记录。可以通过设置系统参数将MySQL运行在慢速查询模式，此时，服务器执行的所有SQL语句都会被记录下来。         ③General Query Log：普通查询记录。
+2. Service Control：服务管理，用于管理MySQL服务，包括以下内容。   \
+   &#x20;       ①Start/Stop Service：启动/关闭服务，用于启动或停止MySQL服务，启动或停止服务时的所有消息会显示在下部的文本框内。\
+   &#x20;       ②Configure Service：配置MySQL服务，其中，“Launch MySQL Server Automatically”为是否在Windows启动时，自动启动MySQL服务；“Display Name”用于指定服务名称；“Service Description”用于指定服务的描述；“Config Filename”用于指定服务的配置文件位置；“SectionName”用于指定服务所对应的程序名；“Path to Binary”用于选择服务使用的二进制文件。
+3. Startup Variables：启动变量，配置MySQL的启动变量，包括General Parameters（全局变量 )、MyISAM Parameters、InnoDB Parameters、Performance、Log Files、Replication、Advanced Networking、Security、Advanced。
+4. User Administration：用户管理，管理MySQL用户及权限，包括以下内容。\
+   &#x20;       ①User Information：用户信息，可以添加、删除和管理MySQL用户。\
+   &#x20;       ②Schema Privaleges：管理用户的权限。
+5. Server Connections：连接管理，管理连接到MySQL的线程或用户，包括以下内容。\
+   &#x20;       ①Threads：查看或者停止当前连接到MySQL的线程\
+   &#x20;       ②User Connections：查看或停止当前连接到MySQL服务器的用户。
+6. Health：状态信息，显示服务器的运行情况，包括以下内容。\
+   &#x20;       ①Connection Health：客户端连接情况。\
+   &#x20;       ②Memory Health：内存使用情况。\
+   &#x20;       ③Status Variables：查看状态变量。\
+   &#x20;       ④System Varibales：查看系统变量。
+7. Server Logs：日志信息，查看登录的日志信息，包括以下内容。\
+   &#x20;       ①Error Log：MySQL服务器的错误记录，记录服务器的启动和关闭信息，以及运行过程中出现的严重错误的信息。\
+   &#x20;       ②Slow Query Log：慢速查询记录。可以通过设置系统参数将MySQL运行在慢速查询模式，此时，服务器执行的所有SQL语句都会被记录下来。\
+   &#x20;       ③General Query Log：普通查询记录。
 8. Replication Status：复制状态，复制当前的主服务和子服务状态。
-9. Backup：备份数据库，用于进行计划备份和管理备份，包括以下内容。         ①Backup Project：建立备份项目，包括指定备份项目的名称以及需要备份哪些对象。         ②Advanced Options：备份的高级选项，更进一步地设置备份的选项，如备份的方案、锁定方法以及备份文件的格式等内容。         ③Schedule：对备份进行计划，可用于实现定时备份，便于日志维护。
-10. Restore ：恢复数据库，从一个数据库备份中将数据恢复出来，包括以下内容。         ①General：恢复的基本选项，如选择恢复的文件、备份时使用的方法以及字符集等信息。         ②Restore Content：可以列出备份数据的目录，从而选择需要恢复的具体对象。这样做可以一次只针对一小部分数据进行恢复。
-11. Catalogs：数据库查看，管理数据库、表、列、约束、索引等对象，包括以下内容。         ①Schema Tables：管理数据库中的表，查看表中的数据库等。         ②Schema Indices：管理数据库中的索引和约束。         ③Views：管理视图。         ④Stored procedures：管理存储过程。
+9. Backup：备份数据库，用于进行计划备份和管理备份，包括以下内容。\
+   &#x20;       ①Backup Project：建立备份项目，包括指定备份项目的名称以及需要备份哪些对象。\
+   &#x20;       ②Advanced Options：备份的高级选项，更进一步地设置备份的选项，如备份的方案、锁定方法以及备份文件的格式等内容。\
+   &#x20;       ③Schedule：对备份进行计划，可用于实现定时备份，便于日志维护。
+10. Restore ：恢复数据库，从一个数据库备份中将数据恢复出来，包括以下内容。\
+    &#x20;       ①General：恢复的基本选项，如选择恢复的文件、备份时使用的方法以及字符集等信息。\
+    &#x20;       ②Restore Content：可以列出备份数据的目录，从而选择需要恢复的具体对象。这样做可以一次只针对一小部分数据进行恢复。
+11. Catalogs：数据库查看，管理数据库、表、列、约束、索引等对象，包括以下内容。\
+    &#x20;       ①Schema Tables：管理数据库中的表，查看表中的数据库等。\
+    &#x20;       ②Schema Indices：管理数据库中的索引和约束。\
+    &#x20;       ③Views：管理视图。\
+    &#x20;       ④Stored procedures：管理存储过程。
 
 5、登录过程：
 
 打开MySQL Administrator，弹出登录界面如下图所示，输入登录到MySQL所需的各项参数
 
-![](../../.gitbook/assets/image%20%28133%29.png)
+![](<../../.gitbook/assets/image (133).png>)
 
 进入该软件的主页面
 
-![](../../.gitbook/assets/image%20%28122%29.png)
+![](<../../.gitbook/assets/image (122).png>)
 
 6、创建数据库
 
 运行MySQL Administrator并登录服务器后选择“Catalogs”，然后在管理器的右侧会出现目前服务器上已经有的数据库目录，右键单击“Schemata”窗口的“mysql”，选择“CreateNew Schema”
 
-![](../../.gitbook/assets/image%20%28129%29.png)
+![](<../../.gitbook/assets/image (129).png>)
 
 单击“OK”
 
-![](../../.gitbook/assets/image%20%28107%29.png)
+![](<../../.gitbook/assets/image (107).png>)
 
 一旦创建后，新数据库就将与服务器中的其他数据库一起出现在“Schema”窗口，选择它后，在右侧窗口将出现它的详细资料
 
-![](../../.gitbook/assets/image%20%28134%29.png)
+![](<../../.gitbook/assets/image (134).png>)
 
 7、创建表
 
 单击“Create Table”按钮，将出现下图所示的对话框
 
-![](../../.gitbook/assets/image%20%28130%29.png)
+![](<../../.gitbook/assets/image (130).png>)
 
 单击“Apply Changes”按钮，将出现下图所示的窗口，窗口中的内容是创建表的SQL语句，同时询问是否执行，当然单击“Execute”
 
-![](../../.gitbook/assets/image%20%28123%29.png)
+![](<../../.gitbook/assets/image (123).png>)
 
 8、添加数据
 
 通过菜单“tools”来访问命令行（“Tools”→“MySQL CommandLine Client”），或者可以通过开始菜单的MySQL组来访问
 
-```text
+```
 use testdb;    
 insert into mytable(name,data) values(‘张三','2015-04-01 12:00:00');
 ```
@@ -387,31 +425,31 @@ insert into mytable(name,data) values(‘张三','2015-04-01 12:00:00');
 
 在相应的表上单击鼠标右键，从菜单中选择“Edit TableData”
 
-![](../../.gitbook/assets/image%20%2899%29.png)
+![](<../../.gitbook/assets/image (99).png>)
 
 10、备份数据库
 
 备份数据库到本地计算机硬盘，选择“Backup”备份数据库功能，然后单击“New Project”建立新的备份项目
 
-![](../../.gitbook/assets/image%20%28103%29.png)
+![](<../../.gitbook/assets/image (103).png>)
 
-选择要备份的数据库，然后单击“&gt;”号，右边将显示出数据库表结构
+选择要备份的数据库，然后单击“>”号，右边将显示出数据库表结构
 
-![](../../.gitbook/assets/image%20%28136%29.png)
+![](<../../.gitbook/assets/image (136).png>)
 
 备份时在“Advanced Options”高级选项中可以进行不同的设置：
 
 “Backup Execution Method”中设置选项为：
 
-“Normal backup”表示备份的时候选择正常备份；  
-“Complete backup”表示选择完整备份；  
+“Normal backup”表示备份的时候选择正常备份；\
+“Complete backup”表示选择完整备份；\
 “InnoDB Online Backup”表示是一种简单的在线备份方式
 
 11、还原数据库
 
 单击“Open Backup File”，打开下图所示的界面
 
-![](../../.gitbook/assets/image%20%28119%29.png)
+![](<../../.gitbook/assets/image (119).png>)
 
 找到之前备份的数据库脚本文件，选择并打开文件，单击“Start Restore”后开始还原，还原成功后在“Catalogs”中可以看到该数据库，可以对它进行相应的操作
 
@@ -423,55 +461,55 @@ insert into mytable(name,data) values(‘张三','2015-04-01 12:00:00');
 
 账号与密码为自己phpstudy默认的：root/root
 
-![](../../.gitbook/assets/image%20%28106%29.png)
+![](<../../.gitbook/assets/image (106).png>)
 
 主界面如图所示：
 
-![](../../.gitbook/assets/image%20%28126%29.png)
+![](<../../.gitbook/assets/image (126).png>)
 
 2、新建数据库：数据库→新建数据库→输入数据库名→选择编码→创建
 
-![](../../.gitbook/assets/image%20%2896%29.png)
+![](<../../.gitbook/assets/image (96).png>)
 
 其中，中文数据库可选择“gb2312\_chinese\_ci”编码，多语言支持数据库一般选择“utf8\_unicode\_ci”编码
 
-![](../../.gitbook/assets/image%20%28125%29.png)
+![](<../../.gitbook/assets/image (125).png>)
 
 3、删除数据库：选中数据库→删除
 
-![](../../.gitbook/assets/image%20%28120%29.png)
+![](<../../.gitbook/assets/image (120).png>)
 
 选择：是
 
-![](../../.gitbook/assets/image%20%2897%29.png)
+![](<../../.gitbook/assets/image (97).png>)
 
 出现如下画面，则删除成功
 
-![](../../.gitbook/assets/image%20%28111%29.png)
+![](<../../.gitbook/assets/image (111).png>)
 
 也可在操作页面，点击删除数据库来删除
 
-![](../../.gitbook/assets/image%20%28101%29.png)
+![](<../../.gitbook/assets/image (101).png>)
 
 4、新建数据表：
 
 填入表名，字段数，点击执行进入下一步
 
-![](../../.gitbook/assets/image%20%2898%29.png)
+![](<../../.gitbook/assets/image (98).png>)
 
 执行后，选择需要的配置，确认即可。执行后效果图如下：
 
-![](../../.gitbook/assets/image%20%28112%29.png)
+![](<../../.gitbook/assets/image (112).png>)
 
 在该页面，也可修改表结构
 
 5、插入数据
 
-![](../../.gitbook/assets/image%20%28115%29.png)
+![](<../../.gitbook/assets/image (115).png>)
 
 6、导出，导入数据
 
-![](../../.gitbook/assets/image%20%28113%29.png)
+![](<../../.gitbook/assets/image (113).png>)
 
 ### 3、Navicat for MySQL
 
@@ -479,67 +517,67 @@ insert into mytable(name,data) values(‘张三','2015-04-01 12:00:00');
 
 ### 4、MySQL访问权限系统
 
-1、作用：  
+1、作用：\
 根据用户的身份判断该用户是否有执行该操作的权限，如SELECT、INSERT、UPDATE和DELETE权限。附加的功能包括匿名的用户对于MySQL特定的功能（例如LOAD DATA INFILE）进行授权及管理操作的能力
 
 2、存取控制包含2个阶段。
 
-阶段1：服务器检查是否允许连接。  
+阶段1：服务器检查是否允许连接。\
 阶段2：假定允许连接，服务器需要检查用户发出的每个请求，判断是否有足够的权限。例如，如果用户从数据库表中选择行或从数据库删除表，服务器需确定用户对表有SELECT权限或对数据库有DROP权限。
 
 3、服务器在存取控制的两个阶段使用MySQL数据库中的user、db和host表:
 
-user表中范围列决定是否允许或拒绝到来的连接。  
+user表中范围列决定是否允许或拒绝到来的连接。\
 对于允许的连接，user表授予的权限指出用户的全局（超级用户）权限。这些权限适用于服务器上的all数据库。
 
-db表中范围列决定用户能从哪个主机存取哪个数据库。  
+db表中范围列决定用户能从哪个主机存取哪个数据库。\
 权限列决定允许哪个操作。授予的数据库级别的权限适用于数据库和它的表。
 
-为了对涉及保存程序的请求进行验证，服务器将查阅procs\_priv表。  
+为了对涉及保存程序的请求进行验证，服务器将查阅procs\_priv表。\
 procs\_priv表适用于保存的程序，授予程序级别的权限只适用于单个程序。
 
 4、MySQL权限系统提供的权限
 
-| 权限  | 列 | 对象 |
-| :--- | :--- | :--- |
-| CERATE | create\_priv | 数据库，表或索引 |
-| DROP | drop\_priv | 数据库或表 |
-| GRANT OPTION | garnt\_priv | 数据库，表或保存的程序 |
-| REFERENCES | references\_priv | 数据库或表 |
-| ALTER | alter\_priv | 表 |
-| DELETE | delete\_priv | 表 |
-| INDEX | index\_priv | 表 |
-| INSERT | insert\_priv | 表 |
-| SELECT | select\_priv | 表 |
-| UPDATE | update\_priv | 表 |
-| CREATE VIEW | create\_view\_priv | 视图 |
-| SHOW VIEW | show\_view\_priv | 视图 |
-| ALTER ROUTINE | alter\_routine\_priv | 保存的程序 |
-| CREATE ROUTINE | create\_routine\_priv | 保存的程序 |
-| EXECUTE | execute\_priv | 保存的程序 |
-| FILE | file\_priv | 服务器主机上的文件访问 |
-| CREATE TEMPORARY TABLES | create\_tmp\_priv | 服务器管理 |
-| LOCK ABLES | lock\_tables\_priv | 服务器管理 |
-| CREATE USER | create\_user\_priv | 服务器管理 |
-| PROCESS | process\_priv | 服务器管理 |
-| RELOAD | reload\_priv | 服务器管理 |
-| REPLICATION CLIENT | repl\_client\_priv | 服务器管理 |
-| REPLICATION SLAVE | repl\_slave\_priv | 服务器管理 |
-| SHOW DATABASES | show\_db\_priv | 服务器管理 |
-| SHUTOWN | shutdown\_priv | 服务器管理 |
-| SUPER | super\_priv | 服务器管理 |
+| 权限                      | 列                     | 对象          |
+| ----------------------- | --------------------- | ----------- |
+| CERATE                  | create\_priv          | 数据库，表或索引    |
+| DROP                    | drop\_priv            | 数据库或表       |
+| GRANT OPTION            | garnt\_priv           | 数据库，表或保存的程序 |
+| REFERENCES              | references\_priv      | 数据库或表       |
+| ALTER                   | alter\_priv           | 表           |
+| DELETE                  | delete\_priv          | 表           |
+| INDEX                   | index\_priv           | 表           |
+| INSERT                  | insert\_priv          | 表           |
+| SELECT                  | select\_priv          | 表           |
+| UPDATE                  | update\_priv          | 表           |
+| CREATE VIEW             | create\_view\_priv    | 视图          |
+| SHOW VIEW               | show\_view\_priv      | 视图          |
+| ALTER ROUTINE           | alter\_routine\_priv  | 保存的程序       |
+| CREATE ROUTINE          | create\_routine\_priv | 保存的程序       |
+| EXECUTE                 | execute\_priv         | 保存的程序       |
+| FILE                    | file\_priv            | 服务器主机上的文件访问 |
+| CREATE TEMPORARY TABLES | create\_tmp\_priv     | 服务器管理       |
+| LOCK ABLES              | lock\_tables\_priv    | 服务器管理       |
+| CREATE USER             | create\_user\_priv    | 服务器管理       |
+| PROCESS                 | process\_priv         | 服务器管理       |
+| RELOAD                  | reload\_priv          | 服务器管理       |
+| REPLICATION CLIENT      | repl\_client\_priv    | 服务器管理       |
+| REPLICATION SLAVE       | repl\_slave\_priv     | 服务器管理       |
+| SHOW DATABASES          | show\_db\_priv        | 服务器管理       |
+| SHUTOWN                 | shutdown\_priv        | 服务器管理       |
+| SUPER                   | super\_priv           | 服务器管理       |
 
 打开用户界面，并双击任意用户
 
-![](../../.gitbook/assets/image%20%28124%29.png)
+![](<../../.gitbook/assets/image (124).png>)
 
 下图，点击权限，即可看到用户对于数据库的各种权限
 
-![](../../.gitbook/assets/image%20%28118%29.png)
+![](<../../.gitbook/assets/image (118).png>)
 
 若需要批量管理，可单击‘‘权限管理员’’，进入下面的界面
 
-![](../../.gitbook/assets/image%20%28104%29.png)
+![](<../../.gitbook/assets/image (104).png>)
 
 ### 5、MySQL用户账户管理
 
@@ -547,7 +585,7 @@ procs\_priv表适用于保存的程序，授予程序级别的权限只适用于
 
 方法一：先使用ROOT账户登录，然后使用GRANT语句创建
 
-```text
+```
 GRANT priv_type[(column_list)] ON[object_type]{tbl_name|*|*.*|db_name.*}    
 TO user [IDENTIFIED BY [PASSWORD] ‘password’]    
 [WITH with_option [with_option] ...]    
@@ -561,25 +599,25 @@ GRANT OPTION
 
 方法二：向mysql.user表中插入数据
 
-![](../../.gitbook/assets/image%20%28121%29.png)
+![](<../../.gitbook/assets/image (121).png>)
 
 方法三：使用Navicat新建用户
 
-![](../../.gitbook/assets/image%20%28105%29.png)
+![](<../../.gitbook/assets/image (105).png>)
 
 2、删除用户
 
 方法一：
 
-```text
+```
 drop user XXX@XXX;
 ```
 
-![](../../.gitbook/assets/image%20%28102%29.png)
+![](<../../.gitbook/assets/image (102).png>)
 
 方法二：Navicat中删除账户
 
-![](../../.gitbook/assets/image%20%28100%29.png)
+![](<../../.gitbook/assets/image (100).png>)
 
 ### 6、MySQL的安全性问题
 
@@ -605,34 +643,34 @@ MySQL提供了4个函数用于哈希加密：PASSWORD，ENCRYPT，SHA1和MD5
 
 ### 1、创建数据库
 
-```text
+```
 show databases;    #查看所有数据库
 ```
 
-![&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28150%29.png)
+![运行结果](<../../.gitbook/assets/image (150).png>)
 
 其中，库MySQL用途：记录用户访问权限
 
-```text
+```
 create database db_name;    #创建数据库，该名称不能与已经存在的数据库重名
 create database test1;    #创建名为test1的数据库
 ```
 
-![&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28145%29.png)
+![运行结果](<../../.gitbook/assets/image (145).png>)
 
-```text
+```
 show create database test;    #查看创建好的数据库
 ```
 
-![](../../.gitbook/assets/image%20%28155%29.png)
+![](<../../.gitbook/assets/image (155).png>)
 
 ### 2、删除数据库
 
-```text
+```
 drop database test;    #删除test数据库
 ```
 
-![](../../.gitbook/assets/image%20%28141%29.png)
+![](<../../.gitbook/assets/image (141).png>)
 
 ### 3、数据库存储引擎
 
@@ -642,11 +680,11 @@ drop database test;    #删除test数据库
 
 MySQL 5.6支持的存储引擎有：InnoDB，MyISAM，Memory，Merge，Archive，Federated，CSV，BLACKHOLE等
 
-```text
+```
 show engines \g;    #查看系统所支持的引擎类型
 ```
 
-![](../../.gitbook/assets/image%20%28156%29.png)
+![](<../../.gitbook/assets/image (156).png>)
 
 其中，Support列的值表示某种引擎是否能使用：YES表示可以使用，NO表示不能使用，DEFAULT表示该引擎为当前默认存储引擎
 
@@ -679,7 +717,7 @@ MyISAM主要特征如下：
 9. 可以把数据文件和索引文件放在不同的目录。
 10. 每个字符列可以有不同的字符集。
 11. VARCHAR的表可以固定或动态地记录长度。
-12. VARCHAR和CHAR列可以多达64 KB。使用MyISAM引擎创建数据库，将生成3个文件。文件名字以表的名字开始，扩展名指出文件类型：存储表定义文件的扩展名为FRM，数据文件的扩展名为.MYD\(MYData\)，索引文件的扩展名是.MYI\(MYIndex\)。
+12. VARCHAR和CHAR列可以多达64 KB。使用MyISAM引擎创建数据库，将生成3个文件。文件名字以表的名字开始，扩展名指出文件类型：存储表定义文件的扩展名为FRM，数据文件的扩展名为.MYD(MYData)，索引文件的扩展名是.MYI(MYIndex)。
 
 4、MEMORY存储引擎
 
@@ -699,19 +737,18 @@ MEMORY主要特性如下：
 
 存储引擎比较表：
 
-| 功能 | myISAM | memory | innodb | archive |
-| :--- | :--- | :--- | :--- | :--- |
-| 存储限制 | 256TB | RAM | 64TB | None |
-| 支持事务 | No | No | Yes | No |
-| 支持全文索引 | Yes | No | No | No |
-| 支持数索引 | Yes | Yes | Yes | No |
-| 支持哈希索引 | No | Yes | No | No |
-| 支持数据缓存 | No | N/A | Yes | No |
-| 支持外键 | No | No | Yes | No |
+| 功能     | myISAM | memory | innodb | archive |
+| ------ | ------ | ------ | ------ | ------- |
+| 存储限制   | 256TB  | RAM    | 64TB   | None    |
+| 支持事务   | No     | No     | Yes    | No      |
+| 支持全文索引 | Yes    | No     | No     | No      |
+| 支持数索引  | Yes    | Yes    | Yes    | No      |
+| 支持哈希索引 | No     | Yes    | No     | No      |
+| 支持数据缓存 | No     | N/A    | Yes    | No      |
+| 支持外键   | No     | No     | Yes    | No      |
 
-```text
+```
 show variables like 'storage_engine';    #查看系所有的存储引擎
 ```
 
-![](../../.gitbook/assets/image%20%28158%29.png)
-
+![](<../../.gitbook/assets/image (158).png>)

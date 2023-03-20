@@ -8,7 +8,7 @@
 
 本文将要介绍以下内容：
 
-*  ****两种Powershell命令的历史记录
+* &#x20;**** 两种Powershell命令的历史记录
 * 导出Powershell命令历史记录的方法
 * 防御建议
 
@@ -30,7 +30,7 @@
 
 获得历史记录的完整信息：
 
-```text
+```
 Get-History | Format-List -Property *
 ```
 
@@ -48,17 +48,17 @@ Get-History | Format-List -Property *
 
 测试如下图：
 
-![&#x6E17;&#x900F;&#x6280;&#x5DE7;&#x2014;&#x2014;&#x83B7;&#x5F97;Powershell&#x547D;&#x4EE4;&#x7684;&#x5386;&#x53F2;&#x8BB0;&#x5F55;](https://img.4hou.com/wp-content/uploads/2019/05/7efb41def18c2a2ca47a.png)
+![渗透技巧——获得Powershell命令的历史记录](https://img.4hou.com/wp-content/uploads/2019/05/7efb41def18c2a2ca47a.png)
 
 删除所有历史记录：
 
-```text
+```
 Clear-History
 ```
 
 按ID号删除命令：
 
-```text
+```
 Clear-History -Id 3
 ```
 
@@ -108,31 +108,31 @@ Clear-History -Id 3
 
 命令如下：
 
-```text
+```
 Get-History|export-csv $env:temp"\history.csv"
 ```
 
-其中需要考虑字符"\|"、"$"和"""，模拟键盘输入时需要加Shift键。
+其中需要考虑字符"|"、"$"和"""，模拟键盘输入时需要加Shift键。
 
 这里的实现方法是先使用keybd\_event按下Shift键，再用PostMessage发送按键的字母，最后抬起两个按键。
 
 开源的测试代码：
 
-[https://github.com/3gstudent/Homework-of-C-Language/blob/master/SendKeyboardMessageToPowershell\(Get-History\).cpp](https://github.com/3gstudent/Homework-of-C-Language/blob/master/SendKeyboardMessageToPowershell%28Get-History%29.cpp)
+[https://github.com/3gstudent/Homework-of-C-Language/blob/master/SendKeyboardMessageToPowershell(Get-History).cpp](https://github.com/3gstudent/Homework-of-C-Language/blob/master/SendKeyboardMessageToPowershell\(Get-History\).cpp)
 
-代码实现了搜索指定pid的进程，向进程发送键盘消息，内容为:Get-History\|export-csv $env:temp"\history.csv"
+代码实现了搜索指定pid的进程，向进程发送键盘消息，内容为:Get-History|export-csv $env:temp"\history.csv"
 
 #### **（3）补充：查看cmd.exe的历史记录**
 
 命令如下：
 
-```text
+```
 doskey /h
 ```
 
 清空：
 
-```text
+```
 doskey /reinstall
 ```
 
@@ -164,21 +164,21 @@ Powershell v3和Powershell v4需要安装Get-PSReadlineOption后才可以使用�
 
 可以通过命令行实现隐蔽安装，命令如下：
 
-```text
+```
 msiexec /q /i PackageManagement_x64.msi
 ```
 
-安装成功后，在控制面板的已安装程序列表\(Control Panel\Programs\Programs and Features\)有显示:Package Management Preview - x64
+安装成功后，在控制面板的已安装程序列表(Control Panel\Programs\Programs and Features)有显示:Package Management Preview - x64
 
 可以通过删除对应的注册表项进行隐藏，更多细节可参考[《渗透基础——获得当前系统已安装的程序列表》](https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80-%E8%8E%B7%E5%BE%97%E5%BD%93%E5%89%8D%E7%B3%BB%E7%BB%9F%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%88%97%E8%A1%A8/)
 
-Package Management Preview - x64的注册表路径为HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{57E5A8BB-41EB-4F09-B332-B535C5954A28}
+Package Management Preview - x64的注册表路径为HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\\{57E5A8BB-41EB-4F09-B332-B535C5954A28}
 
 只需要删除这个注册表项及子项即可实现在已安装程序列表中隐藏
 
 删除注册表项的cmd命令：
 
-```text
+```
 reg delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{57E5A8BB-41EB-4F09-B332-B535C5954A28} /f
 ```
 
@@ -186,13 +186,13 @@ reg delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{57E5A8BB-41
 
 通过Install-Module命令安装。
 
-```text
+```
 Install-Module -Name PSReadLine
 ```
 
 弹出提示：
 
-```text
+```
 NuGet provider is required to continue
 PowerShellGet requires NuGet provider version '2.8.5.201' or newer to interact
 with NuGet-based repositories. The NuGet provider must be available in
@@ -208,7 +208,7 @@ install and import the NuGet provider now?
 
 如果需要实现一键安装，可以先安装NuGet，再安装PSReadLine，完整命令如下：
 
-```text
+```
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 Install-Module -Name PSReadLine
@@ -220,13 +220,13 @@ Install-Module -Name PSReadLine
 
 查看命令的历史记录：
 
-```text
+```
 Get-Content (Get-PSReadlineOption).HistorySavePath
 ```
 
 清除命令的历史记录：
 
-```text
+```
 Remove-Item (Get-PSReadlineOption).HistorySavePath
 ```
 
@@ -240,17 +240,16 @@ Remove-Item (Get-PSReadlineOption).HistorySavePath
 
 如果使用高版本的Windows系统，如Win10，默认Powershell版本为5.0，会记录Powershell的命令，建议定时进行清除，位置：
 
-```text
+```
 %appdata%\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 ```
 
 清除命令的历史记录：
 
-```text
+```
 Remove-Item (Get-PSReadlineOption).HistorySavePath
 ```
 
-对于低版本的Powershell，如果命令中包含敏感信息\(如远程连接的口令\)，需要及时清除，命令为：Clear-History
+对于低版本的Powershell，如果命令中包含敏感信息(如远程连接的口令)，需要及时清除，命令为：Clear-History
 
-对于cmd.exe，如果命令中包含敏感信息\(如远程连接的口令\)，需要及时清除，命令为：doskey /reinstall
-
+对于cmd.exe，如果命令中包含敏感信息(如远程连接的口令)，需要及时清除，命令为：doskey /reinstall

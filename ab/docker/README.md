@@ -2,7 +2,7 @@
 
 ## 一、docker-compose安装
 
-###  1、步骤
+### &#x20;1、步骤
 
 Linux 上我们可以从 Github 上下载它的二进制包来使用，最新发行的版本地址：[https://github.com/docker/compose/releases](https://github.com/docker/compose/releases)。
 
@@ -35,7 +35,7 @@ cker-compose version 1.24.1, build 4667896b
 
 **注意**： 对于 alpine，需要以下依赖包： py-pip，python-dev，libffi-dev，openssl-dev，gcc，libc-dev，和 make。
 
-![](../../.gitbook/assets/image%20%28559%29.png)
+![](<../../.gitbook/assets/image (559).png>)
 
 ### 2、基本使用
 
@@ -44,7 +44,7 @@ docker-compose build    #编译环境
 docker-compose up -d    #编译环境并在后台执行服务
 ```
 
-```text
+```
 docker-compose down
 ```
 
@@ -96,7 +96,7 @@ $ sudo apt-get remove docker docker-engine docker.io containerd runc
 $ sudo apt-get update
 ```
 
-安装 apt 依赖包，用于通过HTTPS来获取仓库: 
+安装 apt 依赖包，用于通过HTTPS来获取仓库:&#x20;
 
 ```bash
 $ sudo apt-get install \
@@ -113,7 +113,7 @@ $ sudo apt-get install \
 $ curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
 ```
 
-9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88 通过搜索指纹的后8个字符，验证您现在是否拥有带有指纹的密钥。 
+9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88 通过搜索指纹的后8个字符，验证您现在是否拥有带有指纹的密钥。&#x20;
 
 ```bash
 $ sudo apt-key fingerprint 0EBFCD88
@@ -124,7 +124,7 @@ $ sudo apt-key fingerprint 0EBFCD88
  sub   rsa4096 2017-02-22 [S]
 ```
 
-使用以下指令设置稳定版仓库 
+使用以下指令设置稳定版仓库&#x20;
 
 ```bash
 $ sudo add-apt-repository \
@@ -147,7 +147,7 @@ $ sudo apt-get update
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
-要安装特定版本的 Docker Engine-Community，请在仓库中列出可用版本，然后选择一种安装。列出您的仓库中可用的版本： 
+要安装特定版本的 Docker Engine-Community，请在仓库中列出可用版本，然后选择一种安装。列出您的仓库中可用的版本：&#x20;
 
 ```bash
 $ apt-cache madison docker-ce
@@ -160,13 +160,13 @@ $ apt-cache madison docker-ce
 
 ```
 
-使用第二列中的版本字符串安装特定版本，例如 5:18.09.1~3-0~ubuntu-xenial。
+使用第二列中的版本字符串安装特定版本，例如 5:18.09.1\~3-0\~ubuntu-xenial。
 
 ```bash
 $ sudo apt-get install docker-ce=<VERSION_STRING> docker-ce-cli=<VERSION_STRING> containerd.io
 ```
 
-测试 Docker 是否安装成功，输入以下指令，打印出以下信息则安装成功: 
+测试 Docker 是否安装成功，输入以下指令，打印出以下信息则安装成功:&#x20;
 
 ```bash
 $ sudo docker run hello-world
@@ -203,7 +203,7 @@ $ sudo docker run hello-world
   https://docs.docker.com/get-started/
 ```
 
-###  3、使用 Shell 脚本进行安装
+### &#x20;3、使用 Shell 脚本进行安装
 
 Docker 在 [get.docker.com](https://get.docker.com/) 和 [test.docker.com](https://test.docker.com/) 上提供了方便脚本，用于将快速安装 Docker Engine-Community 的边缘版本和测试版本。脚本的源代码在 docker-install 仓库中。 不建议在生产环境中使用这些脚本，在使用它们之前，您应该了解潜在的风险：
 
@@ -243,22 +243,22 @@ service docker start
 
 ### 常用命令：
 
-| 释义 | 命令 |
-| :---: | :--- |
-| 搜索镜像 | docker search keyword |
-| 下载镜像 | docker pull image\_name:version |
-| 查看本地所有镜像 | docker images |
-| 查看所有运行中容器 | docker ps |
-| 查看所有容器 | docker ps -a |
-| 启动一个容器 | docker run --name=rand\_name  -it -d image\_name sh |
-| 进入一个容器 | docker exec 容器id bash |
-| 以root的方式进入容器 | docker  exec -u root  -it   容器id  bash |
-| 暂停一个容器 | docker stop 容器id |
-| 移除一个容器 | docker rm 容器id |
-| 移除一个镜像 | docker rmi 镜像id |
-| 批量停止容器 | docker stop $\(docker ps -q\) |
-| 批量移除容器 | ``docker rm `docker ps -a -q```  |
-| 批量移除镜像 | ``docker rmi `docker images -q```  |
+|      释义      | 命令                                                  |
+| :----------: | --------------------------------------------------- |
+|     搜索镜像     | docker search keyword                               |
+|     下载镜像     | docker pull image\_name:version                     |
+|   查看本地所有镜像   | docker images                                       |
+|   查看所有运行中容器  | docker ps                                           |
+|    查看所有容器    | docker ps -a                                        |
+|    启动一个容器    | docker run --name=rand\_name  -it -d image\_name sh |
+|    进入一个容器    | docker exec 容器id bash                               |
+| 以root的方式进入容器 | docker  exec -u root  -it   容器id  bash              |
+|    暂停一个容器    | docker stop 容器id                                    |
+|    移除一个容器    | docker rm 容器id                                      |
+|    移除一个镜像    | docker rmi 镜像id                                     |
+|    批量停止容器    | docker stop $(docker ps -q)                         |
+|    批量移除容器    | `` docker rm `docker ps -a -q` ``                   |
+|    批量移除镜像    | `` docker rmi `docker images -q` ``                 |
 
 ### docker 启动一个容器
 
@@ -302,7 +302,7 @@ docker export 容器id> name.tar
 
 ### docker更换下载源
 
-```text
+```
 docker exec -it 容器id bash
 sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 ```
@@ -311,19 +311,19 @@ sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 
 1.下载一个LAMP环境（不一定是LAMP根据实际情况pull）
 
-```text
+```
 docker pull image_name:versionx
 ```
 
 2 启动环境（根据实际情况选择参数，镜像id通过docker image 查看）
 
-```text
+```
 dcoekr run -d  --name=lamp -p 80:80 -v /mysql_data:/var/lib/mysql  镜像id
 ```
 
 3.进入容器（docker ps 查看容器id）
 
-```text
+```
 docker exec -it 容器id bash
 ```
 
@@ -335,11 +335,11 @@ docker exec -it 容器id bash
 
 7.将容器封装为镜像，如果有本地挂载，同时保存一份本地挂载的文件，以便复现时导入
 
-8. 将容器镜像打包
+8\. 将容器镜像打包
 
-###  dockerfile封装CMS基本思路
+### &#x20;dockerfile封装CMS基本思路
 
- 1、编写Dockerfile
+&#x20;1、编写Dockerfile
 
 ```bash
 FROM ubuntu:18.04    # 从哪个镜像基础上开始操作
@@ -363,7 +363,7 @@ docker build -t 镜像名 .
 
 示例：
 
-```text
+```
 FROM thiagobarradas/lamp:php-7.2
 RUN rm -rf /app
 COPY ./apps /app
@@ -380,9 +380,9 @@ CMD ["/run.sh"]
 
 ## 四、常见问题
 
-###  1、docker pull的时候出错
+### &#x20;1、docker pull的时候出错
 
-```text
+```
 error pulling image configuration: Get https://production.cloudflare.docker.com/
 registry-v2/docker/registry/v2/blobs/sha256/1c/1cda43d811c8fb178d9b0aacbdfaaa4e4
 f36489e2112558c84a97549f868585c/data?verify=1608172124-zf3G3JFGipnlE3G24jL3h8nIKg
@@ -394,17 +394,17 @@ w%3D: dial tcp: lookup production.cloudflare.docker.com: Temporary failure in na
 
 1、编辑 /etc/resolv.conf 文件，在文件中添加如下内容：
 
-```text
+```
 nameserver 8.8.8.8
 ```
 
-![](../../.gitbook/assets/image%20%281069%29.png)
+![](<../../.gitbook/assets/image (1069).png>)
 
 2、保存并推出，之后重启docker服务
 
-###  2、docker pull: "No address associated with hostname"
+### &#x20;2、docker pull: "No address associated with hostname"
 
-```text
+```
 # 报错内容---ubuntu18.04
 Error response from daemon: Get https://registry-1.docker.io/v2/: dial tcp: lookup registry-1.docker.io: No address associated with hostname
 ```
@@ -418,9 +418,9 @@ systemctl daemon-reload
 systemctl restart docker
 ```
 
-![&#x6548;&#x679C;&#x56FE;](../../.gitbook/assets/image%20%281072%29.png)
+![效果图](<../../.gitbook/assets/image (1072).png>)
 
-###  3、docker的daemon.json
+### &#x20;3、docker的daemon.json
 
 ```bash
 vim /etc/docker/daemon.json
@@ -434,9 +434,9 @@ systemctl daemon-reload
 systemctl restart docker.service
 ```
 
-###  4、dockerfile优化
+### &#x20;4、dockerfile优化
 
-```text
+```
 # 放在顶部
 RUN apt-get update
 
@@ -447,13 +447,13 @@ ADD
 CMD
 ```
 
-###  5、部分vulhub环境不可用
+### &#x20;5、部分vulhub环境不可用
 
- 原因如下：  
-1、由于docker-compose的时候没有添加MySQL等数据库镜像，导致CMS不能正常运行  
+&#x20;原因如下：\
+1、由于docker-compose的时候没有添加MySQL等数据库镜像，导致CMS不能正常运行\
 2、Dockerfile中只有引入PHP+Apache镜像，没有在其中安装MySQL
 
-临时解决方案：  
+临时解决方案：\
 1、在docker-compose.yml文件中添加MySQL数据库，如下
 
 ```yaml
@@ -507,4 +507,3 @@ mysql:
      # 默认情况下，入口点脚本会自动加载该CONVERT_TZ()功能所需的时区数据。如果不需要，则任何非空值都将禁用时区加载。
    restart: always
 ```
-

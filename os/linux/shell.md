@@ -10,9 +10,9 @@
 6. 自动化管理程序（批量远程修改密码，软件升级，配置更新）
 7. 自动化信息采集及监控程序（收集系统/应用的状态信息，CPU，MEM，DISK，NET，APACHE，TCP Status，MYSQL）
 8. 自动化扩容（增加云主机→业务上线）例如：zabbix监控CPU80%+python API增加云主机+shell脚本上线服务
-9. 配合ZABBIX信息采集 
+9. 配合ZABBIX信息采集&#x20;
 10. 打印各种图形，通过键盘操控的小游戏等
-11. 相关算法的实现以及排序的实现 
+11. 相关算法的实现以及排序的实现&#x20;
 12. 理论上讲，shell可以做任何事，一切取决于需求
 
 注意：
@@ -23,7 +23,7 @@ shell语法难度可能只有java等的二十分之一，其中所用到的工�
 
 一个简单的shell程序：
 
-```text
+```
 # ping01.sh
 
 #!/usr/bin/bash
@@ -32,24 +32,24 @@ ping -c1 qq.com &>/dev/null && echo "its up" || echo "its down"
 
 脚本中：
 
-1. \`\#!/usr/bin/bash\`代表了指定解析程序的脚本，声明解释器。**不同的程序要使用不同的解释器去处理，且解释器只能在第一行**
-2. &&gt;/dev/null：将命令的输出信息输出到NULL中，其中的`&`为混合输出，输出的是正确输出与错误输出
-3. `;`表示的是排序 
-4. `&&`会表示逻辑判断，and，只有前一个命令的`$?==0`，后面的命令才会执行 
+1. \`#!/usr/bin/bash\`代表了指定解析程序的脚本，声明解释器。**不同的程序要使用不同的解释器去处理，且解释器只能在第一行**
+2. &>/dev/null：将命令的输出信息输出到NULL中，其中的`&`为混合输出，输出的是正确输出与错误输出
+3. `;`表示的是排序&#x20;
+4. `&&`会表示逻辑判断，and，只有前一个命令的`$?==0`，后面的命令才会执行&#x20;
 5. `||`表示或者的意思，如果不为真，那么`||`后面的命令执行
 
-![&#x811A;&#x672C;&#x53CA;&#x547D;&#x4EE4;&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28466%29.png)
+![脚本及命令运行结果](<../../.gitbook/assets/image (466).png>)
 
 .sh脚本执行方式：
 
-```text
+```
 bash xx.sh
 sh xx.sh
 ```
 
 各种程序的解释器：
 
-```text
+```
 bash:
 #!/usr/bin/bash
 #!/usr/bin/sh
@@ -83,20 +83,20 @@ expect:
    1. 编译执行：编译为python的字节码，由python虚拟机执行
    2. 解释执行：`/usr/bin/python`  ,python最多使用的，是解释执行
 
-编译性语言的缺点：灵活性较低  
+编译性语言的缺点：灵活性较低\
 解释性语言可以直接修改源代码，然后直接执行，不需要编译
 
 每个命令执行都有一个返回值，返回值是一个特殊的变量，变量是问号变量。`%?`表示引用它的值
 
-| 变量名 | 含义 | 作用 |
-| :--- | :--- | :--- |
-| $? | 问号变量 | 返回上一条命令的执行结果，0为正常，127为错误 |
+| 变量名 | 含义   | 作用                       |
+| --- | ---- | ------------------------ |
+| $?  | 问号变量 | 返回上一条命令的执行结果，0为正常，127为错误 |
 
-![](../../.gitbook/assets/image%20%28471%29.png)
+![](<../../.gitbook/assets/image (471).png>)
 
 ## 3、bash中调用python expect
 
-```text
+```
 # ping01.sh
 
 #!/usr/bin/bash
@@ -109,25 +109,25 @@ EOF
 echo "hello bash"
 ```
 
-![&#x8FD0;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28478%29.png)
+![运行结果](<../../.gitbook/assets/image (478).png>)
 
 其中：
 
-1.  `/usr/bin/bash <<-EOF XXX EOF` （EXPECT）：将中间XXX的代码传递给python执行，即将代码重定向给python执行。同时，也可以在其中继续重定向其他代码
+1. &#x20;`/usr/bin/bash <<-EOF XXX EOF` （EXPECT）：将中间XXX的代码传递给python执行，即将代码重定向给python执行。同时，也可以在其中继续重定向其他代码
 2. 其中，后面的EOF需要顶头，且EOF只是人们比较习惯的方式
 3. 可在EXPECT中传递BASH代码执行，只有BASH中才能识别EOF的结构
 
-![EOF&#x793A;&#x4F8B;](../../.gitbook/assets/image%20%28472%29.png)
+![EOF示例](<../../.gitbook/assets/image (472).png>)
 
 示例程序如下：
 
-```text
+```
 #!/usr/bin/bash
 cd /home
 ls
 ```
 
-![&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;&#x65B9;&#x5F0F;](../../.gitbook/assets/image%20%28474%29.png)
+![程序的执行方式](<../../.gitbook/assets/image (474).png>)
 
 程序执行结果不同的原因：
 
@@ -138,9 +138,9 @@ ls
 
 示例：重定义`/root/.bashrc`文件
 
-![&#x88AB;&#x4FEE;&#x6539;&#x7684;.bashrc&#x6587;&#x4EF6;](../../.gitbook/assets/image%20%28475%29.png)
+![被修改的.bashrc文件](<../../.gitbook/assets/image (475).png>)
 
-```text
+```
 ## 执行顺序：
 
 vim /root/.bashrc
@@ -153,7 +153,7 @@ yang
 ## 事后记得改回来
 ```
 
-![&#x6267;&#x884C;&#x7ED3;&#x679C;](../../.gitbook/assets/image%20%28486%29.png)
+![执行结果](<../../.gitbook/assets/image (486).png>)
 
 ## 4、shell特性
 
@@ -163,18 +163,18 @@ yang
 
 ### 2、Linux支持的shell
 
-![](../../.gitbook/assets/image%20%28479%29.png)
+![](<../../.gitbook/assets/image (479).png>)
 
 查看对shell有影响的文件：
 
-```text
+```
 login shell    #需要登录的shell
 nologin shell    #不登录的shell
 ```
 
 su命令的区别：
 
-```text
+```
 su - XXX    #login shell,对应文件如下：
 
 /etc/profile 
@@ -208,17 +208,17 @@ su XXX    #nologin shell,对应文件如下：
 
 1、上下键
 
-![!number](../../.gitbook/assets/image%20%28485%29.png)
+![!number](<../../.gitbook/assets/image (485).png>)
 
-![!string&#xFF1A;&#x663E;&#x793A;&#x4F7F;&#x7528;&#x8FC7;&#x5E26;l&#x7684;&#x547D;&#x4EE4;](../../.gitbook/assets/image%20%28483%29.png)
+![!string：显示使用过带l的命令](<../../.gitbook/assets/image (483).png>)
 
-![!$&#xFF1A;&#x663E;&#x793A;&#x4E0A;&#x6761;&#x547D;&#x4EE4;&#x7684;&#x6700;&#x540E;&#x53C2;&#x6570;](../../.gitbook/assets/image%20%28480%29.png)
+![!$：显示上条命令的最后参数](<../../.gitbook/assets/image (480).png>)
 
-![!!&#xFF1A;&#x4E0A;&#x4E00;&#x6761;&#x547D;&#x4EE4;](../../.gitbook/assets/image%20%28482%29.png)
+![!!：上一条命令](<../../.gitbook/assets/image (482).png>)
 
 #### 3、别名功能
 
-```text
+```
 alias
 unalias cp
 ~username/.bashrc
@@ -227,7 +227,7 @@ unalias cp
 
 #### 4、快捷键
 
-```text
+```
 ctrl+R    #调出之前的命令
 ctrl+D    #退出logon
 ctrl+A    #将光标移动到命令最左面
@@ -239,77 +239,27 @@ ctrl+Q    #取消锁屏
 ctrl+Y    #粘贴消除掉的字符
 ```
 
-![ctrl+R](../../.gitbook/assets/image%20%28481%29.png)
+![ctrl+R](<../../.gitbook/assets/image (481).png>)
 
 #### 5、前后台控制作业
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">&#x7B26;&#x53F7;</th>
-      <th style="text-align:left">&#x7528;&#x6CD5;</th>
-      <th style="text-align:left">&#x8BE6;&#x60C5;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">&amp;</td>
-      <td style="text-align:left">sleep 10 &amp;</td>
-      <td style="text-align:left">&#x4F7F;&#x5F97;&#x8FDB;&#x7A0B;&#x5728;&#x540E;&#x53F0;&#x8FD0;&#x884C;&#xFF0C;&#x5373;&#x4F7F;&#x9000;&#x51FA;&#x7EC8;&#x7AEF;&#xFF0C;&#x4F9D;&#x7136;&#x8FD0;&#x884C;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">nohup</td>
-      <td style="text-align:left">nohup sleep 10 &amp;</td>
-      <td style="text-align:left">&#x4F7F;&#x5F97;&#x8FDB;&#x7A0B;&#x5728;&#x540E;&#x53F0;&#x8FD0;&#x884C;&#xFF0C;&#x5373;&#x4F7F;&#x9000;&#x51FA;&#x7EC8;&#x7AEF;&#xFF0C;&#x4F9D;&#x7136;&#x8FD0;&#x884C;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">screen</td>
-      <td style="text-align:left">screen -s</td>
-      <td style="text-align:left">&#x547D;&#x540D;&#x4F1A;&#x8BDD;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Ctrl+C</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">&#x6740;&#x6389;&#x524D;&#x53F0;&#x8FDB;&#x7A0B;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Ctrl+Z</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">&#x6740;&#x6389;&#x540E;&#x53F0;&#x8FDB;&#x7A0B;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">jobs</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">&#x67E5;&#x770B;&#x540E;&#x53F0;&#x8FDB;&#x7A0B;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">bg</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">&#x8BA9;&#x8FDB;&#x7A0B;&#x5728;&#x540E;&#x53F0;&#x5DE5;&#x4F5C;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">fg</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">&#x8BA9;&#x8FDB;&#x7A0B;&#x5728;&#x524D;&#x53F0;&#x5DE5;&#x4F5C;&#xFF0C;&#x53EF;&#x4E0E;
-        Ctrl+Z &#x4E00;&#x8D77;&#x7528;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">kill %3
-        <br />kill 3</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">
-        <p>&#xFF08;&#x5F53;&#x524D;&#x4F1A;&#x8BDD;&#x4E2D;&#x4F5C;&#x4E1A;&#x53F7;&#x4E3A;3&#xFF09;</p>
-        <p>&#xFF08;&#x7ED9;PID&#x4E3A;3&#x7684;&#x8FDB;&#x7A0B;&#x53D1;&#x4FE1;&#x53F7;&#xFF09;</p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| 符号                         | 用法               | 详情                                       |
+| -------------------------- | ---------------- | ---------------------------------------- |
+| &                          | sleep 10 &       | 使得进程在后台运行，即使退出终端，依然运行                    |
+| nohup                      | nohup sleep 10 & | 使得进程在后台运行，即使退出终端，依然运行                    |
+| screen                     | screen -s        | 命名会话                                     |
+| Ctrl+C                     |                  | 杀掉前台进程                                   |
+| Ctrl+Z                     |                  | 杀掉后台进程                                   |
+| jobs                       |                  | 查看后台进程                                   |
+| bg                         |                  | 让进程在后台工作                                 |
+| fg                         |                  | 让进程在前台工作，可与 Ctrl+Z 一起用                   |
+| <p>kill %3  <br>kill 3</p> |                  | <p>（当前会话中作业号为3）</p><p>（给PID为3的进程发信号）</p> |
 
 
 
 #### 6、输入输出重定向
 
-```text
+```
 0,1,2 > >> 2> 2>> 2>&1 &>
 
 /*
@@ -348,15 +298,15 @@ cat >file1 <<EOF
 */
 ```
 
-![cat &amp;lt; /etc/hosts](../../.gitbook/assets/image%20%28487%29.png)
+![cat < /etc/hosts](<../../.gitbook/assets/image (487).png>)
 
-![EOF](../../.gitbook/assets/image%20%28473%29.png)
+![EOF](<../../.gitbook/assets/image (473).png>)
 
 #### 7、管道
 
 管道的作用：将一个命令的输出当做下一段的输入
 
-```text
+```
 ip addr | grep 'inet' | grep eth0
 
 ## tee管道：可将输出覆盖到文件中，-a可以增加
@@ -364,9 +314,9 @@ ip addr | grep 'inet' |tee test | grep eth0  覆盖
 ip addr | grep 'inet' |tee -a test | grep eth0 追加
 ```
 
-![tee&#x7BA1;&#x9053;&#x793A;&#x4F8B;](../../.gitbook/assets/image%20%28476%29.png)
+![tee管道示例](<../../.gitbook/assets/image (476).png>)
 
-```text
+```
 ## '/$':分区
 df | grep '/$'
 df | tee df.txt | grep '/$'
@@ -380,7 +330,7 @@ grub-md5-crypt |tee -a /etc/grub.conf
 
 ;  不具备逻辑
 
-![&#x56DE;&#x5230;&#x5BB6;&#x76EE;&#x5F55;&#x5E76;&#x5F39;&#x51FA;&#x5149;&#x9A71;](../../.gitbook/assets/image%20%28477%29.png)
+![回到家目录并弹出光驱](<../../.gitbook/assets/image (477).png>)
 
 
 
@@ -489,8 +439,6 @@ grub-md5-crypt |tee -a /etc/grub.conf
 
 
 ## 30、
-
-
 
 
 

@@ -8,9 +8,9 @@
 
 1、语法形式
 
-数据表属于数据库，在创建数据表之前，应该使用语句“USE &lt;数据库名&gt;”指定操作是在哪个数据库中进行，如果没有选择数据库，直接创建数据表，系统会显示“No database selected”的错误
+数据表属于数据库，在创建数据表之前，应该使用语句“USE <数据库名>”指定操作是在哪个数据库中进行，如果没有选择数据库，直接创建数据表，系统会显示“No database selected”的错误
 
-```text
+```
 ## 语法形式：
 CREATE TABLE <表名>    
 (    
@@ -26,7 +26,7 @@ CREATE TABLE <表名>
 1. 要创建的表的名称，不区分大小写，不能使用SQL语言中的关键字，如DROP、ALTER、INSERT等。
 2. 数据表中每一个列（字段）的名称和数据类型，如果创建多个列，要用逗号隔离开
 
-```text
+```
 ## 实例
 create database aa;
 use aa;
@@ -35,7 +35,7 @@ show tables;
 select 8 from ceshi;
 ```
 
-![](../../.gitbook/assets/image%20%28154%29.png)
+![](<../../.gitbook/assets/image (154).png>)
 
 2、主键约束
 
@@ -45,28 +45,28 @@ select 8 from ceshi;
 
 主键分为两种类型：单字段主键和多字段联合主键。
 
-单字段主键：  
+单字段主键：\
 单字段主键是指主键由一个字段组成，SQL语句格式分为以下两种情况：
 
 1. 义列的同时指定主键
 2. 在定义完所有列之后指定主键
 
-```text
+```
 字段名 数据类型 PRIMARY KEY[默认值]
 ```
 
-![&#x5728;id&#x5B57;&#x6BB5;&#x4E0A;&#x8BBE;&#x7F6E;&#x4E3B;&#x952E;&#x7EA6;&#x675F;](../../.gitbook/assets/image%20%28146%29.png)
+![在id字段上设置主键约束](<../../.gitbook/assets/image (146).png>)
 
-![&#x5728;id&#x5B57;&#x6BB5;&#x4E0A;&#x8BBE;&#x7F6E;&#x4E3B;&#x952E;&#x7EA6;&#x675F;](../../.gitbook/assets/image%20%28144%29.png)
+![在id字段上设置主键约束](<../../.gitbook/assets/image (144).png>)
 
-多字段联合主键：  
+多字段联合主键：\
 多字段联合主键是指主键由多个字段联合组成
 
-```text
+```
 PRIMARY KEY[字段1，字段2，…，字段n]
 ```
 
-![id&#x5B57;&#x6BB5;&#x548C;depid&#x5B57;&#x6BB5;&#x7EC4;&#x5408;&#x5728;&#x4E00;&#x8D77;&#x6210;&#x4E3A;&#x8BE5;&#x6570;&#x636E;&#x8868;&#x7684;&#x591A;&#x5B57;&#x6BB5;&#x8054;&#x5408;&#x4E3B;&#x952E;](../../.gitbook/assets/image%20%28149%29.png)
+![id字段和depid字段组合在一起成为该数据表的多字段联合主键](<../../.gitbook/assets/image (149).png>)
 
 3、外键约束
 
@@ -74,36 +74,36 @@ PRIMARY KEY[字段1，字段2，…，字段n]
 
 外键：下面介绍几个概念。是表中的一个字段，它可以不是本表的主键，但对应另外一个表的主键。外键的主要作用是保证数据引用的完整性，定义外键后，不允许删除在另一个表中具有关联关系的行。例如：部分表tb\_dept的主键id，在员工表tb\_employee5中有一个键deptId与这个id关联。
 
-主表（父表）：对于两个具有关联关系的表而言，相关联字段中主键所在的那个表即是主表。  
+主表（父表）：对于两个具有关联关系的表而言，相关联字段中主键所在的那个表即是主表。\
 从表（自表）：对于两个具有关联关系的表而言，相关联字段中外键所在的那个表即是从表。
 
-```text
+```
 [CONSTRAINT<外键名>]FOREIGN KEY 字段名1[,字段名2,…]    
 REFERENCES<主表名> 主键列1[,主键列2,…]
 ```
 
-![&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;name&#x5B57;&#x6BB5;&#xFF0C;&#x5176;&#x63D2;&#x5165;&#x503C;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&#xFF08;NOT NULL&#xFF09;](../../.gitbook/assets/image%20%28152%29.png)
+![创建了一个name字段，其插入值不能为空（NOT NULL）](<../../.gitbook/assets/image (152).png>)
 
 其中，“外键名”为定义的外键约束的名称，一个表中不能有相同名称的外键；“字段名”表示子表需要添加外键约束的字段列
 
-![&#x5728;&#x8868;tb\_employee5&#x4E0A;&#x6DFB;&#x52A0;&#x4E86;&#x540D;&#x79F0;&#x4E3A;fk\_emp\_dept1&#x7684;&#x5916;&#x952E;&#x7EA6;&#x675F;&#xFF0C;&#x5916;&#x952E;&#x540D;&#x79F0;&#x4E3A;depid&#xFF0C;&#x5176;&#x4F9D;&#x8D56;&#x4E8E;&#x8868;tb\_dept1&#x7684;&#x4E3B;&#x952E;id](../../.gitbook/assets/image%20%28142%29.png)
+![在表tb\_employee5上添加了名称为fk\_emp\_dept1的外键约束，外键名称为depid，其依赖于表tb\_dept1的主键id](<../../.gitbook/assets/image (142).png>)
 
-注意：  
+注意：\
 关联值是在关系型数据库中，相关表之间的联系。它是通过相容或相同的属性或属性组来表示的。子表的外键必须关联父表的主键，且关联字段的数据类型必须匹配，如果类型不一样，则创建子表时，就会出现错误提示
 
-4、非空约束：  
+4、非空约束：\
 是指字段的值不能为空。对于使用了非空约束的字段，如果用户在添加数据时没有指定值，数据库系统会报错
 
-```text
+```
 字段名 数据类型 not null
 ```
 
-![&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;name&#x5B57;&#x6BB5;&#xFF0C;&#x5176;&#x63D2;&#x5165;&#x503C;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&#xFF08;NOT NULL&#xFF09;](../../.gitbook/assets/image%20%28153%29.png)
+![创建了一个name字段，其插入值不能为空（NOT NULL）](<../../.gitbook/assets/image (153).png>)
 
-5、唯一性约束  
+5、唯一性约束\
 要求该列唯一，允许为空，但只能出现一个空值。唯一约束可以确保一列或者几列都不出现重复值
 
-```text
+```
 ## 在定义完列之后直接指定唯一约束
 字段名 数据类型 UNIQUE
 
@@ -111,53 +111,53 @@ REFERENCES<主表名> 主键列1[,主键列2,…]
 [CONSTRAINT <约束名>] UNIQUE(<字段名>)
 ```
 
-![](../../.gitbook/assets/image%20%28148%29.png)
+![](<../../.gitbook/assets/image (148).png>)
 
-![](../../.gitbook/assets/image%20%28147%29.png)
+![](<../../.gitbook/assets/image (147).png>)
 
 UNIQUE和PRIMARY KEY的区别：
 
-一个表中可以有多个字段声明为UNIQUE，但只能有一个PRIMARY KEY声明；  
+一个表中可以有多个字段声明为UNIQUE，但只能有一个PRIMARY KEY声明；\
 声明为PRIMARY KEY的列不允许有空值，但是声明为UNIQUE的字段允许空值的存在
 
-默认约束：  
+默认约束：\
 指定某列的默认值。如男性同学较多，性别就可以默认为“男”。如果插入一条新的记录时没有为这个字段赋值，那么系统会自动为这个字段赋值为“男”。
 
-```text
+```
 字段名数据类型 DEFAULT 默认值
 ```
 
-![](../../.gitbook/assets/image%20%28159%29.png)
+![](<../../.gitbook/assets/image (159).png>)
 
 表tb\_employee7中的字段deptId拥有了一个默认值“1111”，新插入的记录如果没有指定部门编号，则默认设置为“1111”
 
-![](../../.gitbook/assets/image%20%28151%29.png)
+![](<../../.gitbook/assets/image (151).png>)
 
 7、设置数据表的属性值自动增加
 
 在数据库应用中，经常希望在每次插入新记录时，系统自动生成字段的主键值。可以通过为表主键添加AUTO\_INCREMENT关键字来实现。在MySQL中，默认情况下AUTO\_INCREMENT初始值为1，每新增一条记录，字段自动加1。一个表只能有一个字段使用AUTO\_INCREMENT约束，且该字段必须为主键的一部分。AUTO\_INCREMENT约束的字段可以是任何整数类型（TINYINT、SMALLINT、INT、BIGINT）。
 
-```text
+```
 字段名 数据类型 AUTO_INCREMENT
 ```
 
-![](../../.gitbook/assets/image%20%28143%29.png)
+![](<../../.gitbook/assets/image (143).png>)
 
 创建名称为tb\_employee8的数据表。表中的id字段值在添加记录的时候会自动增加，id字段默认值从1开始，每次添加一条新纪录，该值自动加1
 
-![&#x5411;&#x8868;&#x4E2D;&#x6DFB;&#x52A0;&#x6570;&#x636E;](../../.gitbook/assets/image%20%28157%29.png)
+![向表中添加数据](<../../.gitbook/assets/image (157).png>)
 
-![&#x8868;&#x5185;&#x5BB9;](../../.gitbook/assets/image%20%28160%29.png)
+![表内容](<../../.gitbook/assets/image (160).png>)
 
 ### 2、查看数据表结构
 
-```text
+```
 ## 查看表的基本结构
 describe tb_name;
 desc tb_name;
 ```
 
-![](../../.gitbook/assets/image%20%28139%29.png)
+![](<../../.gitbook/assets/image (139).png>)
 
 其中：
 
@@ -166,86 +166,86 @@ desc tb_name;
 3. Default：表示该列是否有默认值，如果有的话值是多少。
 4. Extra：表示可以获取的与给定列有关的附加信息，例如AUTO\_INCREMENT等
 
-```text
+```
 ## 查看表详细结构
 SHOW CREATE TABLE tb_name(\G);    #\g:是否格式化显示
 ```
 
-![](../../.gitbook/assets/image%20%28138%29.png)
+![](<../../.gitbook/assets/image (138).png>)
 
 ### 3、修改数据表
 
 修改表指的是修改数据库中已经存在的数据表的结构。MySQL使用ALTER TABLE语句修改表。常用的修改表的操作有：修改表名，修改字段数据类型或字段名，增加和删除字段，修改字段的排列位置，更改表的存储引擎，删除表的外键约束等
 
-```text
+```
 ## 修改表名
 alter table old_name rename nwe_name;
 ```
 
-![](../../.gitbook/assets/image%20%28162%29.png)
+![](<../../.gitbook/assets/image (162).png>)
 
-```text
+```
 ## 修改字段数据类型
 ALTER TABLE tb_name MODIFY name VARCHAR(30);
 ```
 
-![](../../.gitbook/assets/image%20%28169%29.png)
+![](<../../.gitbook/assets/image (169).png>)
 
-```text
+```
 ## 修改字段名
 alter table tb_name change old_id new_id varchar(255);
 ```
 
-![](../../.gitbook/assets/image%20%28161%29.png)
+![](<../../.gitbook/assets/image (161).png>)
 
 由于不同类型的数据在机器中存储的方式及长度并不相同，修改数据类型可能会影响到数据表中已有的数据记录。因此，当数据库中已经有数据时，不要轻易修改数据类型
 
-```text
+```
 ## 添加字段
 alter tabe tb_name add new_ziduan varchar(255) first;
 alter tabe tb_name add new_ziduan varchar(255) after XXX;
 ```
 
-![](../../.gitbook/assets/image%20%28163%29.png)
+![](<../../.gitbook/assets/image (163).png>)
 
 “FIRST”“AFTER”“已存在字段名”用于指定新增字段在表中的位置，如果SQL语句中没有这两个参数，则默认将新添加的字段设置为数据表的最后列
 
-```text
+```
 ## 删除字段
 alter table tb_name drop ziduan;
 ```
 
-![](../../.gitbook/assets/image%20%28164%29.png)
+![](<../../.gitbook/assets/image (164).png>)
 
-```text
+```
 ## 修改字段排序
 alter table tb_name modify ziduan1 varchar(255) first;
 alter table tb_name modify ziduan1 varchar(255) after XXX;
 ```
 
-![](../../.gitbook/assets/image%20%28168%29.png)
+![](<../../.gitbook/assets/image (168).png>)
 
-```text
+```
 ## 更改表的存储引擎
 alter table tb_name ENGINE=InnoDB;    #修改存储引擎为InnoDB
 ```
 
-```text
+```
 ## 删除表的外键约束
 alter table tb_name frop foreign key key_name;
 ```
 
-![](../../.gitbook/assets/image%20%28166%29.png)
+![](<../../.gitbook/assets/image (166).png>)
 
 ### 4、删除数据表
 
-```text
+```
 ## 删除数据表
 drop table tb_name;
 ## 若报错，则说明有外键约束，删除外键约束再删除表即可
 ```
 
-![](../../.gitbook/assets/image%20%28170%29.png)
+![](<../../.gitbook/assets/image (170).png>)
 
 在MySQL中AUTO\_INCREMENT的初始值是1，每新增一条记录，字段值自动加1。设置自增属性（AUTO\_INCREMENT）的时候，还可以指定第一条插入记录的自增字段的值，这样新插入的记录的自增字段值从初始值开始递增。
 
@@ -262,28 +262,28 @@ MySQL支持多种数据类型，主要有数值类型、日期/时间类型、�
 
 1、整数类型
 
-| 类型名称 | 说明 | 存储需求 |
-| :--- | :--- | :--- |
-| TINYINT | 很小的整数 | 1个字节 |
-| SMALLINT | 小的整数 | 2个字节 |
-| MEDIUMINT | 中等大小的整数 | 3个字节 |
+| 类型名称         | 说明      | 存储需求 |
+| ------------ | ------- | ---- |
+| TINYINT      | 很小的整数   | 1个字节 |
+| SMALLINT     | 小的整数    | 2个字节 |
+| MEDIUMINT    | 中等大小的整数 | 3个字节 |
 | INT（INTEGER） | 普通大小的整数 | 4个字节 |
-| BIGINT | 大整数 | 8个字节 |
+| BIGINT       | 大整数     | 8个字节 |
 
-![&#x6574;&#x6570;&#x578B;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x7684;&#x53D6;&#x503C;&#x8303;&#x56F4;](../../.gitbook/assets/image%20%28171%29.png)
+![整数型数据类型的取值范围](<../../.gitbook/assets/image (171).png>)
 
-![](../../.gitbook/assets/image%20%28172%29.png)
+![](<../../.gitbook/assets/image (172).png>)
 
-整数类型的显示宽度只用于显示，不能限制取值范围和存储空间，如INT\(4\)会占用4个字节的存储空间，其允许的最大值是231-1或232-1，而不是9999
+整数类型的显示宽度只用于显示，不能限制取值范围和存储空间，如INT(4)会占用4个字节的存储空间，其允许的最大值是231-1或232-1，而不是9999
 
 2、小数类型
 
-MySQL中使用浮点数和定点数表示小数。浮点类型有两种：单精度浮点类型（FLOAT）和双精度浮点类型（DOUBLE）。定点类型只有一种：DECIMAL。浮点类型和定点类型都可以用（M，D）来表示，其中M称为精度，表示总共的位数；D称为标度，表示小数的位数。浮点类型取值范围为：M\(1～255\)和D\(1～30，且不能大于M-2\)。分别表示显示宽度和小数位数。M和D在FLOAT和DOUBLE中是可选的，MySQL 3.23.6以上版本中，FLOAT和DOUBLE类型将被保存为硬件所支持的最大精度。DECIMAL的M和D值在MySQL 3.23.6后可选，默认D值为0，M值为10。
+MySQL中使用浮点数和定点数表示小数。浮点类型有两种：单精度浮点类型（FLOAT）和双精度浮点类型（DOUBLE）。定点类型只有一种：DECIMAL。浮点类型和定点类型都可以用（M，D）来表示，其中M称为精度，表示总共的位数；D称为标度，表示小数的位数。浮点类型取值范围为：M(1～255)和D(1～30，且不能大于M-2)。分别表示显示宽度和小数位数。M和D在FLOAT和DOUBLE中是可选的，MySQL 3.23.6以上版本中，FLOAT和DOUBLE类型将被保存为硬件所支持的最大精度。DECIMAL的M和D值在MySQL 3.23.6后可选，默认D值为0，M值为10。
 
-| 类型名称 | 说明 | 存储需求 |
-| :--- | :--- | :--- |
-| FLOAT | 单精度浮点数 | 4个字节 |
-| DOUBLE | 双精度浮点数 | 8个字节 |
+| 类型名称             | 说明         | 存储需求   |
+| ---------------- | ---------- | ------ |
+| FLOAT            | 单精度浮点数     | 4个字节   |
+| DOUBLE           | 双精度浮点数     | 8个字节   |
 | DECIMAL（M，D），DEC | 压缩的“严格”定点数 | M+2个字节 |
 
 FLOAT类型的取值范围如下
@@ -296,7 +296,7 @@ DOUBLE类型的取值范围如下
 1. 有符号的取值范围：-1.7976931348623157E+308～-2.2250738585072014E-308。
 2. 无符号的取值范围：0和2.2250738585072014E-308～1.7976931348623157E+308。
 
-![](../../.gitbook/assets/image%20%28165%29.png)
+![](<../../.gitbook/assets/image (165).png>)
 
 在MySQL中，在对精度要求比较高的时候（如货币、科学数据等），尽量选择使用DECIMAL类型。另外，两个浮点数在进行减法和比较运算的时候容易出问题，因此在使用浮点数类型时需要注意，并尽量避免做浮点数比较
 
@@ -304,13 +304,13 @@ DOUBLE类型的取值范围如下
 
 MySQL中有多种表示日期的数据类型，主要有：YEAR、TIME、DATE、DATETIME、TIMESTAMP。
 
-| 类型名称 | 日期格式 | 日期范围 | 存储需求 |
-| :--- | :--- | :--- | :--- |
-| YEAR | YYYY | 1901~2155 | 1个字节 |
-| TIME | HH:MM:SS | -838:59:59 ~ 838:59:59 | 3个字节 |
-| DATE | YYYY-MM-DD | 1000-01-01 ~ 9999-12-31 | 3个字节 |
-| DATETIME | YYYY-MM-DD HH:MM:SS | 1000-01-01 00:00:00 ~ 9999-12-31 23:59:59 | 8个字节 |
-| TIMESTAMP | YYYY-MM-DD HH:MM:SS | 1970-01-01 00:00:001 ~ 2038-01-19 03:14:07 | 4个字节 |
+| 类型名称      | 日期格式                          | 日期范围                                        | 存储需求 |
+| --------- | ----------------------------- | ------------------------------------------- | ---- |
+| YEAR      | YYYY                          | 1901\~2155                                  | 1个字节 |
+| TIME      | HH:MM:SS                      | -838:59:59 \~ 838:59:59                     | 3个字节 |
+| DATE      | YYYY-MM-DD                    | 1000-01-01 \~ 9999-12-31                    | 3个字节 |
+| DATETIME  | <p>YYYY-MM-DD<br>HH:MM:SS</p> | 1000-01-01 00:00:00 \~ 9999-12-31 23:59:59  | 8个字节 |
+| TIMESTAMP | <p>YYYY-MM-DD<br>HH:MM:SS</p> | 1970-01-01 00:00:001 \~ 2038-01-19 03:14:07 | 4个字节 |
 
 YEARYEAR类型使用单字节表示年份，在存储时只需要一个字节。可以使用不同格式指定YEAR的值。
 
@@ -320,7 +320,7 @@ YEARYEAR类型使用单字节表示年份，在存储时只需要一个字节。
 
 两位整数与两位字符串的取值范围稍有不同。例如：插入2000年，读者可能会使用数字格式的0表示YEAR，实际上，插入数据库的值为0000，而不是期望的20000。只有使用字符串格式的‘0’和‘00’，才可以得到2000。非法YEAR值被转换为0000。
 
-![](../../.gitbook/assets/image%20%28167%29.png)
+![](<../../.gitbook/assets/image (167).png>)
 
 
 
@@ -453,6 +453,4 @@ YEARYEAR类型使用单字节表示年份，在存储时只需要一个字节。
 
 
 ### 3、视图的使用
-
-
 

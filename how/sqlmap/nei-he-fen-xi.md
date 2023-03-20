@@ -8,7 +8,7 @@
 
 想要阅读 sqlmap 源码我相信大家的选择肯定更多的是从 github 下直接 clone 代码到本地，直接使用本地编辑器或者 IDE 打开直接来分析。所以基本操作也就是
 
-```text
+```
 git clone https://github.com/sqlmapproject/sqlmap
 cd sqlmap
 ```
@@ -49,25 +49,25 @@ cd sqlmap
 2. 在环境检查中，做了如下操作：检查模块路径，检查 Python 版本，导入全局变量。我们可能并不需要关心太多这一步，只需要记得在这一步我们导入了几个关键的全局变量：`("cmdLineOptions", "conf", "kb")`，需要提醒大家的是，直接去 `lib.core.data` 中寻找这几个变量并不是明智的选择，因为他们并不是在这里初始化的（说白了就是找到了定义也没有用，只需要知道有他们几个就够啦）。
 3. 初始化各种资源文件路径。
 4. 打印 Banner。
-5. 这一部分可以说是非常关键了，虽然表面上仍然是属于初始化的阶段，但是实际上，如果不知晓这一步，面对后面的直接对全局变量 `kb` 和 `conf` 的操作将会变的非常奇怪和陌生。在这步中，我们进行了配置文件初始化，知识库（KnowledgeBase初始化）以及用户操作的 `Merge` 和初始化。我们在之后的分析中如果遇到了针对 `kb` 和 `conf` 的操作，可以直接在这个函数对应的 `lib.core.option` 模块中寻找对应的初始化变量的定义。当然，这一步涉及到的一些 `kb/conf` 的 fields 也可能来源于 `lib.parse.cmdline` 中，可以直接通过 `ctrl+F` 搜索到   
+5. 这一部分可以说是非常关键了，虽然表面上仍然是属于初始化的阶段，但是实际上，如果不知晓这一步，面对后面的直接对全局变量 `kb` 和 `conf` 的操作将会变的非常奇怪和陌生。在这步中，我们进行了配置文件初始化，知识库（KnowledgeBase初始化）以及用户操作的 `Merge` 和初始化。我们在之后的分析中如果遇到了针对 `kb` 和 `conf` 的操作，可以直接在这个函数对应的 `lib.core.option` 模块中寻找对应的初始化变量的定义。当然，这一步涉及到的一些 `kb/conf` 的 fields 也可能来源于 `lib.parse.cmdline` 中，可以直接通过 `ctrl+F` 搜索到  &#x20;
 
 ![](../../.gitbook/assets/004.jpg)
 
-6. 中主要包含所有初始变量的初始值，这些初始值在 `init()` 的设定主要是引用各种各样的函数来完成基础设置，我们没有必要依次对其进行分支，只需要用到的时候知道回来寻找就可以了。
+6\. 中主要包含所有初始变量的初始值，这些初始值在 `init()` 的设定主要是引用各种各样的函数来完成基础设置，我们没有必要依次对其进行分支，只需要用到的时候知道回来寻找就可以了。
 
-7. 冒烟测试，测试程序本身是否可以跑得通。
+7\. 冒烟测试，测试程序本身是否可以跑得通。
 
-8. 功能测试，测试 sqlmap 功能是否完整。
+8\. 功能测试，测试 sqlmap 功能是否完整。
 
 进入上一段代码的条件是 `if not conf.updateAll`，这个是来源于 `lib.parse.cmdline` 中定义的更新选项，如果这个选项打开，sqlmap 会自动更新并且不会执行后续测试步骤和实际工作的步骤。
 
 ![](../../.gitbook/assets/005.jpg)
 
-在实际的启动代码中，笔者在上图中标注了两处，我们在使用命令行的时候，更多的是直接调用 start\(\) 函数，所以我们直接跟入其中寻找之后需要研究的部分。
+在实际的启动代码中，笔者在上图中标注了两处，我们在使用命令行的时候，更多的是直接调用 start() 函数，所以我们直接跟入其中寻找之后需要研究的部分。
 
 ### 0x02 测试前的目标准备
 
-当我们找到 start\(\) 函数的时候，映入眼帘的实际上是一个很平坦的流程，我们简化一下，以下图代码为例：
+当我们找到 start() 函数的时候，映入眼帘的实际上是一个很平坦的流程，我们简化一下，以下图代码为例：
 
 ![](../../.gitbook/assets/006.jpg)
 
@@ -87,7 +87,7 @@ cd sqlmap
 
 在完成上述操作之后，执行 `setupTargetEnv()` 这个函数也是一个非常重要的函数，其包含如下操作：
 
-```text
+```
 def setupTargetEnv():
     _createTargetDirs()
     _setRequestParams() 
@@ -127,13 +127,13 @@ def setupTargetEnv():
 
 如果我们针对
 
-```text
+```
 http://this.is.a.victim.com/article.php?id=1
 ```
 
 这样的 URL 进行 Waf 的检查，sqlmap 会发起一个
 
-```text
+```
 http://this.is.a.victim.com/article.php?id=1&mbjwe=2472%20AND%201%3D1%20UNION%20ALL%20SELECT%201%2CNULL%2C%27%3Cscript%3Ealert%28%22XSS%22%29%3C/script%3E%27%2Ctable_name%20FROM%20information_schema.tables%20WHERE%202%3E1--/%
 2A%2A/%3B%20EXEC%20xp_cmdshell%28%27cat%20../../../etc/passwd%27%29%23
 ```
@@ -158,7 +158,7 @@ http://this.is.a.victim.com/article.php?id=1&mbjwe=2472%20AND%201%3D1%20UNION%20
 
 对于 `difflib` 模块其实本身并没有什么非常特殊的，详细参见[官方手册](https://link.zhihu.com/?target=https%3A//docs.python.org/2/library/difflib.html)，实际在使用的过程中，sqlmap 主要使用其 `SequenceMatcher` 这个类。以下是关于这个类的简单介绍：
 
-> This is a flexible class for comparing pairs of sequences of any type, so long as the sequence elements are hashable. The basic algorithm predates, and is a little fancier than, an algorithm published in the late 1980’s by Ratcliff and Obershelp under the hyperbolic name “gestalt pattern matching.” The idea is to find the longest contiguous matching subsequence that contains no “junk” elements \(the Ratcliff and Obershelp algorithm doesn’t address junk\). The same idea is then applied recursively to the pieces of the sequences to the left and to the right of the matching subsequence. This does not yield minimal edit sequences, but does tend to yield matches that “look right” to people.
+> This is a flexible class for comparing pairs of sequences of any type, so long as the sequence elements are hashable. The basic algorithm predates, and is a little fancier than, an algorithm published in the late 1980’s by Ratcliff and Obershelp under the hyperbolic name “gestalt pattern matching.” The idea is to find the longest contiguous matching subsequence that contains no “junk” elements (the Ratcliff and Obershelp algorithm doesn’t address junk). The same idea is then applied recursively to the pieces of the sequences to the left and to the right of the matching subsequence. This does not yield minimal edit sequences, but does tend to yield matches that “look right” to people.
 
 简单来说这个类使用了 Ratcliff 和 Obershelp 提供的算法，匹配最长相同的字符串，设定无关字符（junk）。在实际使用中，他们应用最多的方法应该就是 `ratio()`。
 
@@ -196,7 +196,7 @@ http://this.is.a.victim.com/article.php?id=1&mbjwe=2472%20AND%201%3D1%20UNION%20
 
 > 默认情况下sqlmap通过判断返回页面的不同来判断真假，但有时候这会产生误差，因为有的页面在每次刷新的时候都会返回不同的代码，比如页面当中包含一个动态的广告或者其他内容，这会导致sqlmap的误判。此时用户可以提供一个字符串或者一段正则匹配，在原始页面与真条件下的页面都存在的字符串，而错误页面中不存在（使用–string参数添加字符串，–regexp添加正则），同时用户可以提供一段字符串在原始页面与真条件下的页面都不存在的字符串，而错误页面中存在的字符串（–not-string添加）。用户也可以提供真与假条件返回的HTTP状态码不一样来注入，例如，响应200的时候为真，响应401的时候为假，可以添加参数–code=200。
 
-**checkDynamicContent\(firstPage, secondPage\)**
+**checkDynamicContent(firstPage, secondPage)**
 
 我们发现，如果说我们并没指定 `string / regex` 那么很多情况，我们仍然也可以正确得出结果；根据 sqlmap 源码，它实际上背后还是有一些处理方法的，而这些方法就在 `checkDynamicContent(firstPage, secondPage)` 中：
 
@@ -212,7 +212,7 @@ http://this.is.a.victim.com/article.php?id=1&mbjwe=2472%20AND%201%3D1%20UNION%20
 
 对于 `too dynamic` 与可以接受的动态页面（相似度高于 0.98），其实最根本的区别就是在于 PageRatio, 如果多次尝试（超过 conf.retries） 设置的尝试次数，仍然出现了相似度低于 0.98 则会认为这个页面 `too dynamic`。
 
-**findDynamicContent\(firstPage, secondPage\)**
+**findDynamicContent(firstPage, secondPage)**
 
 这个函数位于 `common.py` 中，这个函数作为通用函数，我们并不需要非常严格的去审他的源码，为了节省大家的时候，笔者在这里可以描述这个函数做了一件什么样的事情，并举例说明。
 
@@ -220,13 +220,13 @@ http://this.is.a.victim.com/article.php?id=1&mbjwe=2472%20AND%201%3D1%20UNION%20
 
 实际在工作中，如果寻找到动态内容，则会将动态内容的前后内容（前：`prefix`，后：`suffix`，长度均在 `DYNAMICITY_BOUNDARY_LENGTH` 中设定，默认为 20）作为一个 tuple，存入 `kb.dynamicMarkings`，在每一次页面比较之前，会默认移除这些动态内容。
 
-```text
+```
 kb.dynamicMarkings.append((prefix if prefix else None, suffix if suffix else None))
 ```
 
 例如，在实际使用中，我们按照官方给定的一个例子：
 
-```text
+```
     """
     This function checks if the provided pages have dynamic content. If they
     are dynamic, proper markings will be made
@@ -261,7 +261,7 @@ kb.dynamicMarkings.append((prefix if prefix else None, suffix if suffix else Non
 
 参数排序
 
-```text
+```
 # Order of testing list (first to last)
 orderList = (PLACE.CUSTOM_POST, PLACE.CUSTOM_HEADER, PLACE.URI, PLACE.POST, PLACE.GET)
 ​
@@ -310,7 +310,7 @@ paramType = conf.method if conf.method not in (None, HTTPMETHOD.GET, HTTPMETHOD.
 
 ![](../../.gitbook/assets/020.jpg)
 
-**checkDynParam\(place, parameter, value\)**
+**checkDynParam(place, parameter, value)**
 
 我们进入 `checkDynParam` 函数发现，整个函数其实看起来非常简单，但是实际上我们发现 `agent.queryPage` 这个函数现在又返回了一个好像是 Bool 值的返回值作为 `dynResult` 这令我们非常困惑，我们上一次见这个函数返回的是 `(page, headers, code)` 。
 
@@ -342,7 +342,7 @@ paramType = conf.method if conf.method not in (None, HTTPMETHOD.GET, HTTPMETHOD.
 
 我相信令大家困惑的可能是这两段关于 `nullConnection` 的代码，在前面的部分中，我们没有详细说明 `nullConnection` 究竟意味着什么：
 
-```text
+```
   Optimization:
     These options can be used to optimize the performance of sqlmap
 ​
@@ -357,13 +357,13 @@ paramType = conf.method if conf.method not in (None, HTTPMETHOD.GET, HTTPMETHOD.
 
 明白这一点，上面的代码就变得异常好懂了，如果没有启用 `--null-connection` 优化，两次比较的页面分别为 `page` 与 `kb.pageTemplate`。其实 `kb.pageTemplate` 也并不陌生，其实就是第一次正式访问页面的时候，存下的那个页面的内容。
 
-```text
+```
 conf.originalPage = kb.pageTemplate = page
 ```
 
 如果启用 `--null-connection`，计算 ratio 就只是很简单的通过页面的长度来计算，计算公式为
 
-```text
+```
 ratio = 1. * pageLength / len(kv.pageTemplate)
 ​
 if ratio > 1.:
@@ -380,7 +380,7 @@ if ratio > 1.:
 
 上面源码为最终使用 `ratio` 对页面的相似度作出判断的逻辑，其中
 
-```text
+```
 UPPER_RATIO_BOUND = 0.98
 LOWER_RATIO_BOUND = 0.02
 DIFF_TOLERANCE = 0.05
@@ -403,7 +403,7 @@ DIFF_TOLERANCE = 0.05
 
 ### 0x01 heuristicCheckSqlInjection
 
-这个函数位于 controller.py 的 start\(\) 函数中，同时我们在整体逻辑中也明确指明了这一个步骤：
+这个函数位于 controller.py 的 start() 函数中，同时我们在整体逻辑中也明确指明了这一个步骤：
 
 ![](../../.gitbook/assets/028.jpg)
 
@@ -428,7 +428,7 @@ DIFF_TOLERANCE = 0.05
 
 **3.** casting 这个标识位主要取决于两种情况：第一种在第一个请求就发现存在了特定的类型检查的迹象；第二种是在请求小数情况的时候，发现小数被强行转换为整数。通常对于这种问题，在不考虑 tamper 的情况下，一般很难检测出或者绕过。
 
-4. result 这个标识位取决于：如果检测出 DBMS 错误，则会设置这个标识位为 True；如果出现了数据库执行数值运算，也置为 True。
+4\. result 这个标识位取决于：如果检测出 DBMS 错误，则会设置这个标识位为 True；如果出现了数据库执行数值运算，也置为 True。
 
 **XSS 与 FI**
 
@@ -436,7 +436,7 @@ DIFF_TOLERANCE = 0.05
 
 ![](../../.gitbook/assets/032.jpg)
 
-1. 检测 XSS 的方法其实就是检查 “&lt;‘\”&gt;”，是否出现在了结果中。作为扩展，我们可以在此检查是否随机字符串还在页面中，从而判断是否存在 XSS 的迹象。
+1. 检测 XSS 的方法其实就是检查 “<‘\”>”，是否出现在了结果中。作为扩展，我们可以在此检查是否随机字符串还在页面中，从而判断是否存在 XSS 的迹象。
 2. 检测 FI（文件包含），就是检测结果中是否包含了 include/require 等报错信息，这些信息是通过特定正则表达式来匹配检测的。
 
 ### 0x02 checkSqlInjection
@@ -454,7 +454,7 @@ DIFF_TOLERANCE = 0.05
 7. 针对四种类型的注入分别进行 response 的响应和处理
 8. 得出结果，返回结果
 
-下图是笔者折叠无关代码之后剩余的最核心的循环和条件分支，我们发现他关于 injectable 的设置完全是通过 if method == PAYLOAD.METHOD.\[COMPARISON/GREP/TIME/UNION\] 这几个条件分支去处理的，同时这些条件显然是 sqlmap 针对不同的注入类型的 Payload 进行自己的结果处理逻辑饿和判断逻辑。
+下图是笔者折叠无关代码之后剩余的最核心的循环和条件分支，我们发现他关于 injectable 的设置完全是通过 if method == PAYLOAD.METHOD.\[COMPARISON/GREP/TIME/UNION] 这几个条件分支去处理的，同时这些条件显然是 sqlmap 针对不同的注入类型的 Payload 进行自己的结果处理逻辑饿和判断逻辑。
 
 ![](../../.gitbook/assets/033.jpg)
 
@@ -464,9 +464,9 @@ DIFF_TOLERANCE = 0.05
 
 ![](../../.gitbook/assets/034.jpg)
 
-其实这个步骤非常简单，核心原理是利用简单的布尔盲注构造一个 \(SELECT “\[RANDSTR\]” \[FROM\_DUMMY\_TABLE.get\(dbms\)\] \)=”\[RANDSTR1\]” 和 \(SELECT ‘\[RANDSTR\]’ \[FROM\_DUMMY\_TABLE.get\(dbms\)\] \)='\[RANDSTR1\]’ 这两个 Payload 的请求判断。其中
+其实这个步骤非常简单，核心原理是利用简单的布尔盲注构造一个 (SELECT “\[RANDSTR]” \[FROM\_DUMMY\_TABLE.get(dbms)] )=”\[RANDSTR1]” 和 (SELECT ‘\[RANDSTR]’ \[FROM\_DUMMY\_TABLE.get(dbms)] )='\[RANDSTR1]’ 这两个 Payload 的请求判断。其中
 
-```text
+```
 FROM_DUMMY_TABLE = {
     DBMS.ORACLE: " FROM DUAL",
     DBMS.ACCESS: " FROM MSysAccessObjects",
@@ -480,7 +480,7 @@ FROM_DUMMY_TABLE = {
 
 例如，检查是否是 ORACLE 的时候，就会生成
 
-```text
+```
 (SELECT 'abc' FROM DUAL)='abc' 
 (SELECT 'abc' FROM DUAL)='abcd'
 ```
@@ -489,7 +489,7 @@ FROM_DUMMY_TABLE = {
 
 当然数据库类型检测并不是必须的，因为 sqlmap 实际工作中，如果没有指定 DBMS 则会按照当前测试 Payload 的对应的数据库类型去设置。
 
-实际上在各种 Payload 的执行过程中，会包含着一些数据库的推断信息\(&lt;details&gt;\)，如果 Payload 成功执行，这些信息可以被顺利推断则数据库类型就可以推断出来。
+实际上在各种 Payload 的执行过程中，会包含着一些数据库的推断信息(\<details>)，如果 Payload 成功执行，这些信息可以被顺利推断则数据库类型就可以推断出来。
 
 **测试数据模型与 Payload 介绍**
 
@@ -497,13 +497,13 @@ FROM_DUMMY_TABLE = {
 
 因此在本节中，我们会详细介绍关于具体测试 Payload 的数据模型，并且基于这些模型和源码分析 sqlmap 实际的行为，和 sql 注入原理的细节知识。 ·
 
-**&lt;test&gt; 通用模型**
+**\<test> 通用模型**
 
 关于通用模型其实在 sqlmap 中有非常详细的说明，位置在 xml/payloads/boolean\_blind.xml中，我们把他们分隔开分别来讲解具体字段对应的代码的行为。
 
 首先我们必须明白一个具体的 testcase 对应一个具体的 xml 元素是什么样子：
 
-```text
+```
 <test>
     <title></title>
     <stype></stype>
@@ -532,20 +532,20 @@ FROM_DUMMY_TABLE = {
 </test>
 ```
 
-关于上面的一个 &lt;test&gt; 标签内的元素都是实际上包含的不只是一个 Payload 还包含
+关于上面的一个 \<test> 标签内的元素都是实际上包含的不只是一个 Payload 还包含
 
-```text
+```
 Sub-tag: <title>
     Title of the test. 测试的名称，这些名称就是我们实际在测试的时候输出的日志中的内容
 ```
 
 ![](../../.gitbook/assets/035.jpg)
 
-图表示一个 &lt;test&gt; 中的 title 会被输出作为调试信息。
+图表示一个 \<test> 中的 title 会被输出作为调试信息。
 
 除非必要的子标签，笔者将会直接把标注写在下面的代码块中，
 
-```text
+```
 Sub-tag: <stype>
     SQL injection family type. 表示注入的类型。
 ​
@@ -597,11 +597,11 @@ Sub-tag: <clause>
     A comma separated list of these values is also possible.
 ```
 
-在上面几个子标签中，我们经常见的就是 level/risk 一般来说，默认的 sqlmap 配置跑不出漏洞的时候，我们通常会启动更高级别 \(level=5/risk=3\) 的配置项来启动更多的 payload。
+在上面几个子标签中，我们经常见的就是 level/risk 一般来说，默认的 sqlmap 配置跑不出漏洞的时候，我们通常会启动更高级别 (level=5/risk=3) 的配置项来启动更多的 payload。
 
 接下来我们再分析下面的标签
 
-```text
+```
 Sub-tag: <where>
     Where to add our '<prefix> <payload><comment> <suffix>' string.
 ​
@@ -685,15 +685,15 @@ Sub-tag: <details>
 
 我们在前面的介绍中发现了几个疑似 Payload 的字段，但是遗憾的是，上面的每一个 Payload 都不是真正的 Payload。实际 sqlmap 在处理的过程中，只要是从 \*.xml 中加载的 Payload，都是需要经过一些随机化和预处理，这些预处理涉及到的概念如下：
 
-1. Boundary：需要为原始 Payload 的前后添加“边界”。边界是一个神奇的东西，主要取决于当前“拼接”的 SQL 语句的上下文，常见上下文：注入位置是一个“整形”；注入位置需要单引号/双引号\(‘/”\)闭合边界；注入位置在一个括号语句中。
-2. –tamper：Tamper 是 sqlmap 中最重要的概念之一，也是 Bypass 各种防火墙的有力的武器。在 sqlmap 中，Tamper 的处理位于我们上一篇文章中的 agent.queryPage\(\) 中，具体位于其对 Payload 的处理。
-3. “Render”：当然这一个步骤在 sqlmap 中没有明显的概念进行对应，其主要是针对 Payload 中随机化的标签进行渲染和替换，例如：\[INFERENCE\] 这个标签通常被替换成一个等式，这个等式用于判断结果的正负`Positive/Negative` \[RANDSTR\] 会被替换成随机字符串 \[RANDNUM\] 与 \[RANDNUMn\] •会被替换成不同的数字 \[SLEEPTIME\] 在时间盲注中会被替换为 SLEEP 的时间
+1. Boundary：需要为原始 Payload 的前后添加“边界”。边界是一个神奇的东西，主要取决于当前“拼接”的 SQL 语句的上下文，常见上下文：注入位置是一个“整形”；注入位置需要单引号/双引号(‘/”)闭合边界；注入位置在一个括号语句中。
+2. –tamper：Tamper 是 sqlmap 中最重要的概念之一，也是 Bypass 各种防火墙的有力的武器。在 sqlmap 中，Tamper 的处理位于我们上一篇文章中的 agent.queryPage() 中，具体位于其对 Payload 的处理。
+3. “Render”：当然这一个步骤在 sqlmap 中没有明显的概念进行对应，其主要是针对 Payload 中随机化的标签进行渲染和替换，例如：\[INFERENCE] 这个标签通常被替换成一个等式，这个等式用于判断结果的正负`Positive/Negative` \[RANDSTR] 会被替换成随机字符串 \[RANDNUM] 与 \[RANDNUMn] •会被替换成不同的数字 \[SLEEPTIME] 在时间盲注中会被替换为 SLEEP 的时间
 
 所以，实际上从 \*.xml 中加载出来的 Payload 需要经过上面的处理才能真的算是处理完成。这个 Payload 才会在 agent.queryPage 的日志中输出出来，也就是我们 sqlmap -v3 选项看到的最终 Payload。
 
 在上面的介绍中，我们又提到了一个陌生的概念，Boundary，并且做了相对简单的介绍，具体的 Boundary，我们在 {sqlmap\_dir}/xml/boundaries.xml 中可以找到：
 
-```text
+```
 <boundary>
     <level></level> 
     <clause></clause>
@@ -706,7 +706,7 @@ Sub-tag: <details>
 
 在具体的定义中，我们发现没见过的子标签如下：
 
-```text
+```
     Sub-tag: <ptype>
         What is the parameter value type. 参数•类型（参数边界上下文类型）
 ​
@@ -726,11 +726,11 @@ Sub-tag: <details>
 
 其实到现在 sqlmap 中 Payload 的结构我们就非常清楚了
 
-```text
+```
 <prefix> <payload><comment> <suffix>
 ```
 
-其中 &lt;prefix&gt; &lt;suffix&gt; 来源于 boundaries.xml 中，而 &lt;payload&gt; &lt;comment&gt; 来源于本身 xml/payloads/\*.xml 中的 &lt;test&gt; 中。在本节中都有非常详细的描述了
+其中 \<prefix> \<suffix> 来源于 boundaries.xml 中，而 \<payload> \<comment> 来源于本身 xml/payloads/\*.xml 中的 \<test> 中。在本节中都有非常详细的描述了
 
 **针对布尔盲注的检测**
 
@@ -738,7 +738,7 @@ Sub-tag: <details>
 
 在分析之前，我们先看一个详细的 Payload:
 
-```text
+```
 <test>
     <title>PostgreSQL OR boolean-based blind - WHERE or HAVING clause (CAST)</title>
     <stype>1</stype>
@@ -759,7 +759,7 @@ Sub-tag: <details>
 </test>
 ```
 
-根据上一节介绍的子标签的特性，我们可以大致观察这个 &lt;test&gt; 会至少发送两个 Payload：第一个为 request 标签中的 payload 第二个为 response 标签中的 comparison 中的 Payload。
+根据上一节介绍的子标签的特性，我们可以大致观察这个 \<test> 会至少发送两个 Payload：第一个为 request 标签中的 payload 第二个为 response 标签中的 comparison 中的 Payload。
 
 当然我们很容易想到，针对布尔盲注的检测实际上只需要检测 request.payload 和 response.comparison 这两个请求，只要这两个请求页面不相同，就可以判定是存在问题的。可是事实真的如此吗？结果当然并没有这么简单。
 
@@ -777,7 +777,7 @@ Sub-tag: <details>
 
 针对报错注入其实非常好识别，在报错注入检测的过程中，我们会发现他的 response 子标签中，包含着是 grep 子标签：
 
-```text
+```
 <test>
     <title>MySQL &gt;= 5.7.8 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (JSON_KEYS)</title>
     <stype>2</stype>
@@ -827,14 +827,14 @@ Sub-tag: <details>
 
 当然除了这一点，我们还发现
 
-```text
+```
 delta = threadData.lastQueryDuration - conf.timeSec
 if Backend.getIdentifiedDbms() in (DBMS.MYSQL,):  # MySQL's SLEEP(X) lasts 0.05 seconds shorter on average
     delta += 0.05
 return delta >= 0
 ```
 
-这一段代码作为 mysql 的 Patch 存在 \# MySQL’s SLEEP\(X\) lasts 0.05 seconds shorter on average。
+这一段代码作为 mysql 的 Patch 存在 # MySQL’s SLEEP(X) lasts 0.05 seconds shorter on average。
 
 如果我们要自己实现时间盲注的检测的话，这一点也是必须注意和实现的。
 
@@ -846,9 +846,9 @@ UNION 注入可以说是 sqlmap 中最复杂的了，同时也是最经典的注
 
 ![](../../.gitbook/assets/040.jpg)
 
-跟入 unionTest\(\) 中我们发现如下操作
+跟入 unionTest() 中我们发现如下操作
 
-```text
+```
 def unionTest(comment, place, parameter, value, prefix, suffix):
     """
     This method tests if the target URL is affected by an union
@@ -886,7 +886,7 @@ def unionTest(comment, place, parameter, value, prefix, suffix):
 
 ![](../../.gitbook/assets/042.jpg)
 
-除此之外呢，如果 ORDER BY 失效，将会计算至少五个（从 lowerCount 到 upperCount）Payload 为 UNION SELECT \(NULL,\) \* \[COUNT\]，的请求，这些请求的对应 RATIO（与模版页面相似度）会汇总存储在 ratios 中，同时 items 中存储 列数 和 ratio 形成的 tuple，经过一系列的算法，尽可能寻找出“与众不同（正确猜到列数）”的页面。具体的算法与批注如下：
+除此之外呢，如果 ORDER BY 失效，将会计算至少五个（从 lowerCount 到 upperCount）Payload 为 UNION SELECT (NULL,) \* \[COUNT]，的请求，这些请求的对应 RATIO（与模版页面相似度）会汇总存储在 ratios 中，同时 items 中存储 列数 和 ratio 形成的 tuple，经过一系列的算法，尽可能寻找出“与众不同（正确猜到列数）”的页面。具体的算法与批注如下：
 
 ![](../../.gitbook/assets/043.jpg)
 
@@ -902,6 +902,4 @@ def unionTest(comment, place, parameter, value, prefix, suffix):
 
 #### 0x03 结束语
 
-其实按笔者原计划，本系列文章并没有结束，因为还有关于 sqlmap 中其他技术没有介绍：“数据持久化”，“action\(\) – Exploit 技术”，“常见漏洞利用分析（udf，反弹 shell 等）”。但是由于内容是在太过庞杂，笔者计划暂且搁置一下，实际上现有的文章已经足够把 sqlmap 的 SQL 注入检测最核心的也是最有意义的自动化逻辑说清楚了，我想读读者读完之后肯定会有自己的收获。  
-
-
+其实按笔者原计划，本系列文章并没有结束，因为还有关于 sqlmap 中其他技术没有介绍：“数据持久化”，“action() – Exploit 技术”，“常见漏洞利用分析（udf，反弹 shell 等）”。但是由于内容是在太过庞杂，笔者计划暂且搁置一下，实际上现有的文章已经足够把 sqlmap 的 SQL 注入检测最核心的也是最有意义的自动化逻辑说清楚了，我想读读者读完之后肯定会有自己的收获。\

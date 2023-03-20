@@ -1,20 +1,20 @@
 # Docker 私有仓库搭建
 
-## 一、简介 <a id="&#x4E00;&#x3001;&#x7B80;&#x4ECB;"></a>
+## 一、简介 <a href="#yi-jian-jie" id="yi-jian-jie"></a>
 
 在 Docker 中，当我们执行 docker pull xxx 的时候 ，它实际上是从 registry.hub.docker.com 这个地址去查找，这就是Docker公司为我们提供的公共仓库。在工作中，我们不可能把企业项目push到公有仓库进行管理。所以为了更好的管理镜像，Docker不仅提供了一个中央仓库，同时也允许我们搭建本地私有仓库。这一篇介绍registry、harbor两种私有仓库搭建。
 
-## 二、registry 的搭建 <a id="&#x4E8C;&#x3001;registry-&#x7684;&#x642D;&#x5EFA;"></a>
+## 二、registry 的搭建 <a href="#er-registry-de-da-jian" id="er-registry-de-da-jian"></a>
 
-### 1. 搭建 <a id="1-&#x642D;&#x5EFA;"></a>
+### 1. 搭建 <a href="#1-da-jian" id="1-da-jian"></a>
 
 Docker 官方提供了一个搭建私有仓库的镜像 **registry** ，只需把镜像下载下来，运行容器并暴露5000端口，就可以使用了。
 
-```text
+```
 docker pull registry:2
 ```
 
-```text
+```
 docker run -d -v /opt/registry:/var/lib/registry -p 5000:5000 --name myregistry registry:2
 ```
 
@@ -22,15 +22,15 @@ Registry服务默认会将上传的镜像保存在容器的/var/lib/registry，�
 
 浏览器访问http://127.0.0.1:5000/v2，出现下面情况说明registry运行正常。
 
-![](../../.gitbook/assets/image%20%28990%29.png)
+![](<../../.gitbook/assets/image (990).png>)
 
-### 2. 验证 <a id="2-&#x9A8C;&#x8BC1;"></a>
+### 2. 验证 <a href="#2-yan-zheng" id="2-yan-zheng"></a>
 
 现在通过push镜像到registry来验证一下。
 
 查看本地镜像：
 
-```text
+```
 $ docker images
 REPOSITORY                                             TAG                 IMAGE ID            CREATED             SIZE
 nginx                                                  latest              568c4670fa80        5 weeks ago         109MB
@@ -40,49 +40,49 @@ elasticsearch                                          6.5.1               32f93
 
 要通过docker tag将该镜像标志为要推送到私有仓库：
 
-```text
+```
 docker tag nginx:latest localhost:5000/nginx:latest
 ```
 
 通过 docker push 命令将 nginx 镜像 push到私有仓库中：
 
-```text
+```
 docker push localhost:5000/nginx:latest
 ```
 
-访问 [http://127.0.0.1:5000/v2/\_catalog](http://127.0.0.1:5000/v2/_catalog) 查看私有仓库目录，可以看到刚上传的镜像了：
+访问 [http://127.0.0.1:5000/v2/\_catalog](http://127.0.0.1:5000/v2/\_catalog) 查看私有仓库目录，可以看到刚上传的镜像了：
 
-![](../../.gitbook/assets/image%20%28988%29.png)
+![](<../../.gitbook/assets/image (988).png>)
 
 下载私有仓库的镜像，使用如下命令：
 
-```text
+```
 docker pull localhost:5000/镜像名:版本号
 例如
 docker pull localhost:5000/nginx:latest
 ```
 
-## 二、harbor 的搭建 <a id="&#x4E8C;&#x3001;harbor-&#x7684;&#x642D;&#x5EFA;"></a>
+## 二、harbor 的搭建 <a href="#er-harbor-de-da-jian" id="er-harbor-de-da-jian"></a>
 
-docker 官方提供的私有仓库 registry，用起来虽然简单 ，但在管理的功能上存在不足。 Harbor是一个用于存储和分发Docker镜像的企业级Registry服务器，harbor使用的是官方的docker registry\(v2命名是distribution\)服务去完成。harbor在docker distribution的基础上增加了一些安全、访问控制、管理的功能以满足企业对于镜像仓库的需求。
+docker 官方提供的私有仓库 registry，用起来虽然简单 ，但在管理的功能上存在不足。 Harbor是一个用于存储和分发Docker镜像的企业级Registry服务器，harbor使用的是官方的docker registry(v2命名是distribution)服务去完成。harbor在docker distribution的基础上增加了一些安全、访问控制、管理的功能以满足企业对于镜像仓库的需求。
 
-### 1.搭建 <a id="1&#x642D;&#x5EFA;"></a>
+### 1.搭建 <a href="#1-da-jian" id="1-da-jian"></a>
 
-#### 下载 <a id="&#x4E0B;&#x8F7D;"></a>
+#### 下载 <a href="#xia-zai" id="xia-zai"></a>
 
 地址：[https://github.com/goharbor/harbor/releases](https://github.com/goharbor/harbor/releases) 本文是有 v1.2.2
 
-#### 配置 <a id="&#x914D;&#x7F6E;"></a>
+#### 配置 <a href="#pei-zhi" id="pei-zhi"></a>
 
 解压下载的安装包 harbor-offline-installer-v1.2.2.tgz
 
-```text
+```
 tar -xvf harbor-offline-installer-v1.2.2.tgz
 ```
 
 修改 harbor.cfg
 
-```text
+```
 #hostname 改为本地ip，非 Mac OS系统 可以不指定端口
 hostname = 192.168.31.143:9090
 #设置secretkey_path 的路径为 当前目录的data下
@@ -236,48 +236,47 @@ networks:
 
 通过运行 install.sh 构建镜像，并把服务启动起来：
 
-```text
+```
 ./install.sh
 ```
 
-### 2. 使用 <a id="2-&#x4F7F;&#x7528;"></a>
+### 2. 使用 <a href="#2-shi-yong" id="2-shi-yong"></a>
 
 访问 [http://127.0.0.1:9090/](http://127.0.0.1:9090/) 如下：
 
-![](../../.gitbook/assets/image%20%28986%29.png)
+![](<../../.gitbook/assets/image (986).png>)
 
 默认 admin 用户的密码为 Harbor12345 ，可以在 harbor.cfg 进行修改。登录后如下：
 
-![](../../.gitbook/assets/image%20%28989%29.png)
+![](<../../.gitbook/assets/image (989).png>)
 
 图中的项目是之前上传的 ，新部署的 Harbor 登录后项目下是空的。
 
 可以创建项目，创建用户，给项目分配用户等等，操作都很简单 。
 
-### 3. 上传镜像 <a id="3-&#x4E0A;&#x4F20;&#x955C;&#x50CF;"></a>
+### 3. 上传镜像 <a href="#3-shang-chuan-jing-xiang" id="3-shang-chuan-jing-xiang"></a>
 
 首先登录私有仓库，可以使用 admin 用户 ，也可以使用我们自己创建的具有上传权限的用户：
 
-```text
+```
 docker login -u admin -p Harbor12345 127.0.0.1:9090
 ```
 
 要通过docker tag将该镜像标志为要推送到私有仓库，例如：
 
-```text
+```
 docker tag nginx:latest 127.0.0.1:9090/library/nginx:latest
 ```
 
 上传镜像：
 
-```text
+```
 docker push 127.0.0.1:9090/library/nginx:latest
 ```
 
 访问 http://127.0.0.1:9090/harbor/projects ，在 library 项目下可以看见刚上传的 nginx镜像了：
 
-![](../../.gitbook/assets/image%20%28992%29.png)
+![](<../../.gitbook/assets/image (992).png>)
 
-  
- ![](https://img2018.cnblogs.com/blog/528977/201903/528977-20190311112108481-2022563516.jpg)
-
+\
+&#x20;![](https://img2018.cnblogs.com/blog/528977/201903/528977-20190311112108481-2022563516.jpg)

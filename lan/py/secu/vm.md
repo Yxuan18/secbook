@@ -2,7 +2,7 @@
 
 ## **前言**
 
-1. TCTF 2017 final Python
+1\. TCTF 2017 final Python
 
 之前在TCTF的线下赛上碰到了Python的一道沙箱逃逸题目，虽然最后由于主办方题目上的一些疏漏导致了非预期解法的产生，但是本身真的是不错的沙箱逃逸案例，如果是按照预期解法，可以说以后别的沙箱逃逸题如果不改Python的源码感觉已经没啥可出的必要了。
 
@@ -10,7 +10,7 @@
 
 Python的沙箱逃逸在之前的CTF就有出现过，不过大多是利用Python作为脚本语言的特性来逃逸，相当于换其他方式达到相同目的，比如没了file，通过别的方式拿到file，这次的题目其实也是可以这样搞的，因为stdin等等对象是file对象，可以用来拿到file对象，这样就可以做到在服务器上进行任意读写，之后比如可以写/proc/self/mem或者编译一个c写的python module然后写到/tmp里之后考虑去import，这些其实都是非预期解法，预期解法就相当有意思了，用的方法是通过Python的字节码来获取，这里我们也就需要重点讲这个方面的内容了。
 
-2. Python沙箱？不存在的
+2\. Python沙箱？不存在的
 
 作为前言的一小部分，我还想提一个问题，python，到底有没有沙箱？
 
@@ -20,7 +20,7 @@ Python的沙箱逃逸在之前的CTF就有出现过，不过大多是利用Pytho
 
 • os: manjaro linux 17.01
 
-• python: python2.7.13 debug版本\(自己编译的\)，更改了两个可能在debug下出错的地方，主要是ceval.c:825，改为release版本的写法，还有924行，这一段的define都改为没有LLTRACE的写法。
+• python: python2.7.13 debug版本(自己编译的)，更改了两个可能在debug下出错的地方，主要是ceval.c:825，改为release版本的写法，还有924行，这一段的define都改为没有LLTRACE的写法。
 
 ### **Python虚拟机原理**
 
@@ -79,7 +79,7 @@ PyObject_VAR_HEAD
 
 至于用来检查对象类型的方法：
 
-```text
+```
 #define Py_TYPE(ob) (((PyObject*)(ob))->ob_type)
 ```
 
@@ -91,7 +91,7 @@ PyObject_VAR_HEAD
 
 答案就是——code对象：https://github.com/python/cpython/blob/2.7/Include/code.h
 
-```text
+```
 /* 字节码对象 */
 /* Bytecode object */
 typedef struct {
@@ -130,7 +130,7 @@ int, int, int, int, PyObject *, PyObject *, PyObject *, PyObject *,PyObject *, P
 
 运行有关代码：[https://github.com/python/cpython/blob/2.7/Python/ceval.c](https://github.com/python/cpython/blob/2.7/Python/ceval.c)
 
-其中用来运行的代码\_PyEval\_EvalFrameDefault， 从第1199行的switch\(opcode\)即是运行的主要部分，通过不同的opcode进行不同的操作。
+其中用来运行的代码\_PyEval\_EvalFrameDefault， 从第1199行的switch(opcode)即是运行的主要部分，通过不同的opcode进行不同的操作。
 
 其实整个Python的运行过程就是首先通过compile构建一个PyCodeObject，得到代码的字节码，之后根据不同的字节码进行不同的操作，过程还是比较简单的。
 
@@ -146,7 +146,7 @@ Python的运行是首先compile得到PyCodeObject对吧，那么，PyCodeObject�
 
 答案是，对的。而且Python并不限制你这么做，毕竟动态语言嘛，你想干嘛也拦不住你。想要操作这个字节码也很简单，types就可以，我们现在来试试。
 
-```text
+```
 # 接口
 # types.CodeType(argcount, nlocals, stacksize, flags, codestring, constants, names,
 # varnames, filename, name, firstlineno, lnotab[, freevars[,cellvars]])
@@ -165,9 +165,9 @@ chr(opmap['LOAD_CONST']) + 'xefxbe',
 code_object()
 ```
 
-这里最重要的就是codestring，是字节码的字符串表示，其他的都不是太重要\(注意不要直接复制我这一段代码运行，UTF-8的问题，加个UTF-8或者删掉中文可以运行\)，然后我们运行试试。
+这里最重要的就是codestring，是字节码的字符串表示，其他的都不是太重要(注意不要直接复制我这一段代码运行，UTF-8的问题，加个UTF-8或者删掉中文可以运行)，然后我们运行试试。
 
-```text
+```
 [anciety@anciety-pc temp]$ python2 testpython.py 
 Segmentation fault (core dumped)
 ```
@@ -176,7 +176,7 @@ seg fault了，不出所料，原因？
 
 我们来调试一下。这里我自己下源码编译了一个有debug符号和源码的Python2.7方便调试。
 
-```text
+```
 TARGET(LOAD_CONST) {
 PyObject *value = GETITEM(consts, oparg);
 Py_INCREF(value);
@@ -189,7 +189,7 @@ FAST_DISPATCH();
 
 GETITEM是从一个tuple中去取出值，我们看看segfault的地方：
 
-```text
+```
 1227     TARGET(LOAD_CONST)
 1228     {
 1229         x = GETITEM(consts, oparg);
@@ -214,7 +214,7 @@ $4 = 0xbeef
 
 [https://github.com/python/cpython/blob/5eb788bf7f54a8e04429e18fc332db858edd64b6/Objects/call.c](https://github.com/python/cpython/blob/5eb788bf7f54a8e04429e18fc332db858edd64b6/Objects/call.c)
 
-```text
+```
 PyObject *
 PyObject_Call(PyObject *callable, PyObject *args, PyObject *kwargs)
 {
@@ -314,7 +314,7 @@ call_fail:
 
 i.字节码类型是CALL\_FUNCTION，进入call\_function；
 
-ii.call\_function中，PyCFunction\_Check或者nk==0不成立，之后PyMethod\_Check或者PyMethod\_GET\_SELF\(func\) != NULL不成立，然后PyFunction\_Check不成立，进入do\_call；
+ii.call\_function中，PyCFunction\_Check或者nk==0不成立，之后PyMethod\_Check或者PyMethod\_GET\_SELF(func) != NULL不成立，然后PyFunction\_Check不成立，进入do\_call；
 
 iii.do\_call中PyCFunction\_Check不成立，进入PyOBject\_Call；
 
@@ -438,11 +438,11 @@ sys.stdin的f\_fp字段存有\_IO\_2\_1\_stdin的地址，这个地址是位于l
 
 有了system，可以劫持rip，最后的问题是传入参数。这里就需要注意到之前call的调用方式了：
 
-```text
+```
 result = (*call)(callable, args, kwargs); /* func是第一个参数 */
 ```
 
-func是一个指针，指向我们构造的“第一个对象”，所以，我们只需要把第一个对象的开始部分设置为"/bin/sh"，由于ob\_next并没有用到，所以改为字符串并不会影响其他结果，最后就可以system\("/bin/sh"\)了。
+func是一个指针，指向我们构造的“第一个对象”，所以，我们只需要把第一个对象的开始部分设置为"/bin/sh"，由于ob\_next并没有用到，所以改为字符串并不会影响其他结果，最后就可以system("/bin/sh")了。
 
 4.exp.py
 
@@ -568,7 +568,6 @@ if __name__ == "__main__":
 
 ## **注意**
 
-1.本文的情况和TCTF final的情况不完全一样，他的情况还有一些地方需要处理。比如没有id函数可以拿到任意对象的地址，并且开启了PIE。本文中的情况考虑了PIE，但是id函数需要自己处理一下。我目前想到的id的处理方式，是通过一个方法，比如a = ""; a.ljust.\_\_str\_\_\(\)也是可以达到id函数的效果的，其他类型也可以相应的去找他有的方法来leak出地址。
+1.本文的情况和TCTF final的情况不完全一样，他的情况还有一些地方需要处理。比如没有id函数可以拿到任意对象的地址，并且开启了PIE。本文中的情况考虑了PIE，但是id函数需要自己处理一下。我目前想到的id的处理方式，是通过一个方法，比如a = ""; a.ljust.\_\_str\_\_()也是可以达到id函数的效果的，其他类型也可以相应的去找他有的方法来leak出地址。
 
 2.本文的情况都是基于debug版本的，release版本应该会有一些小差别，但是方法是通用的，不过由于时间关系我没有再调试一遍release版本，release版本调试起来也会比较费时间，方法是能用的。
-
