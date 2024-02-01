@@ -167,9 +167,9 @@
 * [汇编](lan/huibian.md)
 * [Javascript](lan/javascript.md)
 
-## poc\&exp <a href="#pxcp" id="pxcp"></a>
+## AIGC
 
-* [1](pxcp/1.md)
+* [howtouse](aigc/0001-123.md)
 
 ## 网络 <a href="#net" id="net"></a>
 

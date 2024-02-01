@@ -248,10 +248,10 @@ http://php.net/manual/zh/configuration.changes.modes.php
 **Relevant Link:**
 
 > [http://php.net/manual/zh/configuration.file.per-user.php](http://php.net/manual/zh/configuration.file.per-user.php) \
-> ****[http://php.net/manual/zh/ini.list.php](http://php.net/manual/zh/ini.list.php) \
+> [http://php.net/manual/zh/ini.list.php](http://php.net/manual/zh/ini.list.php) \
 > [http://drops.wooyun.org/tips/3424](http://drops.wooyun.org/tips/3424)
 
-### 0x4:  利用PHP动态变量特性 _****_
+### 0x4:  利用PHP动态变量特性 
 
 ```php
 <?php
@@ -620,7 +620,7 @@ gif89a
 ?>
 ```
 
-``[`ob_start()`](http://cn2.php.net/manual/zh/function.ob-start.php)会把自己接收到的字符串当作一个"回调函数callback\_func"，并将接下来的缓冲区输入，当作这个"回调函数"的参数
+[`ob_start()`](http://cn2.php.net/manual/zh/function.ob-start.php)会把自己接收到的字符串当作一个"回调函数callback\_func"，并将接下来的缓冲区输入，当作这个"回调函数"的参数
 
 还可以重写ob\_start方法
 
@@ -1578,7 +1578,7 @@ net user hxhack/del
 
 ### 0x39: 利用PHP自定义函数回调执行webshell
 
-``[`call_user_func()`](http://php.net/manual/zh/function.call-user-func.php)``
+[`call_user_func()`](http://php.net/manual/zh/function.call-user-func.php)
 
 ```php
 <?php

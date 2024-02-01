@@ -16,7 +16,7 @@ Ghostpack (目前)是以前 PowerShell 功能的各种 C# 实现的集合，包�
 
 SeatBelt.exe会收集以下系统数据:
 
-* &#x20;**** BasicOSInfo ——基本操作系统信息(即架构、操作系统版本等)
+* &#x20;BasicOSInfo ——基本操作系统信息(即架构、操作系统版本等)
 * RebootSchedule ——基于事件 id 12和13的系统重新启动计划任务(最后15天)
 * TokenGroupPrivs——当前进程或令牌的特权(例如 SeDebugPrivilege 等)
 * UACSystemPolicies ——UAC 系统策略——通过注册表设置的 UAC 系统策略

