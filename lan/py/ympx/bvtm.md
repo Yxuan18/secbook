@@ -4,7 +4,7 @@ Python会将代码先编译成字节码，然后在虚拟机中动态得依次�
 
 本文不会讲述代码如何一步步编译成`PyCodeObject`，只会简单介绍`PyCodeObject`中各个域的含义，而把重点放在介绍Python的虚拟机和执行流。
 
-### Python中的伪码PyCodeObject <a id="Python&#x4E2D;&#x7684;&#x4F2A;&#x7801;PyCodeObject"></a>
+### Python中的伪码PyCodeObject <a href="#python-zhong-de-wei-ma-pycodeobject" id="python-zhong-de-wei-ma-pycodeobject"></a>
 
 `PyCodeObject`保存代编译后的静态信息，在运行时再结合上下文形成一个完整的运行态环境。让我们看看静态编译后的信息都有哪些。
 
@@ -34,19 +34,19 @@ typedef struct {
 
 其中有些域需要特别解释。
 
-* co\_flags 用来保存一些编译信息，主要用于优化工作。例如co\_VARARGS\(0x0004\)表示有可变参数等，具体见code.h文件。
+* co\_flags 用来保存一些编译信息，主要用于优化工作。例如co\_VARARGS(0x0004)表示有可变参数等，具体见code.h文件。
 * co\_freevars 自由变量是一些在作用域内使用，但是没有在本作用域定义的变量。
 * co\_cellvars 当前作用域定义，而在闭包等内部使用的变量。
 * co\_lnotab 字节码的偏移值与对应的源码的行号的相对值。
 
-```text
+```
 字节码在co_code中的偏移值   真实行号 行号的偏移值
 0                         1       0 
 6                         2       1
 50                        7       5
 ```
 
-那么实际上`co_lnotab`记录的是\(0, 0\), \(6, 1\), \(44, 5\)，当然实际记录中没有括号。具体`偏移值`和真实行号的对应关系可以通过下面的算法计算出来。
+那么实际上`co_lnotab`记录的是(0, 0), (6, 1), (44, 5)，当然实际记录中没有括号。具体`偏移值`和真实行号的对应关系可以通过下面的算法计算出来。
 
 ```c
 // codeobject.c
@@ -69,7 +69,7 @@ PyCode_Addr2Line(PyCodeObject *co, int addrq)
 
 * co\_code 记录编译后的字节码，以字符串的形式保存，而实际上就是数字。后面我们通过一个例子详细描述。
 
-### PyCodeObject的示例 <a id="PyCodeObject&#x7684;&#x793A;&#x4F8B;"></a>
+### PyCodeObject的示例 <a href="#pycodeobject-de-shi-li" id="pycodeobject-de-shi-li"></a>
 
 先给定一个Python代码示例，然后打印出其中的各个域。
 
@@ -168,13 +168,13 @@ print out.__code__.co_code
 dis.dis(out)
 ```
 
-```text
+```
 # co_code的十六进制内容
 0000000: 6401 0089 0000 6402 0087 0000 6601 0064  d.....d.....f..d
 0000010: 0300 8601 007d 0400 6400 0053 0a         .....}..d..S.
 ```
 
-```text
+```
 # 字节码的反编译
   4           0 LOAD_CONST               1 (2)
               3 STORE_DEREF              0 (c)
@@ -194,13 +194,13 @@ dis.dis(out)
 
 同理可以解析接下来的字节码和对应的操作的含义。至此，我们明白字节码的格式为
 
-```text
+```
 字节码指令编号(64) 多个参数值(1) 结束标志(00)
 ```
 
 到现在为止我们明白了字节码的数据结构、各域值的含义，`co_code`字节码的格式以及如何与操作命令对应。下面我们看看这些字节码如何运行。
 
-### PyFrameObject <a id="PyFrameObject"></a>
+### PyFrameObject <a href="#pyframeobject" id="pyframeobject"></a>
 
 Python模拟了C语言中的运行栈作为运行时的环境，每个栈用`PyFrameObject`结构表示。
 
@@ -227,17 +227,17 @@ typedef struct _frame {
 
 对应的结构
 
-![](../../../.gitbook/assets/image%20%28540%29.png)
+![](<../../../.gitbook/assets/image (540).png>)
 
 当执行函数调用时会进入新的栈帧，那么当前栈帧就作为下一个栈帧的`f_back`字段
 
-![](../../../.gitbook/assets/image%20%28539%29.png)
+![](<../../../.gitbook/assets/image (539).png>)
 
 多个栈帧链属于一个线程，而同时可能存在多个线程，每个线程拥有一个栈帧链。这样形成了Python的虚拟机运行环境。
 
 ![image](https://fanchao01.github.io/blog/images/python_runtime_env.png)
 
-### Python执行字节码 <a id="Python&#x6267;&#x884C;&#x5B57;&#x8282;&#x7801;"></a>
+### Python执行字节码 <a href="#python-zhi-hang-zi-jie-ma" id="python-zhi-hang-zi-jie-ma"></a>
 
 字节码的执行就像上图所示，由一个大的循环和选择语句构成，逻辑骨干比较简单。
 
@@ -263,7 +263,7 @@ for(;;;) {
 
 接下来，我们通过反编译代码追踪其如何一步步执行。
 
-```text
+```
 # 字节码的反编译
   4           0 LOAD_CONST               1 (2)
               3 STORE_DEREF              0 (c)
@@ -412,10 +412,9 @@ TARGET(MAKE_CLOSURE)     // 18
 }
 ```
 
-![](../../../.gitbook/assets/image%20%28541%29.png)
+![](<../../../.gitbook/assets/image (541).png>)
 
 * STORE\_FAST 将栈中的一个元素设置到对应的本地变量域中
 * RETURN\_VALUE return，并且设置退出原因`WHY_RETURN`
 
 从上面的代码和过程图，整个代码的执行过程清楚的显现出来：）
-

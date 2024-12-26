@@ -12,7 +12,7 @@ Ghostpack (目前)是以前 PowerShell 功能的各种 C# 实现的集合，包�
 
 [Seatbelt](https://github.com/GhostPack/Seatbelt/) 是迄今为止发布的最丰富的一个项目。 这是一个态势感知安全检查的交换所。 也就是说，它管理主机数据的收集，这些数据从进攻和防守的角度来看都可能是有趣的。 从 PowerShell 安全设置，到当前用户的 Kerberos 票证，到删除的回收站项目，以及更多(当前检查项有40+!)
 
-安全带在它的[README.md](https://github.com/GhostPack/Seatbelt/blob/master/README.md)文件中描述了大量已经实现的功能，并且已经证明它在我们的渗透活动中非常有用。 它深受[@tifkin\_](https://twitter.com/tifkin\_)的 [Get-HostProfile.ps1](https://github.com/leechristensen/Random/blob/master/PowerShellScripts/Get-HostProfile.ps1)  以及[@andrewchiles](https://twitter.com/andrewchiles) 的[HostEnum.ps1](https://github.com/threatexpress/red-team-scripts/blob/master/HostEnum.ps1)  PowerShell 脚本的影响。
+安全带在它的[README.md](https://github.com/GhostPack/Seatbelt/blob/master/README.md)文件中描述了大量已经实现的功能，并且已经证明它在我们的渗透活动中非常有用。 它深受[@tifkin\_](https://twitter.com/tifkin_)的 [Get-HostProfile.ps1](https://github.com/leechristensen/Random/blob/master/PowerShellScripts/Get-HostProfile.ps1)  以及[@andrewchiles](https://twitter.com/andrewchiles) 的[HostEnum.ps1](https://github.com/threatexpress/red-team-scripts/blob/master/HostEnum.ps1)  PowerShell 脚本的影响。
 
 SeatBelt.exe会收集以下系统数据:
 
@@ -98,7 +98,7 @@ SeatBelt.exe \[system/user/all/CheckName] full 将阻止任何过滤，并返回
 * GetModifiableServiceBinaries ——返回当前用户可以修改的二进制文件的服务
 * GetAlwaysInstallElevated ——返回 AlwaysInstallElevated 注册表项的值
 * GetPathHijacks ——返回当前用户可以修改的%PATH% 中的任何文件夹
-* GetModifiableRegistryAutoRuns ——返回设置为在 HKLM 自动运行配置中运行的任何可修改的二进制文件或脚本**·** GetSpecialTokenGroupPrivs ——返回”特殊"用户权限(如 SeDebugPrivilege等等)
+* GetModifiableRegistryAutoRuns ——返回设置为在 HKLM 自动运行配置中运行的任何可修改的二进制文件或脚&#x672C;**·** GetSpecialTokenGroupPrivs ——返回”特殊"用户权限(如 SeDebugPrivilege等等)
 * GetUnattendedInstallFiles ——返回任何剩余的无人参与的安装文件
 * GetMcAfeeSitelistFiles ——返回 McAfee SiteList.xml 文件路径
 

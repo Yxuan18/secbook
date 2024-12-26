@@ -6,14 +6,14 @@
 
 给服务器发送payload数据包，使得waf无法识别出payload,当apache,tomcat等web容器能正常解析其内容。如图一所示
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190103/1546517507\_5c2dfc03a7bd0.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190103/1546517507_5c2dfc03a7bd0.png!small)
 
 ### **实验环境** <a href="#h2-2" id="h2-2"></a>
 
 本机win10+xampp+某狗web应用防火墙最新版。为方便演示，存在sql注入的脚本中使用$\_REQUEST\["id"]来接收get,或者post提交的数据。waf配置为拦截url和post的and  or 注入，如图二所示。\
 
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546679837\_5c30761d308ee.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546679837_5c30761d308ee.png!small)
 
 图二
 
@@ -21,7 +21,7 @@
 
 图三
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546684328\_5c3087a8b64c9.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546684328_5c3087a8b64c9.png!small)
 
 ### 一·  利用pipline绕过\[该方法经测试会被某狗拦截] <a href="#h2-3" id="h2-3"></a>
 
@@ -31,7 +31,7 @@ http协议是由tcp协议封装而来，当浏览器发起一个http请求时，
 
 1\. 关闭burp的Repeater的Content-Length自动更新，如图四所示，点击红圈的Repeater在下拉选项中取消update Content-Length选中。**这一步至关重要！！！**
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190103/1546519272\_5c2e02e82e654.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190103/1546519272_5c2e02e82e654.png!small)
 
 2\. burp截获post提交
 
@@ -41,7 +41,7 @@ id=1 and 1=1
 
 &#x20;,显示被waf拦截如图五所示。
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546684814\_5c30898e3ea2d.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546684814_5c30898e3ea2d.png!small)
 
 3\. 复制图五中的数据包黏贴到
 
@@ -53,7 +53,7 @@ id=1 and 1=1
 
 图六
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546685172\_5c308af40092c.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546685172_5c308af40092c.png!small)
 
 4\. 接着修改第一个数据包的数据部分，即将
 
@@ -63,11 +63,11 @@ id=1+and+1%3D1
 
 修改为正常内容id=1，再将数据包的Content-Length的值设置为修改后的【id=1】的字符长度即4，最后将Connection字段值设为keep-alive。提交后如图七所示，会返回两个响应包，分别对应两个请求。
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546694601\_5c30afc948163.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546694601_5c30afc948163.png!small)
 
 图七
 
-**注意：**从结果看，第一个正常数据包返回了正确内容，第二个包含有效载荷的数据包被某狗waf拦截，说明两数据包都能到达服务器，在面对其他waf时有可能可以绕过。无论如何这仍是一种可学习了解的绕过方法，且可以和接下来的方法进行组合使用绕过。
+**注意：**&#x4ECE;结果看，第一个正常数据包返回了正确内容，第二个包含有效载荷的数据包被某狗waf拦截，说明两数据包都能到达服务器，在面对其他waf时有可能可以绕过。无论如何这仍是一种可学习了解的绕过方法，且可以和接下来的方法进行组合使用绕过。
 
 ### 二.利用分块编码传输绕过\[该方法可绕某狗] <a href="#h2-4" id="h2-4"></a>
 
@@ -79,7 +79,7 @@ id=1+and+1%3D1
 
 图八
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546696724\_5c30b814eb553.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546696724_5c30b814eb553.png!small)
 
 2.将上面图八数据包的
 
@@ -95,7 +95,7 @@ id=1 and 1=2
 
 &#x20; 即将图八中所标的第4块的1改为2。如图九所示没有返回数据，payload生效。
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546697069\_5c30b96db44d7.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546697069_5c30b96db44d7.png!small)
 
 图九
 
@@ -111,7 +111,7 @@ HTTP头里的Content-Type一般有application/x-www-form-urlencoded，multipart/
 
 图十
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546701023\_5c30c8df53897.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546701023_5c30c8df53897.png!small)
 
 由于是正常数据提交，所以从图十可知数据是能被apache容器正确解析的，尝试1 and 1=1也会被某狗waf拦截，但如果其他waf没有规则拦截这种方式提交的数据包，那么同样能绕过。\
 
@@ -120,7 +120,7 @@ HTTP头里的Content-Type一般有application/x-www-form-urlencoded，multipart/
 
 图十一
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190106/1546706168\_5c30dcf8e6717.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190106/1546706168_5c30dcf8e6717.png!small)
 
 ### 四.分块编码+协议未覆盖组合绕过 <a href="#h2-6" id="h2-6"></a>
 
@@ -128,9 +128,9 @@ HTTP头里的Content-Type一般有application/x-www-form-urlencoded，multipart/
 
 图十二
 
-![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190106/1546710626\_5c30ee620b7e9.png!small)
+![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190106/1546710626_5c30ee620b7e9.png!small)
 
-**注意：**第2块，第3块，第7块，和第8块。
+**注意：**&#x7B2C;2块，第3块，第7块，和第8块。
 
 **第2块**中需要满足
 
@@ -270,7 +270,7 @@ d
 
 返回的结果如下图所示。
 
-![](https://p0.ssl.qhimg.com/dm/1024\_509\_/t01e68aae3729de0934.png)
+![](https://p0.ssl.qhimg.com/dm/1024_509_/t01e68aae3729de0934.png)
 
 可以看到我们的攻击payload “and 2=2”被Imperva的WAF拦截了。
 
@@ -299,7 +299,7 @@ d
 
 返回的结果如下图所示。
 
-![](https://p1.ssl.qhimg.com/dm/1024\_512\_/t016a21d39c2ed6911a.png)
+![](https://p1.ssl.qhimg.com/dm/1024_512_/t016a21d39c2ed6911a.png)
 
 可以看到Imperva已经不拦截这个payload了。
 
@@ -459,7 +459,7 @@ Array
 
 ## 三、编写Burp分块传输插件绕WAF
 
-### 0x01 功能设计 <a href="#0x01-gong-neng-she-ji" id="0x01-gong-neng-she-ji"></a>
+### 0x01 功能设计 <a href="#id-0x01-gong-neng-she-ji" id="id-0x01-gong-neng-she-ji"></a>
 
 我们先来看看插件要实现的功能
 
@@ -467,7 +467,7 @@ Array
 2. 自动化对Burp的Proxy，scanner，spider等套件的数据包进行编码
 3. 可设置分块长度，是否开启注释
 
-### 0x02 编写代码 <a href="#0x02-bian-xie-dai-ma" id="0x02-bian-xie-dai-ma"></a>
+### 0x02 编写代码 <a href="#id-0x02-bian-xie-dai-ma" id="id-0x02-bian-xie-dai-ma"></a>
 
 限于边幅，我只说明核心函数，并通过注释的方式解释代码的相关功能。
 
@@ -571,7 +571,7 @@ public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequ
 
 [http://github.com/c0ny1/chunked-coding-converter](https://github.com/c0ny1/chunked-coding-converter)
 
-### 0x03 效果演示 <a href="#0x03-xiao-guo-yan-shi" id="0x03-xiao-guo-yan-shi"></a>
+### 0x03 效果演示 <a href="#id-0x03-xiao-guo-yan-shi" id="id-0x03-xiao-guo-yan-shi"></a>
 
 #### **3.1 演示一：快速编码解码**
 

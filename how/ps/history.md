@@ -62,7 +62,7 @@ Clear-History
 Clear-History -Id 3
 ```
 
-#### **（2）**利用思路
+#### **（2）**&#x5229;用思路
 
 获得了一台Windows系统的权限，发现后台有Powershell进程，想要读取Powershell进程中的历史记录。
 

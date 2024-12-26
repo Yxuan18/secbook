@@ -63,7 +63,7 @@ requests.post('http://x.x.x.x:37215/ctrlt/DeviceUpgrade_1', headers=headers, dat
 
 * `Docker version 19.03.2` 中 `Ubuntu 18.04.4` 系统 ，安装 `qemu-system-mips`\
   `apt-get update && apt-get install -y qemu -system-mips && apt-get clean`
-* `Qemu` 使用的基础框架：[https://people.debian.org/\~aurel32/qemu/mips/](https://link.zhihu.com/?target=https%3A//people.debian.org/\~aurel32/qemu/mips/)
+* `Qemu` 使用的基础框架：[https://people.debian.org/\~aurel32/qemu/mips/](https://link.zhihu.com/?target=https%3A//people.debian.org/~aurel32/qemu/mips/)
 * 此处映射了 `Qemu` 中的两个端口22、37215\
   qemu-system-mips -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda debian\_wheezy\_mips\_standard.qcow2 -append "root=/dev/sda1 rw console=tty0" -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5535-:22,hostfwd=tcp::37215-:37215 -nographic
 
@@ -161,7 +161,7 @@ mount /dev/sdb1 /tmp
 
 [https://nosec.org/home/detail/4213.html](https://link.zhihu.com/?target=https%3A//nosec.org/home/detail/4213.html)
 
-![](https://pic4.zhimg.com/80/v2-056fca45551ad76eb7a4b2eef7dbe2df\_720w.jpg)
+![](https://pic4.zhimg.com/80/v2-056fca45551ad76eb7a4b2eef7dbe2df_720w.jpg)
 
 ## 储备5: 本文涉及到的Docker知识点
 
@@ -171,8 +171,8 @@ mount /dev/sdb1 /tmp
   save 镜像，不是当前运行的而是原本的，当前运行的镜像不会保存。 export 容器，会保存，但是只是文件。
 * `Docker` 镜像修改保存新镜像，`docker commit`从容器中创建一个新镜像\
 
-  * \-a :提交的镜像作者
-  * \-m :提交时的说明文字
+  * -a :提交的镜像作者
+  * -m :提交时的说明文字
 
 docker commit \[OPTIONS] CONTAINER \[REPOSITORY\[:TAG]] docker commit -m="qemu-system-mips\_HG532" -a="m2ayill" 553c8ce8df01 mips\_huawei\_hg532\_success\_fat\_flag:v2
 
@@ -293,7 +293,7 @@ start.sh文件内容
 * 加入启动项
 * 定时任务（想到的第一个办法就是定时任务，没有尝试，原因如下，其实挺后悔的，要不然早弄完了：）\
 
-  * 设想，定时任务几乎都是随着mic服务运行后执行的，也就是在 `Qemu` 登录后，没有尝试登录前看看能不能执行；（为什么说**`Qemu` 登录**，在下面有写）
+  * 设想，定时任务几乎都是随着mic服务运行后执行的，也就是在 `Qemu` 登录后，没有尝试登录前看看能不能执行；（为什么&#x8BF4;**`Qemu` 登录**，在下面有写）
   * 验证：在后面通过自启项目 `mic` 运行后，会在 `Qemu` 启动的过程中卡住，但是定时任务还是执行了，说明在未登录之前定时任务是可以执行的）
 
 启动脚本第一版
@@ -308,7 +308,7 @@ chroot /root/squashfs-root/ mic
 
 尝试：
 
-* `/etc/profile.d/mic_open`，只能在**`Qemu` 登录用户**后启动；
+* `/etc/profile.d/mic_open`，只能&#x5728;**`Qemu` 登录用户**后启动；
 * `/etc/init.d/mic_open`、 rd0-6 目录下都添加，不行；
 * 将脚本转成服务，加入自启项目；
 * 使用命令加入自启项目，`update-rc.d mic_open defaults 99`，发现启动脚本有问题，根据报错信息，有了如下的第二版脚本，再次使用 `update-rc.d mic_open defaults 99` ，加入自启项目成功。\

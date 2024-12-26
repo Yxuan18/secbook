@@ -1,6 +1,6 @@
 # Set容器
 
-### Python的Set容器 <a id="Python&#x7684;Set&#x5BB9;&#x5668;"></a>
+### Python的Set容器 <a href="#python-de-set-rong-qi" id="python-de-set-rong-qi"></a>
 
 `set`与`List`对象相似，均为可变异构容器。但是其实现却和`Dict`类似，均为哈希表。具体的数据结构代码如下。
 
@@ -49,12 +49,12 @@ struct _setobject {
 哈希表中的元素有三种状态：
 
 1. active 元素有效，此时setentry.key != null && != dummy
-2. dummy 元素无效key=dummy，此插槽\(slot\)存放的元素已经被删除
+2. dummy 元素无效key=dummy，此插槽(slot)存放的元素已经被删除
 3. NULL 无元素，此插槽从来没有被使用过
 
 dummy是为了表明当前位置存放过元素，需要继续查找。假设a和b元素具有相同的哈希值，所以b只能放在冲撞函数指向的第二个位置。先删除a，再去查找b。如果a被设置为NULL，那么无法确定b是不存在还是应该继续探查第二个位置，所以a只能被设置为dummy。查找b的过程中，第一个位置为dummy所以继续探查，直到找到b；或者直到NULL，证明b确实不存在。
 
-### Set中的缓存 <a id="Set&#x4E2D;&#x7684;&#x7F13;&#x5B58;"></a>
+### Set中的缓存 <a href="#set-zhong-de-huan-cun" id="set-zhong-de-huan-cun"></a>
 
 `set`中会存在缓存系统，缓存数量为80个`_setobject`结构。
 
@@ -96,7 +96,7 @@ set_dealloc(PySetObject *so)
 
 `freelist`缓存只会对`_setobject`结构本身起效，会释放掉额外分配的存储键的内存。
 
-### Set中查找元素 <a id="Set&#x4E2D;&#x67E5;&#x627E;&#x5143;&#x7D20;"></a>
+### Set中查找元素 <a href="#set-zhong-cha-zhao-yuan-su" id="set-zhong-cha-zhao-yuan-su"></a>
 
 `set`中元素查找有两个函数，在默认情况下的查找函数为`set_lookkey_string`。当发现查找的元素不是`string`类型时，会将对应的`lookup`函数设置为`set_lookkey`，然后调用该函数。
 
@@ -168,7 +168,7 @@ set_lookkey_string(PySetObject *so, PyObject *key, register long hash)
 
 `set_lookkey`与此类似，只不过比较元素时需要调用对应的比较函数。
 
-### set的重新散列 <a id="set&#x7684;&#x91CD;&#x65B0;&#x6563;&#x5217;"></a>
+### set的重新散列 <a href="#set-de-zhong-xin-san-lie" id="set-de-zhong-xin-san-lie"></a>
 
 为了减少哈希冲撞，当哈希表中的元素数量太多时需要扩大桶的长度以减少冲撞。Python中当填充的元素大于总的2/3时开始重新散列，会重新分配一个有效元素个数的两倍或者四倍的新的散列表。
 
@@ -200,4 +200,3 @@ set_add_key(register PySetObject *so, PyObject *key)
     return set_table_resize(so, so->used>50000 ? so->used*2 : so->used*4);
 }
 ```
-
