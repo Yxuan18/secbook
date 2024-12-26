@@ -165,7 +165,7 @@
     * [整数对象PyIntObject](lan/py/ympx/zs.md)
     * [字节码和虚拟机](lan/py/ympx/bvtm.md)
 * [汇编](lan/huibian.md)
-* [Javascript](lan/javascript/README.md)
+* [Javascript](lan/javascript.md)
   * [Tampermonkey Script](lan/javascript/tampermonkey-script.md)
 
 ## AIGC
