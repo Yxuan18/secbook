@@ -10,4 +10,12 @@
 ## 若结果为乱码，也会有： llllllloooooooooiiiiiiii
 ```
 
-\
+### 高亮关键词的部分 — 油候实现
+
+功能效果图：（暂无）
+
+文件代码如下：
+
+你可以访问这里
+
+[https://greasyfork.org/zh-CN/scripts/539275](https://greasyfork.org/zh-CN/scripts/539275)

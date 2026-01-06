@@ -2,15 +2,13 @@
 
 1、cookie
 
-![](../../.gitbook/assets/image%20%2825%29.png)
+![](<../../.gitbook/assets/image (1001).png>)
 
 2、accept
 
-![](../../.gitbook/assets/image%20%2834%29.png)
+![](<../../.gitbook/assets/image (200).png>)
 
 3、URL
 
-![](../../.gitbook/assets/image%20%2837%29.png)
-
-
+![](<../../.gitbook/assets/image (931).png>)
 

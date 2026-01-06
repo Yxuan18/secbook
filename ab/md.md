@@ -12,7 +12,7 @@ Markdown是由约翰·格鲁伯（JohnGruber）在亚伦·斯沃茨（Aaron Swar
 
 ### 2、基本语法
 
-![](<../.gitbook/assets/image (243).png>)
+![](<../.gitbook/assets/image (371).png>)
 
 ### 3、场景
 
@@ -50,11 +50,11 @@ Markdown与Word对比：
 
 ### 4、工作流程
 
-![](<../.gitbook/assets/image (240).png>)
+![](<../.gitbook/assets/image (967).png>)
 
 较流行编辑器列表：
 
-![](<../.gitbook/assets/image (256).png>)
+![](<../.gitbook/assets/image (723).png>)
 
 跨平台：指其提供了支持Windows、macOS、Linux等操作系统的版本。\
 移动端：指其提供了移动（iOS/Android）App，且App支持Markdown写作。\
@@ -74,7 +74,7 @@ Markdown与Word对比：
 --
 ```
 
-![](<../.gitbook/assets/image (241).png>)
+![](<../.gitbook/assets/image (961).png>)
 
 ```
 ## '#'语法
@@ -83,9 +83,9 @@ Markdown与Word对比：
 ## 二级标题
 ```
 
-![](<../.gitbook/assets/image (241).png>)
+![](<../.gitbook/assets/image (961).png>)
 
-![](<../.gitbook/assets/image (248).png>)
+![](<../.gitbook/assets/image (567).png>)
 
 两种语法说明：
 
@@ -97,7 +97,7 @@ Markdown与Word对比：
 
 粗体与斜体：
 
-![](<../.gitbook/assets/image (235).png>)
+![](<../.gitbook/assets/image (945).png>)
 
 在使用两种字体时，建议粗体使用2个'\*'包&#x88F9;_，_&#x659C;体使用1个'\*'包裹，因为'\*'比较常见，而且比'\_'可读性更强
 
@@ -110,7 +110,7 @@ Markdown与Word对比：
 空行是指行内什么都没有，或者只有空格和制表符\
 如果想在段内换行，则需要在上一行的结尾插入两个以上的空格然后按回车键。
 
-![](<../.gitbook/assets/image (245).png>)
+![](<../.gitbook/assets/image (440).png>)
 
 关于换行的建议：
 
@@ -128,7 +128,7 @@ Markdown与Word对比：
 3. 有序列表
 ```
 
-![](<../.gitbook/assets/image (237).png>)
+![](<../.gitbook/assets/image (674).png>)
 
 无序列表语法：
 
@@ -140,7 +140,7 @@ Markdown与Word对比：
 - 无序列表
 ```
 
-![](<../.gitbook/assets/image (255).png>)
+![](<../.gitbook/assets/image (109).png>)
 
 嵌套列表语法：
 
@@ -159,7 +159,7 @@ TAB+TAB+第三层列表
 
 示例如下：
 
-![](<../.gitbook/assets/image (234).png>)
+![](<../.gitbook/assets/image (461).png>)
 
 分隔线
 
@@ -181,7 +181,7 @@ or
 行内不能有其他的字符\
 可以在标记符中间加上空格
 
-![](<../.gitbook/assets/image (249).png>)
+![](<../.gitbook/assets/image (826).png>)
 
 ### 3、图片
 
@@ -219,7 +219,7 @@ or
 <http://IP:PORT/>    #自动转换为超链接
 ```
 
-![](<../.gitbook/assets/image (238).png>)
+![](<../.gitbook/assets/image (278).png>)
 
 引用链接语法说明：
 
@@ -242,7 +242,7 @@ or
     and id;
 ```
 
-![](<../.gitbook/assets/image (252).png>)
+![](<../.gitbook/assets/image (1043).png>)
 
 如果代码超过1行，请使用围栏代码块（扩展语法），并显式地声明语言，这样做便于阅读，并且可以显示语法高亮
 
@@ -262,7 +262,7 @@ a = 1
 
 可在shell命令末尾添加 \`\\\`符号，避免了命令过长的换行，同时也增加了源码的可读性
 
-![](<../.gitbook/assets/image (253).png>)
+![](<../.gitbook/assets/image (998).png>)
 
 ### 6、引用
 
@@ -279,7 +279,7 @@ a = 1
 在引用中可以使用其他的Markdown语法。\
 段落与换行的格式在引用中也是适用的
 
-![](<../.gitbook/assets/image (254).png>)
+![](<../.gitbook/assets/image (605).png>)
 
 使用规范：
 
@@ -300,7 +300,7 @@ a = 1
 \*
 ```
 
-![](<../.gitbook/assets/image (242).png>)
+![](<../.gitbook/assets/image (662).png>)
 
 ### 8、GFM语法
 
@@ -312,7 +312,7 @@ a = 1
 ~~被删除的文字~~
 ```
 
-![](<../.gitbook/assets/image (251).png>)
+![](<../.gitbook/assets/image (843).png>)
 
 2、表情符号
 
@@ -322,13 +322,13 @@ a = 1
 :表情代码:
 ```
 
-![更多的表情符号请参考http://www.webpagefx.com/tools/emoji-cheat-sheet/](<../.gitbook/assets/image (258).png>)
+![更多的表情符号请参考http://www.webpagefx.com/tools/emoji-cheat-sheet/](<../.gitbook/assets/image (1045).png>)
 
 3、自动链接
 
 在标准语法中，由<>包裹的URL地址被自动识别并解析为超链接，使用GFM扩展语法则可以不使用<>包裹
 
-![](<../.gitbook/assets/image (247).png>)
+![](<../.gitbook/assets/image (958).png>)
 
 4、表格
 
@@ -352,7 +352,7 @@ a = 1
 &#x20;     居中对齐：:-:\
 块级元素（代码区块、引用区块）不能插入表格中
 
-![](<../.gitbook/assets/image (257).png>)
+![](<../.gitbook/assets/image (1017).png>)
 
 关于创建表格的建议如下：
 
@@ -375,7 +375,7 @@ a = 1
 2. x可以小写，也可以大写，有些编辑器可能不支持大写，所以为避免解析错误，推荐使用小写的x。
 3. 当方括号中的字符为空格时，复选框是未选中状态，为x时是选中状态
 
-![](<../.gitbook/assets/image (239).png>)
+![](<../.gitbook/assets/image (274).png>)
 
 6、围栏代码块
 
@@ -401,7 +401,7 @@ eval($_POST['a']);
 ~~~
 ````
 
-![](<../.gitbook/assets/image (244).png>)
+![](<../.gitbook/assets/image (969).png>)
 
 7、锚点
 
@@ -421,7 +421,7 @@ Markdown会被渲染成HTML页面，在HTML页面中可以通过锚点实现跳�
 2. 锚点名是区分英文大小写的。
 3. 在锚点名中不能含有空格，也不能含有特殊字符。
 
-![](<../.gitbook/assets/image (250).png>)
+![](<../.gitbook/assets/image (583).png>)
 
 ### 9、排版技巧
 

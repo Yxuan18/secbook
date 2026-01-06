@@ -1,6 +1,6 @@
 # 流量特征修改
 
-### **0x01 前言** <a id="h2-1"></a>
+### **0x01 前言** <a href="#h2-1" id="h2-1"></a>
 
 nmap是渗透中尝尝用到的工具之一，在信息收集阶段经常用到，现在主流的流量分析设备也将其流量加入了特征库，
 
@@ -22,33 +22,33 @@ NmapbypassIDS：
 
 https://github.com/al0ne/Nmap\_Bypass\_IDS
 
-### **0x02 环境** <a id="h2-2"></a>
+### **0x02 环境** <a href="#h2-2" id="h2-2"></a>
 
 VM虚拟机：
 
 192.168.1.113 开放135，3389 防火墙禁止445入站
 
-![](../../.gitbook/assets/image%20%28529%29.png)
+![](<../../.gitbook/assets/image (943).png>)
 
 ubuntu：
 
 编译安装nmap用，kali下编译安装存在点问题，坑太多了，以后有时间再去踩。
 
-### **0x03 nmap探测的常用几种方式** <a id="h2-3"></a>
+### **0x03 nmap探测的常用几种方式** <a href="#h2-3" id="h2-3"></a>
 
-#### **-sS \(SYN扫描\)** <a id="h3-1"></a>
+#### **-sS (SYN扫描)** <a href="#h3-1" id="h3-1"></a>
 
 nmap默认端口扫描方式，执行半开扫描，不完成TCP握手流程。只向目标端口发送一个SYN报文，然后等待响应。
 
-SYN/ACK表示端口在监听 \(开放\)，而 RST \(复位\)表示没有监听者。
+SYN/ACK表示端口在监听 (开放)，而 RST (复位)表示没有监听者。
 
 如果多次重发后仍没响应， 该端口就被标记为被过滤。
 
 使用抓包工具可以完整的看到探测过程。
 
-![](../../.gitbook/assets/image%20%28528%29.png)
+![](<../../.gitbook/assets/image (975).png>)
 
-#### **-sT \(TCP扫描\)** <a id="h3-2"></a>
+#### **-sT (TCP扫描)** <a href="#h3-2" id="h3-2"></a>
 
 一般不推荐使用，因为会留下连接日志。
 
@@ -58,7 +58,7 @@ SYN/ACK表示端口在监听 \(开放\)，而 RST \(复位\)表示没有监听�
 
 ![1600245394\_5f61ce927c86548174248.png!small](https://image.3001.net/images/20200916/1600245394_5f61ce927c86548174248.png!small)
 
-#### **-sU（UDP扫描）** <a id="h3-3"></a>
+#### **-sU（UDP扫描）** <a href="#h3-3" id="h3-3"></a>
 
 DNS，SNMP，和DHCP是常常开放UDP的几个服务，有些情况下会使用到。
 
@@ -90,13 +90,13 @@ DNS，SNMP，和DHCP是常常开放UDP的几个服务，有些情况下会使用
 
 ![1600245445\_5f61cec51dbafd4bd2fcf.png!small](https://image.3001.net/images/20200916/1600245445_5f61cec51dbafd4bd2fcf.png!small)
 
-#### **-sN；-sF；-sX \(TCP Null，FIN，and Xmas扫描\)** <a id="h3-4"></a>
+#### **-sN；-sF；-sX (TCP Null，FIN，and Xmas扫描)** <a href="#h3-4" id="h3-4"></a>
 
 这个还是挺有意思的，首先这个不适用扫描windows、Cisco、bsdi、IBM的一些服务器，因为并不是完全遵守RFC 793这个协议。
 
 这个协议会存在这种情况，当端口关闭时，任何不包含SYN，RST，或者ACK位的报文会导致 一个RST返回，而当端口开放时，应该没有任何响应。
 
-所以只要不包含SYN，RST，或者ACK， 任何其它三种\(FIN，PSH，and URG\)的组合都行。
+所以只要不包含SYN，RST，或者ACK， 任何其它三种(FIN，PSH，and URG)的组合都行。
 
 而刚刚上面说的那些他们并不遵守这个，他们不管端口开放或关闭，都返回一个RST，导致Nmap判断错误。
 
@@ -110,13 +110,13 @@ DNS，SNMP，和DHCP是常常开放UDP的几个服务，有些情况下会使用
 
 ![640?wx\_fmt=png](https://image.3001.net/images/20200917/1600334326_5f6329f618d5368487a06.png!small)
 
-#### **-sA（ACK 扫描）** <a id="h3-5"></a>
+#### **-sA（ACK 扫描）** <a href="#h3-5" id="h3-5"></a>
 
 用于探测防火墙状态。ACK扫描探测报文只设置ACK标志位。
 
-当扫描未被过滤的系统时， `open`\(开放的\)和 `closed`\(关闭的\) 端口 都会返回RST报文。
+当扫描未被过滤的系统时， `open`(开放的)和 `closed`(关闭的) 端口 都会返回RST报文。
 
-Nmap把它们标记为 `unfiltered`\(未被过滤的\)，无返回或者返回ICMP错误响应时标记为filtered。
+Nmap把它们标记为 `unfiltered`(未被过滤的)，无返回或者返回ICMP错误响应时标记为filtered。
 
 防火墙关闭状态下。返回**unfiltered**
 
@@ -126,17 +126,17 @@ Nmap把它们标记为 `unfiltered`\(未被过滤的\)，无返回或者返回IC
 
 ![1600245525\_5f61cf157a5c7d721ff7e.png!small](https://image.3001.net/images/20200916/1600245525_5f61cf157a5c7d721ff7e.png!small)
 
-#### **-scanflags （自定义扫描）** <a id="h3-6"></a>
+#### **-scanflags （自定义扫描）** <a href="#h3-6" id="h3-6"></a>
 
 可以使用 `URG`， `ACK`， `PSH`， `RST`， `SYN`，and `FIN`的任何组合，进行发包。详细可以自己组合定制
 
-#### **-sI（Idlescan）** <a id="h3-7"></a>
+#### **-sI（Idlescan）** <a href="#h3-7" id="h3-7"></a>
 
 高级隐藏扫描。利用僵尸网络执行扫描。详细可看文章
 
 （文章链接：https://nmap.org/book/idlescan.html）
 
-#### **-sV （版本检测）-O （系统检测）** <a id="h3-8"></a>
+#### **-sV （版本检测）-O （系统检测）** <a href="#h3-8" id="h3-8"></a>
 
 可以看到在探测的时候会有标志和固定长度字符串问题。
 
@@ -148,9 +148,9 @@ IDS识别nmap扫描一般都是根据UDP data区域填充的'C'字符串,ICMP填
 
 ![1600245549\_5f61cf2dc7f7233ae62f2.png!small](https://image.3001.net/images/20200916/1600245549_5f61cf2dc7f7233ae62f2.png!small)
 
-### **0x04 nmap的流量特征修改** <a id="h2-4"></a>
+### **0x04 nmap的流量特征修改** <a href="#h2-4" id="h2-4"></a>
 
-#### **Win值修改** <a id="h3-9"></a>
+#### **Win值修改** <a href="#h3-9" id="h3-9"></a>
 
 通过观察可以发现nmap在使用SYN扫描时Windows的窗口值值固定是1024。
 
@@ -162,7 +162,7 @@ IDS识别nmap扫描一般都是根据UDP data区域填充的'C'字符串,ICMP填
 
 ![](https://image.3001.net/images/20200916/1600245573_5f61cf450ca60945a48f2.png!small)
 
-修改**tcpip.cc**文件中tcp-&gt;th\_win的值，查询TCP中win这个值的信息发现，
+修改**tcpip.cc**文件中tcp->th\_win的值，查询TCP中win这个值的信息发现，
 
 默认最大为65535。
 
@@ -174,13 +174,13 @@ IDS识别nmap扫描一般都是根据UDP data区域填充的'C'字符串,ICMP填
 
 后来因某些原因，把nmap编译到了云服务器上，抓包的话就需要tcpdump了。
 
-```text
+```
 tcpdump -i eth0 -t -s 0 -c 100 host IP
 ```
 
 ![](https://image.3001.net/images/20200916/1600245592_5f61cf58e625270f9cd5a.png!small)
 
-#### **关键词修改** <a id="h3-10"></a>
+#### **关键词修改** <a href="#h3-10" id="h3-10"></a>
 
 根据规则，一个一个去修改文件即可。nmap，nm，nm@p，OR sqlspider等等，
 
@@ -190,7 +190,7 @@ tcpdump -i eth0 -t -s 0 -c 100 host IP
 
 ![](https://image.3001.net/images/20200916/1600245616_5f61cf707e09147fbe263.png!small)
 
-#### **UDP探测时填充值修改** <a id="h3-11"></a>
+#### **UDP探测时填充值修改** <a href="#h3-11" id="h3-11"></a>
 
 osscan2.cc
 
@@ -200,13 +200,13 @@ static u8 patternbyte = 0x43; /\* character 'C' /
 
 重新编译后再去扫描，内容已经换了，长度应该也是可以调整。
 
-u8 packet\[328\]; /\* 20 IP hdr + 8 UDP hdr + 300 data \*/
+u8 packet\[328]; /\* 20 IP hdr + 8 UDP hdr + 300 data \*/
 
 这里还没测试，感兴趣可以自己去定义，看会不会有什么问题。
 
 ![](https://image.3001.net/images/20200916/1600245630_5f61cf7e4edc468c9f32c.png!small)
 
-### **0x05 nmap编译安装** <a id="h2-5"></a>
+### **0x05 nmap编译安装** <a href="#h2-5" id="h2-5"></a>
 
 nmap编译时可能会遇到如下错误，几乎都是缺少特定的库导致的，
 
@@ -214,31 +214,31 @@ nmap编译时可能会遇到如下错误，几乎都是缺少特定的库导致�
 
 编译环境是基于Ubuntu的，其他环境库的名字可能不同，遇到编译报错可百度找对应解决方法即可。
 
-```text
+```
 apt install flex bison libssl-dev./configure --without-zenmapmake && make install
 ```
 
-### **0x06 总结** <a id="h2-6"></a>
+### **0x06 总结** <a href="#h2-6" id="h2-6"></a>
 
-#### **可修改文件及修改处** <a id="h3-12"></a>
+#### **可修改文件及修改处** <a href="#h3-12" id="h3-12"></a>
 
-#### **6.1、修改namp默认win窗口值。** <a id="h3-13"></a>
+#### **6.1、修改namp默认win窗口值。** <a href="#h3-13" id="h3-13"></a>
 
 tcpip.cc
 
-tcp-&gt;th\_win = hosts\(1-65535\)
+tcp->th\_win = hosts(1-65535)
 
-#### **6.2、修改nmap-service-probes文件中关键词** <a id="h3-14"></a>
+#### **6.2、修改nmap-service-probes文件中关键词** <a href="#h3-14" id="h3-14"></a>
 
 nmap，nm@nm，nm2@nm2，nm@p，nm，0PT10NS sip
 
 这些值酌情替换。
 
-#### **6.3、修改脚本中的值** <a id="h3-15"></a>
+#### **6.3、修改脚本中的值** <a href="#h3-15" id="h3-15"></a>
 
 * nselib/http.lua
 
-USERAGENT = stdnse.getscript\_args\('http.useragent'\)
+USERAGENT = stdnse.getscript\_args('http.useragent')
 
 * nselib/mssql.lua
 
@@ -260,13 +260,11 @@ USERAGENT = stdnse.getscript\_args\('http.useragent'\)
 
 local cookie = "mstshash=nmap"
 
-#### **6.4、修改使用-O参数发包填充内容** <a id="h3-16"></a>
+#### **6.4、修改使用-O参数发包填充内容** <a href="#h3-16" id="h3-16"></a>
 
 osscan2.cc
 
 static u8 patternbyte = 0x43; /\* character 'C' /
 
 替换为 static u8 patternbyte = 0x46; / character 'F' \*/
-
-
 

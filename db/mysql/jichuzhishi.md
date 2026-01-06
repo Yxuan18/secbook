@@ -305,7 +305,7 @@ SQL语言是关系数据库的代表性语言，已经得到了广泛的应用�
 
 ### 5、MySQL数据库系统的结构体系
 
-![MySQL体系结构图](<../../.gitbook/assets/image (117).png>)
+![MySQL体系结构图](<../../.gitbook/assets/image (56).png>)
 
 1. 支持接口：是指不同语言中与SQL的交互。
 2. 管理服务和工具：系统管理和控制工具。
@@ -382,35 +382,35 @@ MySQL 5.6支持的存储引擎有InnoDB、MyISAM、Memory、Merge、Archive、Fe
 
 打开MySQL Administrator，弹出登录界面如下图所示，输入登录到MySQL所需的各项参数
 
-![](<../../.gitbook/assets/image (133).png>)
+![](<../../.gitbook/assets/image (823).png>)
 
 进入该软件的主页面
 
-![](<../../.gitbook/assets/image (122).png>)
+![](<../../.gitbook/assets/image (752).png>)
 
 6、创建数据库
 
 运行MySQL Administrator并登录服务器后选择“Catalogs”，然后在管理器的右侧会出现目前服务器上已经有的数据库目录，右键单击“Schemata”窗口的“mysql”，选择“CreateNew Schema”
 
-![](<../../.gitbook/assets/image (129).png>)
+![](<../../.gitbook/assets/image (35).png>)
 
 单击“OK”
 
-![](<../../.gitbook/assets/image (107).png>)
+![](<../../.gitbook/assets/image (848).png>)
 
 一旦创建后，新数据库就将与服务器中的其他数据库一起出现在“Schema”窗口，选择它后，在右侧窗口将出现它的详细资料
 
-![](<../../.gitbook/assets/image (134).png>)
+![](<../../.gitbook/assets/image (1028).png>)
 
 7、创建表
 
 单击“Create Table”按钮，将出现下图所示的对话框
 
-![](<../../.gitbook/assets/image (130).png>)
+![](<../../.gitbook/assets/image (1069).png>)
 
 单击“Apply Changes”按钮，将出现下图所示的窗口，窗口中的内容是创建表的SQL语句，同时询问是否执行，当然单击“Execute”
 
-![](<../../.gitbook/assets/image (123).png>)
+![](<../../.gitbook/assets/image (758).png>)
 
 8、添加数据
 
@@ -425,17 +425,17 @@ insert into mytable(name,data) values(‘张三','2015-04-01 12:00:00');
 
 在相应的表上单击鼠标右键，从菜单中选择“Edit TableData”
 
-![](<../../.gitbook/assets/image (99).png>)
+![](<../../.gitbook/assets/image (760).png>)
 
 10、备份数据库
 
 备份数据库到本地计算机硬盘，选择“Backup”备份数据库功能，然后单击“New Project”建立新的备份项目
 
-![](<../../.gitbook/assets/image (103).png>)
+![](<../../.gitbook/assets/image (1003).png>)
 
 选择要备份的数据库，然后单击“>”号，右边将显示出数据库表结构
 
-![](<../../.gitbook/assets/image (136).png>)
+![](<../../.gitbook/assets/image (67).png>)
 
 备份时在“Advanced Options”高级选项中可以进行不同的设置：
 
@@ -449,7 +449,7 @@ insert into mytable(name,data) values(‘张三','2015-04-01 12:00:00');
 
 单击“Open Backup File”，打开下图所示的界面
 
-![](<../../.gitbook/assets/image (119).png>)
+![](<../../.gitbook/assets/image (956).png>)
 
 找到之前备份的数据库脚本文件，选择并打开文件，单击“Start Restore”后开始还原，还原成功后在“Catalogs”中可以看到该数据库，可以对它进行相应的操作
 
@@ -461,55 +461,55 @@ insert into mytable(name,data) values(‘张三','2015-04-01 12:00:00');
 
 账号与密码为自己phpstudy默认的：root/root
 
-![](<../../.gitbook/assets/image (106).png>)
+![](<../../.gitbook/assets/image (686).png>)
 
 主界面如图所示：
 
-![](<../../.gitbook/assets/image (126).png>)
+![](<../../.gitbook/assets/image (678).png>)
 
 2、新建数据库：数据库→新建数据库→输入数据库名→选择编码→创建
 
-![](<../../.gitbook/assets/image (96).png>)
+![](<../../.gitbook/assets/image (1031).png>)
 
 其中，中文数据库可选择“gb2312\_chinese\_ci”编码，多语言支持数据库一般选择“utf8\_unicode\_ci”编码
 
-![](<../../.gitbook/assets/image (125).png>)
+![](<../../.gitbook/assets/image (708).png>)
 
 3、删除数据库：选中数据库→删除
 
-![](<../../.gitbook/assets/image (120).png>)
+![](<../../.gitbook/assets/image (32).png>)
 
 选择：是
 
-![](<../../.gitbook/assets/image (97).png>)
+![](<../../.gitbook/assets/image (188).png>)
 
 出现如下画面，则删除成功
 
-![](<../../.gitbook/assets/image (111).png>)
+![](<../../.gitbook/assets/image (831).png>)
 
 也可在操作页面，点击删除数据库来删除
 
-![](<../../.gitbook/assets/image (101).png>)
+![](<../../.gitbook/assets/image (819).png>)
 
 4、新建数据表：
 
 填入表名，字段数，点击执行进入下一步
 
-![](<../../.gitbook/assets/image (98).png>)
+![](<../../.gitbook/assets/image (241).png>)
 
 执行后，选择需要的配置，确认即可。执行后效果图如下：
 
-![](<../../.gitbook/assets/image (112).png>)
+![](<../../.gitbook/assets/image (1052).png>)
 
 在该页面，也可修改表结构
 
 5、插入数据
 
-![](<../../.gitbook/assets/image (115).png>)
+![](<../../.gitbook/assets/image (741).png>)
 
 6、导出，导入数据
 
-![](<../../.gitbook/assets/image (113).png>)
+![](<../../.gitbook/assets/image (868).png>)
 
 ### 3、Navicat for MySQL
 
@@ -569,15 +569,15 @@ procs\_priv表适用于保存的程序，授予程序级别的权限只适用于
 
 打开用户界面，并双击任意用户
 
-![](<../../.gitbook/assets/image (124).png>)
+![](<../../.gitbook/assets/image (676).png>)
 
 下图，点击权限，即可看到用户对于数据库的各种权限
 
-![](<../../.gitbook/assets/image (118).png>)
+![](<../../.gitbook/assets/image (864).png>)
 
 若需要批量管理，可单击‘‘权限管理员’’，进入下面的界面
 
-![](<../../.gitbook/assets/image (104).png>)
+![](<../../.gitbook/assets/image (770).png>)
 
 ### 5、MySQL用户账户管理
 
@@ -599,11 +599,11 @@ GRANT OPTION
 
 方法二：向mysql.user表中插入数据
 
-![](<../../.gitbook/assets/image (121).png>)
+![](<../../.gitbook/assets/image (273).png>)
 
 方法三：使用Navicat新建用户
 
-![](<../../.gitbook/assets/image (105).png>)
+![](<../../.gitbook/assets/image (402).png>)
 
 2、删除用户
 
@@ -613,11 +613,11 @@ GRANT OPTION
 drop user XXX@XXX;
 ```
 
-![](<../../.gitbook/assets/image (102).png>)
+![](<../../.gitbook/assets/image (862).png>)
 
 方法二：Navicat中删除账户
 
-![](<../../.gitbook/assets/image (100).png>)
+![](<../../.gitbook/assets/image (882).png>)
 
 ### 6、MySQL的安全性问题
 
@@ -647,7 +647,7 @@ MySQL提供了4个函数用于哈希加密：PASSWORD，ENCRYPT，SHA1和MD5
 show databases;    #查看所有数据库
 ```
 
-![运行结果](<../../.gitbook/assets/image (150).png>)
+![运行结果](<../../.gitbook/assets/image (528).png>)
 
 其中，库MySQL用途：记录用户访问权限
 
@@ -656,13 +656,13 @@ create database db_name;    #创建数据库，该名称不能与已经存在的
 create database test1;    #创建名为test1的数据库
 ```
 
-![运行结果](<../../.gitbook/assets/image (145).png>)
+![运行结果](<../../.gitbook/assets/image (382).png>)
 
 ```
 show create database test;    #查看创建好的数据库
 ```
 
-![](<../../.gitbook/assets/image (155).png>)
+![](<../../.gitbook/assets/image (813).png>)
 
 ### 2、删除数据库
 
@@ -670,7 +670,7 @@ show create database test;    #查看创建好的数据库
 drop database test;    #删除test数据库
 ```
 
-![](<../../.gitbook/assets/image (141).png>)
+![](<../../.gitbook/assets/image (1075).png>)
 
 ### 3、数据库存储引擎
 
@@ -684,7 +684,7 @@ MySQL 5.6支持的存储引擎有：InnoDB，MyISAM，Memory，Merge，Archive�
 show engines \g;    #查看系统所支持的引擎类型
 ```
 
-![](<../../.gitbook/assets/image (156).png>)
+![](<../../.gitbook/assets/image (1057).png>)
 
 其中，Support列的值表示某种引擎是否能使用：YES表示可以使用，NO表示不能使用，DEFAULT表示该引擎为当前默认存储引擎
 
@@ -751,4 +751,4 @@ MEMORY主要特性如下：
 show variables like 'storage_engine';    #查看系所有的存储引擎
 ```
 
-![](<../../.gitbook/assets/image (158).png>)
+![](<../../.gitbook/assets/image (544).png>)

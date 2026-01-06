@@ -4,9 +4,9 @@
 
 项目地址： [https://github.com/c0ny1/upload-labs](https://github.com/c0ny1/upload-labs)
 
-![靶机包含漏洞类型](<../../.gitbook/assets/image (608).png>)
+![靶机包含漏洞类型](<../../.gitbook/assets/image (387).png>)
 
-![判断上传类型](<../../.gitbook/assets/image (614).png>)
+![判断上传类型](<../../.gitbook/assets/image (863).png>)
 
 
 
@@ -89,15 +89,15 @@ if(['jpg','png'].contains(ext)){
 {% tab title="方法一" %}
 1、使用burp抓包，在返回包中去掉JavaScript字段，然后放包
 
-![](<../../.gitbook/assets/image (613).png>)
+![](<../../.gitbook/assets/image (30).png>)
 
 2、直接在页面中选择 XX.php 的文件，上传
 
-![](<../../.gitbook/assets/image (615).png>)
+![](<../../.gitbook/assets/image (850).png>)
 
 3、新标签中打开文件，即可看到上传好的文件
 
-![](<../../.gitbook/assets/image (606).png>)
+![](<../../.gitbook/assets/image (317).png>)
 {% endtab %}
 
 {% tab title="方法二" %}
@@ -105,25 +105,25 @@ if(['jpg','png'].contains(ext)){
 
 2、在burp中，将所上传 .jpg 后缀的文件更换回 .php ，点击放包
 
-![](<../../.gitbook/assets/image (612).png>)
+![](<../../.gitbook/assets/image (306).png>)
 
 3、在新标签中打开文件，可看到上传好的文件
 
-![](<../../.gitbook/assets/image (606).png>)
+![](<../../.gitbook/assets/image (317).png>)
 {% endtab %}
 
 {% tab title="upload1" %}
 1、选中JPG文件，点击上传并修改后缀（经测试，也可以使用方法一）
 
-![在burp中修改后缀](<../../.gitbook/assets/image (673).png>)
+![在burp中修改后缀](<../../.gitbook/assets/image (164).png>)
 
 2、复制返回包中的路径及文件名
 
-![](<../../.gitbook/assets/image (672).png>)
+![](<../../.gitbook/assets/image (377).png>)
 
 3、新建标签页打开
 
-![](<../../.gitbook/assets/image (674).png>)
+![](<../../.gitbook/assets/image (38).png>)
 {% endtab %}
 {% endtabs %}
 
@@ -171,17 +171,17 @@ image/png
 image/gif
 ```
 
-![pass01为例](<../../.gitbook/assets/image (611).png>)
+![pass01为例](<../../.gitbook/assets/image (854).png>)
 
 1、故在上传文件时，只需要将 .php 文件中的`Content-Type`部分更改为允许的MIME即可，如下图
 
-![](<../../.gitbook/assets/image (676).png>)
+![](<../../.gitbook/assets/image (727).png>)
 
-![修改后，放包](<../../.gitbook/assets/image (616).png>)
+![修改后，放包](<../../.gitbook/assets/image (372).png>)
 
 2、新标签页中打开文件，如图：
 
-![](<../../.gitbook/assets/image (617).png>)
+![](<../../.gitbook/assets/image (905).png>)
 
 ### pass-03-后缀校验
 
@@ -232,15 +232,15 @@ if (isset($_POST['submit'])) {
 
 3、收到返回包后，查看经程序修改后的文件名
 
-![](<../../.gitbook/assets/image (609).png>)
+![](<../../.gitbook/assets/image (480).png>)
 
 4、访问文件
 
-![](<../../.gitbook/assets/image (617).png>)
+![](<../../.gitbook/assets/image (905).png>)
 
 说明：若上传文件后发现访问不了，可能原因有phpstudy的Apache配置文件原因。原配置文件限制了后缀，更改为 `AddType application/x-httpd-php .php .phtml .php3 .php4` 即可。记得重启服务！记得重启服务！记得重启服务！
 
-![](<../../.gitbook/assets/image (610).png>)
+![](<../../.gitbook/assets/image (1059).png>)
 
 ### pass-04-.hatccess
 
@@ -318,7 +318,7 @@ AddType applicaiton/x-httpd-php .jpg
 
 3、访问文件
 
-![](<../../.gitbook/assets/image (617).png>)
+![](<../../.gitbook/assets/image (905).png>)
 
 ### pass-05-[.user.ini](https://www.jianshu.com/p/c2ed6b05c964)
 
@@ -441,7 +441,7 @@ if (isset($_POST['submit'])) {
 
 访问结果如下：
 
-![](<../../.gitbook/assets/image (617).png>)
+![](<../../.gitbook/assets/image (905).png>)
 
 ### pass-07-空格
 
@@ -483,11 +483,11 @@ if (isset($_POST['submit'])) {
 
 Windows系统下，对于文件名中空格会被作为空处理，程序中的检测代码却不能自动删除空格。从而绕过黑名单。 针对这样的情况需要使用Burpsuite阶段HTTP请求之后，修改对应的文件名 添加空格。
 
-![](<../../.gitbook/assets/image (660).png>)
+![](<../../.gitbook/assets/image (235).png>)
 
 之后访问文件：
 
-![](<../../.gitbook/assets/image (617).png>)
+![](<../../.gitbook/assets/image (905).png>)
 
 ### pass-08-点号
 
@@ -526,11 +526,11 @@ if (isset($_POST['submit'])) {
 
 Windows系统下，文件后缀名最后一个点会被自动去除。
 
-![](<../../.gitbook/assets/image (659).png>)
+![](<../../.gitbook/assets/image (104).png>)
 
 &#x20;完成上传后，访问文件，效果图如下：
 
-![](<../../.gitbook/assets/image (617).png>)
+![](<../../.gitbook/assets/image (905).png>)
 
 ### pass-09-**::$DATA**
 
@@ -568,11 +568,11 @@ if (isset($_POST['submit'])) {
 
 Windows系统下，如果上传的文件名中 `test.php::$DATA` 会在服务器上生成一个 `test.php` 的文件，其中内容和所上传文件内容相同，并被解析。
 
-![](<../../.gitbook/assets/image (658).png>)
+![](<../../.gitbook/assets/image (52).png>)
 
 
 
-![](<../../.gitbook/assets/image (617).png>)
+![](<../../.gitbook/assets/image (905).png>)
 
 ### pass-10-. .
 
@@ -608,9 +608,9 @@ if (isset($_POST['submit'])) {
 
 
 
-![](<../../.gitbook/assets/image (663).png>)
+![](<../../.gitbook/assets/image (261).png>)
 
-![](<../../.gitbook/assets/image (617).png>)
+![](<../../.gitbook/assets/image (905).png>)
 
 ### pass-11-双写后缀
 
@@ -638,9 +638,9 @@ if (isset($_POST['submit'])) {
 
 这一关是用str\_ireplace函数将符合黑名单中的后缀名进行替换为空。所以可以双写绕过
 
-![](<../../.gitbook/assets/image (670).png>)
+![](<../../.gitbook/assets/image (944).png>)
 
-![](<../../.gitbook/assets/image (617).png>)
+![](<../../.gitbook/assets/image (905).png>)
 
 ### pass-12-0x00
 
@@ -667,7 +667,7 @@ if(isset($_POST['submit'])){
 
 这一关，需要php的版本号低于5.3.29，且magic\_quotes\_gpc为关闭状态。
 
-![](<../../.gitbook/assets/image (666).png>)
+![](<../../.gitbook/assets/image (117).png>)
 
 ### pass-13-0x00
 
@@ -694,7 +694,7 @@ if(isset($_POST['submit'])){
 
 这一关和Pass-12的区别是，00截断是用在POST中，且是在二进制中进行修改。因为POST不会像GET那样对%00进行自动解码。
 
-![](<../../.gitbook/assets/image (662).png>)
+![](<../../.gitbook/assets/image (632).png>)
 
 ### pass-14-文件头
 
@@ -741,7 +741,7 @@ if(isset($_POST['submit'])){
 }
 ```
 
-![](<../../.gitbook/assets/image (669).png>)
+![](<../../.gitbook/assets/image (398).png>)
 
 ### pass-15-getimagesize()
 
@@ -781,7 +781,7 @@ if(isset($_POST['submit'])){
 
 注：这里可能会有一些问题，就是copy制作的图片马，制作出来后，图像是损坏的，那么15关就过不去。所以可以利用winhex之类的工具，讲一句话加在图片的后面。这样就能过了。
 
-![](<../../.gitbook/assets/image (667).png>)
+![](<../../.gitbook/assets/image (847).png>)
 
 ### pass-16-exif\_imagetype()
 
@@ -825,7 +825,7 @@ if(isset($_POST['submit'])){
 
 这一关需要开启php\_exif模块。
 
-![](<../../.gitbook/assets/image (667).png>)
+![](<../../.gitbook/assets/image (847).png>)
 
 ### pass-17-[二次渲染](https://github.com/fakhrizulkifli/Defeating-PHP-GD-imagecreatefromgif)
 
@@ -936,13 +936,11 @@ if (isset($_POST['submit'])){
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU0LTMwMDg4YmI0LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
-成功上传含有一句话的111.gif,但是这并没有成功.我们将上传的图片下载到本地.\
-
+成功上传含有一句话的111.gif,但是这并没有成功.我们将上传的图片下载到本地.<br>
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU0LTMwMTI0YTk2LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
-可以看到下载下来的文件名已经变化,所以这是经过二次渲染的图片.我们使用16进制编辑器将其打开.\
-
+可以看到下载下来的文件名已经变化,所以这是经过二次渲染的图片.我们使用16进制编辑器将其打开.<br>
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU0LTMwMWVmMjhjLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
@@ -950,18 +948,15 @@ if (isset($_POST['submit'])){
 
 关于绕过gif的二次渲染,我们只需要找到渲染前后没有变化的位置,然后将php代码写进去,就可以成功上传带有php代码的图片了.
 
-经过对比,蓝色部分是没有发生变化的,\
-
+经过对比,蓝色部分是没有发生变化的,<br>
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwMzRhZmU2LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
-我们将代码写到该位置.\
-
+我们将代码写到该位置.<br>
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwNDYyZWQ4LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
-上传后在下载到本地使用16进制编辑器打开\
-
+上传后在下载到本地使用16进制编辑器打开<br>
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwNTliYjA2LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
@@ -1023,8 +1018,7 @@ php底层在对PLTE数据块验证的时候,主要进行了CRC校验.所以可�
 
 这种方式只针对索引彩色图像的png图片才有效,在选取png图片时可根据IHDR数据块的color type辨别.`03`为索引彩色图像.
 
-1. 在PLTE数据块写入php代码.\
-
+1. 在PLTE数据块写入php代码.<br>
 2. 计算PLTE数据块的CRC\
    &#x20;CRC脚本
 
@@ -1056,8 +1050,7 @@ print hex(crc)
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwOTQ4YmZhLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
 4.验证\
-&#x20;将修改后的png图片上传后,下载到本地打开\
-
+&#x20;将修改后的png图片上传后,下载到本地打开<br>
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU1LTMwYTM5ZTJlLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
@@ -1271,8 +1264,7 @@ imagepng($img,'./1.png');
 
 使用脚本处理`1.jpg`,命令`php jpg_payload.php 1.jpg`\
 \
-&#x20;使用16进制编辑器打开,就可以看到插入的php代码.\
-
+&#x20;使用16进制编辑器打开,就可以看到插入的php代码.<br>
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU2LTMwYzg2MGIwLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
@@ -1280,15 +1272,13 @@ imagepng($img,'./1.png');
 
 #### 上传图片马 <a href="#toc-10" id="toc-10"></a>
 
-将生成的`payload_1.jpg`上传.\
-
+将生成的`payload_1.jpg`上传.<br>
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU2LTMwZDNhMWEwLWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
 #### 验证 <a href="#toc-11" id="toc-11"></a>
 
-将上传的图片再次下载到本地,使用16进制编辑器打开\
-
+将上传的图片再次下载到本地,使用16进制编辑器打开<br>
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly94emZpbGUuYWxpeXVuY3MuY29tL21lZGlhL3VwbG9hZC9waWN0dXJlLzIwMTgwODI5MDg0MDU2LTMwZTE3YjY4LWFiMjQtMS5wbmc?x-oss-process=image/format,png)
 
@@ -1335,9 +1325,9 @@ if(isset($_POST['submit'])){
 <?php fputs(fopen('2.php','w'),'<?php phpinfo();?>');?>
 ```
 
-![1.php](<../../.gitbook/assets/image (665).png>)
+![1.php](<../../.gitbook/assets/image (57).png>)
 
-![2.php](<../../.gitbook/assets/image (664).png>)
+![2.php](<../../.gitbook/assets/image (877).png>)
 
 
 
@@ -1499,7 +1489,7 @@ if (isset($_POST['submit'])) {
 
 &#x20;同样是上传路径可控，可以使用和Pass-13同样的方式绕过。不同的是这里的黑名单，可以文件名称保存的时候，加上`.`，最末的`.`号使得`pathinfo()`获取到的`PATHINFO_EXTENSION`为空，从而绕过黑名单。
 
-![](<../../.gitbook/assets/image (668).png>)
+![](<../../.gitbook/assets/image (194).png>)
 
 ### pass-21-数组
 
@@ -1551,7 +1541,7 @@ reset(array &$array)
 
 绕过过程：绕过MIMIE，改一下包的Content-Type，为了绕过explode()函数，需要传入数组，绕过白名单，由于取的是end()也就是数组最后一个，需要传入数组的最后一个为jpg|png|gif，最后是拼接文件名，取的是reset()第一个，即索引为0，和索引count()-1（数组内元素个数-1）。所以令索引0为1.php，索引2为jpg（只要是索引1之后都可），这样数组元素个数为2，拼接的就是索引0和索引1，也就是1.php和空，结果还是1.php，这样就可以使得拼接后的文件名为1.php。
 
-![](<../../.gitbook/assets/image (661).png>)
+![](<../../.gitbook/assets/image (113).png>)
 
 ## 三、文件上传对应防御手段
 
@@ -1691,7 +1681,7 @@ $ exiftool -FIELD=XSS FILE
 $ exiftool -Artist=’ “><img src=1 onerror=alert(document.domain)>’ brute.jpeg
 ```
 
-![](<../../.gitbook/assets/image (671).png>)
+![](<../../.gitbook/assets/image (725).png>)
 
 #### 3) 内容
 
@@ -1734,7 +1724,7 @@ GIF 文件标识 GIF89a 做为一个 javascript 的变量分配给 alert 函数�
 
 ### 4、已提交相关漏洞
 
-![漏洞（数据来自CNVD）         ](<../../.gitbook/assets/image (675).png>)
+![漏洞（数据来自CNVD）         ](<../../.gitbook/assets/image (839).png>)
 
 
 

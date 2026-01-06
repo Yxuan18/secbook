@@ -57,7 +57,7 @@ requests.post('http://x.x.x.x:37215/ctrlt/DeviceUpgrade_1', headers=headers, dat
 
 **逻辑框架** Docker - Qemu - system-mode 模式的固件模拟流程图
 
-![](<../../.gitbook/assets/image (987).png>)
+![](<../../.gitbook/assets/image (622).png>)
 
 ## 0x01 MIPS 框架搭建--实现外网访问--端口映射
 
@@ -139,13 +139,13 @@ mount /dev/sdb1 /tmp
 
 `Qemu` 中说明文档：[https://wiki.archlinux.org/index.php?title= Qemu](https://link.zhihu.com/?target=https%3A//wiki.archlinux.org/index.php%3Ftitle%3DQemu)
 
-![](<../../.gitbook/assets/image (994).png>)
+![](<../../.gitbook/assets/image (455).png>)
 
 ## 储备2: **Qemu联网方式**
 
 `Qemu` 中说明文档：[https://wiki.archlinux.org/index.php?title= Qemu](https://link.zhihu.com/?target=https%3A//wiki.archlinux.org/index.php%3Ftitle%3DQemu)
 
-![](<../../.gitbook/assets/image (993).png>)
+![](<../../.gitbook/assets/image (629).png>)
 
 ## 储备3: Qemu 挂载 Docker中的目录
 
@@ -153,7 +153,7 @@ mount /dev/sdb1 /tmp
 
 **挂载主机分区**
 
-![](<../../.gitbook/assets/image (991).png>)
+![](<../../.gitbook/assets/image (611).png>)
 
 ## 储备4: Qemu的必备知识点
 
@@ -169,15 +169,13 @@ mount /dev/sdb1 /tmp
 * 在自动运行 `Docker` 中 `Qemu` 中固件文件系统中的服务成功之前，想过要是 `Docker` 能保存当前的运行状态多方便，研究如下：\
   `Docker save`与`Docker export`\
   save 镜像，不是当前运行的而是原本的，当前运行的镜像不会保存。 export 容器，会保存，但是只是文件。
-* `Docker` 镜像修改保存新镜像，`docker commit`从容器中创建一个新镜像\
-
+* `Docker` 镜像修改保存新镜像，`docker commit`从容器中创建一个新镜像<br>
   * -a :提交的镜像作者
   * -m :提交时的说明文字
 
 docker commit \[OPTIONS] CONTAINER \[REPOSITORY\[:TAG]] docker commit -m="qemu-system-mips\_HG532" -a="m2ayill" 553c8ce8df01 mips\_huawei\_hg532\_success\_fat\_flag:v2
 
-* `Dockerfile` 的编写\
-
+* `Dockerfile` 的编写<br>
   * `FROM`：先从本地查找镜像，若无，再从网上获取镜像\
     `FROM mips_huawei_hg532_success:latest`
   * `MAINTAINER`：描述镜像的创建者\
@@ -239,16 +237,14 @@ start.sh文件内容
 1. 设想，ssh 端口是开机自启的，当初还以为只能是系统内部已经启动的端口才能够转出来，而运行 `Qemu` 后自行启动的端口无法转出\
    案例推翻假设：将 ssh 端口关闭后， `Qemu` 转发到 `Docker` 的端口无法使用 ssh 登录了，重新启动 ssh 服务，又可以使用了
 
-* 与搭建无关的：\
-
+* 与搭建无关的：<br>
   * 通过 `Qemu` 转发到 `Docker` 的端口，5535、37215等，其实本地是在类似监听的状态，也就是说 telnet 5535 等端口，都是属于通的状态，无法通过 telnet 来判断是否 `Qemu` 内部的服务已经启动
 
 ## 0x02 “定时任务”历程
 
 **解决办法设想过如下：**
 
-* 放入后台，将终端释放出来，没有 `nohub` 命令，只能通过 `&` 或者`ctrl+z`\
-
+* 放入后台，将终端释放出来，没有 `nohub` 命令，只能通过 `&` 或者`ctrl+z`<br>
   * 使用`ubuntu`虚拟机+ `Qemu` 实现的 `ctrl+z` 放入后台，bg 的结果是 doing，&结果总是 stopped
   * 使用 `Docker` + `Qemu` ，两种方法总是 stopped
 * 使用 ssh 登录后的终端运行 `mic` 服务
@@ -291,8 +287,7 @@ start.sh文件内容
 那就方便处理了，只要将`chroot /root/squashfs-root/ mic`在启动 `Qemu` 时，服务同时运行起来就行，两种方法：
 
 * 加入启动项
-* 定时任务（想到的第一个办法就是定时任务，没有尝试，原因如下，其实挺后悔的，要不然早弄完了：）\
-
+* 定时任务（想到的第一个办法就是定时任务，没有尝试，原因如下，其实挺后悔的，要不然早弄完了：）<br>
   * 设想，定时任务几乎都是随着mic服务运行后执行的，也就是在 `Qemu` 登录后，没有尝试登录前看看能不能执行；（为什么&#x8BF4;**`Qemu` 登录**，在下面有写）
   * 验证：在后面通过自启项目 `mic` 运行后，会在 `Qemu` 启动的过程中卡住，但是定时任务还是执行了，说明在未登录之前定时任务是可以执行的）
 

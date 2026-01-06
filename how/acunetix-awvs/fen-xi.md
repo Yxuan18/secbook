@@ -14,7 +14,7 @@
 
 搭建一个漏洞url地址（这里只要一个url就够了，多了payload就太多不好分析了）用burp来抓，设置好burp的代理地址(proxy-options-proxy listeners-add)。在awvs中在设置一下扫描器的使用的代理地址为burp就可以开心的抓包了。
 
-![](<../../.gitbook/assets/image (188).png>)
+![](<../../.gitbook/assets/image (768).png>)
 
 简单的抓包,可以大体的看成来awvs都做哪些扫描，而且我们可以找到一些马上可以用规则，比如破壳漏洞，文件读取，备份文件扫描，敏感文件扫描，ssrf，头注入等等。
 
@@ -55,21 +55,21 @@ http://www.acunetix.com/download/tools/WVSSDK.zip
 
 使用wvs scripting打开/Scripts/PerFile/Bash\_RCE.script文件。
 
-![](<../../.gitbook/assets/image (189).png>)
+![](<../../.gitbook/assets/image (187).png>)
 
 点击小齿轮，设置扫描目标：
 
-![](<../../.gitbook/assets/image (207).png>)
+![](<../../.gitbook/assets/image (894).png>)
 
 这里比较蛋疼就是不能直接输入扫描的目标（反正我没找到），需要去load一下awvs爬虫保存的.cwl文件。我们在awvs上简单爬一下扫描的目标，然后保存成xxx.cwl。再通过wvs scripting去load这个文件。
 
-![](<../../.gitbook/assets/image (229).png>)
+![](<../../.gitbook/assets/image (1030).png>)
 
 最后是运行，这里具体根据script来确定set target的什么类型，比如Bash\_RCE.script，中用了var file = getCurrentFile()，你就需要set file target，最后run per file。（当然还有其他的就不再举例子了)
 
-![](<../../.gitbook/assets/image (194).png>)
+![](<../../.gitbook/assets/image (711).png>)
 
-![](<../../.gitbook/assets/image (203).png>)
+![](<../../.gitbook/assets/image (781).png>)
 
 到这里我们就可以跑起每个脚本进行运行调试了，能跑起来，我们就可以去logInfo一些东西，这样去看脚本都做哪些操作就简单多了。
 
@@ -79,7 +79,7 @@ https://www.acunetix.com/vulnerability-scanner/acusensor-technology/
 
 如果你要用它做测试站点的话，代码逻辑会走到acusensor对应的代码)
 
-![](<../../.gitbook/assets/image (226).png>)
+![](<../../.gitbook/assets/image (858).png>)
 
 ### 三）从awvs学到啥
 
@@ -95,11 +95,11 @@ awvs在扫描前，都会对url进行的详细的分类和参数的解析。常�
 
 看到代码最大的好处就是可以看到他的匹配正则了，比如敏感部署文件备份匹配规则，任意文件读取规则，sql报错注入关键字匹配，命令执行等等。
 
-![](<../../.gitbook/assets/image (205).png>)
+![](<../../.gitbook/assets/image (791).png>)
 
-![](<../../.gitbook/assets/image (215).png>)
+![](<../../.gitbook/assets/image (997).png>)
 
-![](<../../.gitbook/assets/image (210).png>)
+![](<../../.gitbook/assets/image (860).png>)
 
 更多规则见脚本。
 
@@ -122,9 +122,9 @@ XML External Entity Injection (XXE)
 
 我们可以在脚本中找到他们的规则：
 
-![](<../../.gitbook/assets/image (214).png>)
+![](<../../.gitbook/assets/image (938).png>)
 
-![](<../../.gitbook/assets/image (202).png>)
+![](<../../.gitbook/assets/image (50).png>)
 
 那么重点是怎么把漏洞和对应url关联??
 

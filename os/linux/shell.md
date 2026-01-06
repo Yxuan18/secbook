@@ -38,7 +38,7 @@ ping -c1 qq.com &>/dev/null && echo "its up" || echo "its down"
 4. `&&`会表示逻辑判断，and，只有前一个命令的`$?==0`，后面的命令才会执行&#x20;
 5. `||`表示或者的意思，如果不为真，那么`||`后面的命令执行
 
-![脚本及命令运行结果](<../../.gitbook/assets/image (466).png>)
+![脚本及命令运行结果](<../../.gitbook/assets/image (873).png>)
 
 .sh脚本执行方式：
 
@@ -92,7 +92,7 @@ expect:
 | --- | ---- | ------------------------ |
 | $?  | 问号变量 | 返回上一条命令的执行结果，0为正常，127为错误 |
 
-![](<../../.gitbook/assets/image (471).png>)
+![](<../../.gitbook/assets/image (424).png>)
 
 ## 3、bash中调用python expect
 
@@ -109,7 +109,7 @@ EOF
 echo "hello bash"
 ```
 
-![运行结果](<../../.gitbook/assets/image (478).png>)
+![运行结果](<../../.gitbook/assets/image (1050).png>)
 
 其中：
 
@@ -117,7 +117,7 @@ echo "hello bash"
 2. 其中，后面的EOF需要顶头，且EOF只是人们比较习惯的方式
 3. 可在EXPECT中传递BASH代码执行，只有BASH中才能识别EOF的结构
 
-![EOF示例](<../../.gitbook/assets/image (472).png>)
+![EOF示例](<../../.gitbook/assets/image (405).png>)
 
 示例程序如下：
 
@@ -127,7 +127,7 @@ cd /home
 ls
 ```
 
-![程序的执行方式](<../../.gitbook/assets/image (474).png>)
+![程序的执行方式](<../../.gitbook/assets/image (751).png>)
 
 程序执行结果不同的原因：
 
@@ -138,7 +138,7 @@ ls
 
 示例：重定义`/root/.bashrc`文件
 
-![被修改的.bashrc文件](<../../.gitbook/assets/image (475).png>)
+![被修改的.bashrc文件](<../../.gitbook/assets/image (307).png>)
 
 ```
 ## 执行顺序：
@@ -153,7 +153,7 @@ yang
 ## 事后记得改回来
 ```
 
-![执行结果](<../../.gitbook/assets/image (486).png>)
+![执行结果](<../../.gitbook/assets/image (173).png>)
 
 ## 4、shell特性
 
@@ -163,7 +163,7 @@ yang
 
 ### 2、Linux支持的shell
 
-![](<../../.gitbook/assets/image (479).png>)
+![](<../../.gitbook/assets/image (1037).png>)
 
 查看对shell有影响的文件：
 
@@ -208,13 +208,13 @@ su XXX    #nologin shell,对应文件如下：
 
 1、上下键
 
-![!number](<../../.gitbook/assets/image (485).png>)
+![!number](<../../.gitbook/assets/image (305).png>)
 
-![!string：显示使用过带l的命令](<../../.gitbook/assets/image (483).png>)
+![!string：显示使用过带l的命令](<../../.gitbook/assets/image (552).png>)
 
-![!$：显示上条命令的最后参数](<../../.gitbook/assets/image (480).png>)
+![!$：显示上条命令的最后参数](<../../.gitbook/assets/image (957).png>)
 
-![!!：上一条命令](<../../.gitbook/assets/image (482).png>)
+![!!：上一条命令](<../../.gitbook/assets/image (724).png>)
 
 #### 3、别名功能
 
@@ -239,7 +239,7 @@ ctrl+Q    #取消锁屏
 ctrl+Y    #粘贴消除掉的字符
 ```
 
-![ctrl+R](<../../.gitbook/assets/image (481).png>)
+![ctrl+R](<../../.gitbook/assets/image (637).png>)
 
 #### 5、前后台控制作业
 
@@ -298,9 +298,9 @@ cat >file1 <<EOF
 */
 ```
 
-![cat < /etc/hosts](<../../.gitbook/assets/image (487).png>)
+![cat < /etc/hosts](<../../.gitbook/assets/image (1006).png>)
 
-![EOF](<../../.gitbook/assets/image (473).png>)
+![EOF](<../../.gitbook/assets/image (430).png>)
 
 #### 7、管道
 
@@ -314,7 +314,7 @@ ip addr | grep 'inet' |tee test | grep eth0  覆盖
 ip addr | grep 'inet' |tee -a test | grep eth0 追加
 ```
 
-![tee管道示例](<../../.gitbook/assets/image (476).png>)
+![tee管道示例](<../../.gitbook/assets/image (410).png>)
 
 ```
 ## '/$':分区
@@ -330,7 +330,7 @@ grub-md5-crypt |tee -a /etc/grub.conf
 
 ;  不具备逻辑
 
-![回到家目录并弹出光驱](<../../.gitbook/assets/image (477).png>)
+![回到家目录并弹出光驱](<../../.gitbook/assets/image (971).png>)
 
 
 

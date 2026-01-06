@@ -2,12 +2,12 @@
 
 Linux常见目录介绍：
 
-> / 根目录  
-> /root 用户的家目录  
-> /home/username 普通用户的家目录  
-> /etc 配置文件目录  
-> /bin 命令目录  
-> /sbin 管理命令目录  
+> / 根目录\
+> /root 用户的家目录\
+> /home/username 普通用户的家目录\
+> /etc 配置文件目录\
+> /bin 命令目录\
+> /sbin 管理命令目录\
 > /usr/bin /usr/sbin 系统预装其他命令
 
 
@@ -18,17 +18,17 @@ Linux常见目录介绍：
 
 #### man帮助
 
-man是manual的缩写 用法： `man ls` 
+man是manual的缩写 用法： `man ls`&#x20;
 
-![](../../.gitbook/assets/image%20%281062%29.png)
+![](<../../.gitbook/assets/image (771).png>)
 
 man也是一条命令，分为9章，可以使用man命令获得man的帮助 `man 7 man`
 
-![](../../.gitbook/assets/image%20%281063%29.png)
+![](<../../.gitbook/assets/image (590).png>)
 
 man各章内容：
 
-![](../../.gitbook/assets/image%20%281064%29.png)
+![](<../../.gitbook/assets/image (349).png>)
 
 `man -a passwd`,可查看文件的属性
 
@@ -40,7 +40,7 @@ shell自带的命令称为内部命令，其他的是外部命令
 
 外部命令使用help帮助 `ls --help`
 
-![](../../.gitbook/assets/image%20%281065%29.png)
+![](<../../.gitbook/assets/image (531).png>)
 
 
 
@@ -50,7 +50,7 @@ info帮助比help更详细，作为help的补充 `info ls` ，只是都是英文
 
 
 
-### 2、pwd&ls
+### 2、pwd\&ls
 
 一切皆文件
 
@@ -67,10 +67,9 @@ info帮助比help更详细，作为help的补充 `info ls` ，只是都是英文
 文件查看：
 
 * `ls` 查看当前目录下的文件
-* `ls [参数，选项]参数`
+*   `ls [参数，选项]参数`
 
-  常用参数：
-
+    常用参数：
 * `-l`  长格式显示文件
 * `-a`    显示隐藏文件
 * `-r`    逆序显示
@@ -79,9 +78,9 @@ info帮助比help更详细，作为help的补充 `info ls` ，只是都是英文
 
 `man ls` 可获得命令的详细选项
 
-![](../../.gitbook/assets/image%20%281067%29.png)
+![](<../../.gitbook/assets/image (560).png>)
 
-![](../../.gitbook/assets/image%20%281066%29.png)
+![](<../../.gitbook/assets/image (697).png>)
 
 ### 3、cd
 
@@ -92,11 +91,11 @@ info帮助比help更详细，作为help的补充 `info ls` ，只是都是英文
 * `cd ./path/to/...` 相对路径
 * `cd ../path/to/...` 相对路径
 
- 因为shell编程有补全功能，所以可以通过Tab键补全命令行
+&#x20;因为shell编程有补全功能，所以可以通过Tab键补全命令行
 
-技巧： 
+技巧：&#x20;
 
-> `cd -` 回到刚才的目录  
+> `cd -` 回到刚才的目录\
 > `cd  ..`回到当前目录的上级目录
 
 ### 4、目录的创建删除，复制移动
@@ -108,4 +107,3 @@ info帮助比help更详细，作为help的补充 `info ls` ，只是都是英文
 ## 四、文本操作
 
 ## 五、服务管理
-

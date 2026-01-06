@@ -7,7 +7,9 @@
 ## 1
 
 * [杂记](1/za-ji/README.md)
+  * [从规则防御到智能体对抗的范式转移](1/za-ji/cong-gui-ze-fang-yu-dao-zhi-neng-ti-dui-kang-de-fan-shi-zhuan-yi.md)
   * [GitHub Monitor](1/za-ji/github-monitor.md)
+  * [Notion](1/za-ji/notion.md)
 * [常见端口利用](1/alwart.md)
 * [F5 big-ip从环境搭建到漏洞复现](1/f5-big-ip.md)
 * [红队资源](1/zy.md)
@@ -167,7 +169,7 @@
     * [整数对象PyIntObject](lan/py/ympx/zs.md)
     * [字节码和虚拟机](lan/py/ympx/bvtm.md)
 * [汇编](lan/huibian.md)
-* [Javascript](lan/javascript.md)
+* [Javascript](lan/javascript/README.md)
   * [Tampermonkey Script](lan/javascript/tampermonkey-script.md)
 
 ## AIGC

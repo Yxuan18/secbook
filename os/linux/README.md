@@ -2,11 +2,11 @@
 
 ## 一、常见问题
 
-###  1、更换APT源
+### &#x20;1、更换APT源
 
 1、此处以[清华源](https://mirror.tuna.tsinghua.edu.cn/help/ubuntu/)为例，将 `/etc/apt/sources.list`中的所有文本全部删除，然后更换为如下内容，保存退出即可
 
-```text
+```
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse
@@ -24,11 +24,11 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted
 
 更换后，更新效果图如下：
 
-![](../../.gitbook/assets/image%20%28531%29.png)
+![](<../../.gitbook/assets/image (373).png>)
 
 2、系统太干净的情况下，可以尝试先备份source.list 文件，然后再将一行源写入 source.list 文件中，如下：
 
-![](../../.gitbook/assets/image%20%28985%29.png)
+![](<../../.gitbook/assets/image (252).png>)
 
 图中涉及到的命令有：
 
@@ -57,9 +57,9 @@ sudo rm /var/lib/dpkg/lock
 
 ### 3、apt update报错
 
- Ubuntu18.04在更换源升级的时候报错了，报错内容如下：
+&#x20;Ubuntu18.04在更换源升级的时候报错了，报错内容如下：
 
-```text
+```
 W: GPG 错误：https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic InRelease: 由于没有公钥，无法验证下列签名： NO_PUBKEY 3B4FE6ACC0B21F32
 E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic InRelease” 没有数字签名。
 N: 无法安全地用该源进行更新，所以默认禁用该源。
@@ -76,7 +76,7 @@ W: GPG 错误：https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-security InRe
 E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-security InRelease” 没有数字签名。
 ```
 
- 解决方案：
+&#x20;解决方案：
 
 输入命令，如下：
 
@@ -84,7 +84,7 @@ E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-security InRelea
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 3B4FE6ACC0B21F32 3B4FE6ACC0B21F32  3B4FE6ACC0B21F32
 ```
 
-![&#x6548;&#x679C;&#x56FE;](../../.gitbook/assets/image%20%281073%29.png)
+![效果图](<../../.gitbook/assets/image (559).png>)
 
 ### 4、为ROOT设置密码
 
@@ -93,21 +93,21 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 3
 
 ### 5、安装并开启SSH服务
 
- 1、尝试开启服务，发现本地没有SSH服务端
+&#x20;1、尝试开启服务，发现本地没有SSH服务端
 
-![](../../.gitbook/assets/image%20%28533%29.png)
+![](<../../.gitbook/assets/image (247).png>)
 
- 2、使用命令下载SSH服务端
+&#x20;2、使用命令下载SSH服务端
 
-```text
+```
 apt install openssh-server
 ```
 
 3、安装成功后，查看SSH服务状态
 
-![](../../.gitbook/assets/image%20%28537%29.png)
+![](<../../.gitbook/assets/image (118).png>)
 
-```text
+```
 ## 相关命令如下：
 
 service ssh status    #查看SSH状态
@@ -118,21 +118,21 @@ service ssh restart   #重启服务
 
 ### 6、SSH相关
 
- 配置文件位于：`/etc/ssh/sshd_config`   ：
+&#x20;配置文件位于：`/etc/ssh/sshd_config`   ：
 
 ① 设置允许SSH远程登录：
 
-![](../../.gitbook/assets/image%20%28538%29.png)
+![](<../../.gitbook/assets/image (924).png>)
 
 新增内容为：
 
-```text
+```
 PermitRootLogin yes
 ```
 
- 新增后，保存并退出，并重启SSH服务即可
+&#x20;新增后，保存并退出，并重启SSH服务即可
 
-![&#x8FDE;&#x63A5;&#x6210;&#x529F;](../../.gitbook/assets/image%20%28534%29.png)
+![连接成功](<../../.gitbook/assets/image (903).png>)
 
 ② 限制可远程访问IP
 
@@ -142,7 +142,7 @@ PermitRootLogin yes
 
 下面解释sshd\_config各项：
 
-```text
+```
 ## 重要 ##
 
 #Port 22
@@ -177,15 +177,15 @@ PermitRootLogin yes
 
 ### 7、修改docker镜像源
 
- 新建或打开`/etc/docker/daemon.json` ，在其中输入如下内容，保存并退出，且重启docker服务即可
+&#x20;新建或打开`/etc/docker/daemon.json` ，在其中输入如下内容，保存并退出，且重启docker服务即可
 
-```text
+```
 {
   "registry-mirrors": ["https://y0qd3iq.mirror.aliyuncs.com"]
 }
 ```
 
-![&#x6D41;&#x7A0B;](../../.gitbook/assets/image%20%28535%29.png)
+![流程](<../../.gitbook/assets/image (392).png>)
 
 ### 8、yum源
 
@@ -195,7 +195,7 @@ ubuntu安装yum:
 apt install yum
 ```
 
- 更换yum源为国内的：需要在`/etc/yum/repos.d/`目录下创建两个文件，`fedora-163.repo`和`fedora-updates-163.repo`
+&#x20;更换yum源为国内的：需要在`/etc/yum/repos.d/`目录下创建两个文件，`fedora-163.repo`和`fedora-updates-163.repo`
 
 {% tabs %}
 {% tab title="fedora-163.repo" %}
@@ -268,13 +268,11 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
 {% endtab %}
 {% endtabs %}
 
- 保存文件后，执行命令将软件包缓存到本地即可。命令如下：
+&#x20;保存文件后，执行命令将软件包缓存到本地即可。命令如下：
 
 ```bash
 yum makecache
 ```
 
 ### 9、
-
-
 

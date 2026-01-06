@@ -35,7 +35,7 @@ cker-compose version 1.24.1, build 4667896b
 
 **注意**： 对于 alpine，需要以下依赖包： py-pip，python-dev，libffi-dev，openssl-dev，gcc，libc-dev，和 make。
 
-![](<../../.gitbook/assets/image (559).png>)
+![](<../../.gitbook/assets/image (703).png>)
 
 ### 2、基本使用
 
@@ -398,7 +398,7 @@ w%3D: dial tcp: lookup production.cloudflare.docker.com: Temporary failure in na
 nameserver 8.8.8.8
 ```
 
-![](<../../.gitbook/assets/image (1069).png>)
+![](<../../.gitbook/assets/image (281).png>)
 
 2、保存并推出，之后重启docker服务
 
@@ -418,7 +418,7 @@ systemctl daemon-reload
 systemctl restart docker
 ```
 
-![效果图](<../../.gitbook/assets/image (1072).png>)
+![效果图](<../../.gitbook/assets/image (680).png>)
 
 ### &#x20;3、docker的daemon.json
 

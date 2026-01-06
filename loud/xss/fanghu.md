@@ -33,7 +33,7 @@ mXSS 或突变 XSS 是当不可信数据在 DOM 的 innerHTML 属性的上下文
 
 ### 1、验证输入并且基于语境和按照正确的顺序转义不可信数据
 
-![](<../../.gitbook/assets/image (982).png>)
+![](<../../.gitbook/assets/image (491).png>)
 
 #### 输入验证&#x20;
 
@@ -41,11 +41,11 @@ mXSS 或突变 XSS 是当不可信数据在 DOM 的 innerHTML 属性的上下文
 
 #### 浏览器解析顺序
 
-![](<../../.gitbook/assets/image (981).png>)
+![](<../../.gitbook/assets/image (511).png>)
 
 #### 浏览器解码顺序
 
-![](<../../.gitbook/assets/image (980).png>)
+![](<../../.gitbook/assets/image (625).png>)
 
 解码和解析顺序意味着很多东西。如果对不可信数据的编码或解码以错误的顺序或错误的 环境，将再次有机会导致 XSS 漏洞的发生。编码或者转义对不同的环境要求不同。这些 编码的顺序应该取决于应用程序的逻辑。
 

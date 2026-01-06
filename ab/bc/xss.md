@@ -2,7 +2,7 @@
 
 
 
-```text
+```
 /level1.php?name=<script>alert(1)</script>
 
 /level2.php?keyword=test"><script>alert(1)</script>//
@@ -29,11 +29,10 @@
 访问后，点击“友情链接”
 ```
 
-![&#x7B2C;&#x5341;&#x5173;](../../.gitbook/assets/image%20%281075%29.png)
+![第十关](<../../.gitbook/assets/image (558).png>)
 
-```text
+```
 
 
 
 ```
-

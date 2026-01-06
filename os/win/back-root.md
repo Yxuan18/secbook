@@ -14,11 +14,11 @@ C:\Windows\System32\sethc.exe 粘滞键，启动快捷键：按五次shift键 C:
 
 在低版本的windows中，我们可以找到C:\Windows\System32\sethc.exe直接把sethc.exe替换成我们的后门程序，或者我们复制一份cmd.exe 把名字改为sethc.exe
 
-![](<../../.gitbook/assets/image (349).png>)
+![](<../../.gitbook/assets/image (701).png>)
 
 然后返回登陆界面多摁几次shift即可弹出cmd
 
-![](<../../.gitbook/assets/image (344).png>)
+![](<../../.gitbook/assets/image (677).png>)
 
 ## 2、映像劫持
 
@@ -30,11 +30,11 @@ C:\Windows\System32\sethc.exe 粘滞键，启动快捷键：按五次shift键 C:
 
 在注册表的HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Image File Execution Option下添加一个项sethc.exe，然后在sethc.exe这个项中添加debugger键，键值为我们恶意程序的路径
 
-![](<../../.gitbook/assets/image (307).png>)
+![](<../../.gitbook/assets/image (737).png>)
 
 ### 2、效果图
 
-![](<../../.gitbook/assets/image (313).png>)
+![](<../../.gitbook/assets/image (1021).png>)
 
 ## 3、注册表自启动项
 
@@ -64,11 +64,11 @@ RunOnce：RunOnce和Run差不多，唯一的区别就是RunOnce的键值只作�
 
 修改一下
 
-![](<../../.gitbook/assets/image (285).png>)
+![](<../../.gitbook/assets/image (426).png>)
 
 重启查看执行结果
 
-![](<../../.gitbook/assets/image (352).png>)
+![](<../../.gitbook/assets/image (1022).png>)
 
 ### 3、权限维持选项
 
@@ -170,7 +170,7 @@ HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\R
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run 
 ```
 
-![](<../../.gitbook/assets/image (423).png>)
+![](<../../.gitbook/assets/image (267).png>)
 
 #### 6、Winlogon\Shell
 
@@ -184,7 +184,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Ru
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell
 ```
 
-![](<../../.gitbook/assets/image (399).png>)
+![](<../../.gitbook/assets/image (953).png>)
 
 #### 7、AppInitDLLs / LoadAppInitDLLs
 
@@ -258,27 +258,27 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows
 
 编辑修改AppInit\_DLLs表项的值为我们编译的MessageBox.dll所在的路径地址
 
-![](<../../.gitbook/assets/image (426).png>)
+![](<../../.gitbook/assets/image (49).png>)
 
-![](<../../.gitbook/assets/image (427).png>)
+![](<../../.gitbook/assets/image (296).png>)
 
 然后修改LoadAppInit\_DLLs注册表项的值为1，如下图所示
 
-![](<../../.gitbook/assets/image (405).png>)
+![](<../../.gitbook/assets/image (852).png>)
 
 注册表项修改完毕后，重启系统，使修改生效。重启完毕后，我们呢使用Process Explorer查看MessageBox.dll是否被注入进程
 
-![](<../../.gitbook/assets/image (420).png>)
+![](<../../.gitbook/assets/image (1029).png>)
 
 从上图可以看出，MessageBox.dll注入了部分进程，然后我们运行一下cmd.exe看是否或被注入MessageBox.dll
 
-![](<../../.gitbook/assets/image (416).png>)
+![](<../../.gitbook/assets/image (538).png>)
 
 从上图红色框框所标识的部分来看，运行cmd.exe时因为加载了user32.dll，所以也同时加载了我们自己写的MessageBox.dll，在DllMain()运行时，检测到当前进程为“cmd.exe”因此弹出了MessageBox()，说明注册表DLL注入成功。
 
 若我们关闭cmd.exe，会弹出如下窗口 &#x20;
 
-![](<../../.gitbook/assets/image (406).png>)
+![](<../../.gitbook/assets/image (362).png>)
 
 MessageBox.dll被cmd.exe进程成功卸载。
 
@@ -343,15 +343,15 @@ Userinit的作用是用户在进行登陆初始化设置时，WinLogon进程会�
 
 注册表路径为：HKLM\_LOCAL\_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Winlogon\Userinit，我们添加一个计算器，多个程序用逗号隔开
 
-![](<../../.gitbook/assets/image (350).png>)
+![](<../../.gitbook/assets/image (904).png>)
 
-![](<../../.gitbook/assets/image (360).png>)
+![](<../../.gitbook/assets/image (182).png>)
 
 ### 2、重启计算机
 
 重启效果如下：
 
-![](<../../.gitbook/assets/image (319).png>)
+![](<../../.gitbook/assets/image (920).png>)
 
 ## 6、Logon Scripts
 
@@ -361,11 +361,11 @@ Logon Scripts优先于av先执行(具体是否真的优先av没感觉出来)，�
 
 注册表路径为：HKEY\_CURRENT\_USER\Environment，创建一个键为：UserInitMprLogonScript(经测试名字必须是这个)，其键值为我们要启动的程序路径
 
-![](<../../.gitbook/assets/image (353).png>)
+![](<../../.gitbook/assets/image (930).png>)
 
 重启效果如下
 
-![](<../../.gitbook/assets/image (302).png>)
+![](<../../.gitbook/assets/image (1042).png>)
 
 ## 7、屏幕保护程序
 
@@ -383,13 +383,13 @@ ScreenSaverTimeout - 指定屏幕保护程序启动前系统的空闲事件，�
 
 设置如下： 首先开启屏幕保护，随便选一个屏保样子
 
-![](<../../.gitbook/assets/image (337).png>)
+![](<../../.gitbook/assets/image (932).png>)
 
 ### 2、等待屏保弹出
 
 效果图： 我这里设置一分钟，一分钟后弹出计算器
 
-![](<../../.gitbook/assets/image (303).png>)
+![](<../../.gitbook/assets/image (949).png>)
 
 ## 8、自启动服务
 
@@ -399,11 +399,11 @@ ScreenSaverTimeout - 指定屏幕保护程序启动前系统的空闲事件，�
 
 使用msf生产exe木马
 
-![](<../../.gitbook/assets/image (363).png>)
+![](<../../.gitbook/assets/image (205).png>)
 
 随后监听，点击exe上线
 
-![](<../../.gitbook/assets/image (348).png>)
+![](<../../.gitbook/assets/image (673).png>)
 
 ### 2、注册服务
 
@@ -413,19 +413,19 @@ ScreenSaverTimeout - 指定屏幕保护程序启动前系统的空闲事件，�
 meterpreter > run metsvc -A
 ```
 
-![](<../../.gitbook/assets/image (276).png>)
+![](<../../.gitbook/assets/image (902).png>)
 
 运行之后msf会在%TMP%目录下创建一个随机名称的文件夹，然后在该文件夹C:\Users\ohh\AppData\Local\Temp\LxDpyrdEnQsvqH里面生成三个文件：metsvc.dll、metsvc-server.exe、metsvc.exe
 
-![](<../../.gitbook/assets/image (335).png>)
+![](<../../.gitbook/assets/image (636).png>)
 
 同时会新建一个服务，其显示名称为Meterpreter，服务名称为metsvc，启动类型为"自动"
 
-![](<../../.gitbook/assets/image (340).png>)
+![](<../../.gitbook/assets/image (1015).png>)
 
 默认绑定在31337端口
 
-![](<../../.gitbook/assets/image (321).png>)
+![](<../../.gitbook/assets/image (524).png>)
 
 ### 3、删除服务
 
@@ -448,11 +448,11 @@ net localgroup administrators test$ /add
 
 可以看到net user是看不到我们创建的用户
 
-![](<../../.gitbook/assets/image (342).png>)
+![](<../../.gitbook/assets/image (1010).png>)
 
 但是计算机管理-用户和组中可以看到
 
-![](<../../.gitbook/assets/image (358).png>)
+![](<../../.gitbook/assets/image (923).png>)
 
 ### 2、修改键值
 
@@ -460,11 +460,11 @@ net localgroup administrators test$ /add
 
 注意：SAM键值默认是只能system权限修改的，所以我们要修改一下SAM键的权限，给予administrator完全控制和读取的权限
 
-![](<../../.gitbook/assets/image (304).png>)
+![](<../../.gitbook/assets/image (912).png>)
 
 然后我们将administrator用户对应的项中的F值复制到test$对应xiang中的F值，然后保存
 
-![](<../../.gitbook/assets/image (364).png>)
+![](<../../.gitbook/assets/image (763).png>)
 
 然后我们将test$删除掉&#x20;
 
@@ -474,7 +474,7 @@ net user test$ /del
 
 然后再双击导出的注册表文件，然后我们再看一下
 
-![](<../../.gitbook/assets/image (332).png>)
+![](<../../.gitbook/assets/image (996).png>)
 
 net user和计算机管理-用户和组中都查看不到用户了，但是我们可以用net user test$查看用户信息&#x20;
 
@@ -515,7 +515,7 @@ waitfor /s 192.168.163.143 /u qiyou /p qiyou /si test
 
 结果如下
 
-![](<../../.gitbook/assets/image (317).png>)
+![](<../../.gitbook/assets/image (946).png>)
 
 &#x20;但是这样只能执行一次，这对我们后门持久化很不利，所以我们得想办法让它持久化。
 
@@ -535,7 +535,7 @@ CLR(公共语言运行库,Common Language Runtime)和Java虚拟机一样也是�
 
 修改一下注册表，注册表路径：HKEY\_CURRENT\_USER\Software\Classes\CLSID\，新建子项{11111111-1111-1111-1111-111111111111}（名字随便，只要不与注册表中存在的名称冲突就行），然后再新建子项InProcServer32，新建一个键ThreadingModel，键值为：Apartment，默认的键值为我们dll的路径
 
-![](<../../.gitbook/assets/image (356).png>)
+![](<../../.gitbook/assets/image (1058).png>)
 
 然后在cmd下设置一下：&#x20;
 
@@ -550,7 +550,7 @@ SETX COR_PROFILER={11111111-1111-1111-1111-111111111111} /M
 
 然后执行一波，效果如下，可以看到已经成功劫持了
 
-![](<../../.gitbook/assets/image (293).png>)
+![](<../../.gitbook/assets/image (970).png>)
 
 ## 12、Hijack CAccPropServicesClass and MMDeviceEnumerator
 
@@ -568,17 +568,17 @@ SETX COR_PROFILER={11111111-1111-1111-1111-111111111111} /M
 
 PS：如果Installer文件夹不存在，则依次创建Installer{BCDE0395-E52F-467C-8E3D-C4579291692E}
 
-![](<../../.gitbook/assets/image (343).png>)
+![](<../../.gitbook/assets/image (834).png>)
 
 ### 2、修改注册表
 
 然后就是修改注册表了，在注册表位置为：HKCU\Software\Classes\CLSID\下创建项{b5f8350b-0548-48b1-a6ee-88bd00b4a5e7}，然后再创建一个子项InprocServer32，默认为我们的dll文件路径：C:\Users\qiyou\AppData\Roaming\Microsoft\Installer{BCDE0395-E52F-467C-8E3D-C4579291692E}，再创建一个键ThreadingModel，其键值为：Apartment
 
-![](<../../.gitbook/assets/image (295).png>)
+![](<../../.gitbook/assets/image (1044).png>)
 
 然后就是测试了，打开iexplorer.exe，成功弹框
 
-![](<../../.gitbook/assets/image (368).png>)
+![](<../../.gitbook/assets/image (688).png>)
 
 ```
 PS：

@@ -6,7 +6,7 @@
 
 1. &#x20;[**《A Byte of Python（简明 Python 教程）》**](https://wizardforcel.gitbooks.io/a-byte-of-python/content/)\
    Python 初学者的极佳教材
-2. &#x20;[**《Python Cookbook》**](https://python3-cookbook.readthedocs.io/zh\_CN/latest/)\
+2. &#x20;[**《Python Cookbook》**](https://python3-cookbook.readthedocs.io/zh_CN/latest/)\
    有很多高级技巧，想了解 Python 底层的工作原理就看这本
 3. &#x20;[**《利用 Python 进行数据分析》**](https://seancheney.gitbook.io/python-for-data-analysis-2nd/)\
    学习 Python 基础库最好的书
@@ -40,7 +40,7 @@ python2 get-pip.py
 
 以KALI为例，运行成功后，会出现两个pip，分别为pip2与pip3，对应的就是python2的pip与python3的pip
 
-![](<../../.gitbook/assets/image (522).png>)
+![](<../../.gitbook/assets/image (687).png>)
 
 ### 2、pip install 的时候报错，想要更换源怎么操作&#x20;
 
@@ -57,7 +57,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple
 
 &#x20;之后，点击保存即可&#x20;
 
-![](<../../.gitbook/assets/image (524).png>)
+![](<../../.gitbook/assets/image (643).png>)
 
 最后效果为： C:\Users\XXX\pip\pip.ini&#x20;
 
@@ -74,7 +74,7 @@ trusted-host = https://pypi.tuna.tsinghua.edu.cn
 
 之后，保存并退出即可&#x20;
 
-![](<../../.gitbook/assets/image (518).png>)
+![](<../../.gitbook/assets/image (282).png>)
 
 最后文件路径为：\~/.pip/pip.conf&#x20;
 
@@ -84,21 +84,21 @@ Linux中默认版本是python2，python3也有，此处以Windows为例：
 
 1、在配置环境变量的时候，若是想使用python2，就可以直接将python2的变量排在python3之前，具体如下（反之同理）：
 
-![](<../../.gitbook/assets/image (525).png>)
+![](<../../.gitbook/assets/image (351).png>)
 
 此时尝试输入python，即可看到所对应的版本：
 
-![](<../../.gitbook/assets/image (523).png>)
+![](<../../.gitbook/assets/image (849).png>)
 
 2、如果也想使用python3，此时就可以通过`py -3`的方式来切换所使用的python版本
 
-![](<../../.gitbook/assets/image (521).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
 ### 4、pip更新第三方库时报错
 
 1、错误内容如下：
 
-![错误图片](<../../.gitbook/assets/image (804).png>)
+![错误图片](<../../.gitbook/assets/image (81).png>)
 
 ```bash
 ERROR: After October 2020 you may experience errors when installing or updating packages. This is because pip will change the way that it resolves dependency conflicts.
@@ -129,7 +129,7 @@ for dist in get_installed_distributions():
     call("pip install --upgrade " + dist.project_name, shell=True)
 ```
 
-![运行截图](<../../.gitbook/assets/image (862).png>)
+![运行截图](<../../.gitbook/assets/image (215).png>)
 
 ### 6、ubuntu更新python3版本
 
@@ -144,7 +144,7 @@ $ apt update
 $ apt install software-properties-common
 ```
 
-![](<../../.gitbook/assets/image (1071).png>)
+![](<../../.gitbook/assets/image (633).png>)
 
 2、添加PPA源
 
@@ -153,7 +153,7 @@ $ add-apt-repository ppa:deadsnakes/ppa
 >> Press [ENTER] to continue or Ctrl-c to cancel adding it.(当到这里时，点击回车键即可)
 ```
 
-![](<../../.gitbook/assets/image (1068).png>)
+![](<../../.gitbook/assets/image (638).png>)
 
 3、安装python3.9并配置为系统默认版本
 
@@ -167,7 +167,7 @@ sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
 update-alternatives --config python3
 ```
 
-![](<../../.gitbook/assets/image (1070).png>)
+![](<../../.gitbook/assets/image (487).png>)
 
 
 

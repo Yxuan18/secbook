@@ -10,8 +10,7 @@
 
 ### **实验环境** <a href="#h2-2" id="h2-2"></a>
 
-本机win10+xampp+某狗web应用防火墙最新版。为方便演示，存在sql注入的脚本中使用$\_REQUEST\["id"]来接收get,或者post提交的数据。waf配置为拦截url和post的and  or 注入，如图二所示。\
-
+本机win10+xampp+某狗web应用防火墙最新版。为方便演示，存在sql注入的脚本中使用$\_REQUEST\["id"]来接收get,或者post提交的数据。waf配置为拦截url和post的and  or 注入，如图二所示。<br>
 
 ![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546679837_5c30761d308ee.png!small)
 
@@ -113,8 +112,7 @@ HTTP头里的Content-Type一般有application/x-www-form-urlencoded，multipart/
 
 ![在HTTP协议层面绕过WAF](https://image.3001.net/images/20190105/1546701023_5c30c8df53897.png!small)
 
-由于是正常数据提交，所以从图十可知数据是能被apache容器正确解析的，尝试1 and 1=1也会被某狗waf拦截，但如果其他waf没有规则拦截这种方式提交的数据包，那么同样能绕过。\
-
+由于是正常数据提交，所以从图十可知数据是能被apache容器正确解析的，尝试1 and 1=1也会被某狗waf拦截，但如果其他waf没有规则拦截这种方式提交的数据包，那么同样能绕过。<br>
 
 2.一般绕waf往往需要多种方式结合使用，如图十的示例中，只需将数据部分1 and 1=1用一个小数点"."当作连接符即1.and 1=1就可以起到绕过作用。当然，这只是用小数点当连接符所起的作用而已。如图十一所示。
 
@@ -577,8 +575,7 @@ public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequ
 
 在Burp repeater套件可以快速对请求内容进行chunked编码解码，来对WAF进行测试。
 
-[\
-](https://gv7.me/articles/2019/chunked-coding-converter/repeater-chunked-coding.gif)快速编码解码对WAF进行测试
+[<br>](https://gv7.me/articles/2019/chunked-coding-converter/repeater-chunked-coding.gif)快速编码解码对WAF进行测试
 
 ![快速编码解码对WAF进行测试](https://gv7.me/articles/2019/chunked-coding-converter/repeater-chunked-coding.gif)
 

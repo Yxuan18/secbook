@@ -11,7 +11,7 @@
 | 符合性依据 | <p>参考配置操作 # cat /etc/pam.d/system-auth，找到 password 模块接口的配置部分，找到类 似如下的配置行： <br>password requisite /lib/security/$ISA/pam_cracklib.so minlen =8 参数说明如下： <br>1、retry=N，确定用户创建密码时允许重试的次数； <br>2、minlen=N，确定密码最小长度要求，事实上，在默认配置下，此参数代 表密码最小长度为 N-1； <br>3、dcredit=N，当 N 小于 0 时，代表新密码中数字字符数量不得少于（N）个。例如，dcredit=-2 代表密码中要至少包含两个数字字符； <br>4、ucredit=N，当 N 小于 0 时，代表则新密码中大写字符数量不得少于（N）个； <br>5、lcredit=N，当 N 小于 0 时，代表则新密码中小写字符数量不得少于（-N） 个； <br>6、ocredit=N，当 N 小于 0 时，代表则新密码中特殊字符数量不得少于（ N）个；2.不存在空口令帐号。 <br>shadow 文件第二个字段为空即存在空口令</p> |
 | 影响性分析 | 加固操作对业务无影响，加固操作对业务无影响,但是操作失误会导致系统认 证错误，无法正常登陆。 建议在修改配置文件前，对原配置文件进行备份 cp xx xx20190503.bak                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
-![](<../../.gitbook/assets/image (66).png>)
+![](<../../.gitbook/assets/image (150).png>)
 
 ### 2、口令生存期
 
@@ -21,7 +21,7 @@
 | 检测步骤  | 执行：more /etc/login.defs，检查 PASS\_MAX\_DAYS、 PASS\_MIN\_DAYS、 PASS\_WARN\_AGE 参数                                                                          |
 | 符合性依据 | <p>参考配置操作 <br>用 vi 编辑/etc/login.defs 文件中配置： <br>PASS_MAX_DAYS 90#新建用户的口令最长使用天数 <br>PASS_MIN_DAYS 6#新建用户的口令最短使用天数 <br>PASS_WARN_AGE 7#新建用户的口令到期提前提醒天数</p> |
 
-![](<../../.gitbook/assets/image (57).png>)
+![](<../../.gitbook/assets/image (475).png>)
 
 ### 3、默认账户
 
@@ -32,7 +32,7 @@
 | 符合性依据 | <p>系统默认帐户应被禁止登录或者锁定如下账号： <br>lp, sync, shutdown, halt, news, uucp, operator, games, gopher 。 <br>参考配置操作： <br>锁定用户： <br>修改/etc/passwd 文件，将需要锁定的用户的 shell 域设为 nologin； <br>通过#passwd –l username 锁定账户； <br>只有具备超级用户权限的使用者方可使用#passwd –l username 锁定用户,用 #passwd –d username 解锁后原有密码失效，登录需输入新密码</p> |
 | 回退操作  | <p>账户解锁： <br># usermod -U username 或# passwd -u username</p>                                                                                                                                                                                                                                     |
 
-![](<../../.gitbook/assets/image (88).png>)
+![](<../../.gitbook/assets/image (60).png>)
 
 ### 4、共享账户
 
@@ -42,7 +42,7 @@
 | 检测步骤  | 使用命令 cat /etc/passwd 查看当前所有用户的信息，与管理员确认是否有共 享账户情况存在                                                                                                                                   |
 | 符合性依据 | <p>若存在账户共享的情况，则低于安全要求； <br>参考配置操作： <br>cat /etc/passwd 查看当前所有用户的情况； <br>如需建立用户，参考如下： <br>#useradd username #创建账户 <br>#passwd username #设置密码 <br>使用该命令为不同的用户分配不同的账户，设置不同的口令及权限信息等。</p> |
 
-![](<../../.gitbook/assets/image (51).png>)
+![](<../../.gitbook/assets/image (835).png>)
 
 ### 5、FTP账户
 
@@ -52,7 +52,7 @@
 | 检测步骤  | <p>(一) 查看 FTP 进程: <br>1、ps -ef |grep ftp，检查是否有 ftp 进程; <br>2、chkconfig --list |grep ftp，检查 ftp 服务是否开机启动； <br>若以上两项未开启 FTP，则忽略以下 FTP 帐户配置。 <br>(二) 检查 FTP 帐户 <br>1、默认 FTP 就是禁止 root 用户登录的（如果没有禁用在/etc/vsftpd/ftpusers 和/etc/vsftpd/user_list，把 root 去掉） <br>2、更改/etc/vsftpd/vsftpd.conf 文件，查看是否有：<br>userlist_enable=YES 这条 配置，如果没有则加上；<br>再增加 userlist_deny=NO（只允许 userlist 文件的用 户登录 FTP，其它默认用户不允许） <br>3、更改/etc/vsftpd/user_list 文件 添加 ftp 允许登陆的帐户，并注释掉原所有帐户； <br>4、重新启动 vsftpd 服务 service vsftpd restart</p> |
 | 符合性依据 | <p>如不使用 FTP，关闭 FTP； <br>如需使用，专门为 FTP 设置账号，与系统帐户不共享。</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
-![](<../../.gitbook/assets/image (53).png>)
+![](<../../.gitbook/assets/image (681).png>)
 
 ### 6、超级用户控制
 
@@ -63,7 +63,7 @@
 | 符合性依据 | 返回值包括“root”以外的条目，则低于安全要求；                                                                                                                                                    |
 | 备注    | <p>补充操作说明： <br>UID 为 0 的任何用户都拥有系统的最高特权，保证只有 root 用户的 UID 为 0 修改方法：编辑 /etc/passwd 文件（文件内容结构为 Root : x : 0 : 0 : root : /root : /bin/bash）把此用户的的第三项改为非 0 的数值，第三项表示用户 UID 值</p> |
 
-![](<../../.gitbook/assets/image (43).png>)
+![](<../../.gitbook/assets/image (456).png>)
 
 ### 7、用户锁定策略
 
@@ -85,7 +85,7 @@
 | 检测步骤  | <p>查看 SSH 服务状态：<br>ps –elf|grep ssh</p><p>查看 telnet 服务状态：<br>ps –elf|grep telnet</p>                                                                                                                                                                                                                                                                                                                                                                               |
 | 符合性依据 | <p>没有使用 telnet 进行远程维护 <br>使用 SSH 进行远程维护 <br>参考配置操作： <br>SSH 配置要符合如下要求 <br>Protocol 2 #使用 ssh2 版本 <br>X11Forwarding yes #允许窗口图形传输使用 ssh 加密 <br>IgnoreRhosts yes#完全禁止 SSHD 使用.rhosts 文件 <br>RhostsAuthentication no #不设置使用基于 rhosts 的安全验证 RhostsRSAAuthentication no #不设置使用 RSA 算法的基于 rhosts 的安全验证 <br>HostbasedAuthentication no #不允许基于主机白名单方式认证 PermitRootLogin no #不允许 root 登录 <br>PermitEmptyPasswords no #不允许空密码 <br>Banner /etc/motd #设置 ssh 登录时显示的 banner</p> |
 
-![](<../../.gitbook/assets/image (64).png>)
+![](<../../.gitbook/assets/image (846).png>)
 
 ### 2、SSH-ROOT远程登录限制
 
@@ -97,7 +97,7 @@
 | 回退操作  | 修改/etc/ssh/sshd\_config 文件，将 PermitRootLogin no 改为 PermitRootLogin yes，重启 sshd 服务                                                                                |
 | 备注    | 远程执行管理员权限操作，应先以普通权限用户远程登录后，再切换到超级 管理员权限账户后执行相应操作                                                                                                                 |
 
-![](<../../.gitbook/assets/image (83).png>)
+![](<../../.gitbook/assets/image (1070).png>)
 
 ### 3、登录超时设置
 
@@ -108,7 +108,7 @@
 | 符合性依据 | <p>返回值为空或是时间较长，则低于安全要求。 <br>参考配置操作 <br>通过修改账户中“TMOUT”参数，可以实现此功能。<br>TMOUT 按秒计算。 <br>编辑 profile 文件（vi /etc/profile），在“HISTFILESIZE=”后面加入这行： TMOUT=600</p> |
 | 备注    | 改变这项设置后，必须先注销用户，再用该用户登录才能激活这个功能                                                                                                                          |
 
-![](<../../.gitbook/assets/image (47).png>)
+![](<../../.gitbook/assets/image (1048).png>)
 
 ### 4、关键目录权限
 
@@ -121,7 +121,7 @@
 | 回退操作  | 通过 chmod 命令对目录的权限进行实际调整                                                                                                                                                                                                                                                                                       |
 | 备注    | <p>对于重要目录，建议执行如下类似操作：<br>chmod -R 750 /etc/rc.d/init.d/*</p><p>这样只有 root 可以读、写和执行这个目录下的脚本。</p>                                                                                                                                                                                                                |
 
-![](<../../.gitbook/assets/image (55).png>)
+![](<../../.gitbook/assets/image (53).png>)
 
 ### 5、用户缺省权限
 
@@ -146,7 +146,7 @@
 | 影响性分析 | 加固操作增加系统资源开消，请检查系统资源是否充足。                                                                                                                                             |
 | 回退操作  | <p>修改配置文件 vi /etc/syslog.conf。 <br>配置如下类似语句，注释掉下面： <br>#authpriv.*/var/log/secure</p>                                                                                 |
 
-![](<../../.gitbook/assets/image (85).png>)
+![](<../../.gitbook/assets/image (883).png>)
 
 ### 2、日志远程存储
 
@@ -157,7 +157,7 @@
 | 符合性依据 | <p>若未设置远程日志服务器，则低于安全要求。 <br>参考配置操作 <br>修改配置文件 vi /etc/syslog.conf， <br>加上这一行： *<em>.*</em> @10.110.102.23 <br>可以将"*<em>.*</em>"替换为你实际需要的日志信息。比如：kern.* <em>/ mail.*</em> 等等；可以将此处 10.110.102.23 替换为实际的 IP 或域名。 <br>重新启动 syslog 服务，执行下列命令： <br>services syslogd restart <br>补充操作说明 <br>注意：*<em>.*</em>和@之间为一个 Tab 键</p> |
 | 备注    | 建议配置专门的日志服务器，加强日志信息的异地同步备份。                                                                                                                                                                                                                                                                                            |
 
-![](<../../.gitbook/assets/image (60).png>)
+![](<../../.gitbook/assets/image (964).png>)
 
 ## 4、端口管理
 
@@ -171,9 +171,9 @@
 | 影响性分析 | 关闭服务前，务必和管理员确定此服务关闭不会对使用中的应用程序造成影响。 此项工作需要在明确系统端口实际用途的情况下，限制不必要的端口访问，建 议先在测试环境中进行测试                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | 回退操作  | <p>查看所有开启的服务： <br>#ps –eaf <br>在 inetd.conf 中 关 闭 不 用 的 服 务 首先复制/etc/inet/inetd.conf 。 <br>#cp /etc/inet/inetd.conf /etc/inet/inetd.conf.backup <br>然后用vi编辑器编辑inetd.conf 文件，把在相应行开头标记"#"字符删除， 重启 inetd 进程</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
-![](<../../.gitbook/assets/image (68).png>)
+![](<../../.gitbook/assets/image (1062).png>)
 
-![](<../../.gitbook/assets/image (73).png>)
+![](<../../.gitbook/assets/image (765).png>)
 
 ## 5、其他安全配置
 
@@ -187,7 +187,7 @@
 | 回退操作  | <p>修改配置文件 <br>vi /etc/security/limits.conf <br>配置如下类似语句，注释掉下面：<br>* soft core 0<br>* hard core 0</p>                                |
 | 备注    | 补充操作说明 core dump 中可能包括系统信息，易被入侵者利用，建议关闭。                                                                                            |
 
-![](<../../.gitbook/assets/image (74).png>)
+![](<../../.gitbook/assets/image (806).png>)
 
 ### 2、补丁更新
 
@@ -200,6 +200,6 @@
 | 回退操作    | 卸载相关补丁                                                                                                                                                              |
 | 备注      | cat /etc/Linux-release//查看补丁版本的命令要根据系统的不通进行变化如： cat /etc/redhat-release、cat /etc/centos-release。LINUX 相关系统补丁一般 均会涉及到系统内核调整，一般是通过内核版本判断，是否需要最新的内核版本，对于这种情况，一般不建议内核升级 |
 
-![](<../../.gitbook/assets/image (52).png>)
+![](<../../.gitbook/assets/image (87).png>)
 
-![](<../../.gitbook/assets/image (86).png>)
+![](<../../.gitbook/assets/image (925).png>)

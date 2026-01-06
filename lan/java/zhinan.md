@@ -2292,4 +2292,4 @@ bash dependency-check.sh --project 项目名称 -s lib库的路径 -o 报告保�
 
 下表中总结代码审计中逆向审计常用关键字：
 
-![](<../../.gitbook/assets/image (979).png>)
+![](<../../.gitbook/assets/image (624).png>)

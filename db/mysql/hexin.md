@@ -35,7 +35,7 @@ show tables;
 select 8 from ceshi;
 ```
 
-![](<../../.gitbook/assets/image (154).png>)
+![](<../../.gitbook/assets/image (841).png>)
 
 2、主键约束
 
@@ -55,9 +55,9 @@ select 8 from ceshi;
 字段名 数据类型 PRIMARY KEY[默认值]
 ```
 
-![在id字段上设置主键约束](<../../.gitbook/assets/image (146).png>)
+![在id字段上设置主键约束](<../../.gitbook/assets/image (853).png>)
 
-![在id字段上设置主键约束](<../../.gitbook/assets/image (144).png>)
+![在id字段上设置主键约束](<../../.gitbook/assets/image (126).png>)
 
 多字段联合主键：\
 多字段联合主键是指主键由多个字段联合组成
@@ -66,7 +66,7 @@ select 8 from ceshi;
 PRIMARY KEY[字段1，字段2，…，字段n]
 ```
 
-![id字段和depid字段组合在一起成为该数据表的多字段联合主键](<../../.gitbook/assets/image (149).png>)
+![id字段和depid字段组合在一起成为该数据表的多字段联合主键](<../../.gitbook/assets/image (937).png>)
 
 3、外键约束
 
@@ -82,11 +82,11 @@ PRIMARY KEY[字段1，字段2，…，字段n]
 REFERENCES<主表名> 主键列1[,主键列2,…]
 ```
 
-![创建了一个name字段，其插入值不能为空（NOT NULL）](<../../.gitbook/assets/image (152).png>)
+![创建了一个name字段，其插入值不能为空（NOT NULL）](<../../.gitbook/assets/image (991).png>)
 
 其中，“外键名”为定义的外键约束的名称，一个表中不能有相同名称的外键；“字段名”表示子表需要添加外键约束的字段列
 
-![在表tb\_employee5上添加了名称为fk\_emp\_dept1的外键约束，外键名称为depid，其依赖于表tb\_dept1的主键id](<../../.gitbook/assets/image (142).png>)
+![在表tb\_employee5上添加了名称为fk\_emp\_dept1的外键约束，外键名称为depid，其依赖于表tb\_dept1的主键id](<../../.gitbook/assets/image (171).png>)
 
 注意：\
 关联值是在关系型数据库中，相关表之间的联系。它是通过相容或相同的属性或属性组来表示的。子表的外键必须关联父表的主键，且关联字段的数据类型必须匹配，如果类型不一样，则创建子表时，就会出现错误提示
@@ -98,7 +98,7 @@ REFERENCES<主表名> 主键列1[,主键列2,…]
 字段名 数据类型 not null
 ```
 
-![创建了一个name字段，其插入值不能为空（NOT NULL）](<../../.gitbook/assets/image (153).png>)
+![创建了一个name字段，其插入值不能为空（NOT NULL）](<../../.gitbook/assets/image (396).png>)
 
 5、唯一性约束\
 要求该列唯一，允许为空，但只能出现一个空值。唯一约束可以确保一列或者几列都不出现重复值
@@ -111,9 +111,9 @@ REFERENCES<主表名> 主键列1[,主键列2,…]
 [CONSTRAINT <约束名>] UNIQUE(<字段名>)
 ```
 
-![](<../../.gitbook/assets/image (148).png>)
+![](<../../.gitbook/assets/image (102).png>)
 
-![](<../../.gitbook/assets/image (147).png>)
+![](<../../.gitbook/assets/image (370).png>)
 
 UNIQUE和PRIMARY KEY的区别：
 
@@ -127,11 +127,11 @@ UNIQUE和PRIMARY KEY的区别：
 字段名数据类型 DEFAULT 默认值
 ```
 
-![](<../../.gitbook/assets/image (159).png>)
+![](<../../.gitbook/assets/image (855).png>)
 
 表tb\_employee7中的字段deptId拥有了一个默认值“1111”，新插入的记录如果没有指定部门编号，则默认设置为“1111”
 
-![](<../../.gitbook/assets/image (151).png>)
+![](<../../.gitbook/assets/image (888).png>)
 
 7、设置数据表的属性值自动增加
 
@@ -141,13 +141,13 @@ UNIQUE和PRIMARY KEY的区别：
 字段名 数据类型 AUTO_INCREMENT
 ```
 
-![](<../../.gitbook/assets/image (143).png>)
+![](<../../.gitbook/assets/image (604).png>)
 
 创建名称为tb\_employee8的数据表。表中的id字段值在添加记录的时候会自动增加，id字段默认值从1开始，每次添加一条新纪录，该值自动加1
 
-![向表中添加数据](<../../.gitbook/assets/image (157).png>)
+![向表中添加数据](<../../.gitbook/assets/image (709).png>)
 
-![表内容](<../../.gitbook/assets/image (160).png>)
+![表内容](<../../.gitbook/assets/image (1040).png>)
 
 ### 2、查看数据表结构
 
@@ -157,7 +157,7 @@ describe tb_name;
 desc tb_name;
 ```
 
-![](<../../.gitbook/assets/image (139).png>)
+![](<../../.gitbook/assets/image (415).png>)
 
 其中：
 
@@ -171,7 +171,7 @@ desc tb_name;
 SHOW CREATE TABLE tb_name(\G);    #\g:是否格式化显示
 ```
 
-![](<../../.gitbook/assets/image (138).png>)
+![](<../../.gitbook/assets/image (747).png>)
 
 ### 3、修改数据表
 
@@ -182,21 +182,21 @@ SHOW CREATE TABLE tb_name(\G);    #\g:是否格式化显示
 alter table old_name rename nwe_name;
 ```
 
-![](<../../.gitbook/assets/image (162).png>)
+![](<../../.gitbook/assets/image (827).png>)
 
 ```
 ## 修改字段数据类型
 ALTER TABLE tb_name MODIFY name VARCHAR(30);
 ```
 
-![](<../../.gitbook/assets/image (169).png>)
+![](<../../.gitbook/assets/image (650).png>)
 
 ```
 ## 修改字段名
 alter table tb_name change old_id new_id varchar(255);
 ```
 
-![](<../../.gitbook/assets/image (161).png>)
+![](<../../.gitbook/assets/image (401).png>)
 
 由于不同类型的数据在机器中存储的方式及长度并不相同，修改数据类型可能会影响到数据表中已有的数据记录。因此，当数据库中已经有数据时，不要轻易修改数据类型
 
@@ -206,7 +206,7 @@ alter tabe tb_name add new_ziduan varchar(255) first;
 alter tabe tb_name add new_ziduan varchar(255) after XXX;
 ```
 
-![](<../../.gitbook/assets/image (163).png>)
+![](<../../.gitbook/assets/image (195).png>)
 
 “FIRST”“AFTER”“已存在字段名”用于指定新增字段在表中的位置，如果SQL语句中没有这两个参数，则默认将新添加的字段设置为数据表的最后列
 
@@ -215,7 +215,7 @@ alter tabe tb_name add new_ziduan varchar(255) after XXX;
 alter table tb_name drop ziduan;
 ```
 
-![](<../../.gitbook/assets/image (164).png>)
+![](<../../.gitbook/assets/image (226).png>)
 
 ```
 ## 修改字段排序
@@ -223,7 +223,7 @@ alter table tb_name modify ziduan1 varchar(255) first;
 alter table tb_name modify ziduan1 varchar(255) after XXX;
 ```
 
-![](<../../.gitbook/assets/image (168).png>)
+![](<../../.gitbook/assets/image (1055).png>)
 
 ```
 ## 更改表的存储引擎
@@ -235,7 +235,7 @@ alter table tb_name ENGINE=InnoDB;    #修改存储引擎为InnoDB
 alter table tb_name frop foreign key key_name;
 ```
 
-![](<../../.gitbook/assets/image (166).png>)
+![](<../../.gitbook/assets/image (379).png>)
 
 ### 4、删除数据表
 
@@ -245,7 +245,7 @@ drop table tb_name;
 ## 若报错，则说明有外键约束，删除外键约束再删除表即可
 ```
 
-![](<../../.gitbook/assets/image (170).png>)
+![](<../../.gitbook/assets/image (995).png>)
 
 在MySQL中AUTO\_INCREMENT的初始值是1，每新增一条记录，字段值自动加1。设置自增属性（AUTO\_INCREMENT）的时候，还可以指定第一条插入记录的自增字段的值，这样新插入的记录的自增字段值从初始值开始递增。
 
@@ -270,9 +270,9 @@ MySQL支持多种数据类型，主要有数值类型、日期/时间类型、�
 | INT（INTEGER） | 普通大小的整数 | 4个字节 |
 | BIGINT       | 大整数     | 8个字节 |
 
-![整数型数据类型的取值范围](<../../.gitbook/assets/image (171).png>)
+![整数型数据类型的取值范围](<../../.gitbook/assets/image (818).png>)
 
-![](<../../.gitbook/assets/image (172).png>)
+![](<../../.gitbook/assets/image (138).png>)
 
 整数类型的显示宽度只用于显示，不能限制取值范围和存储空间，如INT(4)会占用4个字节的存储空间，其允许的最大值是231-1或232-1，而不是9999
 
@@ -296,7 +296,7 @@ DOUBLE类型的取值范围如下
 1. 有符号的取值范围：-1.7976931348623157E+308～-2.2250738585072014E-308。
 2. 无符号的取值范围：0和2.2250738585072014E-308～1.7976931348623157E+308。
 
-![](<../../.gitbook/assets/image (165).png>)
+![](<../../.gitbook/assets/image (825).png>)
 
 在MySQL中，在对精度要求比较高的时候（如货币、科学数据等），尽量选择使用DECIMAL类型。另外，两个浮点数在进行减法和比较运算的时候容易出问题，因此在使用浮点数类型时需要注意，并尽量避免做浮点数比较
 
@@ -320,7 +320,7 @@ YEARYEAR类型使用单字节表示年份，在存储时只需要一个字节。
 
 两位整数与两位字符串的取值范围稍有不同。例如：插入2000年，读者可能会使用数字格式的0表示YEAR，实际上，插入数据库的值为0000，而不是期望的20000。只有使用字符串格式的‘0’和‘00’，才可以得到2000。非法YEAR值被转换为0000。
 
-![](<../../.gitbook/assets/image (167).png>)
+![](<../../.gitbook/assets/image (974).png>)
 
 
 

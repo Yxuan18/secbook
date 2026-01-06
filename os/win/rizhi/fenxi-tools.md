@@ -6,43 +6,43 @@ LogParser是微软自家做的工具，可以用来分析IIS日志、Windows系�
 
 ### 1、下载
 
-LogParser 
+LogParser&#x20;
 
-这是本节的主角，下载安装后建议将路径加入PATH变量，方便在CMD中调用。 
+这是本节的主角，下载安装后建议将路径加入PATH变量，方便在CMD中调用。&#x20;
 
 下载：
 
- [https://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=24659](https://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=24659) LogParserStudio 这是一款界面化的辅助分析工具，可以在练习时提高语句测试的效率，解压后就可以使用（需要.NET框架），该工具依赖LogParser。 
+&#x20;[https://www.microsoft.com/en-us/download/details.aspx?displaylang=en\&id=24659](https://www.microsoft.com/en-us/download/details.aspx?displaylang=en\&id=24659) LogParserStudio 这是一款界面化的辅助分析工具，可以在练习时提高语句测试的效率，解压后就可以使用（需要.NET框架），该工具依赖LogParser。&#x20;
 
-下载： 
+下载：&#x20;
 
-[https://gallery.technet.microsoft.com/Log-Parser-Studio-cd458765](https://gallery.technet.microsoft.com/Log-Parser-Studio-cd458765) 
+[https://gallery.technet.microsoft.com/Log-Parser-Studio-cd458765](https://gallery.technet.microsoft.com/Log-Parser-Studio-cd458765)&#x20;
 
 使用方法简单介绍：
 
-![](../../../.gitbook/assets/image%20%28411%29.png)
+![](<../../../.gitbook/assets/image (485).png>)
 
 ### 2、理解字段
 
-先收集所有字段名，并理解每个字段的含义 
+先收集所有字段名，并理解每个字段的含义&#x20;
 
-```text
+```
 logparser -i:evt -o:csv "select * into D:\1.csv from D:\Security.evtx where eventid=4624" 
 ```
 
 下表为提取的字段名与示例：两个表为1个表，上下顺序为从左往右，包括下面的MESSAGE部分。
 
-| EventLog | RecordNumber | TimeGenerated | TimeWritten | EventID | EventType | EventTypeName | EventCategory |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| D:\Security.evtx | 2 | 2014/2/15 13:09:00 | 2014/2/15 13:09:00 | 4624 | 8 | Success Audit event | 12544 |
+| EventLog         | RecordNumber | TimeGenerated      | TimeWritten        | EventID | EventType | EventTypeName       | EventCategory |
+| ---------------- | ------------ | ------------------ | ------------------ | ------- | --------- | ------------------- | ------------- |
+| D:\Security.evtx | 2            | 2014/2/15 13:09:00 | 2014/2/15 13:09:00 | 4624    | 8         | Success Audit event | 12544         |
 
-| EventCategoryName | SourceName | Strings | ComputerName | SID |
-| :--- | :--- | :--- | :--- | :--- |
-| The name for category 12544 in Source "Microsoft-Windows-Security-Auditing" cannot be found. The local computer may not have the necessary registry information or message DLL files to display messages from a remote computer | Microsoft-Windows-Security-Auditing | S-1-0-0\|-\|-\|0x0\|S-1-5-18\|SYSTEM\|NT AUTHORITY\|0x3e7\|0\|-\|-\|-\|{00000000-0000-0000-0000-000000000000}\|-\|-\|0\|0x4\|\|-\|- | 37L425-07 | NULL |
+| EventCategoryName                                                                                                                                                                                                               | SourceName                          | Strings                                                                                                                             | ComputerName | SID  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------ | ---- |
+| The name for category 12544 in Source "Microsoft-Windows-Security-Auditing" cannot be found. The local computer may not have the necessary registry information or message DLL files to display messages from a remote computer | Microsoft-Windows-Security-Auditing | S-1-0-0\|-\|-\|0x0\|S-1-5-18\|SYSTEM\|NT AUTHORITY\|0x3e7\|0\|-\|-\|-\|{00000000-0000-0000-0000-000000000000}\|-\|-\|0\|0x4\|\|-\|- | 37L425-07    | NULL |
 
 MESSAGE：
 
-```text
+```
 已成功登录帐户。 
 主题: 
 安全 ID: S-1-0-0 
@@ -86,33 +86,33 @@ MESSAGE：
 
 对以上每个字段进行理解
 
-| 字段名 | 解释 |
-| :--- | :--- |
-| EventLog | Log文件名 |
-| RecordNumber | 在日志文件中的序号 |
-| TimeGenerated | 记录时间 |
-| TimeWritten | 记录时间 |
-| EventID | 事件ID |
-| EventType | 事件类型ID |
-| EventTypeName | 事件类型名称 |
-| EventCategory | 事件分类ID |
-| EventCategoryName | 事件分类名称 |
-| SourceName | 日志名称如：Microsoft-Windows-Security-Auditing |
-| Strings | 包含“详细信息”中的字串，使用\|分割每个字段 |
-| ComputerName | 本机计算机名 |
-| SID | NULL |
-| Message | 包含“常规”中的字符，其中会有中文字符 |
-| Data | NULL |
+| 字段名               | 解释                                        |
+| ----------------- | ----------------------------------------- |
+| EventLog          | Log文件名                                    |
+| RecordNumber      | 在日志文件中的序号                                 |
+| TimeGenerated     | 记录时间                                      |
+| TimeWritten       | 记录时间                                      |
+| EventID           | 事件ID                                      |
+| EventType         | 事件类型ID                                    |
+| EventTypeName     | 事件类型名称                                    |
+| EventCategory     | 事件分类ID                                    |
+| EventCategoryName | 事件分类名称                                    |
+| SourceName        | 日志名称如：Microsoft-Windows-Security-Auditing |
+| Strings           | 包含“详细信息”中的字串，使用\|分割每个字段                   |
+| ComputerName      | 本机计算机名                                    |
+| SID               | NULL                                      |
+| Message           | 包含“常规”中的字符，其中会有中文字符                       |
+| Data              | NULL                                      |
 
-![](../../../.gitbook/assets/image%20%28398%29.png)
+![](<../../../.gitbook/assets/image (1000).png>)
 
-![](../../../.gitbook/assets/image%20%28375%29.png)
+![](<../../../.gitbook/assets/image (667).png>)
 
 ### 3、使用
 
 下面不写logparser参数，重点放在查询语句上。 筛选条件的内容注意区分大小写，比如：
 
-```text
+```
 where computername = 'WIN-AOFVGI63GUG.dclab.com' 
 # 其中 WIN-AOFVGI63GUG.dclab.com 必须大小写书写正确。 
 ```
@@ -121,53 +121,53 @@ where computername = 'WIN-AOFVGI63GUG.dclab.com'
 
 #### 1、按照事件ID筛选
 
-和SQL查询一样，使用WHERE语法来限制 
+和SQL查询一样，使用WHERE语法来限制&#x20;
 
-```text
+```
 # where eventid=事件id 
 select * from D:\Security-2008.evtx where eventid=4624 
 # eventid=4624只显示成功登录的事件
 ```
 
-![](../../../.gitbook/assets/image%20%28373%29.png)
+![](<../../../.gitbook/assets/image (917).png>)
 
 #### 2、只查询指定字段
 
 只查询strings字段
 
-```text
+```
  select strings from D:\Security-2008.evtx where eventid=4624
 ```
 
-![](../../../.gitbook/assets/image%20%28396%29.png)
+![](<../../../.gitbook/assets/image (897).png>)
 
 多字段查询也是用逗号隔开
 
-```text
+```
 select eventid,strings from D:\Security-2008.evtx where eventid=4624
 ```
 
-![](../../../.gitbook/assets/image%20%28422%29.png)
+![](<../../../.gitbook/assets/image (704).png>)
 
 #### 3、限制查询数量
 
 TOP 10 只显示前10条日志，这个TOP语法和Access语法一样
 
-```text
+```
  select top 10 strings from D:\Security-2008.evtx where eventid=4624
 ```
 
-![](../../../.gitbook/assets/image%20%28386%29.png)
+![](<../../../.gitbook/assets/image (232).png>)
 
 #### 4、切割strings
 
-Strings里包含“详细信息”中的字串，使用\|分隔，包含一些重要的数据。 使用extract\_token函数可以切割字符串 \# EXTRACT\_TOKEN \( 字符串, 索引 , '分隔字符' \)
+Strings里包含“详细信息”中的字串，使用|分隔，包含一些重要的数据。 使用extract\_token函数可以切割字符串 # EXTRACT\_TOKEN ( 字符串, 索引 , '分隔字符' )
 
- \# 这是事件ID为4624的情况下
+&#x20;\# 这是事件ID为4624的情况下
 
-“详细信息”参考： 
+“详细信息”参考：&#x20;
 
-```text
+```
 SubjectUserSid S-1-0-0 
 SubjectUserName - 
 SubjectDomainName - 
@@ -189,21 +189,21 @@ IpAddress 172.16.175.102
 IpPort 49229
 ```
 
-例子：截取用户名 
+例子：截取用户名&#x20;
 
-```text
+```
 select Extract_token(Strings,5,'|') from D:\Security-2008.evtx where eventid=4624 
 ```
 
 索引5为 用户名，8为登录类型，11为来源主机名，18为来源主机IP，19为来源主机端口
 
-![](../../../.gitbook/assets/image%20%28414%29.png)
+![](<../../../.gitbook/assets/image (341).png>)
 
- \# 这是事件ID为4625的情况下
+&#x20;\# 这是事件ID为4625的情况下
 
-“详细信息”参考： 
+“详细信息”参考：&#x20;
 
-```text
+```
 SubjectUserSid S-1-0-0 
 SubjectUserName - 
 SubjectDomainName - 
@@ -227,68 +227,68 @@ IpAddress 192.16.0.94
 IpPort 57817
 ```
 
-例子：截取用户名  
+例子：截取用户名 &#x20;
 
-```text
+```
 select Extract_token(Strings,5,'|') from D:\Security-2008.evtx where eventid=4625
 ```
 
 索引5为 用户名，8为登录失败原因（%%2313=未知用户名或密码错误），10为登录类型，13为来源主机名，19为来源主机IP，20为来源主机端口
 
-![](../../../.gitbook/assets/image%20%28372%29.png)
+![](<../../../.gitbook/assets/image (272).png>)
 
 以下是从网络上搜集的常见失败原因：
 
-| 错误码 | 失败原因 |
-| :--- | :--- |
-| %%2305 | The specified user account has expired. \(532\) |
-| %%2309 | The specified account's password has expired. \(535\) |
-| %%2310 | Account currently disabled. \(531\) |
-| %%2311 | Account logon time restriction violation. \(530\) |
-| %%2312 | User not allowed to logon at this computer. \(533\) |
-| %%2313 | Unknown user name or bad password. \(529\) |
+| 错误码    | 失败原因                                                |
+| ------ | --------------------------------------------------- |
+| %%2305 | The specified user account has expired. (532)       |
+| %%2309 | The specified account's password has expired. (535) |
+| %%2310 | Account currently disabled. (531)                   |
+| %%2311 | Account logon time restriction violation. (530)     |
+| %%2312 | User not allowed to logon at this computer. (533)   |
+| %%2313 | Unknown user name or bad password. (529)            |
 
 #### 5、导出文件
 
 INTO语法导出必须使用LogParser，LPS需要用菜单选择导出。
 
-```text
+```
  logparser -i:evt -o:csv "select Extract_token(Strings,11,'|') into d:\11.csv from D:\Security-2008.evtx where eventid=4624"
 ```
 
-![](../../../.gitbook/assets/image%20%28376%29.png)
+![](<../../../.gitbook/assets/image (123).png>)
 
 #### 6、只输出有主机名的记录
 
-```text
+```
 select Extract_token(Strings,11,'|'),* from D:\Security-2008.evtx where eventid=4624 and Extract_token(Strings,11,'|') not in (NULL;'';'-')
 ```
 
-![](../../../.gitbook/assets/image%20%28395%29.png)
+![](<../../../.gitbook/assets/image (411).png>)
 
 #### 7、只显示登录类型3的数据
 
-```text
+```
 select * from D:\Security-2008.evtx where Extract_token(Strings,8,'|')='3'
 ```
 
-![](../../../.gitbook/assets/image%20%28383%29.png)
+![](<../../../.gitbook/assets/image (347).png>)
 
 #### 8、只显示指定主机名的数据
 
-主机名保持大写 
+主机名保持大写&#x20;
 
-```text
+```
 select * from D:\Security-2008.evtx where eventid=4624 and Extract_token(Strings,11,'|')='NEW-666'
 ```
 
-![](../../../.gitbook/assets/image%20%28401%29.png)
+![](<../../../.gitbook/assets/image (1066).png>)
 
 #### 9、将日志整理成新的表
 
 把strings中包含的需要的字段进行分割，使用as指定字段别名。
 
-```text
+```
 # EventID 4624
 
 select EventLog,TimeGenerated,EventID, 
@@ -302,9 +302,9 @@ Extract_token(Strings,11,'|') not in (NULL;'';'-') and
 Extract_token(Strings,5,'|') <> 'ANONYMOUS LOGON'
 ```
 
-![](../../../.gitbook/assets/image%20%28428%29.png)
+![](<../../../.gitbook/assets/image (734).png>)
 
-```text
+```
 # EventID 4625
 
 select EventLog,TimeGenerated,EventID, 
@@ -317,13 +317,13 @@ Extract_token(Strings,8,'|') as FailReason
 from D:\Security.evtx where eventid=4625
 ```
 
-![](../../../.gitbook/assets/image%20%28378%29.png)
+![](<../../../.gitbook/assets/image (355).png>)
 
 #### 10、根据IP，主机名，用户名等进行排序
 
-使用Order by 语法进行排序 
+使用Order by 语法进行排序&#x20;
 
-```text
+```
 select EventLog,TimeGenerated,EventID, 
 Extract_token(Strings,8,'|') as LogonType, 
 Extract_token(Strings,5,'|') as UserName, 
@@ -337,13 +337,13 @@ Order by
 SourceIP DESC
 ```
 
-![](../../../.gitbook/assets/image%20%28377%29.png)
+![](<../../../.gitbook/assets/image (375).png>)
 
 #### 11、筛选登录失败最多的IP，主机名
 
-筛选出EventID4625结果中每个IP出现的次数 
+筛选出EventID4625结果中每个IP出现的次数&#x20;
 
-```text
+```
 select Extract_token(Strings,19,'|') as SourceIP, 
 Count(SourceIP) as CountIP 
 from D:\Security-2008.evtx where eventid=4625 
@@ -352,11 +352,11 @@ order by
 CountIP DESC
 ```
 
-![](../../../.gitbook/assets/image%20%28370%29.png)
+![](<../../../.gitbook/assets/image (394).png>)
 
-筛选出EventID4625结果中每个主机名出现的次数 
+筛选出EventID4625结果中每个主机名出现的次数&#x20;
 
-```text
+```
 select Extract_token(Strings,13,'|') as HostName, 
 Count(HostName) as CountHost 
 from D:\Security-2008.evtx where eventid=4625 
@@ -364,11 +364,11 @@ group by HostName
 order by CountHost DESC
 ```
 
-![](../../../.gitbook/assets/image%20%28382%29.png)
+![](<../../../.gitbook/assets/image (258).png>)
 
-这样分析不是很方便，推荐整理好字段，直接导出完整的csv文件，放在Excel中分析，整理，或转给其它工具进行分析。 
+这样分析不是很方便，推荐整理好字段，直接导出完整的csv文件，放在Excel中分析，整理，或转给其它工具进行分析。&#x20;
 
-```text
+```
 logparser -i:evt -o:csv 
 "select 
 EventLog,TimeGenerated,EventID,Extract_token(Strings,10,'|') as 
@@ -381,21 +381,21 @@ FailReason into D:\all.csv
 from D:\Security.evtx where eventid=4625"
 ```
 
-![](../../../.gitbook/assets/image%20%28429%29.png)
+![](<../../../.gitbook/assets/image (184).png>)
 
-![](../../../.gitbook/assets/image%20%28409%29.png)
+![](<../../../.gitbook/assets/image (290).png>)
 
-![](../../../.gitbook/assets/image%20%28389%29.png)
+![](<../../../.gitbook/assets/image (808).png>)
 
 #### 12、计算文件HASH
 
-说个不太相关的，logparser也能计算文件hash。 
+说个不太相关的，logparser也能计算文件hash。&#x20;
 
-```text
+```
 logparser -i:FS "select path,hashmd5_file(path) from d:\22.csv"
 ```
 
-![](../../../.gitbook/assets/image%20%28397%29.png)
+![](<../../../.gitbook/assets/image (764).png>)
 
 ## 2、wevtutil
 
@@ -403,7 +403,7 @@ logparser -i:FS "select path,hashmd5_file(path) from d:\22.csv"
 
 有人说LogParser查询命令太复杂，个人觉得使用XPath不太顺手，反而更喜欢LogParser。 查询语句的构造可以参考这个：
 
-```text
+```
 <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
     <System>
         <Provider Name="Microsoft-Windows-Security-Auditing" Guid="{54849625-5478-4994-A5BA-3E3B0328C30D}" />
@@ -448,13 +448,13 @@ logparser -i:FS "select path,hashmd5_file(path) from d:\22.csv"
 
 比如要指定登录的用户名（TargetUserName），可以这样构造语句
 
-```text
+```
 wevtutil qe D:\Security-2008.evtx /lf /q:"*[System[(EventID=4624)] and EventData[(Data[@Name='TargetUserName']='laowang')]]" /c:1
 ```
 
 同时指定用户名与来源IP地址
 
-```text
+```
 wevtutil qe D:\Security-2008.evtx /lf /q:"*[System[(EventID=4624)] and EventData[(Data[@Name='TargetUserName']='laowang') and (Data[@Name='IpAddress']='172.16.175.99')]]" /c:1
 ```
 
@@ -462,7 +462,7 @@ wevtutil qe D:\Security-2008.evtx /lf /q:"*[System[(EventID=4624)] and EventData
 
 下面使用PS脚本配合wevtutil进行日志导出，修改查询语句必须要更改代码。本想脚本修改为参数传递查询语句，无奈查询语句过于复杂导致参数传递出错。（修改位置有注释）
 
-```text
+```
 # 脚本 -f 指定evtx文件位置，会自动导出到同名csv文件，默认寻找当前目录下的Security.evtx进行处理。
 Param (
     [string]$f = $pwd.Path+"\Security.evtx"
@@ -523,15 +523,15 @@ SystemTime,WorkstationName,IpAddress,TargetDomainName,TargetUserName,EventID,Log
 
 使用脚本导出csv
 
-```text
+```
 powershell -exec bypass ./getLog.ps1 -f 'd:\Security-2008.evtx'
 ```
 
-![](../../../.gitbook/assets/image%20%28404%29.png)
+![](<../../../.gitbook/assets/image (80).png>)
 
 然后就可以使用excel分析了
 
-![](../../../.gitbook/assets/image%20%28391%29.png)
+![](<../../../.gitbook/assets/image (391).png>)
 
 ## 3、LoogonTracer
 
@@ -539,6 +539,5 @@ powershell -exec bypass ./getLog.ps1 -f 'd:\Security-2008.evtx'
 
 这是测试过的三个版本，一个原版，Docker原版，还有一个汉化版。
 
-https://github.com/JPCERTCC/LogonTracer   
+https://github.com/JPCERTCC/LogonTracer \
 https://github.com/TheKingOfDuck/logonTracer
-

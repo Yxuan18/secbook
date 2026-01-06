@@ -4,19 +4,18 @@
 
 注意：在进行实际的测试的时候，发现漏洞并没有产生，后来发现要设置FastCGI为关闭，该项好像是用来处理数据文件 取消勾选，再次进行测试就能够成功解析
 
-![](../../.gitbook/assets/image%20%28504%29.png)
+![](<../../.gitbook/assets/image (245).png>)
 
-创建一个txt文件，命名为demo，内容为: 
+创建一个txt文件，命名为demo，内容为:&#x20;
 
-```text
+```
 <?php phpinfo(); ?>
 ```
 
 进行访问创建的demo文件：
 
-![](../../.gitbook/assets/image%20%28505%29.png)
+![](<../../.gitbook/assets/image (253).png>)
 
 利用解析漏洞进行访问，在txt 后面加上 /.php进行访问，成功解析
 
-![](../../.gitbook/assets/image%20%28506%29.png)
-
+![](<../../.gitbook/assets/image (89).png>)

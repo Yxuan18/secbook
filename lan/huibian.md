@@ -105,9 +105,9 @@ win7下安装VC6：[教程链接](https://jingyan.baidu.com/article/6b1823096f76
 
 0，1，2，3，4，5，6，7，10，11，12，13，14，15，16，17，20，21，22，23，24，25，26，27
 
-![加法表](<../.gitbook/assets/image (236).png>)
+![加法表](<../.gitbook/assets/image (1086).png>)
 
-![乘法表](<../.gitbook/assets/image (246).png>)
+![乘法表](<../.gitbook/assets/image (966).png>)
 
 乘法表的本质，也是查询数字
 
@@ -127,7 +127,7 @@ win7下安装VC6：[教程链接](https://jingyan.baidu.com/article/6b1823096f76
 
 文件的地址位：文件中的内容：UE的注释
 
-![](<../.gitbook/assets/image (261).png>)
+![](<../.gitbook/assets/image (1035).png>)
 
 &#x20;2、二进制的简写形式
 
@@ -139,7 +139,7 @@ win7下安装VC6：[教程链接](https://jingyan.baidu.com/article/6b1823096f76
 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F\
 这就是十六进制了，中国古代时候已经开始使用十六进制了
 
-![](<../.gitbook/assets/image (260).png>)
+![](<../.gitbook/assets/image (993).png>)
 
 建议：写代码的时候要习惯十六进制，最好不要用十进制
 
@@ -193,14 +193,14 @@ int main(int argc,char*argv[])
 
 1、无符号数的编码规则
 
-![](<../.gitbook/assets/image (259).png>)
+![](<../.gitbook/assets/image (446).png>)
 
 十六进制显示的话，则是：0x9A，十进制是：154\
 文件不同，解析方法不同
 
 2、有符号数，正数编码规则：1A&#x20;
 
-![](<../.gitbook/assets/image (259).png>)
+![](<../.gitbook/assets/image (446).png>)
 
 &#x20;如果最高位是1，则为负数；如果最高位是0，则为正数
 
@@ -260,7 +260,7 @@ int main(int argc,char* argv[])
 正数：0......7F\
 负数：FF......80
 
-![](<../.gitbook/assets/image (265).png>)
+![](<../.gitbook/assets/image (1060).png>)
 
 5、假设数据宽度为DOUBLEWORD（双字）
 
@@ -282,7 +282,7 @@ int main(int argc,char* argv[])
 
 两个数都为1时，结果才是1
 
-![两个开关都闭合时，灯泡才会亮](<../.gitbook/assets/image (263).png>)
+![两个开关都闭合时，灯泡才会亮](<../.gitbook/assets/image (336).png>)
 
 比如：1011-0001&1011-0000=10010000
 
@@ -290,7 +290,7 @@ int main(int argc,char* argv[])
 
 只要有一个为1就是1
 
-![一个开关闭合，灯泡会亮](<../.gitbook/assets/image (264).png>)
+![一个开关闭合，灯泡会亮](<../.gitbook/assets/image (236).png>)
 
 比如：1011-0001|1101-1000=1111-1001
 
@@ -298,7 +298,7 @@ int main(int argc,char* argv[])
 
 不一样的时候是1
 
-![](<../.gitbook/assets/image (272).png>)
+![](<../.gitbook/assets/image (962).png>)
 
 比如：1011-0001^11011000=01101001
 
@@ -379,7 +379,7 @@ X/Y的本质就是减法：X能减去多少个Y
 
 学汇编的目的：了解程序的运行机制，汇编是高手的必经之路
 
-![](<../.gitbook/assets/image (274).png>)
+![](<../.gitbook/assets/image (1063).png>)
 
 * 正常应用：需要明白C语言等于汇编的对应关系
 * 安全：做外挂以及反外挂等，需要了解汇编与二进制的关系。PE与硬编码也需要了解
@@ -396,15 +396,15 @@ X/Y的本质就是减法：X能减去多少个Y
 
 当想使用OD编写汇编代码时，可随便拖拽一个EXE文件进去，可看到如下页面
 
-![OD的界面](<../.gitbook/assets/image (266).png>)
+![OD的界面](<../.gitbook/assets/image (454).png>)
 
 当左上角显示黄色时，说明程序已暂停，此时可双击右面的汇编代码并打开窗口，并在新开的窗口中编写汇编代码
 
-![](<../.gitbook/assets/image (269).png>)
+![](<../.gitbook/assets/image (696).png>)
 
 窗口名称：从左往右依次为：反汇编窗口，寄存器，内存窗口与堆栈
 
-![](<../.gitbook/assets/image (268).png>)
+![](<../.gitbook/assets/image (1039).png>)
 
 ### 11、通用寄存器
 
@@ -473,7 +473,7 @@ mov ecx,2    #向ecx存入值2
 
 若想执行语句，可点击F8，执行后，寄存器的语句会变成红色
 
-![](<../.gitbook/assets/image (271).png>)
+![](<../.gitbook/assets/image (1018).png>)
 
 也可以将寄存器中的值传到另一个寄存器中，例：
 
@@ -481,15 +481,15 @@ mov ecx,2    #向ecx存入值2
 mov edx,eax    #将eax的值传到edx中
 ```
 
-![](<../.gitbook/assets/image (270).png>)
+![](<../.gitbook/assets/image (1053).png>)
 
 其中，因为eax中的值为1，所以edx的值也是1
 
-![16位寄存器为32位的一半](<../.gitbook/assets/image (267).png>)
+![16位寄存器为32位的一半](<../.gitbook/assets/image (404).png>)
 
 八位寄存器：
 
-![H高八位，L低八位](<../.gitbook/assets/image (273).png>)
+![H高八位，L低八位](<../.gitbook/assets/image (669).png>)
 
 注意：寄存器之间的数值移动，需要位数相同，若位数不同，会报错，不符合语法
 
@@ -501,7 +501,7 @@ mov edx,eax    #将eax的值传到edx中
 
 1、每个应用程序都会有自己独立的4GB内存空间
 
-![](<../.gitbook/assets/image (286).png>)
+![](<../.gitbook/assets/image (383).png>)
 
 其中，每个进程的4GB内存空间并不是真正的物理内存，是假的\
 当进行读写操作时，会将进程中额内存映射到物理内存中\
@@ -516,7 +516,7 @@ mov edx,eax    #将eax的值传到edx中
 1. 内存太大没办法起名字，所以只能用编号当我们想想内存中存储数据时，或者从内存中读取数据时，必须用到这个编号，就像写信必须要写收信人一样
 2. 这个编号又叫内存地址（32位，前面的0可以省略）
 
-![](<../.gitbook/assets/image (309).png>)
+![](<../.gitbook/assets/image (1023).png>)
 
 对于编程人员来讲，内存与寄存器都是用来存储数据的容器，故内存太大了，就用编号代替
 
@@ -550,17 +550,16 @@ mov edx,eax    #将eax的值传到edx中
 2. 寄存器到内存
 3. 内存到寄存器
 
-![](<../.gitbook/assets/image (325).png>)
+![](<../.gitbook/assets/image (88).png>)
 
 ```
 mov byte ptr ds:[],1
 ```
 
 语句含义：将1写到内存中，写到1个字节中\
-ptr ds:\[] 为地址编号，方括号中的内容不可以随便写，必须是已经申请了的地址\
+ptr ds:\[] 为地址编号，方括号中的内容不可以随便写，必须是已经申请了的地址<br>
 
-
-![红色方框中即为已申请的地址](<../.gitbook/assets/image (361).png>)
+![红色方框中即为已申请的地址](<../.gitbook/assets/image (65).png>)
 
 填入地址后，点击确定即可
 
@@ -568,11 +567,11 @@ ptr ds:\[] 为地址编号，方括号中的内容不可以随便写，必须是
 mov byte ptr ds:[18FFC4],1
 ```
 
-![效果图](<../.gitbook/assets/image (334).png>)
+![效果图](<../.gitbook/assets/image (534).png>)
 
 其中，宽度为8，点击F8后：
 
-![内存内写入数据](<../.gitbook/assets/image (283).png>)
+![内存内写入数据](<../.gitbook/assets/image (977).png>)
 
 注意：向内存中写数据的时候，一定要告诉他宽度是多少
 
@@ -580,13 +579,13 @@ mov byte ptr ds:[18FFC4],1
 mov dword ptr ds:[12FFC4],12345678
 ```
 
-![写入了四个字节的数据](<../.gitbook/assets/image (359).png>)
+![写入了四个字节的数据](<../.gitbook/assets/image (982).png>)
 
 ```
 mov dword ptr ds:[12FFC4],ecx
 ```
 
-![寄存器到内存](<../.gitbook/assets/image (280).png>)
+![寄存器到内存](<../.gitbook/assets/image (378).png>)
 
 其中：\
 DWORD代表要写的内存有多大，数据宽度是多少\
@@ -607,7 +606,7 @@ ptr ds:\[]是固定写法\
 mov ecx,dword ptr ds:[12FFC4]
 ```
 
-![](<../.gitbook/assets/image (323).png>)
+![](<../.gitbook/assets/image (337).png>)
 
 在汇编中，就大多数指令是不允许从内存到内存的，其中包括MOV指令；必须经过寄存器；也不能从内存到立即数。立即数不是容器，只能往别的东西里放
 
@@ -667,7 +666,7 @@ mov byte ptr ds:[0x00000000],0x1A2C3E4F
 大端模式：数据高位在低位，数据低位在高位\
 小端模式：数据低位在低位，数据高位在高位
 
-![](<../.gitbook/assets/image (339).png>)
+![](<../.gitbook/assets/image (179).png>)
 
 
 

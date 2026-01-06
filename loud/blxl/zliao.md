@@ -10,7 +10,7 @@
 
 概念：针对应用系统用户登录账号与密码进行的穷举测试，针对账号或密码进行逐一比较，直到找出正确的的账号与密码&#x20;
 
-![示例](<../../.gitbook/assets/image (1000).png>)
+![示例](<../../.gitbook/assets/image (504).png>)
 
 ### 情况&#x20;
 
@@ -36,19 +36,19 @@
 
 1、LOW
 
-![几乎没有防御](<../../.gitbook/assets/image (1002).png>)
+![几乎没有防御](<../../.gitbook/assets/image (607).png>)
 
 2、Medium：加入了SQL字符转义逻辑，避免了SQL注入攻击，但是不能防御暴力破解
 
-![](<../../.gitbook/assets/image (1001).png>)
+![](<../../.gitbook/assets/image (448).png>)
 
 3、High：加入了Token机制，每次登录页面都会随机生成Token字串，那么无脑爆破就不可能了，因为Token是完全随机的。但是如果用更复杂的方法，每次先抓取当前页面Token值再随即进行字典式爆破，仍可以实现破解
 
-![](<../../.gitbook/assets/image (1003).png>)
+![](<../../.gitbook/assets/image (489).png>)
 
 4、Impossible：加入了账号锁定机制，数次登录失败后，账号会锁定，那么暴力破解就行不通了。可以说这是比较完善的防御机制
 
-![](<../../.gitbook/assets/image (1005).png>)
+![](<../../.gitbook/assets/image (578).png>)
 
 
 
@@ -117,7 +117,7 @@ if( $code == $_SESSION["Checknum"])
 
 目前广泛使用的验证码类型：（触发，嵌入，弹出）
 
-![类型与使用](<../../.gitbook/assets/image (999).png>)
+![类型与使用](<../../.gitbook/assets/image (474).png>)
 
 还可使用人脸识别技术进行检测：
 
@@ -200,6 +200,6 @@ if( $code == $_SESSION["Checknum"])
 3. [https://www.anquanke.com/post/id/86232](https://www.anquanke.com/post/id/86232)
 4. [https://zhuanlan.zhihu.com/p/51176109](https://zhuanlan.zhihu.com/p/51176109)
 5. [http://r3start.net/index.php/2019/07/15/546](http://r3start.net/index.php/2019/07/15/546)
-6. [https://blog.csdn.net/weixin\_43534549/article/details/91361307?utm\_medium=distribute.pc\_relevant\_t0.none-task-blog-searchFromBaidu-1.control\&depth\_1-utm\_source=distribute.pc\_relevant\_t0.none-task-blog-searchFromBaidu-1.control](https://blog.csdn.net/weixin\_43534549/article/details/91361307?utm\_medium=distribute.pc\_relevant\_t0.none-task-blog-searchFromBaidu-1.control\&depth\_1-utm\_source=distribute.pc\_relevant\_t0.none-task-blog-searchFromBaidu-1.control)
+6. [https://blog.csdn.net/weixin\_43534549/article/details/91361307?utm\_medium=distribute.pc\_relevant\_t0.none-task-blog-searchFromBaidu-1.control\&depth\_1-utm\_source=distribute.pc\_relevant\_t0.none-task-blog-searchFromBaidu-1.control](https://blog.csdn.net/weixin_43534549/article/details/91361307?utm_medium=distribute.pc_relevant_t0.none-task-blog-searchFromBaidu-1.control\&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-searchFromBaidu-1.control)
 
-敏感数据泄露 分为： 目录浏览， web服务器控制台地址泄露， PHPinfo() 信息泄露， POODLE 信息泄露， SVN 信息泄露， 备份文件泄露， 内网 IP 地址泄露， Cookie 信息泄露， 异常信息泄露， 敏感信息泄露， IIS 短文件名泄露， Robots 文件信息泄露\
+敏感数据泄露 分为： 目录浏览， web服务器控制台地址泄露， PHPinfo() 信息泄露， POODLE 信息泄露， SVN 信息泄露， 备份文件泄露， 内网 IP 地址泄露， Cookie 信息泄露， 异常信息泄露， 敏感信息泄露， IIS 短文件名泄露， Robots 文件信息泄露<br>

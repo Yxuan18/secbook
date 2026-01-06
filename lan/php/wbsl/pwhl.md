@@ -41,11 +41,11 @@ WEB目录下正常的网页文件混在一起，然后就可以使用浏览器�
 
 在开始学习webshell的各种奇技淫巧之前，我们要先了解一个基本概念，即webshell的组成，下面是引用Monyer的一篇文章:
 
-![](<../../../.gitbook/assets/image (619).png>)
+![](<../../../.gitbook/assets/image (522).png>)
 
 还有一张是来自drops的一篇paper:
 
-![](<../../../.gitbook/assets/image (618).png>)
+![](<../../../.gitbook/assets/image (952).png>)
 
 即不管webshell的外形怎么改变，它的基本骨架都符合这个结构，即WebShell的实现需要两步：
 
@@ -74,8 +74,8 @@ webshell有三大类的问题:
 > 2. 对攻击者写入的webshell代码本身的检测，我们需要了解黑客都会使用哪些种类的奇技淫巧的webshell编写方式，并对这类文件的操作行为进行监控并进行报告
 > 3. 还有一种假设的前提是黑客已经获得了一定的对目标服务器的控制权限，黑客为了后续的访问，会留下逻辑后门。这种逻辑后门可以很宽泛的理解一下:&#x20;
 >
-> > 1. 人工故意放置一个带注入点的文件，并放上正常的文件内容，增加迷惑性，让扫描工具工具和管理员看起来像正常文件
-> > 2. 修改服务器配置文件：
+> > 1) 人工故意放置一个带注入点的文件，并放上正常的文件内容，增加迷惑性，让扫描工具工具和管理员看起来像正常文件
+> > 2) 修改服务器配置文件：
 > >    1. .htaceess，修改某些扩展名的执行权(例如手工添加 .fackType PHP 这种映射关键的建立).SetHandler application/x-httpd-php: 添加jpg和PHP解析引擎的映射
 > >    2. 建立一种逻辑后门。或在php.ini中设置auto\_preload来预加载.php脚本，放置后门代码
 > >    3. 修改CMS的配置，放行某些(.php、.asp)的上传权限
@@ -120,7 +120,7 @@ include_path = "E:\wamp\www\shell;."
 
 {% tabs %}
 {% tab title="AddHandler" %}
-[http://httpd.apache.org/docs/2.2/mod/mod\_mime.html#addhandler](http://httpd.apache.org/docs/2.2/mod/mod\_mime.html#addhandler)&#x20;
+[http://httpd.apache.org/docs/2.2/mod/mod\_mime.html#addhandler](http://httpd.apache.org/docs/2.2/mod/mod_mime.html#addhandler)&#x20;
 
 1. Description: Maps the filename extensions to the specified handler
 2. Syntax: AddHandler handler-name extension \[extension] ...&#x20;
@@ -134,7 +134,7 @@ example: AddHandler php5-script .logs \
 {% endtab %}
 
 {% tab title="AddType" %}
-[http://httpd.apache.org/docs/2.2/mod/mod\_mime.html#addhandler](http://httpd.apache.org/docs/2.2/mod/mod\_mime.html#addhandler)&#x20;
+[http://httpd.apache.org/docs/2.2/mod/mod\_mime.html#addhandler](http://httpd.apache.org/docs/2.2/mod/mod_mime.html#addhandler)&#x20;
 
 1. Description: Maps the given filename extensions onto the specified content type&#x20;
 2. Syntax: AddType MIME-type extension \[extension] ...&#x20;
@@ -251,7 +251,7 @@ http://php.net/manual/zh/configuration.changes.modes.php
 > [http://php.net/manual/zh/ini.list.php](http://php.net/manual/zh/ini.list.php) \
 > [http://drops.wooyun.org/tips/3424](http://drops.wooyun.org/tips/3424)
 
-### 0x4:  利用PHP动态变量特性 
+### 0x4:  利用PHP动态变量特性<br>
 
 ```php
 <?php
@@ -373,7 +373,7 @@ string create_function ( string $args , string $code )
 
 ```
 
-PHP [pack()](http://www.w3school.com.cn/php/func\_misc\_pack.asp) 函数，基本上和数据类型的转换是一个类型的函数&#x20;
+PHP [pack()](http://www.w3school.com.cn/php/func_misc_pack.asp) 函数，基本上和数据类型的转换是一个类型的函数&#x20;
 
 [preg\_replace](http://cn2.php.net/manual/zh/function.preg-replace.php) — 执行一个正则表达式的搜索和替换&#x20;
 
@@ -777,12 +777,12 @@ register_tick_function()
 {% tab title="原理分析" %}
 [parse\_str()](http://www.php.net/manual/zh/function.parse-str.php)和extract()作用类似，将外部传入的参数注册为本地变量
 
-&#x20;[`reset()`](http://www.w3school.com.cn/php/func\_array\_reset.asp)函数把数组的内部指针指向第一个元素，并返回这个元素的值
+&#x20;[`reset()`](http://www.w3school.com.cn/php/func_array_reset.asp)函数把数组的内部指针指向第一个元素，并返回这个元素的值
 
-[array\_slice(array,offset,length,preserve) ](http://www.w3school.com.cn/php/func\_array\_slice.asp)\
+[array\_slice(array,offset,length,preserve) ](http://www.w3school.com.cn/php/func_array_slice.asp)\
 array\_slice() 函数在数组中根据条件取出一段值，并返回。
 
-[implode](http://www.w3school.com.cn/php/func\_string\_implode.asp)
+[implode](http://www.w3school.com.cn/php/func_string_implode.asp)
 
 这个webshell通过编码的referer来传递攻击载荷，HTTP通信的头部的任何字段、或者HTTP的数据部分的任何字段都可以当作webshell的payload来传递数据的。
 {% endtab %}
@@ -905,7 +905,7 @@ array\_slice() 函数在数组中根据条件取出一段值，并返回。
 
 ### 0x23: 使用PHP的管道技术执行系统命令后门&#x20;
 
-[`open`](http://www.w3school.com.cn/php/func\_filesystem\_popen.asp)`()`
+[`open`](http://www.w3school.com.cn/php/func_filesystem_popen.asp)`()`
 
 ```php
 <?php

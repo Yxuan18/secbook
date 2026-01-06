@@ -29,14 +29,14 @@
 | 去掉搜索引擎统计当天的页面                | awk '{print $12,$1}' log\_file \| grep ^\\"Mozilla \| awk '{print $2}' \|sort \| uniq \| wc -l   |
 | 查看2018年6月21日14时这一个小时内有多少IP访问 | awk '{print $4,$1}' log\_file \| grep 21/Jun/2018:14 \| awk '{print $2}'\| sort \| uniq \| wc -l |
 
-![当天访问次数最多的IP](<../../.gitbook/assets/image (135).png>)
+![当天访问次数最多的IP](<../../.gitbook/assets/image (842).png>)
 
-![查看当天有多少个IP访问](<../../.gitbook/assets/image (132).png>)
+![查看当天有多少个IP访问](<../../.gitbook/assets/image (861).png>)
 
-![查看某一个页面被访问的次数](<../../.gitbook/assets/image (109).png>)
+![查看某一个页面被访问的次数](<../../.gitbook/assets/image (1036).png>)
 
-![查看每一个IP访问了多少个页面](<../../.gitbook/assets/image (94).png>)
+![查看每一个IP访问了多少个页面](<../../.gitbook/assets/image (367).png>)
 
-![将每个IP访问的页面数进行从小到大排序](<../../.gitbook/assets/image (93).png>)
+![将每个IP访问的页面数进行从小到大排序](<../../.gitbook/assets/image (929).png>)
 
-![查看 IP访问了哪些页面](<../../.gitbook/assets/image (127).png>)
+![查看 IP访问了哪些页面](<../../.gitbook/assets/image (1084).png>)

@@ -227,11 +227,11 @@ typedef struct _frame {
 
 对应的结构
 
-![](<../../../.gitbook/assets/image (540).png>)
+![](<../../../.gitbook/assets/image (61).png>)
 
 当执行函数调用时会进入新的栈帧，那么当前栈帧就作为下一个栈帧的`f_back`字段
 
-![](<../../../.gitbook/assets/image (539).png>)
+![](<../../../.gitbook/assets/image (889).png>)
 
 多个栈帧链属于一个线程，而同时可能存在多个线程，每个线程拥有一个栈帧链。这样形成了Python的虚拟机运行环境。
 
@@ -412,7 +412,7 @@ TARGET(MAKE_CLOSURE)     // 18
 }
 ```
 
-![](<../../../.gitbook/assets/image (541).png>)
+![](<../../../.gitbook/assets/image (319).png>)
 
 * STORE\_FAST 将栈中的一个元素设置到对应的本地变量域中
 * RETURN\_VALUE return，并且设置退出原因`WHY_RETURN`
