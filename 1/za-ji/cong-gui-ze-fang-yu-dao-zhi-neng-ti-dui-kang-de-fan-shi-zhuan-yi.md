@@ -239,28 +239,58 @@ Gartner预测，到2030年，抢占式安全将占据50%的安全支出，而202
 
 ***
 
-参考文献引用说明：
 
-8 Slashdot, WAF vs Suricata comparison.
 
-9 OWASP, Top 10 for LLM Applications.
+## 参考文献引用说明：
 
-10 OWASP, Prompt Injection.
+### 第一节
 
-27 CyberProof, 2025 Threat Landscape.
+* [Countering Chinese State-Sponsored Actors Compromise of Networks Worldwide to Feed Global Espionage System](https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a)
+* [Weathering the storm: In the midst of a Typhoon](https://blog.talosintelligence.com/salt-typhoon-analysis/)
+* [Don’t Delay in Building Preemptive Cybersecurity Solutions](https://www.gartner.com/en/articles/preemptive-cybersecurity-solutions)
+* [The clock is ticking: NIST's bold move towards Post-Quantum Cryptography](https://www.sectigo.com/blog/nist-move-towards-post-quantum-cryptography-pqc)
 
-6 FoxIO, JA4+ Fingerprinting.
+### 第二节
 
-5 Suricata Docs, Upgrade to 7.0/8.0.
+* [Suricata Upgrading](https://docs.suricata.io/en/suricata-7.0.13/upgrade.html)
+* [JA4+™ Network Fingerprinting](https://github.com/FoxIO-LLC/ja4)
+* [JA4 Fingerprinting with Suricata 8.0](https://forum.suricata.io/t/ja4-fingerprinting-with-suricata-8-0/5918)(https://forum.suricata.io/t/ja4-fingerprinting-with-suricata-8-0/5918)
+* [JA4 Fingerprinting with Suricata 8.0](https://forum.suricata.io/t/ja4-fingerprinting-with-suricata-8-0/5918)
+* [Compare SafeLine WAF vs. Suricata](https://slashdot.org/software/comparison/SafeLine-WAF-vs-Suricata/)
 
-3 Gartner, Preemptive Cybersecurity Solutions.
+### 第三节
 
-32 KnowBe4, Agentic AI Predictions 2026.
+* [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+* [Prompt Injection Attacks: The Most Common AI Exploit in 2025](https://www.obsidiansecurity.com/blog/prompt-injection)
+* [Prompt Injection: The AI Vulnerability We Still Can’t Fix](https://www.guidepointsecurity.com/blog/prompt-injection-the-ai-vulnerability-we-still-cant-fix/)
+* [Defending AI Applications from Invisible Prompt Injection Using LoadMaster WAF](https://kemptechnologies.com/blog/defending-ai-applications-from-invisible-prompt-injection-using-loadmaster-waf)
+* [Block unsafe prompts targeting your LLM endpoints with Firewall for AI](https://blog.cloudflare.com/block-unsafe-llm-prompts-with-firewall-for-ai/)
 
-1 CISA, Salt Typhoon Advisory.
+### 第四节
 
-14 Kemp, Invisible Prompt Injection.
+* [waf change-log](https://developers.cloudflare.com/waf/change-log/)
+* \[[Frequently Asked Questions](https://community.emergingthreats.net/t/frequently-asked-questions/56)]\(https://community.emergingthreats.net/t/frequently-asked-questions/56)
+* [Open source IDS: Snort or Suricata? \[updated 2021\]](https://www.infosecinstitute.com/resources/network-security-101/open-source-ids-snort-suricata/)
+* [Rule Management with Suricata-Update](https://docs.suricata.io/en/latest/rule-management/suricata-update.html)
+* [ET Pro Ruleset](https://www.proofpoint.com/us/resources/data-sheets/et-pro-ruleset)
 
-4 Sectigo, NIST PQC Timeline.
+### 第五节
 
-28 Censys, Salt Typhoon CVE Details.
+* [CyberProof 2025 Mid-Year Cyber Threat Landscape Report](https://www.cyberproof.com/cyber-threat-intelligence/cyberproof-2025-mid-year-cyber-threat-landscape-report/)
+* [The Persistent Threat of Salt Typhoon: Tracking Exposures of Potentially Targeted Devices](https://censys.com/blog/the-persistent-threat-of-salt-typhoon-tracking-exposures-of-potentially-targeted-devices)
+* [VIPRE Security Group: AI-Native Malware, Deepfake Fraud-as-a-Service, and IoT Exploits to Drive Enterprise Risk in 2026 -- With Global AI Regulation Accelerating the Urgency of Human-Centric Security Training](https://www.prnewswire.co.uk/news-releases/vipre-security-group-ai-native-malware-deepfake-fraud-as-a-service-and-iot-exploits-to-drive-enterprise-risk-in-2026--with-global-ai-regulation-accelerating-the-urgency-of-human-centric-security-training-302651780.html)
+* [2025 FORTINET GLOBAL THREAT LANDSCAPE REPORT](https://www.fortinet.com/content/dam/fortinet/assets/threat-reports/threat-landscape-report-2025.pdf)
+* [Cybersecurity in 2026: Agentic AI, Cloud Chaos, and the Human Factor](https://www.proofpoint.com/us/blog/ciso-perspectives/cybersecurity-2026-agentic-ai-cloud-chaos-and-human-factor)
+* [KnowBe4 Predicts the Agentic AI Revolution Will Reshape Cybersecurity in 2026](https://www.knowbe4.com/press/knowbe4-predicts-the-agentic-ai-revolution-will-reshape-cybersecurity-in-2026)
+* [Will Agentic AI Hurt or Help Your Security Posture?](https://securityboulevard.com/2026/01/will-agentic-ai-hurt-or-help-your-security-posture/)
+
+### 第六节
+
+* [AI Dominates Cybersecurity Predictions for 2026](https://www.technewsworld.com/story/ai-dominates-cybersecurity-predictions-for-2026-180077.html)
+* [2026 Predictions for Autonomous AI](https://www.paloaltonetworks.com/blog/2025/11/2026-predictions-for-autonomous-ai/)
+* [Gartner Identifies the Top Strategic Technology Trends for 2026](https://www.gartner.com/en/newsroom/press-releases/2025-10-20-gartner-identifies-the-top-strategic-technology-trends-for-2026)
+* [How Automated Deception Technology Fits in with Preemptive Cybersecurity](https://www.ionix.io/guides/what-is-preemptive-cybersecurity/automated-deception-technology-fits-with-preemptive-cybersecurity/)
+* [Post-Quantum Cryptography PQC](https://csrc.nist.gov/projects/post-quantum-cryptography)
+* [Forrester’s 2026 Technology & Security Predictions: As AI’s Hype Fades, Enterprises Will Defer 25% Of Planned AI Spend To 2027](https://www.forrester.com/press-newsroom/forrester-tech-security-2026-predictions/)
+* [隐私增强市场规模预测与计算](https://www.researchnester.com/reports/privacy-enhancing-computation-market/7399)
+* [AI Security Overview](https://owaspai.org/docs/1_general_controls/)
