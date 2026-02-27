@@ -190,6 +190,7 @@
   * [python远程命令执行与SSRF](loud/blxl/pyrcessrf.md)
 * [SQL-Injectoin](loud/sqli.md)
 * [Cross-Site Scripting](loud/xss/README.md)
+  * [我做了三年 WAF，直到看见这行代码，才知道自己一直在守一扇假门](loud/xss/wo-zuo-le-san-nian-waf-zhi-dao-kan-jian-zhe-xing-dai-ma-cai-zhi-dao-zi-ji-yi-zhi-zai-shou-yi-shan-ji.md)
   * [跨站的艺术-XSS入门与介绍](loud/xss/01.md)
   * [跨站的艺术-XSS Fuzzing 的技巧](loud/xss/fuzz.md)
   * [给开发者的终极XSS防护备忘录](loud/xss/fanghu.md)
