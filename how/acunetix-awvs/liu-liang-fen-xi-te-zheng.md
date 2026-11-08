@@ -2,13 +2,13 @@
 
 1、cookie
 
-![](<../../.gitbook/assets/image (1001).png>)
+![](<../../.gitbook/assets/image (1001).webp>)
 
 2、accept
 
-![](<../../.gitbook/assets/image (200).png>)
+![](<../../.gitbook/assets/image (200).webp>)
 
 3、URL
 
-![](<../../.gitbook/assets/image (931).png>)
+![](<../../.gitbook/assets/image (931).webp>)
 

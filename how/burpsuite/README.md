@@ -10,21 +10,21 @@ Burpsuite是由JAVA语言编写，所以Burpsuite是一款跨平台的软件。�
 
 最大区别在于漏洞扫描
 
-![Burpsuite官方网址：https://portswigger.net/burp/](<../../.gitbook/assets/image (1027).png>)
+![Burpsuite官方网址：https://portswigger.net/burp/](<../../.gitbook/assets/image (1027).webp>)
 
 3、Burpsuite JAVA环境的安装
 
 JAVA官方下载链接：[https://www.java.com/zh\_CN/](https://www.java.com/zh_CN/)  #该链接下载的为java jdk 1.8.0，burp最新版需要使用JAVA13的版本
 
-![](<../../.gitbook/assets/image (512).png>)
+![](<../../.gitbook/assets/image (512).webp>)
 
-![下载完成后查看java版本](<../../.gitbook/assets/image (127).png>)
+![下载完成后查看java版本](<../../.gitbook/assets/image (127).webp>)
 
 4、安装Burpsuite
 
 因为自己使用的是已经破解好的版本，直接打开即可。
 
-![打开burp后的界面](<../../.gitbook/assets/image (899).png>)
+![打开burp后的界面](<../../.gitbook/assets/image (899).webp>)
 
 破解burp过程如下：
 
@@ -32,15 +32,15 @@ JAVA官方下载链接：[https://www.java.com/zh\_CN/](https://www.java.com/zh_
 
 5、设置Burpsuite字体
 
-![](<../../.gitbook/assets/image (98).png>)
+![](<../../.gitbook/assets/image (98).webp>)
 
 6、配置浏览器代理
 
-![](<../../.gitbook/assets/image (344).png>)
+![](<../../.gitbook/assets/image (344).webp>)
 
 7、截断HTTP请求
 
-![](<../../.gitbook/assets/image (756).png>)
+![](<../../.gitbook/assets/image (756).webp>)
 
 8、在浏览器中安装Burpsuite CA证书
 
@@ -48,11 +48,11 @@ JAVA官方下载链接：[https://www.java.com/zh\_CN/](https://www.java.com/zh_
 2. 在浏览器中输入 [http://burp/](http://burp/%E3%80%82)
 3. 安装 CA证书。
 
-![](<../../.gitbook/assets/image (833).png>)
+![](<../../.gitbook/assets/image (833).webp>)
 
-![](<../../.gitbook/assets/image (550).png>)
+![](<../../.gitbook/assets/image (550).webp>)
 
-![](<../../.gitbook/assets/image (728).png>)
+![](<../../.gitbook/assets/image (728).webp>)
 
 
 

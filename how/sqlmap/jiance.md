@@ -29,11 +29,11 @@
 
 sqlmap中，原始响应作为对比过程中被对比的对象，一个请求成功响应后，与原始响应进行对比，得出对比结果，具体的对比流程如下图所示。
 
-![](../../.gitbook/assets/sqlmap01.jpg)
+![](../../.gitbook/assets/sqlmap01.webp)
 
 这个对比算法的输入是当前整个响应（包括状态吗、HTTP响应头、HTTP响应体），输出可以根据需求来选择（包括网页相似度比例数值ratio或者布尔值True/False），算法输出为True表示当前响应与原始响应相似，算法输出为False表示当前响应与原始响应不相似。两个响应体的相似度数值（ratio）和相似度布尔值（True/False）的关系如下图所示。
 
-![](../../.gitbook/assets/sqlmap02.jpg)
+![](../../.gitbook/assets/sqlmap02.webp)
 
 其中，ratio是一个介于0-1之间的数值。在sqlmap中，当ratio小于0.02（下边界）时，相似度布尔值为False；当ratio大于0.98（上边界）时，相似度布尔值为True；当ratio介于0.02-0.98之间的时候，当ratio &gt; 临界点（kb.matchRatio，知识库matchRatio值） + 容差（默认0.05）的时候，相似度布尔值为True，否则，相似度布尔值为False，在这种情况下，关键问题就是确定临界点。
 
@@ -86,19 +86,19 @@ example.php的响应逻辑为id值为x的时候，就响应第x条数据库信�
 
 该发包的目的为网站连通性检测，流程图如下如所示：
 
-![](../../.gitbook/assets/sqlmap03.jpg)
+![](../../.gitbook/assets/sqlmap03.webp)
 
 网站连通性检测的响应，会作为原始响应（响应相似度对比技术中使用）和网站模版（网站稳定性检测中使用）。
 
 在具体场景中，发包情况如下图所示：
 
-![](../../.gitbook/assets/sqlmap04.jpg)
+![](../../.gitbook/assets/sqlmap04.webp)
 
 ### 4、WAF探测
 
 该发包的目的为检测网站是否受WAF保护，流程图如下如所示：
 
-![](../../.gitbook/assets/sqlmap05.jpg)
+![](../../.gitbook/assets/sqlmap05.webp)
 
 WAF探测的payload构造，在原始请求参数的基础上，增加一个新的参数，参数值设置为带有
 
@@ -116,7 +116,7 @@ AND 1=1 UNION ALL SELECT 1,NULL,'<script>alert(\"XSS\")</script>',table_name FRO
 
 该发包的目的为检测网页是否稳定，流程图如下如所示：
 
-![](../../.gitbook/assets/sqlmap07.jpg)
+![](../../.gitbook/assets/sqlmap07.webp)
 
 sqlmap在检验网站稳定性的过程中，如果同一个请求表现出了不同的响应，那么接下来会自动识别动态内容，并在后续响应相似度对比过程中，进行动态内容移除后再进行相似度对比。
 
@@ -124,7 +124,7 @@ sqlmap在检验网站稳定性的过程中，如果同一个请求表现出了�
 
 在具体场景中，发包情况如下图所示：
 
-![](../../.gitbook/assets/sqlmap08.jpg)
+![](../../.gitbook/assets/sqlmap08.webp)
 
 在上述环境下，网页稳定性检测过程会发包两次，第一次用于识别动态内容，第二次发包用于检验动态内容识别是否有效。对于动态响应，网页稳定性检测只有在准确识别动态内容的基础上才会进行后续处理。
 
@@ -132,7 +132,7 @@ sqlmap在检验网站稳定性的过程中，如果同一个请求表现出了�
 
 该发包的目的为检测参数是否具有动态性，流程图如下如所示：
 
-![](../../.gitbook/assets/sqlmap09.jpg)
+![](../../.gitbook/assets/sqlmap09.webp)
 
 sqlmap使用两个四位数随机数进行测试，在一些情况下，假如参数没有表现出动态性，可以跳过检测，该功能在批量测试时候非常有效。
 
@@ -144,15 +144,15 @@ sqlmap中，相同逻辑重复发包的情况也是大量存在，包括但不�
 
 在具体场景中，参数动态性检测发包情况如下图所示：
 
-![](../../.gitbook/assets/sqlmap10.jpg)
+![](../../.gitbook/assets/sqlmap10.webp)
 
-![](../../.gitbook/assets/sqlmap11.jpg)
+![](../../.gitbook/assets/sqlmap11.webp)
 
 ### 7、启发式注入检测
 
 该发包尝试让Web应用报错,目的为探测该参数点是否是动态的、是否为可能的注入点，流程图如下如所示：
 
-![](../../.gitbook/assets/sqlmap12.jpg)
+![](../../.gitbook/assets/sqlmap12.webp)
 
 启发式注入过程中，payload生成是由`,'"().`六种字符随机组成的长度为10的字符串，同时满足'和"都只有一个。启发式注入的目的就是让Web应用报错，如果Web应用开启了错误回显，就可以快速识别DBMS（正则匹配）。
 
@@ -160,7 +160,7 @@ sqlmap中，相同逻辑重复发包的情况也是大量存在，包括但不�
 
 在具体场景中，发包情况如下图所示：
 
-![](../../.gitbook/assets/sqlmap13.jpg)
+![](../../.gitbook/assets/sqlmap13.webp)
 
 ### 8、误报检测
 
@@ -176,7 +176,7 @@ sqlmap中，相同逻辑重复发包的情况也是大量存在，包括但不�
 
 ### 1、布尔盲注主要流程
 
-![](../../.gitbook/assets/sqlmap15.jpg)
+![](../../.gitbook/assets/sqlmap15.webp)
 
 上图为布尔盲注流程图，虚线之上表示前置发包过程，虚线之下表示针对每个注入点，都会进行循环发包的流程。
 
@@ -198,7 +198,7 @@ sqlmap中，相同逻辑重复发包的情况也是大量存在，包括但不�
 example.php?id=1
 ```
 
-![](../../.gitbook/assets/sqlmap16.jpg)
+![](../../.gitbook/assets/sqlmap16.webp)
 
 
 
@@ -224,7 +224,7 @@ example.php?id=1
 example.php?id=1 AND 8858=3197
 ```
 
-![](../../.gitbook/assets/sqlmap17.jpg)
+![](../../.gitbook/assets/sqlmap17.webp)
 
 在发送第一个逻辑假包之后，sqlmap就开始进行网页相似度计算，首先移除动态随机字符串之后得出逻辑假页面与原始页面网页相似度值为0.787，并认为该页面与原始页面不相似。该网页相似度值将会被置为本组测试向量过程中的临界点，sqlmap默认的容差为0.05，也就是说，当一个响应的网页相似度大于0.792（0.787+0.05）时，sqlmap认为该响应与原始页面相似，否则，与原始页面不相似。
 
@@ -234,7 +234,7 @@ example.php?id=1 AND 8858=3197
 example.php?id=1 AND 1293=1293
 ```
 
-![](../../.gitbook/assets/sqlmap18.jpg)
+![](../../.gitbook/assets/sqlmap18.webp)
 
 发送逻辑真请求后，sqlmap接受响应并计算网页相似度，此处计算网页相似度为1（随机字符串被移除），大于0.792，逻辑真响应与原始响应相似。
 
@@ -244,7 +244,7 @@ example.php?id=1 AND 1293=1293
 example.php?id=1 AND 2560=4847
 ```
 
-![](../../.gitbook/assets/sqlmap18.jpg)
+![](../../.gitbook/assets/sqlmap18.webp)
 
 再一次发送逻辑假请求，去除随机字符串后计算网页相似度，值为0.787，认为该网页与原始网页不相似。至此，sqlmap认为注入存在，接下来进入误报检测环节。
 
@@ -256,7 +256,7 @@ example.php?id=1 AND 2560=4847
 example.php?id=1 AND 25=25
 ```
 
-![](../../.gitbook/assets/sqlmap19.jpg)
+![](../../.gitbook/assets/sqlmap19.webp)
 
 网页相似度值为1，与原始页面相似。第二个逻辑：
 
@@ -264,7 +264,7 @@ example.php?id=1 AND 25=25
 example.php?id=1 AND 25=83
 ```
 
-![](../../.gitbook/assets/sqlmap20.jpg)
+![](../../.gitbook/assets/sqlmap20.webp)
 
 网页相似度值为0.787，与原始页面不相似。第三个逻辑：
 
@@ -272,7 +272,7 @@ example.php?id=1 AND 25=83
 example.php?id=1 AND 83=53
 ```
 
-![](../../.gitbook/assets/sqlmap21.jpg)
+![](../../.gitbook/assets/sqlmap21.webp)
 
 网页相似度值为0.787，与原始页面不相似。第四个逻辑：
 
@@ -280,7 +280,7 @@ example.php?id=1 AND 83=53
 example.php?id=1 AND 53=53
 ```
 
-![](../../.gitbook/assets/sqlmap22.jpg)
+![](../../.gitbook/assets/sqlmap22.webp)
 
 网页相似度值为1，与原始页面相似。第五个逻辑：
 
@@ -288,7 +288,7 @@ example.php?id=1 AND 53=53
 example.php?id=1 AND 83 53
 ```
 
-![](../../.gitbook/assets/sqlmap23.jpg)
+![](../../.gitbook/assets/sqlmap23.webp)
 
 网页相似度值为0.603，与原始页面不相似。至此，误报检测完成，确定注入存在。
 
@@ -296,7 +296,7 @@ example.php?id=1 AND 83 53
 
 ### 1、错误注入主要流程
 
-![](../../.gitbook/assets/sqlmap24.jpg)
+![](../../.gitbook/assets/sqlmap24.webp)
 
 上图为错误注入流程图，虚线之上表示前置发包过程，虚线之下表示针对每个注入点，都会进行循环发包的流程。
 
@@ -314,7 +314,7 @@ sqlmap错误注入并不是单纯的让数据库服务器报错并回显，sqlma
 example.php?id=1
 ```
 
-![](../../.gitbook/assets/sqlmap25.jpg)
+![](../../.gitbook/assets/sqlmap25.webp)
 
 可以成功注入的测试向量：
 
@@ -341,7 +341,7 @@ example.php?id=1
 example.php?id=1 AND (SELECT 4229 FROM(SELECT COUNT(*),CONCAT(0x7176707871,(SELECT (ELT(4229=4229,1))),0x7176627671,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
 ```
 
-![](../../.gitbook/assets/sqlmap26.jpg)
+![](../../.gitbook/assets/sqlmap26.webp)
 
 根据数据包可以看到`[RANDNUM]`值为`4229`，`[DELIMITER_START]`在payload中值为`0x7176707871`，回显时值为`qvpxq`，`[DELIMITER_STOP]`在payload中值为`0x7176627671`，回显时值为`qvbvq`。
 
@@ -357,7 +357,7 @@ sqlmap的错误注入是控制注入的SQL语句报出
 
 ### 1、union注入主要流程
 
-![](../../.gitbook/assets/sqlmap27.jpg)
+![](../../.gitbook/assets/sqlmap27.webp)
 
 上图为union注入流程图，虚线之上表示前置发包过程，虚线之下表示针对每个注入点，都会进行循环发包的流程。
 
@@ -375,13 +375,13 @@ union注入的流程可以分为两步走，第一步为确定列数，以order 
 
 #### **1、order by列数探测技术**
 
-![](../../.gitbook/assets/sqlmap28.jpg)
+![](../../.gitbook/assets/sqlmap28.webp)
 
 order by列数探测技术依赖于网页相似度对比技术和二分差值算法。如果order by 1，响应页面与原始页面相似，order by 1000（随机四位数），响应页面与原始页面不相似，则认为order by技术可以用于列数确定。
 
 #### **2、select null列数探测技术**
 
-![](../../.gitbook/assets/sqlmap29.jpg)
+![](../../.gitbook/assets/sqlmap29.webp)
 
 select null列数探测技术依赖于网页相似度对比技术和高斯分布（正态分布），以下说明可以结合案例分析一起解读。
 
@@ -407,7 +407,7 @@ union注入是一种回显形式的注入攻击，响应文本内容是union注�
 
 #### **3、select null字符串位置确定技术**
 
-![](../../.gitbook/assets/sqlmap30.jpg)
+![](../../.gitbook/assets/sqlmap30.webp)
 
 select null字符串位置确定技术依赖于正则匹配技术，这是的union注入不需要误报检测流程。select null字符串位置确定的过程中，如果遇到NULL字符串无法成功找出字符串位置，那么sqlmap会自动指定一个数字替换payload中NULL字符串，并且payload的组合方式会发生改变（payload拼接在参数值后方 改为 参数值更改为一个负数，然后拼接payload），以保证指定的数字能够回显在响应中。
 
@@ -421,7 +421,7 @@ select null字符串位置确定技术依赖于正则匹配技术，这是的uni
 example.php?id=1
 ```
 
-![](../../.gitbook/assets/sqlmap31.jpg)
+![](../../.gitbook/assets/sqlmap31.webp)
 
 可以成功注入的测试向量：
 
@@ -449,7 +449,7 @@ example.php?id=1
 example.php?id=1 UNION ALL SELECT NULL-- fVTK
 ```
 
-![](../../.gitbook/assets/sqlmap32.jpg)
+![](../../.gitbook/assets/sqlmap32.webp)
 
 这个数据包的网页相似度数值为0.714，第二个数据包：
 
@@ -457,7 +457,7 @@ example.php?id=1 UNION ALL SELECT NULL-- fVTK
 example.php?id=1 UNION ALL SELECT NULL,NULL-- jmEt
 ```
 
-![](../../.gitbook/assets/sqlmap33.jpg)
+![](../../.gitbook/assets/sqlmap33.webp)
 
 这个数据包的网页相似度数值为0.726，第三个数据包：
 
@@ -465,7 +465,7 @@ example.php?id=1 UNION ALL SELECT NULL,NULL-- jmEt
 example.php?id=1 UNION ALL SELECT NULL,NULL,NULL-- cRud
 ```
 
-![](../../.gitbook/assets/sqlmap34.jpg)
+![](../../.gitbook/assets/sqlmap34.webp)
 
 这个数据包的网页相似度数值为0.834，第四个数据包：
 
@@ -473,7 +473,7 @@ example.php?id=1 UNION ALL SELECT NULL,NULL,NULL-- cRud
 example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL-- AqEV
 ```
 
-![](../../.gitbook/assets/sqlmap35.jpg)
+![](../../.gitbook/assets/sqlmap35.webp)
 
 这个数据包的网页相似度数值为0.716，第五个数据包：
 
@@ -481,7 +481,7 @@ example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL-- AqEV
 example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL-- NvIh
 ```
 
-![](../../.gitbook/assets/sqlmap36.jpg)
+![](../../.gitbook/assets/sqlmap36.webp)
 
 这个数据包的网页相似度数值为0.71，第六个数据包：
 
@@ -489,7 +489,7 @@ example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL-- NvIh
 example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL-- qrAS
 ```
 
-![](../../.gitbook/assets/sqlmap38.jpg)
+![](../../.gitbook/assets/sqlmap38.webp)
 
 这个数据包的网页相似度数值为0.723，第七个数据包：
 
@@ -497,7 +497,7 @@ example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL-- qrAS
 example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL-- mmxs
 ```
 
-![](../../.gitbook/assets/sqlmap39.jpg)
+![](../../.gitbook/assets/sqlmap39.webp)
 
 这个数据包的网页相似度数值为0.724，第八个数据包：
 
@@ -505,7 +505,7 @@ example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL-- mmxs
 example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL-- moNa
 ```
 
-![](../../.gitbook/assets/sqlmap40.jpg)
+![](../../.gitbook/assets/sqlmap40.webp)
 
 这个数据包的网页相似度数值为0.723，第九个数据包：
 
@@ -513,7 +513,7 @@ example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL-- moNa
 example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL-- vHbn
 ```
 
-![](../../.gitbook/assets/sqlmap41.jpg)
+![](../../.gitbook/assets/sqlmap41.webp)
 
 这个数据包的网页相似度数值为0.725，第十个数据包：
 
@@ -521,7 +521,7 @@ example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL--
 example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL-- bVyF
 ```
 
-![](../../.gitbook/assets/sqlmap42.jpg)
+![](../../.gitbook/assets/sqlmap42.webp)
 
 这个数据包的网页相似度数值为0.722。
 
@@ -538,13 +538,13 @@ example.php?id=1 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,N
 example.php?id=1 UNION ALL SELECT NULL,CONCAT(0x71707a7a71,0x625448774650554f4d435a696567784762446b776b5a53646c567a475259776c586a53694e675267,0x7178767671),NULL-- VdhL
 ```
 
-![](../../.gitbook/assets/sqlmap43.jpg)
+![](../../.gitbook/assets/sqlmap43.webp)
 
 ## 6、sqlmap检测之时间盲注
 
 ### 1、时间盲注主要流程
 
-![](../../.gitbook/assets/sqlmap37.jpg)
+![](../../.gitbook/assets/sqlmap37.webp)
 
 上图为时间盲注流程图，虚线之上表示前置发包过程，虚线之下表示针对每个注入点，都会进行循环发包的流程。
 
@@ -554,7 +554,7 @@ example.php?id=1 UNION ALL SELECT NULL,CONCAT(0x71707a7a71,0x625448774650554f4d4
 
 #### **响应延迟判断技术**
 
-![](../../.gitbook/assets/sqlmap44.jpg)
+![](../../.gitbook/assets/sqlmap44.webp)
 
  响应延迟判断技术使用了高斯分布（正态分布，详见select null列数探测技术）。在sqlmap时间盲注的测试向量库中，有包含准确的延迟时间如`[SLEEPTIME]`变量和进行大量计算进行延迟的`[DELAY]`等两种payload。高斯分布可以识别一个响应是否与普通响应产生于一种机制，因此，`[SLEEPTIME]`和`[DELAY]`就可以放在一种情况进行讨论，因为salmap区分的是响应机制。
 
@@ -568,7 +568,7 @@ example.php?id=1 UNION ALL SELECT NULL,CONCAT(0x71707a7a71,0x625448774650554f4d4
 example.php?id=1
 ```
 
-![](../../.gitbook/assets/sqlmap45.jpg)
+![](../../.gitbook/assets/sqlmap45.webp)
 
 可以成功注入的测试向量：
 
@@ -598,7 +598,7 @@ example.php?id=1
 example.php?id=1 AND SLEEP(5)
 ```
 
-![](../../.gitbook/assets/sqlmap46.jpg)
+![](../../.gitbook/assets/sqlmap46.webp)
 
 发送该请求后，响应发生了延迟。此时，sqlmap将`[SLEEPTIME]`值设置为0，生成的数据包如下：
 
@@ -606,7 +606,7 @@ example.php?id=1 AND SLEEP(5)
 example.php?id=1 AND SLEEP(0)
 ```
 
-![](../../.gitbook/assets/sqlmap47.jpg)
+![](../../.gitbook/assets/sqlmap47.webp)
 
 发送该请求后，响应未发生延迟。sqlmap将`[SLEEPTIME]`值设置为第一次发包的值，生成的逻辑真数据包如下：
 
@@ -614,7 +614,7 @@ example.php?id=1 AND SLEEP(0)
 example.php?id=1 AND SLEEP(5)
 ```
 
-![](../../.gitbook/assets/sqlmap48.jpg)
+![](../../.gitbook/assets/sqlmap48.webp)
 
 发送该请求后，响应发生了延迟。至此，sqlmap认为注入存在，接下来进入误报检测环节。
 
@@ -626,7 +626,7 @@ example.php?id=1 AND SLEEP(5)
 example.php?id=1 AND 9187=IF((19=19),SLEEP(5),9187)
 ```
 
-![](../../.gitbook/assets/sqlmap49.jpg)
+![](../../.gitbook/assets/sqlmap49.webp)
 
 响应发生了延迟。第二个逻辑：
 
@@ -634,7 +634,7 @@ example.php?id=1 AND 9187=IF((19=19),SLEEP(5),9187)
 example.php?id=1 AND 7052=IF((19=55),SLEEP(5),7052)
 ```
 
-![](../../.gitbook/assets/sqlmap50.jpg)
+![](../../.gitbook/assets/sqlmap50.webp)
 
 响应未发生延迟。第三个逻辑：
 
@@ -642,7 +642,7 @@ example.php?id=1 AND 7052=IF((19=55),SLEEP(5),7052)
 example.php?id=1 AND 1148=IF((19=58),SLEEP(5),1148)
 ```
 
-![](../../.gitbook/assets/sqlmap51.jpg)
+![](../../.gitbook/assets/sqlmap51.webp)
 
 响应未发生延迟。第四个逻辑：
 
@@ -650,7 +650,7 @@ example.php?id=1 AND 1148=IF((19=58),SLEEP(5),1148)
 example.php?id=1 AND 6574=IF((55=55),SLEEP(5),6574)
 ```
 
-![](../../.gitbook/assets/sqlmap52.jpg)
+![](../../.gitbook/assets/sqlmap52.webp)
 
 响应发生了延迟。第五个逻辑：
 
@@ -658,7 +658,7 @@ example.php?id=1 AND 6574=IF((55=55),SLEEP(5),6574)
 example.php?id=1 AND 4482=IF((58 55),SLEEP(5),4482)
 ```
 
-![](../../.gitbook/assets/sqlmap53.jpg)
+![](../../.gitbook/assets/sqlmap53.webp)
 
 响应未发生延迟。至此，误报检测完成，确定注入存在
 

@@ -23,7 +23,7 @@ sqlmap中所有的tamper：
 
 各种tamper的适用范围如下图所示：
 
-![](<../../.gitbook/assets/image (805).png>)
+![](<../../.gitbook/assets/image (805).webp>)
 
 各tamper的大意如下表格所示：
 
@@ -88,7 +88,7 @@ tamper编写注意事项：
 
 未绕过 ORDER BY 直接跳过 UNION 查询：
 
-![](<../../.gitbook/assets/image (721).png>)
+![](<../../.gitbook/assets/image (721).webp>)
 
 ```
 可 dump 数据的 tamper
@@ -122,4 +122,4 @@ def tamper(payload, **kwargs):
 
 测试效果：
 
-![](<../../.gitbook/assets/image (23).png>)
+![](<../../.gitbook/assets/image (23).webp>)

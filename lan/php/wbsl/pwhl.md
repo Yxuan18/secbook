@@ -41,11 +41,11 @@ WEB目录下正常的网页文件混在一起，然后就可以使用浏览器�
 
 在开始学习webshell的各种奇技淫巧之前，我们要先了解一个基本概念，即webshell的组成，下面是引用Monyer的一篇文章:
 
-![](<../../../.gitbook/assets/image (522).png>)
+![](<../../../.gitbook/assets/image (522).webp>)
 
 还有一张是来自drops的一篇paper:
 
-![](<../../../.gitbook/assets/image (952).png>)
+![](<../../../.gitbook/assets/image (952).webp>)
 
 即不管webshell的外形怎么改变，它的基本骨架都符合这个结构，即WebShell的实现需要两步：
 

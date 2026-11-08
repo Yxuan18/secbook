@@ -35,17 +35,17 @@ description: 图是偷的，过程是自己的
 
 若没有账号，点击页面中的`create one`即可开始注册
 
-![](../.gitbook/assets/bigip02.jpg)
+![](../.gitbook/assets/bigip02.webp)
 
 因为我已经注册了，所以下面的步骤就不显示了，总之第一步，会输入邮箱地址
 
-![](../.gitbook/assets/bigip03.jpg)
+![](../.gitbook/assets/bigip03.webp)
 
 
 
 之后在邮箱中会出现一个设置密码的链接
 
-![](../.gitbook/assets/bigip04.jpg)
+![](../.gitbook/assets/bigip04.webp)
 
 （鬼知道中间省略了多少个步骤）
 
@@ -73,7 +73,7 @@ description: 图是偷的，过程是自己的
 
 设置该虚拟机的网络，网卡任意模式即可 （原有好几块网卡，可以删除一些，最后只剩一张）
 
-![](../.gitbook/assets/bigip07.jpg)
+![](../.gitbook/assets/bigip07.webp)
 
 在/config目录下，输入config，设置IP地址，默认选择IPV4，然后连续按两次回车，等待命令行出现即可
 
@@ -87,17 +87,17 @@ description: 图是偷的，过程是自己的
 
 此时网站处于未激活状态，可点击NEXT进行激活
 
-![](../.gitbook/assets/bigip09.jpg)
+![](../.gitbook/assets/bigip09.webp)
 
 输入申请到的邮箱里的registration key.点击Next
 
-![](../.gitbook/assets/bigip10.jpg)
+![](../.gitbook/assets/bigip10.webp)
 
 将1中的内容复制到2中新开的网页中并NEXT，最后将生成的内容粘贴到3中即可
 
-![](../.gitbook/assets/bigip11.jpg)
+![](../.gitbook/assets/bigip11.webp)
 
-![](../.gitbook/assets/bigip12.jpg)
+![](../.gitbook/assets/bigip12.webp)
 
 重新登录，即可激活成功
 
@@ -123,59 +123,59 @@ http://IP:PORT/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp?fileName=/
 
 创建bash脚本:对应的F5的命令为command后面内容 请求路径为下图:
 
-![](<../.gitbook/assets/image (866).png>)
+![](<../.gitbook/assets/image (866).webp>)
 
 URL中存在../;绕过登录验证，这个是属于Tomcat对URI解析差异导致绕过了原有的权限校验，导致可以直 接访问到tmshCmd.jsp, 对应代码:tmshCmd\_jsp.java 文件 cmd参数直接从请求中获取。
 
-![](<../.gitbook/assets/image (769).png>)
+![](<../.gitbook/assets/image (769).webp>)
 
 跟进WorkspaceUtils类中runTmshCommand方法，从导入包中寻找com.f5.tmui.locallb.handler.workspace.WorkspaceUtils对应的文件。
 
-![](<../.gitbook/assets/image (196).png>)
+![](<../.gitbook/assets/image (196).webp>)
 
 在lib中找到对应jar包，反编译：
 
-![](<../.gitbook/assets/image (298).png>)
+![](<../.gitbook/assets/image (298).webp>)
 
 紧接着上文runTmshCommand方法，可以看到在38行处，做了命令判断，命令被分割后，仅允许 create，delete，list，modify等开头的命令。
 
-![](<../.gitbook/assets/image (679).png>)
+![](<../.gitbook/assets/image (679).webp>)
 
 跟进Syscall.callElevated方法，调用了call方法：
 
-![](<../.gitbook/assets/image (775).png>)
+![](<../.gitbook/assets/image (775).webp>)
 
 可以看到，args放到了ObjectManager里面，通过DataObject\[] rs = om.queryStats(query);这行代码 把执行的命令的结果返回。
 
-![](<../.gitbook/assets/image (780).png>)
+![](<../.gitbook/assets/image (780).webp>)
 
 **F5 任意文件写入**
 
 请求路径：
 
-![](<../.gitbook/assets/image (973).png>)
+![](<../.gitbook/assets/image (973).webp>)
 
 对应的jsp代码文件：
 
-![](<../.gitbook/assets/image (101).png>)
+![](<../.gitbook/assets/image (101).webp>)
 
 跟进对应的save方法，可以看到参数一路传递，fileName为路径，content为内容，最终通过 writer.println写入。
 
-![](<../.gitbook/assets/image (243).png>)
+![](<../.gitbook/assets/image (243).webp>)
 
 **F5任意文件读取**
 
 请求路径：
 
-![](<../.gitbook/assets/image (1082).png>)
+![](<../.gitbook/assets/image (1082).webp>)
 
 对应的jsp代码文件：
 
-![](<../.gitbook/assets/image (785).png>)
+![](<../.gitbook/assets/image (785).webp>)
 
 对应具体实现方法:
 
-![](<../.gitbook/assets/image (17).png>)
+![](<../.gitbook/assets/image (17).webp>)
 
 ### 6、修复方案
 

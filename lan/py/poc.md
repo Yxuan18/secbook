@@ -15,7 +15,7 @@ why how what\
 
 以输入框为漏洞点，我们可以判定，最起码在这个网站上，这个输入点有漏洞（这种漏洞叫事件型，也就是说，在这个网站上是有漏洞的）
 
-![某网站疑似SQL注入](<../../.gitbook/assets/image (513).png>)
+![某网站疑似SQL注入](<../../.gitbook/assets/image (513).webp>)
 
 那么通用型漏洞是什么样子的呢？可以看到网站使用了什么样的CMS（也就是建站系统），然后尝试搜索一下其他使用同样CMS的网站，去同样的点试试，如果尝试成功了，或者下载了对应的CMS到本地复现成功了，那就可以说，这个漏洞是通用型漏洞
 
@@ -23,7 +23,7 @@ why how what\
 
 从可视化的界面来看，我们可能只能知道，某网站的顶部的搜索框存在某个漏洞，因为当输入了一些字符串以后，页面会返回一个框，上面显示着 1 ，那么假如在知道了HTTP抓包后，就可以知道，其实是某个文件的某个参数存在漏洞，而页面中的搜索框就算到了网页的任意位置，对那个参数也没有任何影响。这个时候，返回包中的特征值，可能就是alert(1)（这就是特征）
 
-![对应的特征：查询了1的MD5值](<../../.gitbook/assets/image (484).png>)
+![对应的特征：查询了1的MD5值](<../../.gitbook/assets/image (484).webp>)
 
 一般渗透测试的时候，我们会去扫描目录，去扫描文件
 
@@ -126,7 +126,7 @@ POC，POC (Proof of Concept) 验证性测试，译为为观点提供证据，可
 
 ### XSS与字段意义
 
-![](../../.gitbook/assets/lizi-xss.jpg)
+![](../../.gitbook/assets/lizi-xss.webp)
 
 从图中可以看出，这个漏洞是XSS，且是使用GET方法发送了一个包，这个包**最简化**后，我放在下面：
 
@@ -149,7 +149,7 @@ req = requests.request(method, url，timeout=10)
 
 如上代码，之所以需要加 `.rstrip("/")` ，是因为若输入 URL 中若结尾有 `/` ，即若输入 `http://a.com/` 而不是 `http://a.com` 时，部分矫情网站在访问过程中，脚本便会请求出错
 
-<figure><img src="../../.gitbook/assets/strip01.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/strip01.webp" alt=""><figcaption></figcaption></figure>
 
 **burp图中有HOST，那怎么代码中没有呢？**
 
@@ -244,7 +244,7 @@ if req.status_code == 200 and "<script>alert({})</script>".format(yuju) in req.t
 
 当浏览器在访问一些页面时，可能会遇到如图情况：&#x20;
 
-![](../../.gitbook/assets/liulanqi-error.jpg)
+![](../../.gitbook/assets/liulanqi-error.webp)
 
 &#x20;其实在代码中，也会出现类似的错误，原因就是会有证书校验。那么如果想要脚本可以直接跳过这一步，又应该怎么做呢？
 
@@ -707,7 +707,7 @@ delid%5B%5D=2&__hash__=2a5c100c47c88b88cd7902365fdc7af3_222cykIHPWwcAF1Kk3QJS6Pj
 
 **注意**：此时可尝试访问漏洞页面的上一个页面，来寻找响应体中是否包含着hash值，如图：
 
-![](../../.gitbook/assets/get_hash.jpg)
+![](../../.gitbook/assets/get_hash.webp)
 
 用在漏洞复现步骤上，大致如下：
 

@@ -405,15 +405,21 @@ JAVA 示例：
 
 escapeHTML 函数参考 esapi 实现：
 
-> http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/owasp/esapi/codecs/HTMLEntityCodec.java>
+> http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/owasp/esapi/codecs/HTMLEntityCodec.java
+>
 
 escapeHTML 需要进行 html 转义应该按照以下列表进行转义
 
-> &	--> \&amp;> \
-> <	--> \&lt;&#x20;> \
-> \> --> \&gt;> \
-> " --> \&quot;&#x20;> \
-> ' --> \&#39;>
+> &	--> \&amp;
+> \
+> <	--> \&lt;&#x20;
+> \
+> \> --> \&gt;
+> \
+> " --> \&quot;&#x20;
+> \
+> ' --> \&#39;
+>
 
 2，在 javascript 内容中输出的“用户可控数据”，需要做 javascript escape 转义。
 
@@ -430,13 +436,18 @@ JAVA 示例：
 
 需要转义的字符包括
 
-> /	-->  \\/> \
-> '	--> \\' " --> \\"> \
-> \  -->  \\\\>
+> /	-->  \\/
+> \
+> '	--> \\' " --> \\"
+> \
+> \  -->  \\\\
+>
 
 escapeJavaScript 函数参考 esapi 实现：
 
-> http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/o> wasp/esapi/codecs/JavaScriptCodec.java>
+> http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/o
+> wasp/esapi/codecs/JavaScriptCodec.java
+>
 
 3，对输出到富文本中的“用户可控数据”，做富文本安全过滤（允许用户输出 HTML 的情况）。
 
@@ -464,10 +475,14 @@ return "";
 
 2）转义“用户可控数据”中的以下字符
 
-> < --> %3C> \
-> \> --> %3E> \
-> " --> %22> \
-> ' --> %27>
+> < --> %3C
+> \
+> \> --> %3E
+> \
+> " --> %22
+> \
+> ' --> %27
+>
 
 5，针对 DOM 跨站的解决方案，是javascript 的编码问题&#x20;
 
@@ -751,21 +766,30 @@ else
 
 此错误示例代码中，在接收到非法请求时，会记录用户的用户名。它没有执行任何输入净化，在这种情况下可能遭受生日志注入攻击。当username字段的值是david时，会生成一条标准的日志信息：
 
-> May 15, 2011 2:19:10 PM java.util.logging.LogManager$RootLogger log> \
-> SEVERE: User login failed for: david>
+> May 15, 2011 2:19:10 PM java.util.logging.LogManager$RootLogger log
+> \
+> SEVERE: User login failed for: david
+>
 
 但是，如果记录日志时使用的username字段不是david，而是多行字符串时，如下所示：
 
-> david> \
-> May 15, 2011 2:25:52 PM java.util.logging.LogManager$RootLogger log> \
-> SEVERE: User login succeeded for: administrator>
+> david
+> \
+> May 15, 2011 2:25:52 PM java.util.logging.LogManager$RootLogger log
+> \
+> SEVERE: User login succeeded for: administrator
+>
 
 那么日志中包含了以下可能引起误导的信息：
 
-> May 15, 2011 2:19:10 PM java.util.logging.LogManager$RootLogger log> \
-> SEVERE: User login failed for: david> \
-> May 15, 2011 2:25:52 PM java.util.logging.LogManager log> \
-> SEVERE: User login succeeded for: administrator>
+> May 15, 2011 2:19:10 PM java.util.logging.LogManager$RootLogger log
+> \
+> SEVERE: User login failed for: david
+> \
+> May 15, 2011 2:25:52 PM java.util.logging.LogManager log
+> \
+> SEVERE: User login succeeded for: administrator
+>
 
 正确示例：
 
@@ -929,11 +953,14 @@ final String sql = "update user set email=?,tel=?,realname=? where userid=?"; co
 
 要防御 CSRF 攻击，必须遵循一下三步：
 
-1、 在用户登陆时，设置一个 CSRF 的随机 TOKEN，同时种植在用户的 cookie 中，当用户浏览器关闭、或用户再次登录、或退出时，清除 token。
+1、 在用户登陆时，设置一个 CSRF 的随机 TOKEN，同时种植在用户的 cookie 中，
+当用户浏览器关闭、或用户再次登录、或退出时，清除 token。
 
 2、 在表单中，生成一个隐藏域，它的值就是 COOKIE 中随机 TOKEN。
 
-3、 表单被提交后，就可以在接收用户请求的 web 应用中，判断表单中的 TOKEN 值是否和用户 COOKIE 中的 TOKEN 值一致，如果不一致或没有这个值，就判断为 CSRF 攻击，同时记录攻击日志（日志内容见“Error Handing and Logging” 章节）。由于攻击者无法预测每一个用户登录时生成的那个随机 TOKEN 值，所以无法伪造这个参数。
+3、 表单被提交后，就可以在接收用户请求的 web 应用中，判断表单中的 TOKEN 值是否和用户 COOKIE 中的 TOKEN 值一致，如果不一致或没有这个值，就判
+断为 CSRF 攻击，同时记录攻击日志（日志内容见“Error Handing and Logging” 章节）。
+由于攻击者无法预测每一个用户登录时生成的那个随机 TOKEN 值，所以无法伪造这个参数。
 
 ### 2.7.	代码注入&#xD;
 
@@ -1007,12 +1034,17 @@ response.sendRedirect(request.getParameter("url"));
 
 1、当用户访问需要生成跳转 URL 的页面时，首先生成随机 token，并放入 cookie。
 
-2、在显示连接的页面上生成 URL，在 URL 参数中加入 token。示例：\
-http://www.360.com/member/sigin.htm?done=http://www.360.com\&token=23123213123123
+2、在显示连接的页面上生成 URL，在 URL 参数中加入 token。示例：
+\
+http://www.360.com/member/sigin.htm?done=http://www.360.com\&to
+ken=23123213123123
 
-3、 应用程序在跳转前，判断 token 是否和 cookie 中的 token 一致，如果不一致，就判定为 URL 跳转攻击，并记录日志（日志内容见“Error Handing and Logging”章节）。
+3、 应用程序在跳转前，判断 token 是否和 cookie 中的 token 一致，如果不一致，就判
+定为 URL 跳转攻击，并记录日志（日志内容见“Error Handing and Logging”章节）。
 
-4、 如果在 javascript 中做页面跳转，需要判断域名白名单后，才能跳转。如果应用只有跳转到360集团网站的需求，可以设置白名单，判断目的地址是否在白名单列表中，如果不在列表中，就判定为 URL 跳转攻击，并记录日志。不允许配置集团以外网站到白名单列表中。这两个方案都可以保证所有在应用中发出的重定向地址，都是可信任的地址。
+4、 如果在 javascript 中做页面跳转，需要判断域名白名单后，才能跳转。
+如果应用只有跳转到360集团网站的需求，可以设置白名单，判断目的地址是否在白名单列表中，如果不在列表中，就判定为 URL 跳转攻击，并记录日志。不允许配置集团以外网站到白名单列表中。
+这两个方案都可以保证所有在应用中发出的重定向地址，都是可信任的地址。
 
 3\.	异常处理类漏洞
 
@@ -2292,4 +2324,4 @@ bash dependency-check.sh --project 项目名称 -s lib库的路径 -o 报告保�
 
 下表中总结代码审计中逆向审计常用关键字：
 
-![](<../../.gitbook/assets/image (624).png>)
+![](<../../.gitbook/assets/image (624).webp>)

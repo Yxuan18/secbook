@@ -6,7 +6,7 @@
 
 第二阶段的后门程序会通过C\&C下载各类攻击组件，其中核心的攻击动作是在失陷机器上利用WebSocket隧道建立反向的Socks5代理，操作各种后门和攻击组件进行渗透攻击。由于WebSocket隧道属于加密流量，部分流量安全设备很难识别异常情况。
 
-![](<../../../.gitbook/assets/image (63).png>)
+![](<../../../.gitbook/assets/image (63).webp>)
 
 ## 2、核心加载程序
 
@@ -32,25 +32,25 @@ HKEY_CURRENT_USER\Software\Gallery2.0
 
 紧接着该程序会尝试加载amsi.dll，对AmsiScanBuffer函数进行inline hook处理，躲避反病毒软件的检测。
 
-![](<../../../.gitbook/assets/image (121).png>)
+![](<../../../.gitbook/assets/image (121).webp>)
 
 然后枚举获取HKCU\Software\Gallery2.0下的键值保存起来，使用事先保存在TLS中的回调函数中创建线程对数据进行解密，针对解密后的数据后使用jscript组件对其进行加载执行。其解密算法为跳过数据的前12个字节后，与密钥“MF8Ya”进行异或运算
 
-![](<../../../.gitbook/assets/image (299).png>)
+![](<../../../.gitbook/assets/image (299).webp>)
 
-![](<../../../.gitbook/assets/image (580).png>)
+![](<../../../.gitbook/assets/image (580).webp>)
 
-![](<../../../.gitbook/assets/image (397).png>)
+![](<../../../.gitbook/assets/image (397).webp>)
 
 在此之后，JsLoader会通过访问bing.com、baidu.com、google.com进行网络连通性测试，然后与最开始解密出的URL建立HTTP会话，并获取服务器响应数据，此段数据为服务器下发的JS恶意脚本，程序会对数据进行异或解密操作，并调用jscript组件对其进行加载执行。
 
 相关的JS脚本是通过DotNetToJScript技术加载base64编码的.NET Assembly数据，将恶意组件反射加载到内存中执行。
 
-![](<../../../.gitbook/assets/image (181).png>)
+![](<../../../.gitbook/assets/image (181).webp>)
 
-![](<../../../.gitbook/assets/image (837).png>)
+![](<../../../.gitbook/assets/image (837).webp>)
 
-![](<../../../.gitbook/assets/image (75).png>)
+![](<../../../.gitbook/assets/image (75).webp>)
 
 JsLoader程序在与C\&C服务器进行HTTP通信的过程中，还会有如下网络行为特点：
 
@@ -66,15 +66,15 @@ c)第三轮：URL/true?x=3,4,5
 
 d)…
 
-![](<../../../.gitbook/assets/image (7).png>)
+![](<../../../.gitbook/assets/image (7).webp>)
 
 3.当响应状态不是HTTP 200时，则会将请求中的“true”替换为”false”，并再次向服务器发送请求，直到返回HTTP 200。
 
-![](<../../../.gitbook/assets/image (921).png>)
+![](<../../../.gitbook/assets/image (921).webp>)
 
 4.当9轮的HTTP 200会话完成后，则会将”true”替换为”mt10”，持续与服务器进行通信
 
-![](<../../../.gitbook/assets/image (797).png>)
+![](<../../../.gitbook/assets/image (797).webp>)
 
 ## 3、恶意功能组件
 
@@ -90,23 +90,23 @@ d)…
 
 TunnelCore属于核心的代理隧道组件，通过传入指定的URL参数发起WebSocket连接。
 
-![](<../../../.gitbook/assets/image (193).png>)
+![](<../../../.gitbook/assets/image (193).webp>)
 
 利用WebSocket协议伪装成正常的Web请求，建立通信隧道。
 
-![](<../../../.gitbook/assets/image (214).png>)
+![](<../../../.gitbook/assets/image (214).webp>)
 
 紧接着利用WebSocket隧道建立Socks5代理实现内网穿透
 
-![](<../../../.gitbook/assets/image (706).png>)
+![](<../../../.gitbook/assets/image (706).webp>)
 
 ### **FileRat**
 
 FileRat样本会建立本地HTTP服务器，监听本地的12380端口，同时利用TunnelCore组件实现的内网端口转发，黑客可以远程访问该HTTP服务器以达到控制目标主机的目的。
 
-![](<../../../.gitbook/assets/image (119).png>)
+![](<../../../.gitbook/assets/image (119).webp>)
 
-![](<../../../.gitbook/assets/image (190).png>)
+![](<../../../.gitbook/assets/image (190).webp>)
 
 其主要提供了如下功能：
 
@@ -126,9 +126,9 @@ FileRat样本会建立本地HTTP服务器，监听本地的12380端口，同时�
 
 ShellRAT属于远程Shell组件，会在本地监听TCP 12323端口，同时利用TunnelCore组件实现的内网端口转发，黑客可以远程Shell命令
 
-![](<../../../.gitbook/assets/image (9).png>)
+![](<../../../.gitbook/assets/image (9).webp>)
 
-![](<../../../.gitbook/assets/image (233).png>)
+![](<../../../.gitbook/assets/image (233).webp>)
 
 在与cmd交互的过程中，其输入缓冲区的第一个字节为特殊功能号，具体如下：
 
@@ -140,7 +140,7 @@ ShellRAT属于远程Shell组件，会在本地监听TCP 12323端口，同时利�
 
 其中与cmd进行交互中，会额外将命令缓存在@string所标识的文件流中。
 
-![](<../../../.gitbook/assets/image (759).png>)
+![](<../../../.gitbook/assets/image (759).webp>)
 
 采取的格式如下：
 
@@ -152,7 +152,7 @@ ShellRAT属于远程Shell组件，会在本地监听TCP 12323端口，同时利�
 
 核心加载程序JsLoader 的dll导出函数与duser.dll一致，是常用于DLL劫持类攻击的荷载。
 
-![](<../../../.gitbook/assets/image (29).png>)
+![](<../../../.gitbook/assets/image (29).webp>)
 
 响尾蛇组织历史上的多次攻击活动惯用credwiz.exe+duser.dll组合的白利用攻击手法，通过360安全大脑根据相关攻击模式对JsLoader的分析显示，相关样本与响尾蛇（SideWinder）组织的多次攻击活动存在关联。
 

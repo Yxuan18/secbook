@@ -30,7 +30,7 @@ SecRule ARGS:del "@rx (?i:(select|union|and|update|insert|\(|\-\-|#|\/\*\*))" "c
 
 下图是我理解中的一条较长规则的示意图：
 
-![&#x6211;&#x6240;&#x7406;&#x89E3;&#x7684;&#x89C4;&#x5219;&#x7ED3;&#x6784;](../../.gitbook/assets/image%20%28512%29.png)
+![&#x6211;&#x6240;&#x7406;&#x89E3;&#x7684;&#x89C4;&#x5219;&#x7ED3;&#x6784;](../../.gitbook/assets/image%20%28512%29.webp)
 
 
 

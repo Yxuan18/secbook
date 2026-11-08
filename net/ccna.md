@@ -161,7 +161,7 @@ OSI参考模型是一个理论参考模型
 
 三模型对应关系如下：
 
-![对应关系](<../.gitbook/assets/image (248).png>)
+![对应关系](<../.gitbook/assets/image (248).webp>)
 
 #### 五层模型&#x20;
 
@@ -169,15 +169,15 @@ OSI参考模型是一个理论参考模型
 
 数据处理流程及作用：
 
-![](<../.gitbook/assets/image (876).png>)
+![](<../.gitbook/assets/image (876).webp>)
 
 在封装过程中，数据从上层至下层，会依次添加上相关的控制信息。而当数据通过网络传输，到达目的主机之后，对方的主机则会相应地执行解封装的过程。而在解封装的过程中，封装时添加的控制信息被逐层去除，最终还原成原始的应用程序消息 。
 
-![数据封装过程](<../.gitbook/assets/image (684).png>)
+![数据封装过程](<../.gitbook/assets/image (684).webp>)
 
 TCP/IP模型，也可称为DOD模型：
 
-![TCP/IP（DOD）模型与OSI对应关系](<../.gitbook/assets/image (661).png>)
+![TCP/IP（DOD）模型与OSI对应关系](<../.gitbook/assets/image (661).webp>)
 
 
 

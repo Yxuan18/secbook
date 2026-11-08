@@ -26,15 +26,15 @@ Matlab 的变量名以字母打头，后面最多可跟 19 个字母或数字，
 
 表达式赋值：
 
-![表达式赋值](<../.gitbook/assets/image (547).png>)
+![表达式赋值](<../.gitbook/assets/image (547).webp>)
 
 矩阵赋值，数值按行输入，行之间用分号隔开。
 
-![](<../.gitbook/assets/image (581).png>)
+![](<../.gitbook/assets/image (581).webp>)
 
 通过引用特定的位置可以单独改变某个矩阵元素，如 S = \[5,6,4]，用命令 S(2)=8 把矩阵 S 的第二个元素值由 6 改成 8。
 
-![](<../.gitbook/assets/image (497).png>)
+![](<../.gitbook/assets/image (497).webp>)
 
 可以引用一个已定义的矩阵，重新定义一个新矩阵。
 

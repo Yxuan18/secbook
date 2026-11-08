@@ -29,7 +29,7 @@
 访问后，点击“友情链接”
 ```
 
-![第十关](<../../.gitbook/assets/image (558).png>)
+![第十关](<../../.gitbook/assets/image (558).webp>)
 
 ```
 

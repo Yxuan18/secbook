@@ -29,7 +29,7 @@
 3. 端口名称在1024至49151之间的端口称为“登记端口”，主要用于服务类，而又不属于熟知端口的程序使用
 4. 端口名称在49152至65535之间的端口称为“临时端口”，是指任何程序都可以临时使用的端口
 
-![](<../.gitbook/assets/image (579).png>)
+![](<../.gitbook/assets/image (579).webp>)
 
 端口的分类：
 
@@ -55,7 +55,7 @@
 
 端口扫描：对所有熟知端口或自己选定的某个范围内的熟知端口分别建立连接，并记录下远端服务器所给予的应答，通过查看记录就可以知道目标服务器上都安装了哪些服务
 
-![TCP/UDP扫描示意](<../.gitbook/assets/image (989).png>)
+![TCP/UDP扫描示意](<../.gitbook/assets/image (989).webp>)
 
 ### 4、扫描编程与客户端编程的区别
 
@@ -68,7 +68,7 @@
 
 ### 5、网络扫描的目的
 
-![](<../.gitbook/assets/image (1012).png>)
+![](<../.gitbook/assets/image (1012).webp>)
 
 ### 6、网络扫描的方法
 
@@ -88,7 +88,7 @@
 
 ### 1、端口扫描的概念
 
-![](<../.gitbook/assets/image (594).png>)
+![](<../.gitbook/assets/image (594).webp>)
 
 更多信息请看[这里](https://xu-an.gitbook.io/sec/1/alwart)
 

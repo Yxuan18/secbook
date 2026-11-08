@@ -22,7 +22,7 @@ Registry服务默认会将上传的镜像保存在容器的/var/lib/registry，�
 
 浏览器访问http://127.0.0.1:5000/v2，出现下面情况说明registry运行正常。
 
-![](<../../.gitbook/assets/image (501).png>)
+![](<../../.gitbook/assets/image (501).webp>)
 
 ### 2. 验证 <a href="#id-2-yan-zheng" id="id-2-yan-zheng"></a>
 
@@ -52,7 +52,7 @@ docker push localhost:5000/nginx:latest
 
 访问 [http://127.0.0.1:5000/v2/\_catalog](http://127.0.0.1:5000/v2/_catalog) 查看私有仓库目录，可以看到刚上传的镜像了：
 
-![](<../../.gitbook/assets/image (488).png>)
+![](<../../.gitbook/assets/image (488).webp>)
 
 下载私有仓库的镜像，使用如下命令：
 
@@ -244,11 +244,11 @@ networks:
 
 访问 [http://127.0.0.1:9090/](http://127.0.0.1:9090/) 如下：
 
-![](<../../.gitbook/assets/image (772).png>)
+![](<../../.gitbook/assets/image (772).webp>)
 
 默认 admin 用户的密码为 Harbor12345 ，可以在 harbor.cfg 进行修改。登录后如下：
 
-![](<../../.gitbook/assets/image (381).png>)
+![](<../../.gitbook/assets/image (381).webp>)
 
 图中的项目是之前上传的 ，新部署的 Harbor 登录后项目下是空的。
 
@@ -276,7 +276,7 @@ docker push 127.0.0.1:9090/library/nginx:latest
 
 访问 http://127.0.0.1:9090/harbor/projects ，在 library 项目下可以看见刚上传的 nginx镜像了：
 
-![](<../../.gitbook/assets/image (546).png>)
+![](<../../.gitbook/assets/image (546).webp>)
 
 \
 &#x20;![](https://img2018.cnblogs.com/blog/528977/201903/528977-20190311112108481-2022563516.jpg)

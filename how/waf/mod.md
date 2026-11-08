@@ -30,7 +30,7 @@ SecRule ARGS:del "@rx (?i:(select|union|and|update|insert|\(|\-\-|#|\/\*\*))" "c
 
 下图是我理解中的一条较长规则的示意图：
 
-![我所理解的规则结构](<../../.gitbook/assets/image (43).png>)
+![我所理解的规则结构](<../../.gitbook/assets/image (43).webp>)
 
 
 

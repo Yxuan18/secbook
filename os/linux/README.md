@@ -24,11 +24,11 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted
 
 更换后，更新效果图如下：
 
-![](<../../.gitbook/assets/image (373).png>)
+![](<../../.gitbook/assets/image (373).webp>)
 
 2、系统太干净的情况下，可以尝试先备份source.list 文件，然后再将一行源写入 source.list 文件中，如下：
 
-![](<../../.gitbook/assets/image (252).png>)
+![](<../../.gitbook/assets/image (252).webp>)
 
 图中涉及到的命令有：
 
@@ -84,7 +84,7 @@ E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/ubuntu bionic-security InRelea
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 3B4FE6ACC0B21F32 3B4FE6ACC0B21F32  3B4FE6ACC0B21F32
 ```
 
-![效果图](<../../.gitbook/assets/image (559).png>)
+![效果图](<../../.gitbook/assets/image (559).webp>)
 
 ### 4、为ROOT设置密码
 
@@ -95,7 +95,7 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 3
 
 &#x20;1、尝试开启服务，发现本地没有SSH服务端
 
-![](<../../.gitbook/assets/image (247).png>)
+![](<../../.gitbook/assets/image (247).webp>)
 
 &#x20;2、使用命令下载SSH服务端
 
@@ -105,7 +105,7 @@ apt install openssh-server
 
 3、安装成功后，查看SSH服务状态
 
-![](<../../.gitbook/assets/image (118).png>)
+![](<../../.gitbook/assets/image (118).webp>)
 
 ```
 ## 相关命令如下：
@@ -122,7 +122,7 @@ service ssh restart   #重启服务
 
 ① 设置允许SSH远程登录：
 
-![](<../../.gitbook/assets/image (924).png>)
+![](<../../.gitbook/assets/image (924).webp>)
 
 新增内容为：
 
@@ -132,7 +132,7 @@ PermitRootLogin yes
 
 &#x20;新增后，保存并退出，并重启SSH服务即可
 
-![连接成功](<../../.gitbook/assets/image (903).png>)
+![连接成功](<../../.gitbook/assets/image (903).webp>)
 
 ② 限制可远程访问IP
 
@@ -153,7 +153,8 @@ PermitRootLogin yes
 设置sshd监听（绑定）的IP地址，0.0.0.0表示监听所有IPv4的地址。出于安全考虑，设置为指定IP地址，而非所有地址。::是IPv6的地址不需要改
 
 #LoginGraceTime 2m 
-设置指定时间内没有成功登录，将会断开连接，若无单位则默认时间为秒
+
+设置指定时间内没有成功登录，将会断开连接，若无单位则默认时间为秒
 
 #PermitRootLogin yes
 是否允许root登录，默认是允许的，但建议设置为no
@@ -185,7 +186,7 @@ PermitRootLogin yes
 }
 ```
 
-![流程](<../../.gitbook/assets/image (392).png>)
+![流程](<../../.gitbook/assets/image (392).webp>)
 
 ### 8、yum源
 

@@ -13,7 +13,7 @@ bin\jlink.exe --module-path jmods --add-modules java.desktop --output jre
 
 3、执行成功后，JDK目录下就会出现JRE文件夹
 
-![](<../../.gitbook/assets/image (208).png>)
+![](<../../.gitbook/assets/image (208).webp>)
 
 ### 2、JAVA多版本切换
 
@@ -44,7 +44,7 @@ Java Development Kit的CurrentVersion项的值
 Java Runtime Environment的CurrentVersion项的值
 ```
 
-![](<../../.gitbook/assets/image (283).png>)
+![](<../../.gitbook/assets/image (283).webp>)
 
 3、添加环境变量
 
@@ -64,7 +64,7 @@ path           %JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;
 JAVA_HOME      %JAVA_HOME14%
 ```
 
-![版本切换前后效果图](<../../.gitbook/assets/image (731).png>)
+![版本切换前后效果图](<../../.gitbook/assets/image (731).webp>)
 
 #### 半自动版本切换
 
@@ -72,11 +72,11 @@ JAVA_HOME      %JAVA_HOME14%
 
 示例：冰蝎
 
-![你会发现，并没有什么反应](<../../.gitbook/assets/image (551).png>)
+![你会发现，并没有什么反应](<../../.gitbook/assets/image (551).webp>)
 
 那么这种时候，尝试先进入JDK8的目录下，然后再使用目录下的 java.exe 去执行呢？
 
-![恭喜你，运行成功](<../../.gitbook/assets/image (664).png>)
+![恭喜你，运行成功](<../../.gitbook/assets/image (664).webp>)
 
 思路就是这样的，那么我们就可以编写一个用来运行软件的  .bat  文件，内容如下：
 

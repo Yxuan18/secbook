@@ -57,7 +57,7 @@ requests.post('http://x.x.x.x:37215/ctrlt/DeviceUpgrade_1', headers=headers, dat
 
 **逻辑框架** Docker - Qemu - system-mode 模式的固件模拟流程图
 
-![](<../../.gitbook/assets/image (622).png>)
+![](<../../.gitbook/assets/image (622).webp>)
 
 ## 0x01 MIPS 框架搭建--实现外网访问--端口映射
 
@@ -139,13 +139,13 @@ mount /dev/sdb1 /tmp
 
 `Qemu` 中说明文档：[https://wiki.archlinux.org/index.php?title= Qemu](https://link.zhihu.com/?target=https%3A//wiki.archlinux.org/index.php%3Ftitle%3DQemu)
 
-![](<../../.gitbook/assets/image (455).png>)
+![](<../../.gitbook/assets/image (455).webp>)
 
 ## 储备2: **Qemu联网方式**
 
 `Qemu` 中说明文档：[https://wiki.archlinux.org/index.php?title= Qemu](https://link.zhihu.com/?target=https%3A//wiki.archlinux.org/index.php%3Ftitle%3DQemu)
 
-![](<../../.gitbook/assets/image (629).png>)
+![](<../../.gitbook/assets/image (629).webp>)
 
 ## 储备3: Qemu 挂载 Docker中的目录
 
@@ -153,7 +153,7 @@ mount /dev/sdb1 /tmp
 
 **挂载主机分区**
 
-![](<../../.gitbook/assets/image (611).png>)
+![](<../../.gitbook/assets/image (611).webp>)
 
 ## 储备4: Qemu的必备知识点
 

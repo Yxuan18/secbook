@@ -10,7 +10,7 @@
 
 概念：针对应用系统用户登录账号与密码进行的穷举测试，针对账号或密码进行逐一比较，直到找出正确的的账号与密码 
 
-![&#x793A;&#x4F8B;](../.gitbook/assets/image%20%281000%29.png)
+![&#x793A;&#x4F8B;](../.gitbook/assets/image%20%281000%29.webp)
 
 ### 情况 
 
@@ -36,19 +36,19 @@
 
 1、LOW
 
-![&#x51E0;&#x4E4E;&#x6CA1;&#x6709;&#x9632;&#x5FA1;](../.gitbook/assets/image%20%281002%29.png)
+![&#x51E0;&#x4E4E;&#x6CA1;&#x6709;&#x9632;&#x5FA1;](../.gitbook/assets/image%20%281002%29.webp)
 
 2、Medium：加入了SQL字符转义逻辑，避免了SQL注入攻击，但是不能防御暴力破解
 
-![](../.gitbook/assets/image%20%281001%29.png)
+![](../.gitbook/assets/image%20%281001%29.webp)
 
 3、High：加入了Token机制，每次登录页面都会随机生成Token字串，那么无脑爆破就不可能了，因为Token是完全随机的。但是如果用更复杂的方法，每次先抓取当前页面Token值再随即进行字典式爆破，仍可以实现破解
 
-![](../.gitbook/assets/image%20%281003%29.png)
+![](../.gitbook/assets/image%20%281003%29.webp)
 
 4、Impossible：加入了账号锁定机制，数次登录失败后，账号会锁定，那么暴力破解就行不通了。可以说这是比较完善的防御机制
 
-![](../.gitbook/assets/image%20%281005%29.png)
+![](../.gitbook/assets/image%20%281005%29.webp)
 
 
 
@@ -117,7 +117,7 @@ if( $code == $_SESSION["Checknum"])
 
 目前广泛使用的验证码类型：（触发，嵌入，弹出）
 
-![&#x7C7B;&#x578B;&#x4E0E;&#x4F7F;&#x7528;](../.gitbook/assets/image%20%28999%29.png)
+![&#x7C7B;&#x578B;&#x4E0E;&#x4F7F;&#x7528;](../.gitbook/assets/image%20%28999%29.webp)
 
 还可使用人脸识别技术进行检测：
 

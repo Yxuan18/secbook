@@ -2,4 +2,4 @@
 
 在headers 中
 
-![](<../../.gitbook/assets/image (979).png>)
+![](<../../.gitbook/assets/image (979).webp>)

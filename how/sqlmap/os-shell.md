@@ -21,7 +21,7 @@
 
 之后 sqlmap 按路径尝试去访问文件tmpujqbu.php，通过 POST 上传后门文件tmpbzhga.php
 
-![](<../../.gitbook/assets/image (736).png>)
+![](<../../.gitbook/assets/image (736).webp>)
 
 可以看到tmpujqbu.php中的内容就是一个简单的文件上传，并将目标文件权限设置为 0755，注意这个文件生成利用的LINES TERMINATED BY，所以前面会带有之前 sql 执行的结果（这里就是admin admin）
 

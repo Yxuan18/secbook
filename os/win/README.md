@@ -6,7 +6,7 @@
 
 &#x20;报错内容如下：
 
-![如图](<../../.gitbook/assets/image (627).png>)
+![如图](<../../.gitbook/assets/image (627).webp>)
 
 修复过程：
 
@@ -16,7 +16,7 @@
 
 3、将打开的界面配置成如下模样，即可
 
-![选择启用与易受攻击](<../../.gitbook/assets/image (458).png>)
+![选择启用与易受攻击](<../../.gitbook/assets/image (458).webp>)
 
 
 

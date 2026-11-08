@@ -20,15 +20,15 @@ Linux常见目录介绍：
 
 man是manual的缩写 用法： `man ls`&#x20;
 
-![](<../../.gitbook/assets/image (771).png>)
+![](<../../.gitbook/assets/image (771).webp>)
 
 man也是一条命令，分为9章，可以使用man命令获得man的帮助 `man 7 man`
 
-![](<../../.gitbook/assets/image (590).png>)
+![](<../../.gitbook/assets/image (590).webp>)
 
 man各章内容：
 
-![](<../../.gitbook/assets/image (349).png>)
+![](<../../.gitbook/assets/image (349).webp>)
 
 `man -a passwd`,可查看文件的属性
 
@@ -40,7 +40,7 @@ shell自带的命令称为内部命令，其他的是外部命令
 
 外部命令使用help帮助 `ls --help`
 
-![](<../../.gitbook/assets/image (531).png>)
+![](<../../.gitbook/assets/image (531).webp>)
 
 
 
@@ -78,9 +78,9 @@ info帮助比help更详细，作为help的补充 `info ls` ，只是都是英文
 
 `man ls` 可获得命令的详细选项
 
-![](<../../.gitbook/assets/image (560).png>)
+![](<../../.gitbook/assets/image (560).webp>)
 
-![](<../../.gitbook/assets/image (697).png>)
+![](<../../.gitbook/assets/image (697).webp>)
 
 ### 3、cd
 

@@ -6,7 +6,7 @@
 
 该模块与其他用于处理Excel的模块对比如下：
 
-![](<../../.gitbook/assets/image (802).png>)
+![](<../../.gitbook/assets/image (802).webp>)
 
 所以该模块优势有：
 

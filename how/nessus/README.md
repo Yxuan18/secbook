@@ -10,7 +10,7 @@
 nessuscli lsuser
 ```
 
-<figure><img src="../../.gitbook/assets/60799cdddbe61d8d64d8612ec62b1048.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/60799cdddbe61d8d64d8612ec62b1048.webp" alt=""><figcaption></figcaption></figure>
 
 如果是忘记密码或重置密码，可以执行命令
 

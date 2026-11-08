@@ -8,7 +8,7 @@
 
 利用微软白文件加载恶意wwlib.dll文件，释放出隐藏的doc文件，并在内存中释放出3段shellcode，最后获取恶意程序的链接并下载
 
-![](<../../../.gitbook/assets/image (814).png>)
+![](<../../../.gitbook/assets/image (814).webp>)
 
 ## 详细分析
 
@@ -16,89 +16,89 @@
 
 EXE文件是带有微软签名的合法 word 程序，攻击者通过该程序加载恶意的 wwlib.dll 文件来释放 shellcode 进行攻击。
 
-![](<../../../.gitbook/assets/image (872).png>)
+![](<../../../.gitbook/assets/image (872).webp>)
 
-![](<../../../.gitbook/assets/image (796).png>)
+![](<../../../.gitbook/assets/image (796).webp>)
 
 dll文件是隐藏的恶意文件
 
-![](<../../../.gitbook/assets/image (436).png>)
+![](<../../../.gitbook/assets/image (436).webp>)
 
-![](<../../../.gitbook/assets/image (356).png>)
+![](<../../../.gitbook/assets/image (356).webp>)
 
 ### **wwlib.dll**
 
 exe文件调用dll，所以可以在 Loadlibrary 函数处下断点，来等待加载。
 
-![](<../../../.gitbook/assets/image (24).png>)
+![](<../../../.gitbook/assets/image (24).webp>)
 
-![](<../../../.gitbook/assets/image (745).png>)
+![](<../../../.gitbook/assets/image (745).webp>)
 
 继续运行之后会释放doc文件并运行
 
-![](<../../../.gitbook/assets/image (374).png>)
+![](<../../../.gitbook/assets/image (374).webp>)
 
-![](<../../../.gitbook/assets/image (302).png>)
+![](<../../../.gitbook/assets/image (302).webp>)
 
 申请空间来存放第一次的shellcode，通过xor异或解密之后再存放
 
-![](<../../../.gitbook/assets/image (836).png>)
+![](<../../../.gitbook/assets/image (836).webp>)
 
 第一段 shellcode 是在这里之后转到的：
 
-![](<../../../.gitbook/assets/image (431).png>)
+![](<../../../.gitbook/assets/image (431).webp>)
 
-![](<../../../.gitbook/assets/image (322).png>)
+![](<../../../.gitbook/assets/image (322).webp>)
 
 ### **第一段 shellcode**
 
 从一个巨大的字符串数组中循环取出字符串后，经过解密算法来算出需要的函数字符串名称，如LoadlibraryA、VirtualAllocEx等
 
-![](<../../../.gitbook/assets/image (738).png>)
+![](<../../../.gitbook/assets/image (738).webp>)
 
-![](<../../../.gitbook/assets/image (308).png>)
+![](<../../../.gitbook/assets/image (308).webp>)
 
-![](<../../../.gitbook/assets/image (321).png>)
+![](<../../../.gitbook/assets/image (321).webp>)
 
 解密 VirtualAllocEx 之后，申请空间来存放新的 shellcode：
 
-![](<../../../.gitbook/assets/image (799).png>)
+![](<../../../.gitbook/assets/image (799).webp>)
 
 ### **第二段 shellcode**
 
 解密shellcode之后，会调用第二段shellcode
 
-![](<../../../.gitbook/assets/image (878).png>)
+![](<../../../.gitbook/assets/image (878).webp>)
 
 使用极其耗费时间的大循环来解密字符串，防沙箱等检测工具。
 
-![](<../../../.gitbook/assets/image (1014).png>)
+![](<../../../.gitbook/assets/image (1014).webp>)
 
 解密出 calloc 之后，申请空间：
 
-![](<../../../.gitbook/assets/image (400).png>)
+![](<../../../.gitbook/assets/image (400).webp>)
 
 复制数据到申请的空间中：
 
-![](<../../../.gitbook/assets/image (310).png>)
+![](<../../../.gitbook/assets/image (310).webp>)
 
 获取网关信息：
 
-![](<../../../.gitbook/assets/image (4).png>)
+![](<../../../.gitbook/assets/image (4).webp>)
 
 第三段 shellcode 使用动态提取的方式来获取 CryptAcquireContextA、CryptCreateHash、CryptHashData、CryptDeriveKey，并通过这些函数来保证CryptDecrypt函数的正常运行。
 
-![](<../../../.gitbook/assets/image (856).png>)
+![](<../../../.gitbook/assets/image (856).webp>)
 
 创建空间，存放第三段 shellcode：
 
-![](<../../../.gitbook/assets/image (984).png>)
+![](<../../../.gitbook/assets/image (984).webp>)
 
 通过 CryptDecrypt 解密函数，每次解密出shellcode的16位数据：
 
-![](<../../../.gitbook/assets/image (705).png>)
+![](<../../../.gitbook/assets/image (705).webp>)
 
-![](<../../../.gitbook/assets/image (879).png>)
+![](<../../../.gitbook/assets/image (879).webp>)
 
 将解密出的数据复制到申请的空间中：
 
@@ -106,17 +106,17 @@ exe文件调用dll，所以可以在 Loadlibrary 函数处下断点，来等待�
 
 以创建进程的方式运行第三段 shellcode：
 
-![](<../../../.gitbook/assets/image (901).png>)
+![](<../../../.gitbook/assets/image (901).webp>)
 
 在第3段 shellcode 中，会将要连接的url复制到特定内存中，连接url：
 
-![](<../../../.gitbook/assets/image (434).png>)
+![](<../../../.gitbook/assets/image (434).webp>)
 
-![](<../../../.gitbook/assets/image (260).png>)
+![](<../../../.gitbook/assets/image (260).webp>)
 
 由于C2早已掉线，无法连接，这次的分析也就只能到这里了，估计下载的是一个EXE，想来应该是个具有窃密，回传信息的恶意程序。
 
-![](<../../../.gitbook/assets/image (395).png>)
+![](<../../../.gitbook/assets/image (395).webp>)
 
 ## 总结
 

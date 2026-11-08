@@ -16,9 +16,9 @@ git clone https://gitee.com/yixuan1/sqlmap.git
 
 升级sqlmap时，可直接使用`git pull`命令，将电脑中的sqlmap更新至最新版本
 
-![无需升级](<../../.gitbook/assets/image (556).png>)
+![无需升级](<../../.gitbook/assets/image (556).webp>)
 
-![](<../../.gitbook/assets/image (652).png>)
+![](<../../.gitbook/assets/image (652).webp>)
 
 ### &#x20;2、Linux
 

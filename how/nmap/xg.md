@@ -28,7 +28,7 @@ VM虚拟机：
 
 192.168.1.113 开放135，3389 防火墙禁止445入站
 
-![](<../../.gitbook/assets/image (943).png>)
+![](<../../.gitbook/assets/image (943).webp>)
 
 ubuntu：
 
@@ -46,7 +46,7 @@ SYN/ACK表示端口在监听 (开放)，而 RST (复位)表示没有监听者。
 
 使用抓包工具可以完整的看到探测过程。
 
-![](<../../.gitbook/assets/image (975).png>)
+![](<../../.gitbook/assets/image (975).webp>)
 
 #### **-sT (TCP扫描)** <a href="#h3-2" id="h3-2"></a>
 

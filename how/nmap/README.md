@@ -138,7 +138,7 @@ nmap --script=external 192.168.88.131
 
 主机发现基本原理：（以ICMP echo方式为例）
 
-![](<../../.gitbook/assets/image (168).png>)
+![](<../../.gitbook/assets/image (168).webp>)
 
 Nmap的用户位于源端，IP地址192.168.0.5，向目标主机192.168.0.3发送ICMP Echo Request。如果该请求报文没有被防火墙拦截掉，那么目标机会回复ICMP Echo Reply包回来。以此来确定目标主机是否在线。
 
@@ -159,11 +159,11 @@ Nmap的用户位于源端，IP地址192.168.0.5，向目标主机192.168.0.3发�
 
 TCP SYN探测到端口关闭：
 
-![](<../../.gitbook/assets/image (884).png>)
+![](<../../.gitbook/assets/image (884).webp>)
 
 TCP SYN探测到端口开放：
 
-![](<../../.gitbook/assets/image (175).png>)
+![](<../../.gitbook/assets/image (175).webp>)
 {% endtab %}
 
 {% tab title="TCP connect scanning" %}
@@ -171,11 +171,11 @@ TCP connect方式使用系统网络API connect向目标主机的端口发起连�
 
 TCP connect探测到端口关闭：
 
-![](<../../.gitbook/assets/image (1046).png>)
+![](<../../.gitbook/assets/image (1046).webp>)
 
 TCP connect探测到端口开放：
 
-![](<../../.gitbook/assets/image (773).png>)
+![](<../../.gitbook/assets/image (773).webp>)
 {% endtab %}
 
 {% tab title="TCP ACK scanning" %}
@@ -183,11 +183,11 @@ TCP connect探测到端口开放：
 
 TCP ACK探测到端口被屏蔽：
 
-![](<../../.gitbook/assets/image (103).png>)
+![](<../../.gitbook/assets/image (103).webp>)
 
 TCP ACK探测到端口未被屏蔽：
 
-![](<../../.gitbook/assets/image (158).png>)
+![](<../../.gitbook/assets/image (158).webp>)
 {% endtab %}
 
 {% tab title="TCP FIN/Xmas/NULL scanning" %}
@@ -197,11 +197,11 @@ TCP ACK探测到端口未被屏蔽：
 
 TCP FIN探测到主机端口是关闭的：
 
-![](<../../.gitbook/assets/image (212).png>)
+![](<../../.gitbook/assets/image (212).webp>)
 
 TCP FIN探测到主机端口是开放或屏蔽的：
 
-![](<../../.gitbook/assets/image (320).png>)
+![](<../../.gitbook/assets/image (320).webp>)
 
 
 {% endtab %}
@@ -211,11 +211,11 @@ UDP扫描方式用于判断UDP端口的情况。向目标主机的UDP端口发�
 
 UDP端口关闭：
 
-![](<../../.gitbook/assets/image (234).png>)
+![](<../../.gitbook/assets/image (234).webp>)
 
 UDP端口开放或被屏蔽：
 
-![](<../../.gitbook/assets/image (131).png>)
+![](<../../.gitbook/assets/image (131).webp>)
 {% endtab %}
 
 {% tab title="其他方式" %}

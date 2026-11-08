@@ -6,65 +6,65 @@
 
 2、点“next”
 
-![](<../../.gitbook/assets/image (824).png>)
+![](<../../.gitbook/assets/image (824).webp>)
 
 3、勾选同意条款，点“next”
 
-![](<../../.gitbook/assets/image (368).png>)
+![](<../../.gitbook/assets/image (368).webp>)
 
 4、填写邮箱、密码和确认密码，点“next”
 
-![](<../../.gitbook/assets/image (1072).png>)
+![](<../../.gitbook/assets/image (1072).webp>)
 
 5、打钩，点“next”
 
-![](<../../.gitbook/assets/image (671).png>)
+![](<../../.gitbook/assets/image (671).webp>)
 
 ![](file:///C:/Users/73604/AppData/Local/Temp/msohtmlclip1/01/clip_image008.jpg)6、创建快捷方式，继续点“next”
 
-![](<../../.gitbook/assets/image (700).png>)
+![](<../../.gitbook/assets/image (700).webp>)
 
 7.点“install”
 
-![](<../../.gitbook/assets/image (698).png>)
+![](<../../.gitbook/assets/image (698).webp>)
 
 8、安装
 
-![](<../../.gitbook/assets/image (719).png>)
+![](<../../.gitbook/assets/image (719).webp>)
 
 9、完成安装finish
 
-![](<../../.gitbook/assets/image (832).png>)
+![](<../../.gitbook/assets/image (832).webp>)
 
 10、激活，复制补丁包至安装的目录内
 
-![](<../../.gitbook/assets/image (1).png>)
+![](<../../.gitbook/assets/image (1).webp>)
 
 11、双击Patch.exe
 
-![](<../../.gitbook/assets/image (829).png>)
+![](<../../.gitbook/assets/image (829).webp>)
 
 12、以管理员的身份打开并应用该补丁包
 
-![](<../../.gitbook/assets/image (180).png>)
+![](<../../.gitbook/assets/image (180).webp>)
 
-![](<../../.gitbook/assets/image (68).png>)
+![](<../../.gitbook/assets/image (68).webp>)
 
 13、文件补丁成功后，弹出以下界面
 
-![](<../../.gitbook/assets/image (803).png>)
+![](<../../.gitbook/assets/image (803).webp>)
 
 14、直接点next
 
-![](<../../.gitbook/assets/image (787).png>)
+![](<../../.gitbook/assets/image (787).webp>)
 
 15、点击finish
 
-![](<../../.gitbook/assets/image (1024).png>)
+![](<../../.gitbook/assets/image (1024).webp>)
 
 16、    打开后没提示注册，破解成功
 
-![](<../../.gitbook/assets/image (408).png>)
+![](<../../.gitbook/assets/image (408).webp>)
 
 ### 2、Linux安装过程
 
@@ -74,7 +74,7 @@
 sudo apt-get install libxdamage1 libgtk-3-0 libasound2 libnss3 libxss1 -y
 ```
 
-![](<../../.gitbook/assets/image (286).png>)
+![](<../../.gitbook/assets/image (286).webp>)
 
 2、解压
 
@@ -82,11 +82,11 @@ sudo apt-get install libxdamage1 libgtk-3-0 libasound2 libnss3 libxss1 -y
 unzip AWVS_12_For_linux.zip
 ```
 
-![](<../../.gitbook/assets/image (213).png>)
+![](<../../.gitbook/assets/image (213).webp>)
 
 3、给权限
 
-![](<../../.gitbook/assets/image (935).png>)
+![](<../../.gitbook/assets/image (935).webp>)
 
 4、运行安装文件
 
@@ -94,17 +94,17 @@ unzip AWVS_12_For_linux.zip
 sudo ./acunnerix_trial.sh
 ```
 
-![](<../../.gitbook/assets/image (376).png>)
+![](<../../.gitbook/assets/image (376).webp>)
 
 enter-->yes-->127.0.0.1-->邮箱、登录密码
 
-![](<../../.gitbook/assets/image (762).png>)
+![](<../../.gitbook/assets/image (762).webp>)
 
-![](<../../.gitbook/assets/image (766).png>)
+![](<../../.gitbook/assets/image (766).webp>)
 
 安装过程
 
-![](<../../.gitbook/assets/image (694).png>)
+![](<../../.gitbook/assets/image (694).webp>)
 
 5、安装完成后，直接打补丁，把破解补丁复制到指定目录下，并设置好权限，直接运行即可
 
@@ -114,7 +114,7 @@ Chmod 777/home/acunetix/.acunetix_trial/v_190325161/scanner/patch_awvs
 /home/acunetix/.acunetix_trial/v_190325161/scanner/patch_awvs
 ```
 
-![](<../../.gitbook/assets/image (1007).png>)
+![](<../../.gitbook/assets/image (1007).webp>)
 
 6、替换license文件
 
@@ -125,7 +125,7 @@ touch /home/acunetix/.acunetix_trial/data/license/wa_tata.dat
 chattr +i /home/acunetix/.acunetix_trial/data/license/wa_data.dat
 ```
 
-![](<../../.gitbook/assets/image (2).png>)
+![](<../../.gitbook/assets/image (2).webp>)
 
 7、破解成功后重启服务
 
@@ -135,13 +135,13 @@ sudo systemctl restart acunetix_trial.service
 
 8、访问：https://注册时输入的网址:13443/#/login/
 
-![](<../../.gitbook/assets/image (900).png>)
+![](<../../.gitbook/assets/image (900).webp>)
 
 &#x20;  再输入注册时的邮箱和密码
 
 ![](file:///C:/Users/73604/AppData/Local/Temp/msohtmlclip1/01/clip_image052.jpg)9、打开后没提示注册，破解成功
 
-![](<../../.gitbook/assets/image (90).png>)
+![](<../../.gitbook/assets/image (90).webp>)
 
 ### 3、使用教程
 
@@ -149,12 +149,12 @@ sudo systemctl restart acunetix_trial.service
 
 
 
-![](<../../.gitbook/assets/image (1073).png>)
+![](<../../.gitbook/assets/image (1073).webp>)
 
 2、选中待测网址，点击Scan
 
-![](<../../.gitbook/assets/image (1034).png>)
+![](<../../.gitbook/assets/image (1034).webp>)
 
 ![](file:///C:/Users/73604/AppData/Local/Temp/msohtmlclip1/01/clip_image058.jpg)3、扫描结果 ![](file:///C:/Users/73604/AppData/Local/Temp/msohtmlclip1/01/clip_image060.jpg)
 
-![](<../../.gitbook/assets/image (332).png>)
+![](<../../.gitbook/assets/image (332).webp>)
